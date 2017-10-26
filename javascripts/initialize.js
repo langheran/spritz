@@ -167,6 +167,8 @@ SPRITZ_Popup = {
 		SPRITZ_Popup.speedSlider.addEventListener('input', SPRITZ_Popup.onSpeedSelectorChange);
 		SPRITZ_Popup.setSpeed(SPRITZ_Popup.speed);
 		$('<div id="spritz_progress_bar_container"><div id="spritz_progress_bar"></div></div> ').insertAfter($("#spritzer .spritzer-controls-container"))
+		
+		$('<div id="speakmode-value" style="position: absolute; left: 100px; top: 10px" >Spritz mode</div>').insertBefore($("#spritzer .spritzer-header"))
 	},
 	
 	showProgressBar : function(show) {
