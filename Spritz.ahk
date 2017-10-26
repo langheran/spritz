@@ -19,7 +19,8 @@ server.LoadMimes(A_ScriptDir . "/mime.types")
 server.SetPaths(paths)
 server.Serve(8007)
 
-Speed:=250
+spritzSpeed:=250
+ttsSpeed:=-2
 SpeakMode:=0
 
 ;Gui Add, ActiveX, x0 y0 w640 h480 vWB, Shell.Explorer
@@ -50,19 +51,43 @@ return
 ExitApp
 
 #^!SC01B::
-if(Speed>400)
-	return
-Speed:=Speed+50
-spritzCommand:="SPRITZ_Popup.setSpeed(" . Speed . ");"
-htmlGUI.Exec(spritzCommand)
+if(!SpeakMode){
+	if(spritzSpeed>400)
+		return
+	spritzSpeed:=spritzSpeed+50
+	spritzCommand:="SPRITZ_Popup.setSpeed(" . spritzSpeed . ");"
+	htmlGUI.Exec(spritzCommand)
+}
+else
+{
+	if(ttsSpeed>7)
+		return
+	ttsSpeed:=ttsSpeed+1
+	GoSub, SetTTSSpeed
+}
 return
 
 #^!-::
-if(Speed<=200)
-	return
-Speed:=Speed-50
-spritzCommand:="SPRITZ_Popup.setSpeed(" . Speed . ");"
-htmlGUI.Exec(spritzCommand)
+if(!SpeakMode){
+	if(spritzSpeed<=200)
+		return
+	spritzSpeed:=spritzSpeed-50
+	spritzCommand:="SPRITZ_Popup.setSpeed(" . spritzSpeed . ");"
+	htmlGUI.Exec(spritzCommand)
+}
+else
+{
+	if(ttsSpeed<=-4)
+		return
+	ttsSpeed:=ttsSpeed-1
+	GoSub, SetTTSSpeed
+}
+return
+
+SetTTSSpeed:
+if(Voice)
+	say("-")
+Voice := TTS_CreateVoice("Microsoft Mark Mobile",ttsSpeed,,10)
 return
 
 #!r::
@@ -123,8 +148,9 @@ return
 say(sayText)
 {
    global Voice
+   global ttsSpeed
    if(!Voice)
-		Voice := TTS_CreateVoice("Microsoft Mark Mobile",-2,,10)
+		Voice := TTS_CreateVoice("Microsoft Mark Mobile",ttsSpeed,,10)
 	TTS(Voice, "Speak", sayText)
    ;msgbox, Parar lectura?
 }
@@ -290,7 +316,6 @@ HTML_page =
 <script type="text/javascript" src="javascripts/initialize.js"></script>
 <script type="text/javascript">
 	SPRITZ_Popup.showText({text:"Spritz loaded"});
-	%spritzCommand%
 </script>
 </html>
 )
