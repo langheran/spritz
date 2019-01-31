@@ -1,0 +1,33 @@
+Information, Physics, Quantum: the Search for Links
+Reading Report
+Nisim Hurst A01012491
+Sunday 23 September 2018
+Abstract The conference paper [1] was written by John Archibald Wheeler for the international symposium of Foundations of Quantum Mechanics. The paper presents a set of rather philosophical views of our interpretetions of the physical world in the light of quantum mechanics as a function of quatum information.
+Hypothesis and evidence
+The author states that there is a deeper view of the world based on immaterial quantum information. Namely, that our conception of physical reality manifested through the natural constants and formulas was just concocted by human observers in their necessity of finding meaning in laws derived from quantum mechanics irrational laws.
+The author provides a set of 3 questions around this hypothesis. These questions lead us to give a closer look to our concept of existence. Then some facts in the form of five no's are discussed using the Socratic method. These facts can be considered evidence in the realm of logic for discarding the classical view of physics. However, the iconoclastic nature of each proposition doesn't provide much supporting evidence.
+For compensating this lack of ground, the author provides five clues taken from lessons learned in physics and an agenda for the interested researcher to work out the questions properly.
+Contribution
+The paper has two major contributions. First, (1) it boldly challenges our conception of physical reality and it is the basis of the Digital physics theory. Then, (2) it presents the conception of a physical world whose origin lies in quantum information phenomena. E.g. a photon begins its existence when its absorbed and thereby "measured". This photon accrues to the world of existence in the form of some amount of information. Quantum theory states that energy is frequency E = ht and relativity theory states energy is mass m = E/c2 [2]. Both energy and mass are attributes of matter, so matter = inf ormation , hence the title it from bit.
+For (1) the author contributes with four proven facts:
+1. No tower of turtles. A recursive observer-participance quantum information based system is proposed. 2. No laws. Each law of physics is ultimately based on a big bang that can be challenged at quantum level.
+A self-synthetized world made of bits produced by the observer-participance relationship is proposed. 3. No continuum. Given that in mathematics was proven that there is no space continuum this finding is
+extrapolated here as a consequence. Given that there is no space continuum neither do time continuum. Thus, bit based physics is proposed by putting all physics in terms of . 4. No space, no time. Given that in the quantum world the connectivity of space can be challenged, time and space are limited to the continuum idealization but at the quantum world they don't exist.
+For (2) the author contributes with five clues:
+1. The boundary of a boundary is zero. The author proposes that physics may be derived from quantum information math alone regardless of the physical phenomena and constants.
+2. No question, no answer. All quantum information is produced by measurement of participants. If there is no participant to pose a question there is also no answer and thus no existence.
+1
+
+3. The super-Copernican principle. It states that time is not centered in now but that each observerparticipant communication establish its own meaning of time made of their transferred bits.
+4. Consciousness. Measurement means it can be checked out with ones fellows. The author proposes a non anthropocentric enlarged view of "who" that will derive in a holistic view of existence and communication to establish meaning.
+Finally, the author contributes with an agenda for interested researchers to work out.
+Limitations and weaknesses
+Given that our current understanding in physics bounds time and space, and it was proven that no space continuum exists, the author states no time continuum can exists. However, this conception could change from a better understanding of information physics and maybe time continuum could exists without space continuum.
+Controversial ideas
+The paper is full of controversial ideas. First the idea that physics must be updated to reflect the fact that in mathematics there is no continuum might bring a more fundamental kind of physics. Also controversial is the idea that "measurement" between observants is the basis for all existence. The how is not proved thoroughly but just invites for more quantum physics theory elaboration until quantum physics can be clearly linked to classical physics.
+Future Work
+Wheeler proposes an agenda of questions to answer to understand physical existence. This understanding might lead to new undiscovered realms of physics.
+References
+[1] J. A. Wheeler, "Information, physics, quantum: The search for links," in Proceedings iii international symposium on foundations of quantum mechanics, 1989, pp. 354­358. [2] X.-G. Wen, "Four revolutions in physics and the second quantum revolution ­ a unification of force and matter by quantum information," ArXiv e-prints, Aug. 2017.
+2
+

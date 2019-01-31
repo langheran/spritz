@@ -1,0 +1,534 @@
+816 Chapter 20. Learning Probabilistic Models
+Another possibility is to use kernel functions, as we did for locally weighted regression. To apply a kernel model to density estimation, assume that each data point generates its
+own little density function, using a Gaussian kernel. The estimated density at a query point x
+is then the average density as given by each kernel function:
+P(x) = 1
+N
+N
+j=1
+K(x,xj) .
+We will assume spherical Gaussians with standard deviation w along each axis:
+K(x,xj) = 1
+(w2v2p)de
+-
+D(x,xj)2
+2w2
+,
+where d is the number of dimensions in x and D is the Euclidean distance function. We
+still have the problem of choosing a suitable value for kernel width w; Figure 20.9 shows
+values that are too small, just right, and too large. A good value of w can be chosen by using
+cross-validation.
+20.3 LEARNING WITH HIDDEN VARIABLES: THE EM ALGORITHM
+The preceding section dealt with the fully observable case. Many real-world problems have
+LATENT VARIABLE hidden variables (sometimes called latent variables), which are not observable in the data
+that are available for learning. For example, medical records often include the observed
+symptoms, the physician’s diagnosis, the treatment applied, and perhaps the outcome of the
+treatment, but they seldom contain a direct observation of the disease itself! (Note that the
+diagnosis is not the disease; it is a causal consequence of the observed symptoms, which are in
+turn caused by the disease.) One might ask, “If the disease is not observed, why not construct
+a model without it?” The answer appears in Figure 20.10, which shows a small, fictitious
+diagnostic model for heart disease. There are three observable predisposing factors and three
+observable symptoms (which are too depressing to name). Assume that each variable has
+three possible values (e.g., none, moderate, and severe). Removing the hidden variable
+from the network in (a) yields the network in (b); the total number of parameters increases
+from 78 to 708. Thus, latent variables can dramatically reduce the number of parameters
+required to specify a Bayesian network. This, in turn, can dramatically reduce the amount of
+data needed to learn the parameters.
+Hidden variables are important, but they do complicate the learning problem. In Figure 20.10(a), for example, it is not obvious how to learn the conditional distribution for
+HeartDisease, given its parents, because we do not know the value of HeartDisease in each
+case; the same problem arises in learning the distributions for the symptoms. This section
+EXPECTATION– MAXIMIZATION describes an algorithm called expectation–maximization, or EM, that solves this problem
+in a very general way. We will show three examples and then provide a general description.
+The algorithm seems like magic at first, but once the intuition has been developed, one can
+find applications for EM in a huge range of learning problems.Section 20.3. Learning with Hidden Variables: The EM Algorithm 817
+Smoking Diet Exercise
+Symptom1 Symptom2 Symptom3
+(a) (b)
+HeartDisease
+Smoking Diet Exercise
+Symptom1 Symptom2 Symptom3
+2 2 2
+54
+6 6 6
+2 2 2
+54 162 486
+Figure 20.10 (a) A simple diagnostic network for heart disease, which is assumed to be
+a hidden variable. Each variable has three possible values and is labeled with the number
+of independent parameters in its conditional distribution; the total number is 78. (b) The
+equivalent network with HeartDisease removed. Note that the symptom variables are no
+longer conditionally independent given their parents. This network requires 708 parameters.
+20.3.1 Unsupervised clustering: Learning mixtures of Gaussians
+UNSUPERVISED CLUSTERING Unsupervised clustering is the problem of discerning multiple categories in a collection of
+objects. The problem is unsupervised because the category labels are not given. For example,
+suppose we record the spectra of a hundred thousand stars; are there different types of stars
+revealed by the spectra, and, if so, how many types and what are their characteristics? We
+are all familiar with terms such as “red giant” and “white dwarf,” but the stars do not carry
+these labels on their hats—astronomers had to perform unsupervised clustering to identify
+these categories. Other examples include the identification of species, genera, orders, and
+so on in the Linnæan taxonomy and the creation of natural kinds for ordinary objects (see
+Chapter 12).
+Unsupervised clustering begins with data. Figure 20.11(b) shows 500 data points, each
+of which specifies the values of two continuous attributes. The data points might correspond
+to stars, and the attributes might correspond to spectral intensities at two particular frequencies. Next, we need to understand what kind of probability distribution might have generated
+MIXTURE DISTRIBUTION the data. Clustering presumes that the data are generated from a mixture distribution, P.
+COMPONENT Such a distribution has k components, each of which is a distribution in its own right. A
+data point is generated by first choosing a component and then generating a sample from that
+component. Let the random variable C denote the component, with values 1,... ,k; then the
+mixture distribution is given by
+P(x) =
+k
+i= 1
+P(C = i) P(x | C = i) ,
+where x refers to the values of the attributes for a data point. For continuous data, a natural
+choice for the component distributions is the multivariate Gaussian, which gives the so-called
+MIXTURE OF GAUSSIANS mixture of Gaussians family of distributions. The parameters of a mixture of Gaussians are818 Chapter 20. Learning Probabilistic Models
+0
+0.2
+0.4
+0.6
+0.8
+1
+0 0.2 0.4 0.6 0.8 1
+0
+0.2
+0.4
+0.6
+0.8
+1
+0 0.2 0.4 0.6 0.8 1
+0
+0.2
+0.4
+0.6
+0.8
+1
+0 0.2 0.4 0.6 0.8 1
+(a) (b) (c)
+Figure 20.11 (a) A Gaussian mixture model with three components; the weights (left-toright) are 0.2, 0.3, and 0.5. (b) 500 data points sampled from the model in (a). (c) The model
+reconstructed by EM from the data in (b).
+wi = P(C = i) (the weight of each component), µi (the mean of each component), and Si
+(the covariance of each component). Figure 20.11(a) shows a mixture of three Gaussians;
+this mixture is in fact the source of the data in (b) as well as being the model shown in
+Figure 20.7(a) on page 815.
+The unsupervised clustering problem, then, is to recover a mixture model like the one
+in Figure 20.11(a) from raw data like that in Figure 20.11(b). Clearly, if we knew which component generated each data point, then it would be easy to recover the component Gaussians:
+we could just select all the data points from a given component and then apply (a multivariate
+version of) Equation (20.4) (page 809) for fitting the parameters of a Gaussian to a set of data.
+On the other hand, if we knew the parameters of each component, then we could, at least in
+a probabilistic sense, assign each data point to a component. The problem is that we know
+neither the assignments nor the parameters.
+The basic idea of EM in this context is to pretend that we know the parameters of the
+model and then to infer the probability that each data point belongs to each component. After
+that, we refit the components to the data, where each component is fitted to the entire data set
+with each point weighted by the probability that it belongs to that component. The process
+iterates until convergence. Essentially, we are “completing” the data by inferring probability
+distributions over the hidden variables—which component each data point belongs to—based
+on the current model. For the mixture of Gaussians, we initialize the mixture-model parameters arbitrarily and then iterate the following two steps:
+1. E-step: Compute the probabilities pij = P(C =i| xj), the probability that datum xj
+was generated by component i. By Bayes’ rule, we have pij = aP(xj | C = i)P(C = i).
+The term P(xj |C =i) is just the probability at xj of the ith Gaussian, and the term
+P(C =i) is just the weight parameter for the ith Gaussian. Define ni = j pij, the
+effective number of data points currently assigned to component i.
+2. M-step: Compute the new mean, covariance, and component weights using the following steps in sequence:Section 20.3. Learning with Hidden Variables: The EM Algorithm 819
+µi ?
+j
+pijxj/ni
+Si ?
+j
+pij(xj - µi)(xj - µi) /ni
+wi ? ni/N
+where N is the total number of data points. The E-step, or expectation step, can be viewed
+INDICATOR VARIABLE as computing the expected values pij of the hidden indicator variables Zij, where Zij is 1 if
+datum xj was generated by the ith component and 0 otherwise. The M-step, or maximization
+step, finds the new values of the parameters that maximize the log likelihood of the data,
+given the expected values of the hidden indicator variables.
+The final model that EM learns when it is applied to the data in Figure 20.11(a) is shown
+in Figure 20.11(c); it is virtually indistinguishable from the original model from which the
+data were generated. Figure 20.12(a) plots the log likelihood of the data according to the
+current model as EM progresses.
+There are two points to notice. First, the log likelihood for the final learned model
+slightly exceeds that of the original model, from which the data were generated. This might
+seem surprising, but it simply reflects the fact that the data were generated randomly and
+might not provide an exact reflection of the underlying model. The second point is that EM
+increases the log likelihood of the data at every iteration. This fact can be proved in general.
+Furthermore, under certain conditions (that hold in ost cases), EM can be proven to reach
+a local maximum in likelihood. (In rare cases, it could reach a saddle point or even a local
+minimum.) In this sense, EM resembles a gradient-based hill-climbing algorithm, but notice
+that it has no “step size” parameter.
+-200
+-100
+0
+100
+200
+300
+400
+500
+600
+700
+0 5 10 15 20
+Log-likelihood L
+Iteration number
+-2025
+-2020
+-2015
+-2010
+-2005
+-2000
+-1995
+-1990
+-1985
+-1980
+-1975
+0 20 40 60 80 100 120
+Log-likelihood L
+Iteration number
+(a) (b)
+Figure 20.12 Graphs showing the log likelihood of the data, L, as a function of the EM
+iteration. The horizontal line shows the log likelihood according to the true model. (a) Graph
+for the Gaussian mixture model in Figure 20.11. (b) Graph for the Bayesian network in
+Figure 20.13(a).820 Chapter 20. Learning Probabilistic Models
+(a) (b)
+C X
+Hole
+Bag
+P(Bag=1)
+?
+Flavor Wrapper
+Bag
+1 2
+P(F=cherry | B)
+?F2
+?F1
+Figure 20.13 (a) A mixture model for candy. The proportions of different flavors, wrappers, presence of holes depend on the bag, which is not observed. (b) Bayesian network for
+a Gaussian mixture. The mean and covariance of the observable variables X depend on the
+component C.
+Things do not always go as well as Figure 20.12(a) might suggest. It can happen, for
+example, that one Gaussian component shrinks so that it covers just a single data point. Then
+its variance will go to zero and its likelihood will go to infinity! Another problem is that
+two components can “merge,” acquiring identical means and variances and sharing their data
+points. These kinds of degenerate local maxima are serious problems, especially in high
+dimensions. One solution is to place priors on the model parameters and to apply the MAP
+version of EM. Another is to restart a component with new random parameters if it gets too
+small or too close to another component. Sensible initialization also helps.
+20.3.2 Learning Bayesian networks with hidden variables
+To learn a Bayesian network with hidden variables, we apply the same insights that worked
+for mixtures of Gaussians. Figure 20.13 represents a situation in which there are two bags of
+candies that have been mixed together. Candies are described by three features: in addition
+to the Flavor and the Wrapper, some candies have a Hole in the middle and some do not.
+The distribution of candies in each bag is described by a naive Bayes model: the features
+are independent, given the bag, but the conditional probability distribution for each feature
+depends on the bag. The parameters are as follows: ? is the prior probability that a candy
+comes from Bag 1; ?F1 and ?F2 are the probabilities that the flavor is cherry, given that the
+candy comes from Bag 1 or Bag 2 respectively; ?W1 and ?W2 give the probabilities that the
+wrapper is red; and ?H1 and ?H2 give the probabilities that the candy has a hole. Notice that
+the overall model is a mixture model. (In fact, we can also model the mixture of Gaussians
+as a Bayesian network, as shown in Figure 20.13(b).) In the figure, the bag is a hidden
+variable because, once the candies have been mixed together, we no longer know which bag
+each candy came from. In such a case, can we recover the descriptions of the two bags bySection 20.3. Learning with Hidden Variables: The EM Algorithm 821
+observing candies from the mixture? Let us work through an iteration of EM for this problem.
+First, let’s look at the data. We generated 1000 samples from a model whose true parameters
+are as follows:
+? =0.5, ?F1 = ?W1 = ?H1 = 0.8, ?F2 =?W2 = ?H2 = 0.3 . (20.7)
+That is, the candies are equally likely to come from either bag; the first is mostly cherries
+with red wrappers and holes; the second is mostly limes with green wrappers and no holes.
+The counts for the eight possible kinds of candy are as follows:
+W =red W =green
+H = 1 H = 0 H = 1 H = 0
+F =cherry 273 93 104 90
+F =lime 79 100 94 167
+We start by initializing the parameters. For numerical simplicity, we arbitrarily choose5
+?(0) = 0.6, ?F(0) 1 = ?W(0)1 =?H(0) 1 = 0.6, ?F(0) 2 = ?W(0)2 = ?H(0) 2 =0.4 . (20.8)
+First, let us work on the ? parameter. In the fully observable case, we would estimate this
+directly from the observed counts of candies from bags 1 and 2. Because the bag is a hidden
+variable, we calculate the expected counts instead. The expected count Nˆ(Bag =1) is the
+sum, over all candies, of the probability that the candy came from bag 1:
+?(1) = Nˆ(Bag = 1)/N =
+N
+j = 1
+P(Bag = 1|flavorj,wrapper j,holesj)/N .
+These probabilities can be computed by any inference algorithm for Bayesian networks. For
+a naive Bayes model such as the one in our example, we can do the inference “by hand,”
+using Bayes’ rule and applying conditional independence:
+?(1) = 1
+N
+N
+j = 1
+P(flavorj | Bag = 1)P(wrapper j | Bag =1)P(holesj | Bag = 1)P(Bag = 1)
+i P(flavorj | Bag = i)P(wrapper j | Bag =i)P(holesj | Bag = i)P(Bag = i) .
+Applying this formula to, say, the 273 red-wrapped cherry candies with holes, we get a contribution of
+273
+1000
+·
+?(0)
+F1?W(0)1?H(0) 1?(0)
+?(0)
+F1?W(0)1?H(0) 1?(0) + ?F(0) 2?W(0)2?H(0) 2(1 - ?(0)) ˜ 0.22797 .
+Continuing with the other seven kinds of candy in the table of counts, we obtain ?(1) = 0.6124.
+Now let us consider the other parameters, such as ?F1. In the fully observable case, we
+would estimate this directly from the observed counts of cherry and lime candies from bag 1.
+The expected count of cherry candies from bag 1 is given by
+j:Flavorj = cherry
+P(Bag = 1|Flavorj =cherry,wrapper j,holesj) .
+5 It is better in practice to choose them randomly, to avoid local maxima due to symmetry.822 Chapter 20. Learning Probabilistic Models
+Again, these probabilities can be calculated by any Bayes net algorithm. Completing this
+process, we obtain the new values of all the parameters:
+?(1) = 0.6124, ?F(1) 1 = 0.6684, ?W(1)1 = 0.6483, ?H(1) 1 = 0.6558,
+?(1)
+F2 = 0.3887,?W(1)2 = 0.3817, ?H(1) 2 = 0.3827 . (20.9)
+The log likelihood of the data increases from about -2044 initially to about -2021 after
+the first iteration, as shown in Figure 20.12(b). That is, the update improves the likelihood
+itself by a factor of about e23 ˜ 1010. By the tenth iteration, the learned model is a better
+fit than the original model (L= - 1982.214). Thereafter, progress becomes very slow. This
+is not uncommon with EM, and many practical systems combine EM with a gradient-based
+algorithm such as Newton–Raphson (see Chapter 4) for the last phase of learning.
+The general lesson from this example is that the parameter updates for Bayesian network learning with hidden variables are directly available from the results of inference on
+each example. Moreover, only local posterior probabilities are needed for each parameter. Here, “local” means that the CPT for each variable Xi can be learned from posterior
+probabilities involving just Xi and its parents Ui. Defining ?ijk to be the CPT parameter
+P(Xi = xij | Ui = uik), the update is given by the normalized expected counts as follows:
+?ijk ? Nˆ(Xi = xij,Ui = uik)/Nˆ(Ui = uik) .
+The expected counts are obtained by summing over the examples, computing the probabilities
+P(Xi = xij,Ui = uik) for each by using any Bayes net inference algorithm. For the exact
+algorithms—including variable elimination—all these probabilities are obtainable directly as
+a by-product of standard inference, with no need for extra computations specific to learning.
+Moreover, the information needed for learning is available locally for each parameter.
+20.3.3 Learning hidden Markov models
+Our final application of EM involves learning the transition probabilities in hidden Markov
+models (HMMs). Recall from Section 15.3 that a hidden Markov model can be represented
+by a dynamic Bayes net with a single discrete state variable, as illustrated in Figure 20.14.
+Each data point consists of an observation sequence of finite length, so the problem is to
+learn the transition probabilities from a set of observation sequences (or from just one long
+sequence).
+We have already worked out how to learn Bayes nets, but there is one complication:
+in Bayes nets, each parameter is distinct; in a hidden Markov model, on the other hand, the
+individual transition probabilities from state i to state j at time t, ?ijt = P(Xt+1 =j | Xt = i),
+are repeated across time—that is, ?ijt =?ij for all t. To estimate the transition probability
+from state i to state j, we simply calculate the expected proportion of times that the system
+undergoes a transition to state j when in state i:
+?ij ?
+t
+Nˆ(Xt+1 = j, Xt = i)/
+t
+Nˆ(Xt = i) .
+The expected counts are computed by an HMM inference algorithm. The forward–backward
+algorithm shown in Figure 15.4 can be modified very easily to compute the necessary probabilities. One important point is that the probabilities required are obtained by smoothingSection 20.3. Learning with Hidden Variables: The EM Algorithm 823
+f 0.3
+t 0.7
+R0 P(R1 )
+0.7
+P(R0)
+f 0.2
+t 0.9
+R1 P(U1 )
+Umbrella1
+Rain
+0 Rain1
+0.7
+P(R0)
+4
+f 0.2
+t 0.9
+R4 P(U )
+tf
+0.3
+0.7
+R3 P(R4)
+Umbrella4
+Rain
+4
+f 0.2
+t 0.9
+R3 P(U3 )
+R tf
+0.3
+0.7
+2 P(R3)
+Umbrella3
+Rain
+3
+f 0.2
+t 0.9
+R2 P(U2 )
+R tf
+0.3
+0.7
+1 P(R2)
+Umbrella2
+Rain
+2
+f 0.2
+t 0.9
+R1 P(U1 )
+R tf
+0.3
+0.7
+0 P(R1)
+Umbrella1
+Rain
+0 Rain1
+Figure 20.14 An unrolled dynamic Bayesian network that represents a hidden Markov
+model (repeat of Figure 15.16).
+rather than filtering; that is, we need to pay attention to subsequent evidence in estimating
+the probability that a particular transition occurred. The evidence in a murder case is usually
+obtained after the crime (i.e., the transition from state i to state j) has taken place.
+20.3.4 The general form of the EM algorithm
+We have seen several instances of the EM algorithm. Each involves computing expected
+values of hidden variables for each example and then recomputing the parameters, using the
+expected values as if they were observed values. Let x be all the observed values in all the
+examples, let Z denote all the hidden variables for all the examples, and let ? be all the
+parameters for the probability model. Then the EM algorithm is
+?(i+1) = argmax
+?
+z
+P(Z = z | x,?(i))L(x,Z = z | ?) .
+This equation is the EM algorithm in a nutshell. The E-step is the computation of the summation, which is the expectation of the log likelihood of the “completed” data with respect to the
+distribution P(Z = z | x,?(i)), which is the posterior over the hidden variables, given the data.
+The M-step is the maximization of this expected log likelihood with respect to the parameters. For mixtures of Gaussians, the hidden variables are the Zijs, where Zij is 1 if example j
+was generated by component i. For Bayes nets, Zij is the value of unobserved variable Xi in
+example j. For HMMs, Zjt is the state of the sequence in example j at time t. Starting from
+the general form, it is possible to derive an EM algorithm for a specific application once the
+appropriate hidden variables have been identified.
+As soon as we understand the general idea of EM, it becomes easy to derive all sorts
+of variants and improvements. For example, in many cases the E-step—the computation of
+posteriors over the hidden variables—is intractable, as in large Bayes nets. It turns out that
+one can use an approximate E-step and still obtain an effective learning algorithm. With a
+sampling algorithm such as MCMC (see Section 14.5), the learning process is very intuitive:
+each state (configuration of hidden and observed variables) visited by MCMC is treated exactly as if it were a complete observation. Thus, the parameters can be updated directly after
+each MCMC transition. Other forms of approximate inference, such as variational and loopy
+methods, have also proved effective for learning very large networks.824 Chapter 20. Learning Probabilistic Models
+20.3.5 Learning Bayes net structures with hidden variables
+In Section 20.2.5, we discussed the problem of learning Bayes net structures with complete
+data. When unobserved variables may be influencing the data that are observed, things get
+more difficult. In the simplest case, a human expert might tell the learning algorithm that certain hidden variables exist, leaving it to the algorithm to find a place for them in the network
+structure. For example, an algorithm might try to learn the structure shown in Figure 20.10(a)
+on page 817, given the information that HeartDisease (a three-valued variable) should be included in the model. As in the complete-data case, the overall algorithm has an outer loop that
+searches over structures and an inner loop that fits the network parameters given the structure.
+If the learning algorithm is not told which hidden variables exist, then there are two
+choices: either pretend that the data is really complete—which may force the algorithm to
+learn a parameter-intensive model such as the one in Figure 20.10(b)—or invent new hidden
+variables in order to simplify the model. The latter approach can be implemented by including
+new modification choices in the structure search: in addition to modifying links, the algorithm
+can add or delete a hidden variable or change its arity. Of course, the algorithm will not know
+that the new variable it has invented is called HeartDisease; nor will it have meaningful
+names for the values. Fortunately, newly invented hidden variables will usually be connected
+to preexisting variables, so a human expert can often inspect the local conditional distributions
+involving the new variable and ascertain its meaning.
+As in the complete-data case, pure maximum-likelihood structure learning will result in
+a completely connected network (moreover, one with no hidden variables), so some form of
+complexity penalty is required. We can also apply MCMC to sample many possible network
+structures, thereby approximating Bayesian learning. For example, we can learn mixtures of
+Gaussians with an unknown number of components by sampling over the number; the approximate posterior distribution for the number of Gaussians is given by the sampling frequencies
+of the MCMC process.
+For the complete-data case, the inner loop to learn the parameters is very fast—just a
+matter of extracting conditional frequencies from the data set. When there are hidden variables, the inner loop may involve many iterations of EM or a gradient-based algorithm, and
+each iteration involves the calculation of posteriors in a Bayes net, which is itself an NP-hard
+problem. To date, this approach has proved impractical for learning complex models. One
+STRUCTURAL EM possible improvement is the so-called structural EM algorithm, which operates in much the
+same way as ordinary (parametric) EM except that the algorithm can update the structure
+as well as the parameters. Just as ordinary EM uses the current parameters to compute the
+expected counts in the E-step and then applies those counts in the M-step to choose new
+parameters, structural EM uses the current structure to compute expected counts and then applies those counts in the M-step to evaluate the likelihood for potential new structures. (This
+contrasts with the outer-loop/inner-loop method, which computes new expected counts for
+each potential structure.) In this way, structural EM may make several structural alterations
+to the network without once recomputing the expected counts, and is capable of learning nontrivial Bayes net structures. Nonetheless, much work remains to be done before we can say
+that the structure-learning problem is solved.Section 20.4. Summary 825
+20.4 SUMMARY
+Statistical learning methods range from simple calculation of averages to the construction of
+complex models such as Bayesian networks. They have applications throughout computer
+science, engineering, computational biology, neuroscience, psychology, and physics. This
+chapter has presented some of the basic ideas and given a flavor of the mathematical underpinnings. The main points are as follows:
+• Bayesian learning methods formulate learning as a form of probabilistic inference,
+using the observations to update a prior distribution over hypotheses. This approach
+provides a good way to implement Ockham’s razor, but quickly becomes intractable for
+complex hypothesis spaces.
+• Maximum a posteriori (MAP) learning selects a single most likely hypothesis given
+the data. The hypothesis prior is still used and the method is often more tractable than
+full Bayesian learning.
+• Maximum-likelihood learning simply selects the hypothesis that maximizes the likelihood of the data; it is equivalent to MAP learning with a uniform prior. In simple cases
+such as linear regression and fully observable Bayesian networks, maximum-likelihood
+solutions can be found easily in closed form. Naive Bayes learning is a particularly
+effective technique that scales well.
+• When some variables are hidden, local maximum likelihood solutions can be found
+using the EM algorithm. Applications include clustering using mixtures of Gaussians,
+learning Bayesian networks, and learning hidden Markov models.
+• Learning the structure of Bayesian networks is an example of model selection. This
+usually involves a discrete search in the space of structures. Some method is required
+for trading off model complexity against degree of fit.
+• Nonparametric models represent a distribution using the collection of data points.
+Thus, the number of parameters grows with the training set. Nearest-neighbors methods
+look at the examples nearest to the point in question, whereas kernel methods form a
+distance-weighted combination of all the examples.
+Statistical learning continues to be a very active area of research. Enormous strides have been
+made in both theory and practice, to the point where it is possible to learn almost any model
+for which exact or approximate inference is feasible.
+BIBLIOGRAPHICAL AND HISTORICAL NOTES
+The application of statistical learning techniques in AI was an active area of research in the
+early years (see Duda and Hart, 1973) but became separated from mainstream AI as the
+latter field concentrated on symbolic methods. A resurgence of interest occurred shortly after
+the introduction of Bayesian network models in the late 1980s; at roughly the same time,826 Chapter 20. Learning Probabilistic Models
+a statistical view of neural network learning began to emerge. In the late 1990s, there was
+a noticeable convergence of interests in machine learning, statistics, and neural networks,
+centered on methods for creating large probabilistic models from data.
+The naive Bayes model is one of the oldest and simplest forms of Bayesian network,
+dating back to the 1950s. Its origins were mentioned in Chapter 13. Its surprising success is
+partially explained by Domingos and Pazzani (1997). A boosted form of naive Bayes learning won the first KDD Cup data mining competition (Elkan, 1997). Heckerman (1998) gives
+an excellent introduction to the general problem of Bayes net learning. Bayesian parameter learning with Dirichlet priors for Bayesian networks was discussed by Spiegelhalter et al.
+(1993). The BUGS software package (Gilks et al., 1994) incorporates many of these ideas and
+provides a very powerful tool for formulating and learning complex probability models. The
+first algorithms for learning Bayes net structures used conditional independence tests (Pearl,
+1988; Pearl and Verma, 1991). Spirtes et al. (1993) developed a comprehensive approach
+embodied in the TETRAD package for Bayes net learning. Algorithmic improvements since
+then led to a clear victory in the 2001 KDD Cup data mining competition for a Bayes net
+learning method (Cheng et al., 2002). (The specific task here was a bioinformatics problem with 139,351 features!) A structure-learning approach based on maximizing likelihood
+was developed by Cooper and Herskovits (1992) and improved by Heckerman et al. (1994).
+Several algorithmic advances since that time have led to quite respectable performance in
+the complete-data case (Moore and Wong, 2003; Teyssier and Koller, 2005). One important
+component is an efficient data structure, the AD-tree, for caching counts over all possible
+combinations of variables and values (Moore and Lee, 1997). Friedman and Goldszmidt
+(1996) pointed out the influence of the representation of local conditional distributions on the
+learned structure.
+The general problem of learning probability models with hidden variables and missing data was addressed by Hartley (1958), who described the general idea of what was later
+called EM and gave several examples. Further impetus came from the Baum–Welch algorithm for HMM learning (Baum and Petrie, 1966), which is a special case of EM. The paper
+by Dempster, Laird, and Rubin (1977), which presented the EM algorithm in general form
+and analyzed its convergence, is one of the most cited papers in both computer science and
+statistics. (Dempster himself views EM as a schema rather than an algorithm, since a good
+deal of mathematical work may be required before it can be applied to a new family of distributions.) McLachlan and Krishnan (1997) devote an entire book to the algorithm and its
+properties. The specific problem of learning mixture models, including mixtures of Gaussians, is covered by Titterington et al. (1985). Within AI, the first successful system that used
+EM for mixture modeling was AUTOCLASS (Cheeseman et al., 1988; Cheeseman and Stutz,
+1996). AUTOCLASS has been applied to a number of real-world scientific classification tasks,
+including the discovery of new types of stars from spectral data (Goebel et al., 1989) and new
+classes of proteins and introns in DNA/protein sequence databases (Hunter and States, 1992).
+For maximum-likelihood parameter learning in Bayes nets with hidden variables, EM
+and gradient-based methods were introduced around the same time by Lauritzen (1995), Russell et al. (1995), and Binder et al. (1997a). The structural EM algorithm was developed by
+Friedman (1998) and applied to maximum-likelihood learning of Bayes net structures withExercises 827
+latent variables. Friedman and Koller (2003). describe Bayesian structure learning.
+The ability to learn the structure of Bayesian networks is closely connected to the issue
+of recovering causal information from data. That is, is it possible to learn Bayes nets in
+such a way that the recovered network structure indicates real causal influences? For many
+years, statisticians avoided this question, believing that observational data (as opposed to data
+generated from experimental trials) could yield only correlational information—after all, any
+two variables that appear related might in fact be influenced by a third, unknown causal
+factor rather than influencing each other directly. Pearl (2000) has presented convincing
+arguments to the contrary, showing that there are in fact many cases where causality can be
+CAUSAL NETWORK ascertained and developing the causal network formalism to express causes and the effects
+of intervention as well as ordinary conditional probabilities.
+Nonparametric density estimation, also called Parzen window density estimation, was
+investigated initially by Rosenblatt (1956) and Parzen (1962). Since that time, a huge literature has developed investigating the properties of various estimators. Devroye (1987) gives a
+thorough introduction. There is also a rapidly growing literature on nonparametric Bayesian
+DIRICHLET PROCESS methods, originating with the seminal work of Ferguson (1973) on the Dirichlet process,
+which can be thought of as a distribution over Dirichlet distributions. These methods are particularly useful for mixtures with unknown numbers of components. Ghahramani (2005) and
+Jordan (2005) provide useful tutorials on the many applications of these ideas to statistical
+GAUSSIAN PROCESS learning. The text by Rasmussen and Williams (2006) covers the Gaussian process, which
+gives a way of defining prior distributions over the space of continuous functions.
+The material in this chapter brings together work from the fields of statistics and pattern
+recognition, so the story has been told many times in many ways. Good texts on Bayesian
+statistics include those by DeGroot (1970), Berger (1985), and Gelman et al. (1995). Bishop
+(2007) and Hastie et al. (2009) provide an excellent introduction to statistical machine learning. For pattern classification, the classic text for many years has been Duda and Hart (1973),
+now updated (Duda et al., 2001). The annual NIPS (Neural Information Processing Conference) conference, whose proceedings are published as the series Advances in Neural Information Processing Systems, is now dominated by Bayesian papers. Papers on learning Bayesian
+networks also appear in the Uncertainty in AI and Machine Learning conferences and in several statistics conferences. Journals specific to neural networks include Neural Computation,
+Neural Networks, and the IEEE Transactions on Neural Networks. Specifically Bayesian
+venues include the Valencia International Meetings on Bayesian Statistics and the journal
+Bayesian Analysis.
+EXERCISES
+20.1 The data used for Figure 20.1 on page 804 can be viewed as being generated by h5.
+For each of the other four hypotheses, generate a data set of length 100 and plot the corresponding graphs for P(hi | d1,... ,dN) and P(DN+1 =lime |d1,... ,dN). Comment on
+your results.

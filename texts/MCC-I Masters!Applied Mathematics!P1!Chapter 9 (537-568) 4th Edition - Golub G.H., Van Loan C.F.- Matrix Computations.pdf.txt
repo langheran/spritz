@@ -1,0 +1,1838 @@
+Chapter 9
+Functions of Matrices
+9.1 Eigenvalue Methods
+9.2 Approximation Methods
+9.3 The Matrix Exponential
+9.4 The Sign, Square Root, and Log of a Matrix
+Computing a function f(A) of an n-by-n matrix A is a common problem in many
+application areas. Roughly speaking, ifthe scalar function f(z) is defined on .X(A), then
+f(A) is defined by substituting "A" for "z" in the "formula" for f(z). For example, if
+f(z) = {1 + z)/{1 - z) and 1 fj. .X(A), then f(A) = ( I + A)(I - A ) - 1 .
+The computations get particularly interesting when the function f is transcen­
+dental. One approach in this more complicated situation is to compute an eigenvalue
+decomposition A = Y BY - 1 and use the formula f(A) = Y f(B)Y - 1 . If B is suffi­
+ciently simple, then it is often possible to calculate f (B) directly. This is illustrated in
+§9.1 for the Jordan and Schur decompositions.
+Another class of methods involves the approximation of the desired function f (A)
+with an easy-to-calculate function g( A ) . For example, g might be a truncated Taylor
+series approximation to f. Error bounds associated with the approximation of matrix
+functions are given in §9.2.
+In §9.3 we discuss the special and very important problem of computing the
+matrix exponential e A . The matrix sign, square root, and logarithm functions and
+connections to the polar decomposition are treated in §9.4.
+Reading Notes
+Knowledge of Chapters 3 and 7 is assumed. Within this chapter there are the
+following dependencies:
+§9.1 -+ §9.2 -+ §9.3
+-!.
+§9.4
+513
+514 Chapter 9. Functions of Matrices
+Complementary references include Horn and Johnson (TMA) and the definitive text
+by Higham (FOM). We mention that aspects of the f(A)-times-a-vector problem are
+treated in §10.2.
+9.1 Eigenvalue Methods
+Here are some examples of matrix functions:
+p(A) = I + A,
+r(A) =
+(1
+-
+� )-1 (1
++
+�),
+oo
+A k
+A "'
+e -
+L.., , kf ·
+k= O
+2 ¢ A ( A),
+Obviously, these are the matrix versions of the scalar-valued functions
+p(z) = 1 + z,
+r(z) = (1 - (z/2)) - 1 (1 + (z/2)),
+00
+k
+z "'
+z
+e =
+L.., , kl ·
+k= O
+2 "I- z,
+Given an n-by-n matrix A, it appears that all we have to do to define f (A) is to substi­
+tute A into the formula for f. However, to make subsequent algorithmic developments
+precise, we need to be a little more formal. It turns out that there are several equiv­
+alent ways to define a function of a matrix. See Higham (FOM, §1.2). Because of its
+prominence in the literature and its simplicity, we take as our "base" definition one
+that involves the Jordan canonical form (JCF).
+9.1.1 A Jordan-Based Definition
+Suppose A E cc n x n and let
+be its J CF with
+Ai
+0
+Ji
+0
+A
+1
+Ai 1
+0
+(9.1.1)
+0
+E cc n;Xn ; , i = l:q.
+(9.1.2)
+1
+Ai
+9.1. Eigenvalue Methods
+The matrix function f(A) is defined by
+f(A) = X ·diag(F1, •
+. . , Fq)·X - 1
+where
+f(>.i) J
+(l
+l(>.i)
+0 f(>.i)
+0
+J
+(n;-1
+) (>.i)
+(ni - 1 ) !
+assuming that all the required derivative evaluations exist.
+9.1.2 The Taylor Series Representation
+515
+(9.1.3)
+i = l:q, (9.1.4)
+If f can be represented by a Taylor series on A's spectrum, then
+f(A)
+can be represented
+by the same Taylor series in A. To fix ideas, assume that f is analytic in a neighborhood
+of z 0 E <C and that for some r > 0 we have
+oo
+J ( k ) (zo)
+k
+f(z) = L
+k!
+(z - zo) ,
+k= O
+Our first result applies to a single Jordan block.
+lz - zol < r.
+(9.1.5)
+Lemma 9.1.1. Suppose B E <C m x m is a Jordan block and write B = >. Im + E where
+E is its strictly upper bidiagonal part. Given (9.1.5), if I>. - zol < r, then
+00
+J ( k ) ( )
+f(B) = L
+k t
+o
+(B - zolm) k .
+k= O
+Proof. Note that powers of E are highly structured, e.g.,
+[ � � � � l
+E 2 E =
+0 0 0 1
+'
+0 0 0 0
+In terms of the Kronecker delta, if 0 :::; p :::; m - 1, then [E P ]ij =
+(c5i,j
+-p ) · It follows
+from (9.1.4) that
+f(B)
+(9.1.6 )
+516 Chapter 9. Functions of Matrices
+On the other hand, if p > m, then E P = 0. Thus, for any k 2: 0 we have
+If N is a nonnegative integer, then
+N
+f ( k ) (zo)
+-
+k -
+min
+{ k
+,m-1
+} dP
+(
+N
+f ( k ) (zo)
+-
+k ) E P
+L
+k!
+(B zoI) - L
+d ).. P
+L
+k!
+(>. zo)
+p ! .
+k=O p =O
+k=O
+The lemma follows by taking limits with respect to N and using both (9.1.6) and the
+Taylor series representation of
+f(z).
+D
+A similar result holds for general matrices.
+Theorem 9.1.2.
+If f
+has the Taylor series representation {9.1.5) and I>.-zol < r for
+all >. E >.(A) where A E
+<Cn
+x n , then
+00
+f ( k ) ( )
+f(A)
+= L
+k!
+zo
+(A - zoI) k .
+k=O
+Proof. Let the JCF of A be given by (9.1.1) and (9.1.2). From Lemma 9.1.1 we have
+00
+f(Ji) = L ak(Ji - zoI) k ,
+k=O
+f ( k ) (zo)
+k!
+for i = l:q. Using the definition (9.1.3) and (9.1.4) we see that
+f(A) = X · diag (f
+ak(J1 - zoi
+n,
+) k , . . . , f ak(J q - zoi n
+")
+k )
+-x -1
+k=O
+k=O
+= X· (f ak(J - zoi n ) k )
+. x
+-1
+k=O
+00
+= Lak (X(J - z
+0I
+n )x
+-1
+)
+k
+k=O
+completing the proof of the theorem. D
+00
+Lak(A - zoin) k ,
+k=O
+Important matrix functions that have simple Taylor series definitions include
+9.1. Eigenvalue Methods
+oo
+A k
+exp(A) = L
+kl'
+k=O
+oo
+A k
+log(J - A) = L
+T
+•
+k=
+l
+sin( A)
+oo
+A 2 k
+cos(A) = I ) -l ) k (2k)! '
+k=O
+517
+IAI
+< 1, A E A(A),
+For clarity in this section and the next, we consider only matrix functions that have a
+Taylor series representation. In that case it is easy to verify that
+A · f (A) = f (A) · A (9.1.7)
+and
+f(x - 1 AX) =
+x .
+f (A) . x - 1 . (9.1.8)
+9.1.3 An Eigenvector Approach
+If A E
+<Cn
+x n is diagonalizable, then it is particularly easy to specify f(A) in terms of
+A's eigenvalues and eigenvectors.
+Corollary 9.1.3. If A E
+<Cn
+x n , A = X · diag(A1, . . . , A n ) · x - 1, and f (A) is defined,
+then
+(9.1.9)
+Proo f. This result is an easy consequence of Theorem 9.1.2 since all the Jordan blocks
+are l-by-1. D
+Unfortunately, if the matrix of eigenvectors is ill-conditioned, then computing f(A) via
+(9.1.8) is likely introduce errors of order u11: 2 (X) because of the required solution of a
+linear system that involves the eigenvector matrix X. For example, if
+A =
+[
+1 + 10
+-s
+1
+l
+0 1 - 10 -5 '
+then any matrix of eigenvectors is a column-scaled version of
+[
+1 -1
+l
+X =
+0 2(1 - 10
+-5)
+518 Chapter 9. Functions of Matrices
+and has a 2-norm condition number of order 10 5 . Using a computer with machine
+precision u : : 10 - 7, we find
+=
+[ 2. 718307 2. 750000 l
+fl ( x - i diag ( exp { l + 10 - s), exp { l - 10 - s))x)
+0.000000 2.718254
+while
+eA
+=
+[ 2. 718309 2. 718282 l
+·
+0.000000 2.718255
+The example suggests that ill-conditioned similarity transformations should be avoided
+when computing a function of a matrix. On the other hand, if A is a normal matrix,
+then it has a perfectly conditioned matrix of eigenvectors. In this situation, computa­
+tion of f (A) via diagonalization is a recommended strategy.
+9.1.4 A Schur Decomposition Approach
+Some of the difficulties associated with the Jordan approach to the matrix function
+problem can be circumvented by relying upon the Schur decomposition. If A = QTQH
+is the Schur decomposition of A, then by {9.1.8),
+f(A) = Qf(T)QH.
+For this to be effective, we need an algorithm for computing functions of upper trian­
+gular matrices. Unfortunately, an explicit expression for f(T) is very complicated.
+Theorem 9.1.4. Let T = (tij) be an n-by-n upper triangular matrix with Ai = tii and
+assume f(T) is defined. If f(T) = (fij ) , then fij = 0 if i > j, f o
+= f(Ai ) for i =
+j,
+and for all i < j we have
+f o =
+(9.1.10)
+(so, ... , s
+k)ES;;
+where Sij is the set of all strictly increasing sequences of integers that start at i and
+end at j, and f [ As 0 , •
+• • , As k ] is the kth order divided difference off at { As 0 , • • • , As k } .
+Proo f. See Descloux {1963), Davis {1973), or Van Loan {1975). D
+To illustrate the theorem, if
+then
+f(A 1 )
+f (T)
+0
+0
+[ �I t
+i2
+• 1• ]
+T = � A 2 t
+23
+0
+Aa
+t
+12
+. f (A 2 ) - f (Ai)
+A 2
+- A1
+f(A 2 )
+0
+F13
+t
+23
+. f (Aa) - f(A 2 )
+Aa - A 2
+f(Aa)
+9.1. Eigenvalue Methods
+where
+J(>.. 3) - J(>.. 2)
+-
+J(>.. 2) - J(>..1)
+!(>.. ) f(>.. ) >.. 3 - >.. 2
+>.. 2 - >..1
+F 1 3 = l}3·
+3 -
+1
++
+ti2t23·
+---- -
+A3 - >..1
+>.. 3 - >..1
+519
+The recipes for the upper triangular entries get increasing complicated as we move away
+from the diagonal. Indeed, if we explicitly use (9.1.10) to evaluate f(T), then 0(2 n )
+flops are required. However, Parlett (1974) has derived an elegant recursive method for
+determining the strictly upper triangular portion of the matrix F =
+f(T).
+It requires
+only 2n 3
+/3
+flops and can be derived from the commutivity equation FT = T F. Indeed,
+by comparing ( i, j) entries in this equation, we find
+j
+:L1iktkj
+k=i
+and thus, if tii and t11 are distinct,
+j
+:Ltikfkj1
+k=i
+j > i,
+j-1
+f · ·
+- f· ·
++ :L
+t . k 1k1· - f · ktk
+3·
+.
+f. . - t. .
+JJ
+ii
+• J ' •
+• J - •J t t t
+3·1·
+-t
+.. . . -
+. .
+• •
+k=i+ l JJ
+ii
+(9.1.11)
+From this we conclude that fij is a linear combination of its neighbors in the matrix
+F that are to its left and below. For example, the entry
+f25
+depends upon
+/22
+, f23,
+f24, /55, /45, and f3 5 . Because of this, the entire upper triangular portion of F can
+be computed superdiagonal by superdiagonal beginning with diag(f(tu), . . . , f(t nn )).
+The complete procedure is as follows:
+Algorithm 9.1.1 (Schur-Parlett) This algorithm computes the matrix function F =
+f(T) where T is upper triangular with distinct eigenvalues and f is defined on
+>..(T).
+for i = l:n
+fii = f(tii)
+end
+for p = l:n - 1
+end
+for i = l:n - p
+j i +p
+s = tij(fjj - Iii)
+for k = i + l:j - 1
+s = s + tik/kj - fiktkj
+end
+fij = s/(t11 - tii)
+end
+This algorithm requires 2 n 3
+/3
+flops. Assuming that A = QTQH is the Schur decompo­
+sition of A, f(A) = QFQH where F =
+f(T).
+Clearly, most of the work in computing
+f(A) by this approach is in the computation of the Schur decomposition, unless f is
+extremely expensive to evaluate.
+520 Chapter 9. Functions of Matrices
+9.1.5 A Block Schur-Parlett Approach
+If A has multiple or nearly multiple eigenvalues, then the divided differences associated
+with Algorithm 9.1.1 become problematic and it is advisable to use a block version of
+the method. We outline such a procedure due to Parlett (1974). The first step is to
+choose Q in the Schur decomposition so that we have a partitioning
+T = [
+T
+�
+,
+�� ::: �:: l
+0 0 T pp
+where .X(Tii) n .X(Tjj) = 0 and each diagonal block is associated with an eigenvalue
+cluster. The methods of §7.6 are applicable for this stage of the calculation.
+Partition F = f(T) conformably
+and notice that
+[
+�
+1
+:�� : : : :�: l
+F -
+. .
+. .
+'
+. . .
+. . . .
+0 0 F pp
+Fii = f (Tii), i = l:p.
+Since the eigenvalues of
+Tii
+are clustered, these calculations require special methods.
+Some possibilities are discussed in the next section.
+Once the diagonal blocks of F are known, the blocks in the strict upper triangle
+of F can be found recursively, as in the scalar case. To derive the governing equations,
+we equate ( i,j ) blocks in FT = TF for i < j and obtain the following generalization
+of (9.1.11):
+j - 1
+FijTjj - TiiFij = TijFjj - FiiTij + L (TikFkj - FikTkj) ·
+k=i
++1
+(9.1.12)
+This is a Sylvester system whose unknowns are the elements of the block
+Fij
+and whose
+right-hand side is "known" if we compute the
+Fij
+one block superdiagonal at a time.
+We can solve (9.1.12) using the Bartels-Stewart algorithm ( Algorithm 7.6.2). For more
+details see Higham ( FOM, Chap. 9).
+9.1.6 Sensitivity of Matrix Functions
+Does the Schur-Parlett algorithm avoid the pitfalls associated with the diagonalization
+approach when the matrix of eigenvectors is ill-conditioned? The proper comparison
+of the two solution frameworks requires an appreciation for the notion of condition as
+applied to the f(A) problem. Toward that end we define the relative condition of f at
+matrix A E
+<Cn
+x n is given as
+condrel (!, A) lim sup
+E--tO llE
+ll
+:$ E llAll
+II
+f (A+ E) - f
+(A) II
+€ 11 J(A) II
+9.1. Eigenvalue Methods 521
+This quantity is essentially a normalized Frechet derivative of the mapping A -t f(A)
+and various heuristic methods have been developed for estimating its value.
+It turns out that the careful implementation of the block Schur-Parlett algorithm
+is usually forward stable in the sense that
+II
+P -
+J(A) II
+II f(A) I I
+� u·condre1(f, A)
+where P is the computed version of f(A). The same cannot be said of the diagonal­
+ization framework when the matrix of eigenvectors is ill-conditioned. For more details,
+see Higham (FOM, Chap. 3).
+Problems
+P9.1.1 Suppose
+Use the power series definitions to develop closed form expressions for exp( A), sin(A), and cos( A).
+P9.1.2 Rewrite Algorithm 9.1.1 so that f(T) is computed column by column.
+P9.1.3 Suppose A = Xdiag(.>.;)x - 1 where x = [ x 1
+I ·
+. · I
+Xn
+J and x -1 = [ Yl I · . · I Yn J H. Show
+that if f(A) is defined, then
+n
+f(A)
+L f( >-;
+)x;yf.
+k=l
+P9.1.4 Show that
+T
+[ T
+� 1 T12 ] :
+=> J(T)
+[ F
+� 1
+T22
+p q
+where Fu = f(Tn) and F22 = f(T22). Assume f(T) is defined.
+Notes and References for §9.1
+p
+F12
+J:
+F22
+q
+As we discussed, other definitions of f(A) are possible. However, for the matrix functions typically
+encountered in practice, all these definitions are equivalent, see:
+R.F. Rinehart {1955). "The Equivalence of Definitions of a Matric Function,'' Amer. Math. Monthly
+62, 395-414.
+The following papers are concerned with the Schur decomposition and its relationship to the J(A)
+problem:
+C. Davis {1973). "Explicit Functional Calculus," Lin. Alg. Applic. 6, 193-199.
+J. Descloux (1963). "Bounds for the Spectral Norm of Functions of Matrices," Numer. Math. 5,
+185 -190.
+C.F. Van Loan (1975). "A Study of the Matrix Exponential,'' Numerical Analysis Report No. 10,
+Department of Mathematics, University of Manchester, England. Available as Report 2006.397
+from http://eprints.ma.man.ac.uk/.
+Algorithm 9.1.1 and the various computational difficulties that arise when it is applied to a matrix
+having close or repeated eigenvalues are discuss
+B.N. Parlett (1976). "A Recurrence among the Elements of Functions of Triangular Matrices," Lin.
+Alg. Applic. 14, 117-121.
+P.I. Davies and N.J. Higham (2003). "A Schur-Parlett Algorithm for Computing Matrix Functions,''
+SIAM .J. Matrix Anal. Applic. 25, 464-485.
+522 Chapter 9. Functions of Matrices
+A compromise between the Jordan and Schur approaches to the J(A) problem results if A is reduced
+to block diagonal form as described in §7 . 6.3, see:
+B. Kli.gstrom (1977). "Numerical Computation of Matrix Functions," Department of Information
+Processing Report UMINF-58.77, University of U meii., Sweden.
+E.B. Davies (2007). "Approximate Diagonalization," SIAM J. Matrix Anal. Applic. 29, 1051-1064.
+The sensitivity of matrix functions to perturbation is discussed in:
+C.S. Kenney and A.J. Laub (1989). "Condition Estimates for Matrix Functions," SIAM J. Matrix
+Anal. Applic. 10, 191-209.
+C.S. Kenney and A.J. Laub (1994). "Small-Sample Statistical Condition Estimates for General Matrix
+Functions," SIAM J. Sci. Comput. 15, 36-61.
+R. Mathias (1995). "Condition Estimation for Matrix Functions via the Schur Decomposition," SIAM
+J. Matrix Anal. Applic. 16, 565-578.
+9.2 Approximation Methods
+We now consider a class of methods for computing matrix functions which at first
+glance do not appear to involve eigenvalues. These techniques are based on the idea
+that, if g(z) approximates f(z) on A(A), then f(A) approximates g(A), e.g.,
+A 2 A q
+eA
+� I + A +
+-
+2 1
++ · · · + -
+1 •
+.
+q.
+We begin by bounding II f(A) - g(A) II using the Jordan and Schur matrix function
+representations. We follow this discussion with some comments on the evaluation of
+matrix polynomials.
+9.2.1 A Jordan Analysis
+The Jordan representation of matrix functions ( Theorem 9.1.2) can be used to bound
+the error in an approximant g(A) of f(A).
+Theorem 9.2.1. Assume that
+A X · diag
+(J
+i . . . . , J q ) . x- 1
+is the JCF of A E
+<Cn
+x n with
+0
+0
+1
+Ai 1
+0
+ni-by-ni,
+1
+Ai
+for i = l:q. If f(z) and g(z) are analytic on an open set containing A(A), then
+II
+f(A) - g(A) 112 ::; K2(X)
+9.2. Approximation Methods 523
+Proof. Defining h(z) = f(z) - g(z) we have
+II
+f(A) - g(A)
+112
+=
+II
+X diag (h(J1) , . . . , h(J q ))X - 1
+11
+2 :S "' 2 (X)
+max
+II h(Ji)
+11
+2·
+l�i�q
+Using Theorem 9.1.2 and equation (2.3.8) we conclude that
+thereby proving the theorem. D
+9.2.2 A Schur Analysis
+If we use the Schur decomposition A = QTQH instead of the Jordan decomposition,
+then the norm of T's strictly upper triangular portion is involved in the discrepancy
+between f(A) and g(A).
+Theorem 9.2.2. Let QH AQ = T = diag(.Xi) + N be the Schur decomposition of
+A E {! n x n , with N being the strictly upper triangular portion of T. If f(z) and g(z)
+are analytic on a closed convex set n whose interior contains .X(A), then
+where
+n-l
+II I N l
+r
+llF
+II f(A) - g(A)
+llF
+:S L
+Or
+I
+r=O
+r.
+sup
+zEO
+Proof. Let h(z) = f(z) - g(z) and set H = (hij) = h(A). Let st» denote the set
+of strictly increasing integer sequences ( s0, • • • , S r ) with the property that s 0 = i and
+S r = j. Notice that
+j - i
+Sij
+= LJ st·)
+r=l
+and so from Theorem 9.1.3, we obtain the following for all i < j:
+j - 1
+hij
+= L L nso,s1 ns1,s2 . . . ns,._1,srh [.X so , . . . '
+As,.
+] .
+r=l sES �; >
+Now since n is convex and h analytic, we have
+lh [.Xso' · · · ' As,.
+] I
+:S
+sup
+zEO
+(9.2.1)
+524 Chapter 9. Functions of Matrices
+Furthermore if INlr= (n�;)) for r � 1, then it can be shown that
+j < i +
+r,
+j � i + r.
+(9.2.2)
+The theorem now follows by taking absolute values in the expression for
+hii
+and then
+using (9.2.1) and ( 9.2.2). D
+There can be a pronounced discrepancy between the Jordan and Schur error bounds.
+For example, if
+[ -.01 1 1 l
+A = 0 0 1 .
+0 0 .01
+If f(z) = ez and g(z) = 1 + z + z 2 /2, then I I f(A) - g( A ) II : : : 10 -5 in either the
+Frobenius norm or the 2-norm. Since 1t 2 (X) : : : 10 7 , the error predicted by Theorem
+9.2.1 is 0(1), rather pessimistic. On the other hand, the error predicted by the Schur
+decomposition approach is 0(10 - 2 ).
+Theorems 9.2.1 and 9.2.2 remind us that approximating a function of a nonnormal
+matrix is more complicated than approximating a function of a scalar. In particular, we
+see that if the eigensystem of A is ill-conditioned and/or A's departure from normality
+is large, then the discrepancy between f(A) and g(A) may be considerably larger than
+the maximum of lf(z) - g(z)I on A(A). Thus, even though approximation methods
+avoid eigenvalue computations, they evidently appear to be influenced by the structure
+of A's eigensystem. It is a perfect venue for pseudospectral analysis.
+9.2.3 Taylor Approximants
+A common way to approximate a matrix function such as eA is by truncating its Taylor
+series. The following theorem bounds the errors that arise when matrix functions such
+as these are approximated via truncated Taylor series.
+Theorem 9.2.3. If f(z) has the Taylor series
+00
+f(z) =
+:�:::c� k
+Z k
+k=O
+on an open disk containing the eigenvalues of A E <Cnxn, then
+Proo f. Define the matrix E(s) by
+q
+max
+II A
+q+
+l f
+(
+q+ 1l(As)
+112 .
+O�s�l
+f(As) = L a k ( A s) k + E(s), O � s � l.
+k=O
+(9.2.3)
+9.2. Approximation Methods 525
+If fi;(s) is the (i,j) entry of /(As), then it is necessarily analytic and so
+(9.2.4)
+where
+Eij
+satisfies 0 :::; Eij :::; s :::; 1.
+By comparing powers of s in (9.2.3) and (9.2.4) we conclude that eij(s), the (i,j)
+entry of E(s), has the form
+f
+(q+I
+) ( )
+. · (
+)
+_ ij
+Eij
+q+l
+e,3 s -
+( q + l)!
+s
+Now / i �
+q-l)
+(s) is the (i,j) entry of A q+l f (q+l) (As) and therefore
+max
+0:5s9
+The theorem now follows by applying (2.3.8). 0
+II A
+q+I
+f (q+l) (As)
+112
+( q + 1)!
+We mention that the factor of n in the upper bound can be removed with more careful
+analysis. See Mathias (1993).
+In practice, it does not follow that greater accuracy results by taking a longer
+Taylor approximation. For example, if
+then it can be shown that
+A = [
+-49 24 l
+-64 31
+'
+e A =
+[ -0.735759 .0551819 l
+·
+-1.471518 1.103638
+For q = 59, Theorem 9.2.3 predicts that
+However, if u � 10 - 1, then we find
+fl(�
+A k )
+=
+[ -22.25880 -1.4322766 l
+·
+� k! -61.49931 -3.474280
+The problem is that some of the partial sums have large elements. For example, the
+matrix I+ A + · ·· + A 1 7 /17! has entries of order 107• Since the machine precision is
+approximately 10 - 7, rounding errors larger than the norm of the solution a.re sustained.
+526 Chapter 9. Functions of Matrices
+The example highlights the a well known shortcoming of truncated Taylor series
+approximation-it tends to be effcetive only near the origin. The problem can sometimes
+be circumvented through a change of scale. For example, by repeatedly using the double
+angle formulae
+cos(2A) = 2 cos(A) 2 -
+I,
+sin(2A) = 2sin(A) cos(A),
+the cosine and sine of a matrix can be built up from Taylor approximations to cos(A/2 k )
+and sin(A/2 k ):
+So = Taylor approximate to sin(A/2 k )
+Co = Taylor approximate to cos(A/2 k )
+for j = l:k
+Si = 2Sj -
+1Cj
+- 1
+Ci = 2C J _ 1 - I
+end
+Here k is a positive integer chosen so that, say, II A 11 00 � 2 k . See Serbin and Blalock
+(1979), Higham and Smith (2003), and Hargreaves and Higham (2005).
+9.2.4 Evaluating Matrix Polynomials
+Since the approximation of transcendental matrix functions usually involves the eval­
+uation of polynomials, it is worthwhile to look at the details of computing
+where the scalars bo, . . . , b q E R are given. The most obvious approach is to invoke
+Horner ' s scheme:
+Algorithm 9.2.1 Given a matrix A and b(O:q), the following algorithm computes the
+polynomial F = b q A q + ··· + bi A + bol.
+F = b q A + b q -
+11
+for k = q - 2: - 1:0
+F = AF+b k l
+end
+This requires q - 1 matrix multiplications. However, unlike the scalar case, this sum­
+mation process is not optimal. To see why, suppose q = 9 and observe that
+p(A) = A 3 (A 3 (bgA 3 + ( bs A 2 + b1A + b6I)) + ( bs A 2 + b4A + b3I)) + b 2 A 2 + biA + bol.
+Thus, F = p(A) can be evaluated with only four matrix multiplications:
+A 2 = A 2 ,
+A3 = AA 2 ,
+Fi
+= bgA3 + bsA2 + b1A + b6I,
+F2
+= A3F1 + bsA2 + b4A + b3I,
+F = A3F2 +
+�A
+2 + biA + bol.
+9.2. Approximation Methods 527
+In general, if s is any integer that satisfies 1 :::; s :::; J'Q, then
+r
+p(A) = L Bk · (A8) k , r = floor(q/s), (9.2.5)
+k=
+O
+where
+k =
+O:r
+- 1,
+9.2.5 Computing Powers of a Matrix
+The problem of raising a matrix to a given power deserves special mention. Suppose it
+is required to compute A 13 . Noting that A 4 = (A 2 ) 2 , A 8 = (A 4 ) 2 , and A 13 = ABA 4
+A,
+we see that this can be accomplished with just five matrix multiplications. In general
+we have
+Algorithm 9.2.2 (Binary Powering) The following algorithm computes F = A8 where
+s is a positive integer and A E nr
+xn
+.
+t
+Let s = L
+f3k2
+k be the binary expansion of s with f3 t =f. 0
+k=
+O
+Z = A ; q = 0
+while
+/3q
+= 0
+z = z 2 ; q = q + 1
+end
+F = Z
+for k = q + l:t
+Z = Z 2
+end
+if /3k
+=I- 0
+F = FZ
+end
+This algorithm requires at most 2 floor[log 2 (s)] matrix multiplications. If s is a power
+of 2, then only log 2 (s) matrix multiplications are needed.
+9.2.6 Integrating Matrix Functions
+We conclude this section with some remarks about the integration of a parameterized
+matrix function. Suppose A E IR nxn and that J(At) is defined for all t E [a, b]. We can
+528 Chapter 9. Functions of Matrices
+approximate
+F = 1
+b f (At)dt
+[F ]
+ii
+= 1
+b
+[ f (At) ]
+ii
+dt
+by applying any suitable quadrature rule. For example, with Simpson's rule, we have
+h
+m
+F � F = 3 LW kf(A(a + kh))
+k=O
+where m is even, h = (b - a)/m, and
+k = O,m,
+k odd,
+k even, k =/:- 0, m.
+(9.2.6)
+If (d4/dz4)f(zt) =
+J<4 >(zt)
+is continuous for t E [a,b] and if
+J<
+4
+>(At)
+is defined on this
+same interval, then it can be shown that F = F + E where
+{9.2.7)
+Let
+fij
+and e ij denote the {i,j) entries of F and E, respectively. Under the above
+assumptions we can apply the standard error bounds for Simpson's rule and obtain
+h 4 (b a)
+l e
+· ·I
+<
+-
+max
+le'!'f<
+4 >(At)e · I
+& J
+-
+180
+'
+J •
+a::=;t::=;b
+The inequality (9.2. 7) now follows since II E
+112
+::::; n max
+le
+ii
+I and
+max lef J<4>(At)eil ::::;
+max
+11 f
+< 4
+>(At)
+112.
+a::=;t::=;b a::=;t::=;b
+Of course, in a practical application of {9.2.6), the function evaluations f(A(a + kh))
+normally have to be approximated. Thus, the overall error involves the error in ap­
+proximating f(A(a + kh) as well as the Simpson rule error.
+9.2. 7 A Note on the Cauchy Integral Formulation
+Yet another way to define a function of a matrix C E
+<Cn
+x n is through the Cauchy
+integral theorem. Suppose f ( z) is analytic inside and on a closed contour r which
+encloses A(A). We can define f (A) to be the matrix
+f(A) = -
+2
+1
+. J f(z)(zl - A)
+-1
+dz.
+7ri lr
+The integral is defined on an element-by-element basis:
+(9.2.8)
+9.2. Approximation Methods
+529
+Notice that the entries of (zl -A)-1 are analytic on r and that f(A) is defined whenever
+f(z) is analytic in a neighborhood of A(A). Using quadrature and other tools, Hale,
+Higham, and Trefethen (2007) have shown how this characterization can be used in
+practice to compute certain types of matrix functions.
+Problems
+P9.2.1 Verify (9.2.2).
+P9.2.2 Show that if II A 112 < 1, then log(l + A) exists and satisfies the bound
+II log(I + A) 112 � II A 112/(l - II A
+112).
+P9.2.3 Using Theorem 9.2.3, bound the error in the following approximations:
+q
+A 2k+1
+q
+A 2k
+sin(A) : : L(-l) k (
+)
+' ' cos(A) : : L(-l) k -
+( ) '" 2k + 1 . 2k .
+k=O k=O
+P9.2.4 Suppose A E R"
+xn
+is nonsingular and Xo E nnxn is given. The iteration defined by
+Xk+1 = Xk(21 -AXk)
+is the matrix analogue of Newton's method applied to the function f(x) = a - (1/x). Use the SYD to
+analyze this iteration. Do the iterates converge to A - 1 ? Discuss the choice of Xo.
+P9.2.5 Assume A E R2x 2 • (a) Specify real scalars a and f3 so that A 4 = al + {3A. (b) Develop
+recursive recipes for
+Otk
+and
+f3k
+so that A k =
+Otk
+l + f3kA for k � 2.
+Notes and References for §9.2
+The optimality of Homer's rule for polynomial evaluation is discussed in:
+M.S. Paterson and L.J. Stockmeyer (1973). "On the Number of Nonscalar Multiplications Necessary
+to Evaluate Polynomials," SIAM J. Comput. 2, 60-66.
+D.E. Knuth (1981). The Art of Computer Programming, Vol. 2. Seminumerical Algorithms, second
+edition, Addison-Wesley, Reading, MA.
+The Horner ev-dluation of matrix polynomials is analyzed in:
+C.F. Van Loan (1978). "A Note on the Evaluation of Matrix Polynomials," IEEE '.lhins. Av.tom.
+Control AC-24, 320-321.
+Other aspects of matrix function approximation and evaluation are discussed in:
+H. Bolz and W. Niethammer (1988). "On the Evaluation of Matrix Functions Given by Power Series,"
+SIAM J. Matrix Anal. Applic. 9, 202-209.
+R. Mathias (1993). "Approximation of Matrix-Valued Functions," SIAM J. Matrix Anal. Applic. 14,
+1061-1063.
+N.J. Higham and P.A. Knight (1995). "Matrix Powers in Finite Precision Arithmetic," SIAM J.
+Matrix Anal. Applic. 16, 343-358.
+P. Sebastiani (1996). "On the Derivatives of Matrix Powers," SIAM J. Matrix Anal. Applic. 17,
+640-648.
+D.S. Bernstein and C.F. Van Loan (2000). "Rational Matrix Functions and Rank-One Updates,"
+SIAM J. Matrix Anal. Applic. 22, 145-154.
+For a discussion of methods for computing the sine and cosine of a matrix, see:
+S. Serbin and S. Blalock (1979). "An Algorithm for Computing the Matrix Cosine,'' SIAM J. Sci.
+Stat. Comput. 1, 198-204.
+N.J. Higham and M.I. Smit (2003). "Computing the Matrix Cosine," Nu.mer. Algorithms 34, 13-26.
+G. Hargreaves and N.J. Higham (2005). "Efficient Algorithms for the Matrix Cosine and Sine,'' Nu.mer.
+Algorithms 40, 383-400.
+The computation of /(A) using contour integrals is analyzed in:
+N. Hale, N.J. Higham, and L.N. Trefethen (2007). "Computing Aa, log(A), and Related Matrix
+Functions by Contour Integrals," SIAM J. Nu.mer. Anal. 46, 2505-2523.
+530 Chapter 9. Functions of Matrices
+9.3 The Matrix Exponential
+One of the most frequently computed matrix functions is the exponential
+A t
+-
+� (At) k
+e
+-
+�
+k!
+.
+k=O
+Numerous algorithms for computing e At have been proposed, but most of them are of
+dubious numerical quality, as is pointed out in the survey articles by Moler and Van
+Loan (1978) and its update Moler and Van Loan (2003). In order to illustrate what the
+computational difficulties are, we present a "scaling and squaring" method based upon
+Pade approximation. A brief analysis of the method follows that involves some e
+At
+perturbation theory and includes comments about the shortcomings of eigenanalysis
+in settings where nonnormality prevails.
+9.3.1 A Pade Approximation Method
+Following the discussion in §9.2, if g ( z ) � e z , then g(A) � e A . A very useful class of
+approximants for this purpose are the Pade functions defined by
+where
+and
+Notice that
+p
+(p + q - k) !p!
+k
+N
+pq
+(z) = '"""'
+(
+z
+� (p+ q)!k! p - k)!
+k=O
+q
+(p+ q - k)!q!
+k
+D p q (z) = L (p + q)!k!(q - k)! (-z) .
+k=O
+R p
+o(z)
+= 1 + z + · · · + zP /p!
+is the order-p Taylor polynomial.
+Unfortunately, the Pade approximants are good only near the origin, as the fol­
+lowing identity reveals:
+(9.3.1)
+However, this problem can be overcome by exploiting the fact that
+e A =
+( e
+Af
+m ) m .
+In particular, we can scale A by m such that F
+pq
+= R
+pq
+(A/m) is a suitably accurate
+approximation to e
+Af
+m .
+We then compute F;; using Algorithm 9.2.2. If m is a power
+of two, then this amounts to repeated squaring and so is very efficient. The success of
+the overall procedure depends on the accuracy of the approximant
+9.3. The Matrix Exponential
+In Moler and Van Loan (1978) it is shown that, if
+II A lloo
+< �
+2 i
+-
+2'
+then there exists an E E IR n x n such that F pq =
+eA
++E
+, AE = EA, and
+where
+II E
+lloo ::; c:(p, q) ll A lloo ,
+P' '
+( ) - 2 3
+-(
+p+q )
+.q.
+c: p,q -
+(p+ q)!(p+q + l)!
+Using these results it is easy to establish the inequality
+II eA - F pq lloo
+< f(p q) ll
+A II
+ef(
+p , q
+)ll
+A
+lloo
+II
+eA
+lloo
+-
+, 00
+•
+531
+The parameters p and q can be determined according to some relative error tolerance.
+Since F pq requires about j + max{p, q} matrix multiplications, it makes sense to set p
+= q as this choice minimizes f(p, q) for a given amount of work. Overall we obtain
+Algorithm 9.3.1 (Scaling and Squaring) Given 8 > 0 and A E IR n x n , the following
+algorithm computes F =
+eA
++E
+where 11 E 1100 ::; 8 11 A
+lloo·
+j = max{ 0, 1 + floor ( log 2 (
+11
+A lloo
+)) }
+A = A/2 i
+Let q be the smallest nonnegative integer such that f(q, q) ::; 8
+D = I, N = I, X = I, c = 1
+for k = l:q
+c = c·(q - k+ l)/((2q - k + l)k)
+X = AX, N = N +c·X, D = D + (-l)kc·X
+end
+Solve D F = N for F using Gaussian elimination
+for k = l:j
+F = p 2
+end
+This algorithm requires about 2 ( q + j + 1 / 3 ) n 3 fiops. Its roundoff error properties of have
+been analyzed by Ward (1977). For further analysis and algorithmic improvements,
+see Higham (2005) and Al-Mohy and Higham (2009).
+The special Horner techniques of §9.2.4 can be applied to quicken the computation
+of D = D qq (A) and N = N qq (A). For example, if q = 8 we have N qq (A) = U + AV
+and D qq (A) = U - AV where
+U = col + c
+2A
+2 + (c 4 / + c6A 2 + csA 4 )A 4
+and
+V = c
+1J + c3A
+2 + (cs!+ c1A 2 )A4.
+Clearly, N and D can be computed with five matrix multiplications instead of seven
+as required by Algorithm 9.3.1.
+532 Chapter 9. Functions of Matrices
+9.3.2 Perturbation Theory
+Is Algorithm 9.3.1 stable in the presence of roundoff error? To answer this question
+we need to understand the sensitivity of the matrix exponential to perturbations in A.
+The rich structure of this particular matrix function enables us to say more about the
+condition of the e A problem than is typically the case for a general matrix function.
+(See §9.1.6.)
+The starting point in the discussion is the initial value problem
+X(t) = AX(t), X(O)
+= I,
+where A,X(t) E nr
+xn
+. This has the unique solution X(t) = e
+At
+, a characterization of
+the matrix exponential that can be used to establish the identity
+e<
+A+E)t _ e At = 1 t e A(t-s)
+Ee(A+E)s
+ds
+.
+From this it follows that
+<
+2
+II e A(t-s)
+II
+II
+e<
+A+E) s II
+ds
+II e<A+E)t
+- e
+At 112
+II E II 1 t
+II e
+At 112
+-
+II e
+At 112
+o
+2
+2 ·
+Further simplifications result if we bound the norms of the exponentials that appear in
+the integrand. One way of doing this is through the Schur decomposition. If QH AQ =
+diag(>.i) + N is the Schur decomposition of A E <C nxn , then it can be shown that
+where
+is the spectral abscissa and
+II e
+At 112
+$ e °'(A)t Ms
+(t)
+,
+a(A) = max {R e ( >. ) : >. E >. (A ) }
+M5(t)
+n-l
+II
+Nt 11 ;
+I: k!
+·
+k=O
+With a little manipulation it can be shown that
+(9.3.2)
+(9.3.3)
+Notice that M5(t) = 1 if and only if A is normal, suggesting that the matrix exponential
+problem is "well-behaved" if A is normal. This observation is confirmed by the behavior
+of the matrix exponential condition number v ( A, t), defined by
+v(A, t) = max
+II
+t e A(t-s)
+Ee
+As ds
+ll
+II �}b .
+IJ E IJ::;i l o
+2 II e
+112
+This quantity, discussed by Van Loan (1977), measures the sensitivity of the map
+A --+ e
+At
+in that for a given
+t,
+there is a matrix E for which
+II E
+112
+v ( A , t)
+lfAlG"
+.
+9.3. The Matrix Exponential
+"'
+350
+/
+\
+I \
+= :
+I
+\\
+� I
+rs: 200 /
+\
+� I \
+= 1 50 / \
+100 } \,
+\_
+50
+0
+0 2 4
+'-,
+. . .
+. . . . . .. ___ --
+6 8 1 0
+Figure 9.3.1. II eAt 11 2 can grow even if a(A) < 0
+533
+Thus, if v(A,
+t)
+is large, small changes in A can induce relatively large changes in eAt.
+Unfortunately, it is difficult to characterize precisely those A for which v(A,
+t)
+is large.
+(This is in contrast to the linear equation problem Ax = b, where the ill-conditioned
+A are neatly described in terms of SVD.) One thing we can say, however, is that
+v(A, t) ;: : tll A 112 , with equality holding for all nonnegative t if and only if the matrix
+A is normal.
+9.3.3 Pseudospectra
+Dwelling a little more on the effect of nonnormality, we know from the analysis of §9.2
+that approximating
+eAt
+involves more than just approximating
+ezt
+on A(A). Another
+clue that eigenvalues do not "tell the whole story" in the eAt problem has to do with
+the inability of the spectral abscissa (9.3.3) to predict the size of II eAt 112 as a function
+of time. If A is normal, then
+(9.3.4)
+Thus, there is uniform decay if the eigenvalues of A are in the open left half plane. But
+if A is non-normal, then
+eAt
+can grow before decay sets in. The 2-by-2 example
+[ -1
+A =
+0
+plainly illustrates this point in Figure 9.3.1.
+At
+- t [
+1 1000 · t l
+e = e
+0 1
+(9.3.5)
+Pseudospectra can be used to shed light on the transient growth of
+II
+eAt
+II·
+For
+example, it can be shown that for every f
+> 0,
+sup
+II
+eAt
+11 2
+>
+a E (A)
+t>O
+f
+(9.3.6)
+534 Chapter 9. Functions of Matrices
+where aE(A) is the e-pseudospectral abscissa introduced in (7.8.8):
+aE(A) = sup Re(z).
+zEA,( A )
+For the 2-by-2 matrix in (9.3.5), it can be shown that a.o1(A)/.01 � 216, a value that
+is consistent with the growth curve in Figure 9.3.1. See Trefethen and Embree ( SAP,
+Chap. 15) for more pseudospectral insights into the behavior of
+II
+e A t
+112•
+9.3.4 Some Stability Issues
+With this discussion we are ready to begin thinking about the stability of Algorithm
+9.3.1. A potential difficulty arises during the squaring process if A is a matrix whose
+exponential grows before it decays. If
+G R (�) ,. ., e A / 2i -
+qq
+2 i
+,. .,
+'
+then it can be shown that rounding errors of order
+can be expected to contaminate the computed G 2
+;.
+If II e A t 112 has a substantial initial
+growth, then it may be the case that
+thus ruling out the possibility of small relative errors.
+If A is normal, then so is the matrix G and therefore
+II c
+m
+112
+=
+II
+G
+11;1
+for all
+positive integers m. Thus, "( � uil G 2 ;
+112 � ull
+e A 112 and so the initial growth problems
+disappear. The algorithm can essentially be guaranteed to produce small relative error
+when A is normal. On the other hand, it is more difficult to draw conclusions about the
+method when A is nonnormal because the connection between v(A, t) and the initial
+growth phenomena is unclear. However, numerical experiments suggest that Algorithm
+9.3.1 fails to produce a relatively accurate e A only when v(A, 1) is correspondingly large.
+Problems
+P9.3.1 Show that e<A+B)t = eAteBt for all t if and only if AB = BA. Hint: Express both sides as a
+power series in t and compare the coefficient of t.
+P9.3.2 Suppose that A is skew-symmetric. Show that both eA and the (1,1} Pade approximatant
+Ru (A) are orthogonal. Are there any other values of p and q for which Rp9(A) is orthogonal?
+P9.3.3 Show that if A is nonsingular, then there exists a matrix X such that A = ex. Is X unique?
+P9.3.4 Show that if
+then
+n n
+F[iFi2
+= 1z eA T tpeAtdt.
+P9.3.5 Give an algorithm for computing eA when A = uv T , u, v E R n .
+9.3. The Matrix Exponential 535
+P9.3.6 Suppose A E R n x n and that v E R n has unit 2-norm. Define the function ¢(t) = II eAt v
+11;;
+2
+and show that
+.f, (t) ::; µ(A)¢(t)
+where µ(A) = ..\ 1 ((A + A T )/2). Conclude that
+where t � 0.
+II eAt 112 ::;
+eµ(
+A ) t
+P9.3.7 Suppose A E R n x n has the property that its off-diagonal entries are negative and its column
+sums are zero. Show that for all t, F = exp ( At) has nonnegative entries and unit column sums.
+Notes and References for §9.3
+Much of what appears in this section and an extensive bibliography may be found in the following
+survey articles:
+C.B. Moler and C.F. Van Loan ( 1978 ) . "Nineteen Dubious Ways to Compute the Exponential of a
+Matrix," SIAM Review 20, 801-836.
+C.B. Moler and C.F.Van Loan ( 2003 ) . "Nineteen Dubious Ways to Compute the Exponential of a
+Matrix, Twenty-Five Years Later," SIAM Review 45, 3-49.
+Scaling and squaring with Pade approximants ( Algorithm 9.3.1 ) and a careful implementation of the
+Schur decomposition method ( Algorithm 9.1.1 ) were found to be among the less dubious of the nineteen
+methods scrutinized. Various aspects of Pade approximation of the matrix exponential are discussed
+in:
+W. Fair and Y. Luke ( 1970 ) . "Pade Approximations to the Operator Exponential," Numer. Math.
+14, 379-382.
+C.F. Van Loan ( 1977 ) . "On the Limitation and Application of Pade Approximation to the Matrix
+Exponential," in Pade and Rational Approximation, E.B. Saff and R.S. Varga ( eds. ) , Academic
+Press, New York.
+R.C. Ward ( 1977 ) . "Numerical Computation of the Matrix Exponential with Accuracy Estimate,"
+SIAM J. Numer. Anal. 14, 600-614.
+A. Wragg ( 1973 ) . "Computation of the Exponential of a Matrix I: Theoretical Considerations," J.
+Inst. Math. Applic. 11, 369-375.
+A. Wragg ( 1975 ) . "Computation of the Exponential of a Matrix II: Practical Considerations," J.
+Inst. Math. Applic. 15, 273-278.
+L. Dieci and A. Papini ( 2000 ) . "Pade Approximation for the Exponential of a Block Triangular
+Matrix," Lin. Alg. Applic. 308, 183-202.
+M. Arioli, B. Codenotti and C. Fassino ( 1996 ) . "The Pade Method for Computing the Matrix Expo­
+nential," Lin. Alg. Applic. 240, 111-130.
+N.J. Higham ( 2005 ) . "The Scaling and Squaring Method for the Matrix Exponential Revisited," SIAM
+J. Matrix Anal. Applic. 26, 1179-1193.
+A.H. Al-Mohy and N.J. Higham ( 2009 ) . "A New Scaling and Squaring Algorithm for the Matrix
+Exponential," SIAM J. Matrix Anal. Applic. 31, 970-989.
+A proof of Equation ( 9.3.1 ) for the scalar case appears in:
+R.S. Varga ( 1961 ) . "On Higher-Order Stable Implicit Methods for Solving Parabolic Partial Differen-
+tial Equations," J. Math. Phys. 40, 220-231.
+There are many applications in control theory calling for the computation of the matrix exponential.
+In the linear optimal regular problem, for example, various integrals involving the matrix exponential
+are required, see:
+J. Johnson and C.L. Phillips ( 1971 ) . "An Algorithm for the Computation of the Integral of the State
+Transition Matrix," IEEE Trans. Autom. Control AC-16, 204-205.
+C.F. Van Loan ( 1978 ) . "Computing Integrals Involving the Matrix Exponential," IEEE Trans. Autom.
+Control AC-23, 395-404.
+An understanding of the map A -+ exp(At) and its sensitivity is helpful when assessing the performance
+of algorithms for computing the matrix exponential. Work in this direction includes:
+536 Chapter 9. Functions of Matrices
+B. Kagstrom ( 1977 ) . "Bounds and Perturbation Bounds for the Matrix Exponential," BIT 17, 39-57.
+C.F. Van Loan ( 1977 ) . "The Sensitivity of the Matrix Exponential," SIAM J. Numer. Anal. 14,
+971-981.
+R. Mathias ( 1992 ) . "Evaluating the Frechet Derivative of the Matrix Exponential," Numer. Math.
+63, 213-226.
+I. Najfeld and T.F. Havel ( 1995 ) . "Derivatives of the Matrix Exponential and Their Computation,"
+Adv. Appl. Math. 16, 321-375.
+A.H. Al-Mohy and N.J. Higham ( 2009 ) . "Computing the Frechet Derivative of the Matrix Exponential,
+with an Application to Condition Number Estimation,'' SIAM J. Matrix Anal. Applic. 30, 1639-
+1657.
+A software package for computing small dense and large sparse matrix exponentials in Fortran and
+MATLAB is presented in the following reference:
+R.B. Sidje ( 1998 ) "Expokit: a Software Package for Computing Matrix Exponentials," ACM Trans.
+Math. Softw. 24, 130-156.
+Consideration of P9.3.2 and P9.3.5 shows that the exponential of a structured matrix can have im­
+portant properties, see:
+J. Xue and Q. Ye ( 2008 ) . "Entrywise Relative Perturbation Bounds for Exponentials of Essentially
+Non-negative Matrices," Numer. Math. 110, 393-403.
+J. Cardoso and F.S. Leite ( 2010 ) . "Exponentials of Skew-Symmetric Matrices and Logarithms of
+Orthogonal Matrices," J. Comput. Appl. Math. 233, 2867-2875.
+9.4 The Sign, Square Root, and Log of a Matrix
+The matrix logarithm problem is the inverse of the matrix exponential problem. Not
+surprisingly, there is an inverse of the scaling and squaring procedure given in §9.3.1
+that involves repeated matrix square roots. Thus, before we can discuss log(A) we
+need to understand the JA problem. This in turn has connections to the matrix sign
+function and the polar decomposition.
+9.4.1 The Matrix Sign Function
+For all z E <C that are not on the imaginary axis, we define the sign(·) function by
+{ -1
+sign(z) =
++1
+if R e (z) < 0,
+if R e (z ) > 0.
+The sign of a matrix has a particularly simple form Suppose A E <C n x n has no pure
+imaginary eigenvalues and that the blocks in its JCF A = X J x - 1 arc ordered so that
+where the eigenvalues of J 1 E <C m 1 x m i lie in the open left half plane and the eigenvalues
+of J 2 E <C
+m2
+x
+m2
+lie in the open right half plane. Noting that all the derivatives of the
+sign function are zero, it follows from Theorem 9.1.1 that
+.
+(A) X [
+sign(
+Ji)
+sign =
+0
+] x - 1 x [
+0
+] x - 1 .
+0
+9.4. The Sign, Square Root, and Log of a Matrix 537
+With the partitionings
+we have
+and so
+X 2 Y t =
+�Un
++ sign(A)) .
+Suppose apply QR-with-column pivoting to this rank-m 2 matrix:
+� (!11 + sign(A)) TI = QR.
+It follows that ran(Q(:, l:m 2 )) = ran(X 2 ), the invariant subspace associated with A's
+right half-plane eigenvalues. Thus, an approximation of sign(A) yields approximate
+invariant subspace information.
+A number of iterative methods for computing sign(A) have been proposed. The
+fact that sign(z) is a zero of g(z) = z 2 - 1 suggests a matrix analogue of the Newton
+iteration
+i.e.,
+S
+0 = A
+for k = 0, 1, . . .
+Sk+1 = ( Sk + SJ; 1 ) /2
+end
+(9.4.1)
+We proceed to show that this iteration is well-defined and converges to sign(A), as­
+suming that A has no eigenvalues on the imaginary axis.
+Note that if a + bi is an eigenvalue of Sk, then
+1 (
+. 1 ) a ( 1 ) b ( 1 )·
+2
+a +
+bi
++ a + bi
+= 2
+1 + a 2 + b 2 +
+2
+1 -
+a 2 + b 2
+i
+is an eigenvalue of Sk+l·
+Thus, if Sk is nonsingular, then Sk+I is nonsingular. It
+follows by induction that (9.4.1) is defined. Moreover, sign(Sk) = sign(A) because an
+eigenvalue cannot "jump" across the imaginary axis during the iteration.
+To prove that sk converges to s = sign(A), WC first observe that ssk = sks
+since both matrices are rational functions of A. Using this commutivity result and the
+identity S 2 = s, it is easy to show that
+Sk+I - S = � SJ; 1 (Sk - S) 2 (9.4.2)
+and
+s k+l + s � SJ; 1 (Sk + S) 2 .
+2
+(9.4.3)
+538 Chapter 9. Functions of Matrices
+If M is a matrix and sign(M) is defined, then M + sign(M) is nonsingular because its
+eigenvalues have the form A + sign(A) which are clearly nonzero. Thus, the matrix
+is nonsingular. By manipulating equations (9.4.2) and (9.4.3) we conclude that if
+then
+Gk+i
+=
+G�.
+It follows by induction that Gk = ct. If A E A (A) , then
+A - sign(A)
+µ =
+A + sign( A)
+(9.4.4 )
+is an eigenvalue of Go = (A -S)(A + S)-1. Since lµI < 1 it follows from Lemma 7.3.2
+that Gk --+ 0 and so
+Sk = S(I + Gk)(I -Gk)-1 --+ S.
+Taking norms in ( 9.4.2 ) we conclude that the rate of convergence is quadratic:
+The overall efficiency of the method in practice is a concern since 0( n3 ) flops per
+iteration are required. To address this issue several enhancements of the basic iteration
+( 9.4.1 ) have been proposed. One idea is to incorporate the Newton approximation
+(See P9.4.1.) Using this estimate instead of the actual inverse in ( 9.4.1 ) gives update
+step
+( 9.4.5 )
+This is referred to as the Newton-Schultz iteration. Another idea is to introduce a scale
+factor:
+( 9.4.6 )
+Interesting choices for µ k include ldet(Sk)l1/n, Jp(Sf;1)/p(Sk), and
+VII s;
+1
+1111
+sk II
+where p( · ) is the spectral radius. For insights into the effective computation of the
+matrix sign function and related stability issues, see Kenney and Laub (1991, 1992 ) ,
+Higham (2007), and Higham (FOM, Chap. 5).
+9.4.2 The Matrix Square Root
+Ambiguity arises in the J(A) problem if the underlying function has branches. For
+example, if f(x) = ./X and
+A =
+[ 4 10 ]
+0 9
+,
+9.4. The Sign, Square Root, and Log of a Matrix 539
+then
+which shows that there are at least four legitimate choices for VA. To clarify the
+situation we say F is the principal square root of A if (a) F 2 = A and (b) the eigenvalues
+of F have positive real part. We designate this matrix by A
+1
+12
+.
+Analogous to the Newton iteration for scalar square roots, Xk+l = (xk+a/xk)/2,
+we have
+Xo = A
+for k = 0, 1, . . .
+xk+i =
+(xk+x; 1 A)/2
+end
+(9.4.7)
+Notice the similarity between this iteration and the Newton sign iteration (9.4.1).
+Indeed, by making the substitution Xk = A 1
+12
+Sk in (9.4.7) we obtain the Newton sign
+iteration for A 1
+12
+•
+Global convergence and local quadratic convergence follow from
+what we know about (9.4.1).
+Another connection between the matrix sign problem and the matrix square root
+problem is revealed by applying the Newton sign iteration to the matrix
+Designate the iterates by
+Sk.
+We show by induction that
+Sk
+has the form
+This is true for k = 0 by setting Xo = A and Yo = I. To see that the result holds for
+k > 0, observe that
+and thus
+xk+i
+=
+(xk + yk
+-1
+) /2,
+Another induction argument shows that
+and so
+(9.4.8)
+k = 0, 1, . . . , (9.4.9)
+(9.4.10)
+540 Chapter 9. Functions of Matrices
+It follows that Xk --+ A 1 1 2 and Yk
+--+ A -1 / 2 and we have established the following
+identity:
+([O A ]) [ O
+Ai/2
+]
+sign
+I 0
+=
+A
+-1
+/ 2 0
+.
+Equation (9.4.8) defines the Denman-Beavers iteration which turns out to have better
+numerical properties than (9.4.7). See Meini (2004), Higham (FOM, Chap. 6), and
+Higham (2008) for an analysis of these and other matrix square root algorithms.
+9.4.3 The Polar Decomposition
+If z
+= a +
+bi E <C is a nonzero complex number, then its polar representation is a
+factorization of the form z = e i 9 r where r = ../
+a2
++
+b2
+and e i 9 = cos( 8) + i sin( 8) is
+defined by (cos(8), sin(8)) = ( a / r
+, b
+/ r ) . The polar decomposition of a matrix is similar.
+Theorem 9.4.1 (Polar Decomposition). If A E R m x n and m � n, then there exists
+a matrix U E R m x n with orthonormal columns and a symmetric positive semidefinite
+P E R n x n so that A = UP.
+Proof. Suppose ur AVA = EA is the thin SVD of A. It is easy to show that if
+U = U A V ] and P = VAEAVJ, then A = UP and U and P have the required
+properties. D
+·
+We refer to U as the orthogonal polar factor and P as the symmetric polar factor.
+Note that P = (AT A) 1 1 2 and if rank(A) = n, then U = A(AT A) - 11 2 • An impor­
+tant application of the polar decomposition is the orthogonal Procrustes problem (see
+§6.4.1).
+Various iterative methods for computing the orthogonal polar factor have been
+proposed. A quadratically convergent Newton iteration for the square nonsingular case
+proceeds by repeatedly averaging the current iterate with the inverse of its transpose:
+Xo = A (Assume A E lR' i x n is nonsingular)
+for k = 0, 1, . . .
+xk+i =
+(xk
++ x;; r ) ;2
+end
+(9.4.11)
+To show that this iteration is well defined we assume that for some k the matrix Xk is
+nonsingular and that Xk = UkPk is its polar decomposition. It follows that
+(9.4.12)
+Since the average of a positive definite matrix and its inverse is also positive definite it
+follows that Xk+l is nonsingular. This shows by induction that (9.4.11) is well-defined
+and that the Pk satisfy
+Po = P.
+9.4. The Sign, Square Root, and Log of a Matrix 541
+This is precisely the Newton sign iteration (9.4.1) with starting matrix Po = P. Since
+and Pk --+ sign(P) = I quadratically, we conclude that Xk matrices in (9.4.11) converge
+to U quadratically.
+Extensions to the rectangular case and various ways to accelerate (9.4.11) are
+discussed in Higham (1986), Higham and Schreiber (1990), Gander (1990), and Kenney
+and Laub (1992). In this regard the matrix sign function is (once again) a handy tool
+for deriving algorithms. Note that if A = UAL.AV} is the SVD of A E JR. n x n and
+then Q is orthogonal and
+It follows that
+where U = U A VJ is the orthogonal polar factor of A.
+There is a well-developed perturbation theory for the polar decomposition. A
+sample result for square nonsingular matrices due to Li and Sun (2003) says that the
+orthogonal polar factors U and [J for nonsingular A, A E JR. n x n satisfy the bound
+9.4.4 The Matrix Logarithm
+Given A E JR. n x n , a solution to the matrix equation ex = A is a logarithm of A. Note
+that if X = log(A), then X + 2k7ri is also a logarithm. To remove this ambiguity we
+define the principal logarithm as follows. If the real eigenvalues of A E JR. n x n are all
+positive then there is a unique real matrix X that satisfies ex = A with the property
+that its eigenvalues satisfy .X(X) C { z E <C : - rr < lm(z) < rr }.
+Of course, the eigenvalue-based methods of §9.2 are applicable for the log(A)
+problem. We discuss an approximation method that is analogous to Algorithm 9.3.1,
+the scaling and squaring method for the matrix exponential
+As with the exponential, there are a number of different series expansions for
+the log function that are of computational interest. The simplest is the Maclaurin
+expansion:
+log(A) � Mq(A) = I )-l)
+k+l
+(A � J) k
+k=l
+542 Chapter 9. Functions of Matrices
+To apply this formula we must have p (A - I) < 1 where p(·) is the spectral radius.
+The Gregory series expansion for log(x) yields a rational approximation:
+log( A) � Gq(A) = -2 � _
+k
+l
+( (I - A)(I + A) - 1 ) 2k+i
+.
+� 2 + l
+For this to converge, the real parts of A's eigenvalues must be positive.
+Diagonal Pade approximants are also of interest. For example, the (3,3) Pade
+approximant is given by
+where
+log( A) � r33(A) = D(A) - 1 N(A)
+D(A) = 60! + 90(A - I) + 36(A - I) 2 + 3(A - I) 3 ,
+N(A) = 60(A - I) + 60(A - I) 2 + ll(A - J) 3 .
+For an approximation of this type to be effective, the matrix A must be sufficiently
+close to the identity matrix. Repeated square roots are one way to achieve this:
+k = O
+Ao = A
+while
+11
+A - I II > tol
+k = k + l
+Ak = A !�
+2 1
+end
+The Denman-Beavers iteration (9.4.8) can be invoked to compute the matrix square
+roots. If we next compute F � log(Ak) by using (say) an appropriately chosen Pade
+approximant, then log( A) = 2 k log(Ak) � 2 k F. This solution framework is referred
+to as inverse scaling and squaring. There are many details associated with the proper
+implementation of this procedure and we refer the reader to Cheng, Higham. Kenney,
+and Laub (2001), Higham (2001), and Higham (FOM, Chap. 11).
+Problems
+P9.4.l What does the Newton iteration look like when it is applied to find a root of the function
+f(x) = 1/x - a? Develop an inverse-free Newton iteration for solving the matrix equation x -1 - A.
+P9.4.2 Show that if µk > 0 in (9.4.6), then sign(Sk+l) = sign(Sk)·
+P9.4.3 Show that sign(A) = A(A 2 ) -1 f 2 .
+P9.4.4 Verify Equation (9.4.9).
+P9.4.5 In the Denman-Beavers iteration (9.4.8), define Mk = XkYk and develop a recipe for Mk+l·
+P9.4.6 Show that if we apply the Newton square root iteration (9.4.9) to a symmetric positive definite
+matrix A, then A k
+- Ak+l
+is positive definite for all k.
+P9.4.7 Suppose A is normal. Relate the polar factors of eA to S = (A - AT)/2 and T = (A+ A T
+)/2
+.
+P9.4.8 Show that the polar decomposition of a nonsingular matrix is unique. Hint: If A = U 1
+P1
+and A = U2P 2 are two polar decompositions, then UJU 1
+= P2P 1 -1 and U'[U2 = P 1 P 2 -1 have the same
+eigenvalues.
+9.4. The Sign, Square Root, and Log of a Matrix 543
+P9.4.9 Give a closed-form expression for the polar decomposition A = UP of a real 2 -by- 2 matrix.
+Under what conditions is U a rotation?
+P9.4.10 Give a closed-form expression for log(Q) where Q is a 2-by-2 rotation matrix.
+P9.4.ll Formulate an m < n version of the polax decomposition for A E E" xn .
+P9.4.12 Let A by an n-by-n symmetric positive definite matrix. (a) Show that there exists a unique
+symmetric positive definite X such that A = X 2 • (b) Show that if Xo = I and
+xk+1 = (Xk + Ax; 1 )/2
+then xk � VA quadratically where VA denotes the matrix x in part (a).
+P9.4.13 Show that
+X ( t ) = C1 cos(t VA ) + C2V A - 1 sin(t VA )
+solves the initial value problem X (t) = -AX(t), X(O) = Ci, X(O) = C2. Assume that A is symmetric
+positive definite.
+Notes and References for §9.4
+Everything in this section is covered in greater depth in Higham (FOM). See also:
+N.J. Higham (2005). "Functions of Matrices," in Handbook of Linear Algebra, L. Hogben (ed.),
+Chapman and Hall, Boca Raton, FL, §11-1-§11-13.
+Papers that discuss the ubiquitous matrix sign function and its applications include:
+R. Byers (1987). "Solving the Algebraic Riccati Equation with the Matrix Sign Function," Linear
+Alg. Applic. 85, 267-279.
+C.S. Kenney and A.J. Laub (1991). "Rational Iterative Methods for the Matrix Sign Function," SIAM
+J. Matrix Anal. Appl. 12, 273-291.
+C.S. Kenney, A.J. Laub, and P.M. Papadopouos (1992). "Matrix Sign Algorithms for Riccati Equa­
+tions," IMA J. Math. Control Info. 9, 331-344.
+C.S. Kenney and A.J. Laub (1992). "On Scaling Newton's Method for Polar Decomposition and the
+Matrix Sign Function," SIAM J. Matrix Anal. Applic. 13, 688-706.
+R. Byers, C. He, and V. Mehrmann (1997). "The Matrix Sign Function Method and the Computation
+of Invariant Subspaces," SIAM J. Matrix Anal. Applic. 18, 615-632.
+Z. Bai and J.W. Demmel (1998). "Using the Matrix Sign Function to Compute InV8l'iant Subspaces,"
+SIAM J. Matrix Anal. Applic. 19, 2205-2225.
+N.J. Higham (1994). "The Matrix Sign Decomposition and Its Relation to the Polax Decomposition,"
+Lin. Alg. Applic. 212/213, 3-20.
+N.J. Higham, D.S. Mackey, N. Mackey, and F. Tisseur (2004). "Computing the Polax Decomposition
+and the Matrix Sign Decomposition in Matrix Groups," SIAM J. Matrix Anal. Applic. 25, 1178-
+1192.
+Vaxious aspects of the matrix squaxe root problem are discussed in:
+E.D. Denman and A.N. Beavers (1976). "The Matrix Sign Function and Computations in Systems,"
+Appl. Math. Comput., 2, 63-94.
+A. Bjorck and S. Hammaxling (1983). "A Schur Method for the Square Root of a Matrix," Lin. Alg.
+Applic. 52/53, 127-140.
+N.J. Higham (1986). "Newton's Method for the Matrix Squaxe Root," Math. Comput. 46, 537-550.
+N.J. Higham (1987). "Computing Real Square Roots of a Real Matrix," Lin. Alg. Applic. 88/89,
+405-430.
+N.J. Higham (1997). "Stable Iterations for the Matrix Square Root," Numer. Algorithms 15, 227-242.
+Y.Y. Lu (1998). "A Pade Approximation Method for Square Roots of Symmetric Positive Definite
+Matrices," SIAM J. Matrix Anal. Applic. 19, 833-845.
+N.J. Higham, D.S. Mackey, N. Mackey, and F. Tisseur (2005). "Functions Preserving Matrix Groups
+and Iterations for the Matrix Squaxe Root," SIAM J. Matrix Anal. Applic. 26, 849-877.
+C.-H. Guo and N. J. Higham (2006). "A Schur-Newton Method for the Matrix pth Root and its
+Inverse," SIAM J. Matrix Anal. Applic. 28, 788-804.
+B. Meini (2004). "The Matrix Square Root from a New Functional Perspective: Theoretical Results
+and Computational Issues," SIAM J. Matrix Anal. Applic. 26, 362-376.
+544 Chapter 9. Functions of Matrices
+A. Frommer and B. Hashemi { 2009 ) . "Verified Computation of Square Roots of a Matrix," SIAM J.
+Matrix Anal. Applic. 31, 1279-1302.
+Computational aspects of the polar decomposition and its generalizations are covered in:
+N.J. Higham { 1986 ) . "Computing the Polar Decomposition with Applications," SIAM J. Sci. Statist.
+Comp. 7, 1160-1174.
+R.S. Schreiber and B.N. Parlett { 1988 ) . "Block Reflectors: Theory and Computation," SIAM J.
+Numer. Anal. 25, 189-205.
+N.J. Higham and R.S. Schreiber { 1990 ) . "Fast Polar Decomposition of an Arbitrary Matrix," SIAM
+J. Sci. Statist. Comput. 11, 648-655.
+N.J. Higham and P. Papadimitriou { 1994 ) . "A Parallel Algorithm for Computing the Polar Decom­
+position," Parallel Comput. 20, 1161-1173.
+A.A. Duhrulle { 1999 ) . "An Optimum Iteration for the Matrix Polar Decomposition," ETNA 8, 21-·25.
+A. Zanna and H. Z. Munthe-Kaas { 2002 ) . "Generalized Polar Decompositions for the Approximation
+of the Matrix Exponential," SIAM J. Matrix Anal. Applic. 23, 840-862.
+B. Laszkiewicz and K. Zietak { 2006 ) . "Approximation of Matrices and a Family of Gander Methods
+for Polar Decomposition," BIT 46, 345 366.
+R. Byers and H. Xu ( 2008 ) . "A New Scaling for Newton's Iteration for the Polar Decomposition and
+Its Backward Stability," SIAM J. Matrix Anal. Applic. 30, 822-843.
+N.J. Higham, C. Mehl, and F. Tisseur { 2010 ) . "The Canonical Generalized Polar Decomposition,"
+SIAM J. Matrix Anal. Applic. 31, 2163-2180.
+For an analysis as to whether or not the polar decomposition can be computed in a finite number of
+steps, see:
+A. George and Kh. Ikramov { 1996 ) . "Is The Polar Decomposition Finitely Computable?," SIAM J.
+Matrix Anal. Applic. 17, 348-354.
+A. George and Kh. Ikramov { 1997 ) . "Addendum: Is The Polar Decomposition Finitely Computable?,"
+SIAM J. Matrix Anal. Appl. 18, 264 264.
+There is a considerable literature concerned with how the polar factors change under perturbation:
+R. Mathias { 1993 ) . "Perturbation Bounds for the Polar Decomposition," SIAM J. Matrix Anal.
+Applic. 14, 588-597.
+R.-C. Li { 1997 ) . "Relative Perturbation Bounds for the Unitary Polar Factor," BIT 37, 67-75.
+F. Chaitin-Chatelin, S. Gratton { 2000 ) . "On the Condition Numbers Associated with the Polar
+Factorization of a Matrix," Numer. Lin. Alg. 7, 337-·354.
+W. Li and W. Sun ( 2003 ) . "New Perturbation Bounds for Unitary Polar Factors," SIAM J. Matrix
+Anal. Applic. 25, 362-372.
+Finally, details concerning the matrix logarithm and its computation may be found in:
+B.W. Helton { 1968 ) . "Logarithms of Matrices," Proc. AMS 19, 733-736.
+L. Died { 1996 ) . "Considerations on Computing Real Logarithms of Matrices, Hamiltonian Logarithms,
+and Skew-Symmetric Logarithms," Lin. Alg. Applic. 244, 35-54.
+L. Died, B. Morini, and A. Papini { 1996 ) . "Computational Techniques for Real Logarithms of Matri­
+ces," SIAM J. Matrix Anal. Applic. 17, 570-593.
+C. S. Kenney and A. J. Laub { 1998 ) . "A Schur-Frechet Algorithm for Computing the Logarithm and
+Exponential of a Matrix," SIAM J. Matrix Anal. Applic. 19, 640-663.
+L. Died { 1998 ) . "Real Hamiltonian Logarithm of a Symplectic Matrix," Lin. Alg. Applic. 281,
+227-246.
+L. Dieci and A. Papini { 2000 ) . "Conditioning and Pade Approximation of the Logarithm of a Matrix,"
+SIAM J. Matrix Anal. Applic. 21, 913-930.
+N.J. Higham { 2001 ) . "Evaluating Pade Approximants of the Matrix Logarithm," SIAM J. Matrix
+Anal. Applic. 22, 1126-1135.
+S.H. Cheng, N.J. Higham, C.S. Kenney, and A.J. Laub { 2001 ) . "Approximating the Logarithm of a
+Matrix to Specified Accuracy," SIAM J. Matrix Anal. Applic. 22, 1112-1125.

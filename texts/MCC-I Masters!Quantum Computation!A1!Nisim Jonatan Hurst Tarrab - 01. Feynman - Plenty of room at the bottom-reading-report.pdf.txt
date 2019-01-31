@@ -1,0 +1,21 @@
+Plenty of Room at the Bottom
+Reading Report Nisim Hurst A01012491 Friday 10 August 2018
+Abstract The lecture given by physicist Richard Feynman [1] renewed interest on physics at small scale by showing a set of enticing practical benefits that a new technology would allow, later known as nanotechnology. The lecture was given at Caltech on 1959 [2] and latter transcribed.
+Hypothesis and evidence
+The author states that by having the capacity to observe and manipulate the nano-world, humanity would gain a whole new range of enabling technologies e.g.:
+· More powerful microscopes · Information storage · Small scale machines · Specialized circuits · New materials Evidence is solely built upon the author's knowledge about physics, namely quantum mechanics. The author take us by the hand through a set of techniques he thinks would be helpful, without obviating the challenges researchers might face.
+Contribution
+This lecture was one of the first to introduce the importance of nanotechnology and the challenges engineers would face. Those challenges include dealing with:
+· Retrieving information · Shape deformities · Tools and factories · Viscosity and Van der Waals force · Quantum electrical phenomena, i.e. resistance, induction, frequency Even though the author gives a lengthy review of possible manipulations and their benefits from the side view of a physicist, he introduces the matter by describing a difficult but of cardinal importance problem: making better microscopes. Retrieving information of what happens in the nano-world has intrinsic value, not only for understanding nature in other science fields, but also for controlling manipulations at that scale.
+Limitations and weaknesses
+No empirical evidence is provided to justify availability of those techniques at that application area. Furthermore, the purported benefits are only stated not proven, and even achievable by other cheaper means. However, many of those techniques like gold evaporation were already being used for similar applications and electronic microscope observation. Also, it does constitutes a great though experiment that can lead insights on a utterly new field.
+1
+
+Controversial ideas
+The idea that by having all human kind information in a hard-to-read card would be more secure is controversial and poorly explained. From my perspective, information is more secure in a net of independent nodes on the internet, a technology probably Feynman couldn't foresee at that time.
+Future work
+The author states that new generations should be encouraged to explore this new field and set of techniques. Thus, we will be able to pass the point at which is economically feasible for large scale production.
+References
+[1] R. P. Feynman, "There's plenty of room at the bottom: An invitation to enter a new field of physics," in Handbook of nanoscience, engineering, and technology, third edition, CRC Press, 2012, pp. 26­35. [2] "`There's Plenty of Room at the Bottom' (Richard Feynman, Pasadena, 29 December 1959) -- Metamodern.".
+2
+

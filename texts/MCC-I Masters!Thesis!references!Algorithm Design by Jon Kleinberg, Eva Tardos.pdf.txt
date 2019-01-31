@@ -1,0 +1,5 @@
+We now turn to a more powerful and subtle design technique, dynamic
+programming. It will be easier to say exactly what characterizes dynamic programming after we’ve seen it in action, but the basic idea is drawn from the
+intuition behind divide and conquer and is essentially the opposite of the
+greedy strategy: one implicitly explores the space of all possible solutions, by
+carefully decomposing things into a series of subproblems, and then building up correct solutions to larger and larger subproblems.

@@ -1,0 +1,49 @@
+Página No: 1/1
+
+PACIENTE:
+
+Hurst Tarrab Nisim Jonatan
+SEXO: M
+EDAD: 31 AÑOS
+CAMPAÑAS BIOMEDICA EN CENTRO DE TOMA
+Centro de Toma: Tecamachalco
+
+REGISTRO:
+Dr.(a):
+Victor Gomez
+Código:
+11/526093
+
+EXAMEN
+
+Fecha Toma de Muestra:
+
+RESULTADO
+
+UNIDADES
+
+28/03/2018
+
+VALOR DE REFERENCIA
+
+Endomisiales IgG-IgA, Suero
+Método Inmunofluorescencia Indirecta
+
+Endomisiales IgG
+
+Negativo
+
+Negativo
+
+Endomisiales IgA
+
+Positivo
+
+Negativo
+
+*** Incompleto ***
+
+AVISO DE PRIVACIDAD DE DATOS: En Biomédica de Referencia estamos comprometidos en mantener la confidencialidad de los datos de los usuarios,
+en cumplimiento de la "Ley federal de protección de datos personales en posesión de los particulares.
+Dudas,comentarios o sugerencias, voz_del_cliente@bioderef.com
+

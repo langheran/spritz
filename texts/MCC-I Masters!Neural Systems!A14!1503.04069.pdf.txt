@@ -1,0 +1,1492 @@
+TRANSACTIONS ON NEURAL NETWORKS AND LEARNING SYSTEMS 1
+LSTM: A Search Space Odyssey
+Klaus Greff, Rupesh K. Srivastava, Jan Koutn´ik, Bas R. Steunebrink, Jurgen Schmidhuber ¨
+Abstract—Several variants of the Long Short-Term Memory
+(LSTM) architecture for recurrent neural networks have been
+proposed since its inception in 1995. In recent years, these
+networks have become the state-of-the-art models for a variety
+of machine learning problems. This has led to a renewed interest
+in understanding the role and utility of various computational
+components of typical LSTM variants. In this paper, we present
+the first large-scale analysis of eight LSTM variants on three
+representative tasks: speech recognition, handwriting recognition,
+and polyphonic music modeling. The hyperparameters of all
+LSTM variants for each task were optimized separately using
+random search, and their importance was assessed using the
+powerful fANOVA framework. In total, we summarize the results
+of 5400 experimental runs (˜ 15 years of CPU time), which
+makes our study the largest of its kind on LSTM networks.
+Our results show that none of the variants can improve upon
+the standard LSTM architecture significantly, and demonstrate
+the forget gate and the output activation function to be its
+most critical components. We further observe that the studied
+hyperparameters are virtually independent and derive guidelines
+for their efficient adjustment.
+Index Terms—Recurrent neural networks, Long Short-Term
+Memory, LSTM, sequence learning, random search, fANOVA.
+I. INTRODUCTION
+Recurrent neural networks with Long Short-Term Memory
+(which we will concisely refer to as LSTMs) have emerged as
+an effective and scalable model for several learning problems
+related to sequential data. Earlier methods for attacking these
+problems have either been tailored towards a specific problem
+or did not scale to long time dependencies. LSTMs on the
+other hand are both general and effective at capturing longterm temporal dependencies. They do not suffer from the
+optimization hurdles that plague simple recurrent networks
+(SRNs) [1, 2] and have been used to advance the state-ofthe-art for many difficult problems. This includes handwriting
+recognition [3–5] and generation [6], language modeling [7]
+and translation [8], acoustic modeling of speech [9], speech
+c 2016 IEEE. Personal use of this material is permitted. Permission from
+IEEE must be obtained for all other uses, in any current or future media,
+including reprinting/republishing this material for advertising or promotional
+purposes, creating new collective works, for resale or redistribution to servers
+or lists, or reuse of any copyrighted component of this work in other works.
+Manuscript received May 15, 2015; revised March 17, 2016; accepted June 9,
+2016. Date of publication July 8, 2016; date of current version June 20, 2016.
+DOI: 10.1109/TNNLS.2016.2582924
+This research was supported by the Swiss National Science Foundation grants
+“Theory and Practice of Reinforcement Learning 2” (#138219) and “Advanced
+Reinforcement Learning” (#156682), and by EU projects “NASCENCE”
+(FP7-ICT-317662), “NeuralDynamics” (FP7-ICT-270247) and WAY (FP7-
+ICT-288551).
+K. Greff, R. K. Srivastava, J. Kout´ik, B. R. Steunebrink and J. Schmidhuber
+are with the Istituto Dalle Molle di studi sull’Intelligenza Artificiale (IDSIA),
+the Scuola universitaria professionale della Svizzera italiana (SUPSI), and the
+Universita della Svizzera italiana (USI). `
+Author e-mails addresses: fklaus, rupesh, hkou, bas, juergeng@idsia.ch
+synthesis [10], protein secondary structure prediction [11],
+analysis of audio [12], and video data [13] among others.
+The central idea behind the LSTM architecture is a memory
+cell which can maintain its state over time, and non-linear
+gating units which regulate the information flow into and out of
+the cell. Most modern studies incorporate many improvements
+that have been made to the LSTM architecture since its
+original formulation [14, 15]. However, LSTMs are now
+applied to many learning problems which differ significantly
+in scale and nature from the problems that these improvements
+were initially tested on. A systematic study of the utility of
+various computational components which comprise LSTMs
+(see Figure 1) was missing. This paper fills that gap and
+systematically addresses the open question of improving the
+LSTM architecture.
+We evaluate the most popular LSTM architecture (vanilla
+LSTM; Section II) and eight different variants thereof on
+three benchmark problems: acoustic modeling, handwriting
+recognition, and polyphonic music modeling. Each variant
+differs from the vanilla LSTM by a single change. This
+allows us to isolate the effect of each of these changes
+on the performance of the architecture. Random search [16–
+18] is used to find the best-performing hyperparameters for
+each variant on each problem, enabling a reliable comparison
+of the performance of different variants. We also provide
+insights gained about hyperparameters and their interaction
+using fANOVA [19].
+II. VANILLA LSTM
+The LSTM setup most commonly used in literature was
+originally described by Graves and Schmidhuber [20]. We refer
+to it as vanilla LSTM and use it as a reference for comparison
+of all the variants. The vanilla LSTM incorporates changes
+by Gers et al. [21] and Gers and Schmidhuber [22] into the
+original LSTM [15] and uses full gradient training. Section III
+provides descriptions of these major LSTM changes.
+A schematic of the vanilla LSTM block can be seen in
+Figure 1. It features three gates (input, forget, output), block
+input, a single cell (the Constant Error Carousel), an output
+activation function, and peephole connections1. The output of
+the block is recurrently connected back to the block input and
+all of the gates.
+1Some studies omit peephole connections, described in Section III-B.
+arXiv:1503.04069v2 [cs.NE] 4 Oct 2017TRANSACTIONS ON NEURAL NETWORKS AND LEARNING SYSTEMS 2
+unweighted connection
+Legend
+weighted connection
+connection with time-lag
+mutliplication
++ sum over all inputs
+branching point
+gate activation function
+(always sigmoid)
++
++
++ +
+forget gate
+input gate
+block input
+cell
++
+output gate
+peepholes
+LSTM block
+h g
+...
+input
+...
+...
+...
+...
+...
+...
+...
+...
+recurrent
+...
+input
+recurrent
+input
+recurrent
+input
+recurrent
+output
+recurrent
+g +
+SRN
+unit
+...
+input
+...
+recurrent
+...
+...
+output
+recurrent
+g
+input activation function
+(usually tanh)
+h output activation function
+(usually tanh)
+block output
+Figure 1. Detailed schematic of the Simple Recurrent Network (SRN) unit (left) and a Long Short-Term Memory block (right) as used in the hidden layers of
+a recurrent neural network.
+A. Forward Pass
+Let xt be the input vector at time t, N be the number of
+LSTM blocks and M the number of inputs. Then we get the
+following weights for an LSTM layer:
+• Input weights: Wz, Wi, Wf, Wo 2 RN×M
+• Recurrent weights: Rz, Ri, Rf, Ro 2 RN×N
+• Peephole weights: pi, pf, po 2 RN
+• Bias weights: bz, bi, bf, bo 2 RN
+Then the vector formulas for a vanilla LSTM layer forward
+pass can be written as:
+z¯t = Wzxt + Rzyt-1 + bz
+zt = g(z¯t) block input
+¯it = Wixt + Riyt-1 + pi ct-1 + bi
+it = s(¯it) input gate
+¯ft = Wfxt + Rfyt-1 + pf ct-1 + bf
+ft = s(¯ft) forget gate
+ct = zt it + ct-1 ft cell
+o¯t = Woxt + Royt-1 + po ct + bo
+ot = s(o¯t) output gate
+yt = h(ct) ot block output
+Where s, g and h are point-wise non-linear activation functions.
+The logistic sigmoid (s(x) = 1+1e-x ) is used as gate activation
+function and the hyperbolic tangent (g(x) = h(x) = tanh(x))
+is usually used as the block input and output activation function.
+Point-wise multiplication of two vectors is denoted by .
+B. Backpropagation Through Time
+The deltas inside the LSTM block are then calculated as:
+dyt = ?t + RT z dzt+1 + RT i dit+1 + RT f dft+1 + RT o dot+1
+do¯t = dyt h(ct) s0(o¯t)
+dct = dyt ot h0(ct) + po do¯t + pi d¯it+1
++ pf d¯ft+1 + dct+1 ft+1
+d¯ft = dct ct-1 s0(¯ft)
+d¯it = dct zt s0(¯it)
+dz¯t = dct it g0(z¯t)
+Here ?t is the vector of deltas passed down from the layer
+above. If E is the loss function it formally corresponds to @@E yt ,
+but not including the recurrent dependencies. The deltas for
+the inputs are only needed if there is a layer below that needs
+training, and can be computed as follows:
+dxt = WT
+z dz¯t + WiT d¯it + WfT d¯ft + WoT do¯t
+Finally, the gradients for the weights are calculated as
+follows, where ? can be any of fz¯;¯i; ¯f; o¯g, and h?1; ?2i denotes
+the outer product of two vectors:
+dW? =
+TXt
+=0
+hd?t; xti dpi =
+T -1
+Xt
+=0
+ct d¯it+1
+dR? =
+T -1
+Xt
+=0
+hd?t+1; yti dpf =
+T -1
+Xt
+=0
+ct d¯ft+1
+db? =
+TXt
+=0
+d?t dpo =
+TXt
+=0
+ct do¯tTRANSACTIONS ON NEURAL NETWORKS AND LEARNING SYSTEMS 3
+III. HISTORY OF LSTM
+The initial version of the LSTM block [14, 15] included
+(possibly multiple) cells, input and output gates, but no forget
+gate and no peephole connections. The output gate, unit
+biases, or input activation function were omitted for certain
+experiments. Training was done using a mixture of Real Time
+Recurrent Learning (RTRL) [23, 24] and Backpropagation
+Through Time (BPTT) [24, 25]. Only the gradient of the cell
+was propagated back through time, and the gradient for the
+other recurrent connections was truncated. Thus, that study
+did not use the exact gradient for training. Another feature of
+that version was the use of full gate recurrence, which means
+that all the gates received recurrent inputs from all gates at the
+previous time-step in addition to the recurrent inputs from the
+block outputs. This feature did not appear in any of the later
+papers.
+A. Forget Gate
+The first paper to suggest a modification of the LSTM
+architecture introduced the forget gate [21], enabling the LSTM
+to reset its own state. This allowed learning of continual tasks
+such as embedded Reber grammar.
+B. Peephole Connections
+Gers and Schmidhuber [22] argued that in order to learn
+precise timings, the cell needs to control the gates. So far
+this was only possible through an open output gate. Peephole
+connections (connections from the cell to the gates, blue
+in Figure 1) were added to the architecture in order to
+make precise timings easier to learn. Additionally, the output
+activation function was omitted, as there was no evidence that
+it was essential for solving the problems that LSTM had been
+tested on so far.
+C. Full Gradient
+The final modification towards the vanilla LSTM was
+done by Graves and Schmidhuber [20]. This study presented
+the full backpropagation through time (BPTT) training for
+LSTM networks with the architecture described in Section II,
+and presented results on the TIMIT [26] benchmark. Using
+full BPTT had the added advantage that LSTM gradients
+could be checked using finite differences, making practical
+implementations more reliable.
+D. Other Variants
+Since its introduction the vanilla LSTM has been the most
+commonly used architecture, but other variants have been
+suggested too. Before the introduction of full BPTT training,
+Gers et al. [27] utilized a training method based on Extended
+Kalman Filtering which enabled the LSTM to be trained on
+some pathological cases at the cost of high computational
+complexity. Schmidhuber et al. [28] proposed using a hybrid
+evolution-based method instead of BPTT for training but
+retained the vanilla LSTM architecture.
+Bayer et al. [29] evolved different LSTM block architectures
+that maximize fitness on context-sensitive grammars. A larger
+study of this kind was later done by Jozefowicz et al. [30]. Sak
+et al. [9] introduced a linear projection layer that projects the
+output of the LSTM layer down before recurrent and forward
+connections in order to reduce the amount of parameters for
+LSTM networks with many blocks. By introducing a trainable
+scaling parameter for the slope of the gate activation functions,
+Doetsch et al. [5] were able to improve the performance of
+LSTM on an offline handwriting recognition dataset. In what
+they call Dynamic Cortex Memory, Otte et al. [31] improved
+convergence speed of LSTM by adding recurrent connections
+between the gates of a single block (but not between the
+blocks).
+Cho et al. [32] proposed a simplified variant of the LSTM
+architecture called Gated Recurrent Unit (GRU). They used
+neither peephole connections nor output activation functions,
+and coupled the input and the forget gate into an update gate.
+Finally, their output gate (called reset gate) only gates the
+recurrent connections to the block input (Wz). Chung et al.
+[33] performed an initial comparison between GRU and Vanilla
+LSTM and reported mixed results.
+IV. EVALUATION SETUP
+The focus of our study is to empirically compare different
+LSTM variants, and not to achieve state-of-the-art results.
+Therefore, our experiments are designed to keep the setup
+simple and the comparisons fair. The vanilla LSTM is used as
+a baseline and evaluated together with eight of its variants. Each
+variant adds, removes, or modifies the baseline in exactly one
+aspect, which allows to isolate their effect. They are evaluated
+on three different datasets from different domains to account
+for cross-domain variations.
+For fair comparison, the setup needs to be similar for
+each variant. Different variants might require different settings
+of hyperparameters to give good performance, and we are
+interested in the best performance that can be achieved
+with each variant. For this reason we chose to tune the
+hyperparameters like learning rate or amount of input noise
+individually for each variant. Since hyperparameter space is
+large and impossible to traverse completely, random search was
+used in order to obtain good-performing hyperparameters [18]
+for every combination of variant and dataset. Random search
+was also chosen for the added benefit of providing enough data
+for analyzing the general effect of various hyperparameters on
+the performance of each LSTM variant (Section V-B).
+A. Datasets
+Each dataset is split into three parts: a training set, a
+validation set used for early stopping and for optimizing the
+hyperparameters, and a test set for the final evaluation.
+TIMIT: The TIMIT Speech corpus [26] is large enough
+to be a reasonable acoustic modeling benchmark for speech
+recognition, yet it is small enough to keep a large study such
+as ours manageable. Our experiments focus on the frame-wise
+classification task for this dataset, where the objective is toTRANSACTIONS ON NEURAL NETWORKS AND LEARNING SYSTEMS 4
+(a)
+Ben Zoma said: "The days of 1thy
+life means in the day-time; all the days
+of 1thy life means even at night-time ."
+(Berochoth .) And the Rabbis thought
+it important that when we read the
+(b)
+Figure 2. (a) Example board (a08-551z, training set) from the IAM-OnDB
+dataset and (b) its transcription into character label sequences.
+classify each audio-frame as one of 61 phones.2 From the
+raw audio we extract 12 Mel Frequency Cepstrum Coefficients
+(MFCCs) [35] + energy over 25ms hamming-windows with
+stride of 10ms and a pre-emphasis coefficient of 0.97. This
+preprocessing is standard in speech recognition and was chosen
+in order to stay comparable with earlier LSTM-based results
+(e.g. [20, 36]). The 13 coefficients along with their first and
+second derivatives comprise the 39 inputs to the network and
+were normalized to have zero mean and unit variance.
+The performance is measured as classification error percentage. The training, testing, and validation sets are split in
+line with Halberstadt [37] into 3696, 400, and 192 sequences,
+having 304 frames on average.
+We restrict our study to the core test set, which is an
+established subset of the full TIMIT corpus, and use the
+splits into training, testing, and validation sets as detailed
+by Halberstadt [37]. In short, that means we only use the core
+test set and drop the SA samples3 from the training set. The
+validation set is built from some of the discarded samples from
+the full test set.
+IAM Online: The IAM Online Handwriting Database [38]4
+consists of English sentences as time series of pen movements
+that have to be mapped to characters. The IAM-OnDB dataset
+splits into one training set, two validation sets, and one test set,
+having 775, 192, 216, and 544 boards each. Each board, see
+Figure 2(a), contains multiple hand-written lines, which in turn
+consist of several strokes. We use one line per sequence, and
+2Note that in linguistics a phone represents a distinct speech sound
+independent of the language. In contrast, a phoneme refers to a sound that
+distinguishes two words in a given language [34]. These terms are often
+confused in the machine learning literature.
+3The dialect sentences (the SA samples) were meant to expose the dialectal
+variants of the speakers and were read by all 630 speakers. We follow [37]
+and remove them because they bias the distribution of phones.
+4The IAM-OnDB was obtained from http://www.iam.unibe.ch/fki/databases/
+iam-on-line-handwriting-database
+joined the two validation sets together, so the final training,
+validation, and testing sets contain 5 355, 2 956 and 3 859
+sequences respectively.
+Each handwriting line is accompanied with a target character
+sequence, see Figure 2(b), assembled from the following
+81 ASCII characters:
+abcdefghijklmnopqrstuvwxyz
+ABCDEFGHIJKLMNOPQRSTUVWXYZ
+0123456789 !"#&\’()*+,-./[]:;?
+The board labeled as a08-551z (in the training set) contains
+a sequence of eleven percent (%) characters that does not have
+an image in the strokes, and the percent character does not
+occur in any other board. That board was removed from the
+experiments.
+We subsampled each sequence to half its length, which
+speeds up the training and does not harm performance. Each
+frame of the sequence is a 4-dimensional vector containing ?x,
+?y (the change in pen position), t (time since the beginning of
+the stroke), and a fourth dimension that contains value of one
+at the time of the pen lifting (a transition to the next stroke)
+and zeroes at all other time steps. Possible starts and ends of
+characters within each stroke are not explicitly marked. No
+additional preprocessing (like base-line straightening, cursive
+correction, etc.) was used.
+The networks were trained using the Connectionist Temporal
+Classification (CTC) error function by Graves et al. [39] with
+82 outputs (81 characters plus the special empty label). We
+measure performance in terms of the Character Error Rate
+(CER) after decoding using best-path decoding [39].
+JSB Chorales: JSB Chorales is a collection of 382 fourpart harmonized chorales by J. S. Bach [40], consisting of
+202 chorales in major keys and 180 chorals in minor keys.
+We used the preprocessed piano-rolls provided by BoulangerLewandowski et al. [41].5 These piano-rolls were generated
+by transposing each MIDI sequence in C major or C minor
+and sampling frames every quarter note. The networks where
+trained to do next-step prediction by minimizing the negative
+log-likelihood. The complete dataset consists of 229, 76, and
+77 sequences (training, validation, and test sets respectively)
+with an average length of 61.
+B. Network Architectures & Training
+A network with a single LSTM hidden layer and a sigmoid
+output layer was used for the JSB Chorales task. Bidirectional
+LSTM [20] was used for TIMIT and IAM Online tasks,
+consisting of two hidden layers, one processing the input
+forwards and the other one backwards in time, both connected
+to a single softmax output layer. As loss function we employed
+Cross-Entropy Error for TIMIT and JSB Chorales, while for
+the IAM Online task the Connectionist Temporal Classification
+(CTC) loss by Graves et al. [39] was used. The initial weights
+for all networks were drawn from a normal distribution with
+standard deviation of 0:1. Training was done using Stochastic
+Gradient Descent with Nesterov-style momentum [42] with
+5Available at http://www-etud.iro.umontreal.ca/~boulanni/icml2012 at the
+time of writing.TRANSACTIONS ON NEURAL NETWORKS AND LEARNING SYSTEMS 5
+updates after each sequence. The learning rate was rescaled by
+a factor of (1 - momentum). Gradients were computed using
+full BPTT for LSTMs [20]. Training stopped after 150 epochs
+or once there was no improvement on the validation set for
+more than fifteen epochs.
+C. LSTM Variants
+The vanilla LSTM from Section II is referred as Vanilla (V).
+For activation functions we follow the standard and use the
+logistic sigmoid for s, and the hyperbolic tangent for both g
+and h. The derived eight variants of the V architecture are
+the following. We only report differences to the forward pass
+formulas presented in Section II-A:
+NIG: No Input Gate: it = 1
+NFG: No Forget Gate: ft = 1
+NOG: No Output Gate: ot = 1
+NIAF: No Input Activation Function: g(x) = x
+NOAF: No Output Activation Function: h(x) = x
+CIFG: Coupled Input and Forget Gate: ft = 1 - it
+NP: No Peepholes:
+¯it = Wixt + Riyt-1 + bi
+¯ft = Wfxt + Rfyt-1 + bf
+o¯t = Woxt + Royt-1 + bo
+FGR: Full Gate Recurrence:
+¯it = Wixt + Riyt-1 + pi ct-1 + bi
++ Riiit-1 + Rf ift-1 + Roiot-1
+¯ft = Wfxt + Rfyt-1 + pf ct-1 + bf
++ Rifit-1 + Rffft-1 + Rofot-1
+o¯t = Woxt + Royt-1 + po ct-1 + bo
++ Rioit-1 + Rfoft-1 + Rooot-1
+The first six variants are self-explanatory. The CIFG variant
+uses only one gate for gating both the input and the cell
+recurrent self-connection – a modification of LSTM referred
+to as Gated Recurrent Units (GRU) [32]. This is equivalent to
+setting ft = 1 - it instead of learning the forget gate weights
+independently. The FGR variant adds recurrent connections
+between all the gates as in the original formulation of the
+LSTM [15]. It adds nine additional recurrent weight matrices,
+thus significantly increasing the number of parameters.
+D. Hyperparameter Search
+While there are other methods to efficiently search for good
+hyperparameters (cf. [43, 44]), random search has several
+advantages for our setting: it is easy to implement, trivial
+to parallelize, and covers the search space more uniformly,
+thereby improving the follow-up analysis of hyperparameter
+importance.
+We performed 27 random searches (one for each combination
+of the nine variants and three datasets). Each random search
+encompasses 200 trials for a total of 5400 trials of randomly
+sampling the following hyperparameters:
+• number of LSTM blocks per hidden layer: log-uniform
+samples from [20; 200];
+• learning rate: log-uniform samples from [10-6; 10-2];
+• momentum: 1 - log-uniform samples from [0:01; 1:0];
+• standard deviation of Gaussian input noise: uniform samples
+from [0; 1].
+In the case of the TIMIT dataset, two additional (boolean)
+hyperparameters were considered (not tuned for the other two
+datasets). The first one was the choice between traditional
+momentum and Nesterov-style momentum [42]. Our analysis
+showed that this had no measurable effect on performance so
+the latter was arbitrarily chosen for all further experiments.
+The second one was whether to clip the gradients to the range
+[-1; 1]. This turned out to hurt overall performance,6 therefore
+the gradients were never clipped in the case of the other two
+datasets.
+Note that, unlike an earlier small-scale study [33], the number
+of parameters was not kept fixed for all variants. Since different
+variants can utilize their parameters differently, fixing this
+number can bias comparisons.
+V. RESULTS & DISCUSSION
+Each of the 5400 experiments was run on one of 128 AMD
+Opteron CPUs at 2.5 GHz and took 24.3 h on average to
+complete. This sums up to a total single-CPU computation
+time of just below 15 years.
+For TIMIT the test set performance of the best trial were
+29.6% classification error (CIFG) which is close to the best
+reported result of 26.9% [20]. Our best result of -8.38 loglikelihood (NIAF) on the JSB Chorales dataset on the other
+hand is well below the -5.56 from Boulanger-Lewandowski
+et al. [41]. Best LSTM result is 26.9% For the IAM Online
+dataset our best result was a Character Error Rate of 9.26%
+(NP) on the test set. The best previously published result is
+11.5% CER by Graves et al. [45] using a different and much
+more extensive preprocessing.7 Note though, that the goal of
+this study is not to provide state-of-the-art results, but to do a
+fair comparison of different LSTM variants. So these numbers
+are only meant as a rough orientation for the reader.
+A. Comparison of the Variants
+A summary of the random search results is shown in Figure 3.
+Welch’s t-test at a significance level of p = 0:05 was used8
+to determine whether the mean test set performance of each
+variant was significantly different from that of the baseline. The
+box for a variant is highlighted in blue if its mean performance
+differs significantly from the mean performance of the vanilla
+LSTM.
+The results in the top half of Figure 3 represent the
+distribution of all 200 test set performances over the whole
+search space. Any conclusions drawn from them are therefore
+6Although this may very well be the result of the range having been chosen
+too tightly.
+7Note that these numbers differ from the best test set performances that can
+be found in Figure 3. This is the case because here we only report the single
+best performing trial as determined on the validation set. In Figure 3, on the
+other hand, we show the test set performance of the 20 best trials for each
+variant.
+8We applied the Bonferroni adjustment to correct for performing eight
+different tests (one for each variant).TRANSACTIONS ON NEURAL NETWORKS AND LEARNING SYSTEMS 6
+V CIFG FGR NP NOG NIAF NIG NFG NOAF
+30
+40
+50
+60
+70
+80
+90
+100
+classification error in %
+TIMIT
+V CIFG FGR NP NOG NIAF NIG NFG NOAF
+20
+40
+60
+80
+100
+character error rate
+IAM Online
+V CIFG FGR NP NOG NIAF NIG NFG NOAF
+8.5
+9.0
+9.5
+10.0
+10.5
+11.0
+11.5
+12.0
+12.5
+negative log-likelihood
+JSB Chorales
+0.5
+1.0
+1.5
+2.0
+2.5
+number of parameters *105
+0.2
+0.4
+0.6
+0.8
+1.0
+1.2
+1.4
+1.6
+1.8
+number of parameters *105
+0.0
+0.2
+0.4
+0.6
+0.8
+1.0
+1.2
+1.4
+number of parameters *105
+V CIFG FGR NP NOG NIAF NIG NFG NOAF
+27
+28
+29
+30
+31
+32
+33
+34
+35
+classification error in %
+TIMIT
+V CIFG FGR NP NOG NIAF NIG NFG NOAF
+10
+15
+20
+25
+30
+character error rate
+IAM Online
+V CIFG FGR NP NOG NIAF NIG NFG NOAF
+8.4
+8.5
+8.6
+8.7
+8.8
+negative log-likelihood
+JSB Chorales
+5 4 3 2 1
+number of parameters *105
+0.5
+1.0
+1.5
+2.0
+2.5
+3.0
+number of parameters *105
+0.0
+0.2
+0.4
+0.6
+0.8
+1.0
+1.2
+1.4
+1.6
+number of parameters *105
+Figure 3. Test set performance for all 200 trials (top) and for the best 10% (bottom) trials (according to the validation set) for each dataset and variant. Boxes
+show the range between the 25th and the 75th percentile of the data, while the whiskers indicate the whole range. The red dot represents the mean and the red
+line the median of the data. The boxes of variants that differ significantly from the vanilla LSTM are shown in blue with thick lines. The grey histogram in the
+background presents the average number of parameters for the top 10% performers of every variant.
+specific to our choice of search ranges. We have tried to chose
+reasonable ranges for the hyperparameters that include the best
+settings for each variant and are still small enough to allow
+for an effective search. The means and variances tend to be
+rather similar for the different variants and datasets, but even
+here some significant differences can be found.
+In order to draw some more interesting conclusions we
+restrict our further analysis to the top 10% performing trials
+for each combination of dataset and variant (see bottom half
+of Figure 3). This way our findings will be less dependent on
+the chosen search space and will be representative for the case
+of “reasonable hyperparameter tuning efforts.”9
+The first important observation based on Figure 3 is that
+removing the output activation function (NOAF) or the forget
+gate (NFG) significantly hurt performance on all three datasets.
+Apart from the CEC, the ability to forget old information
+and the squashing of the cell state appear to be critical for
+the LSTM architecture. Indeed, without the output activation
+function, the block output can in principle grow unbounded.
+Coupling the input and the forget gate avoids this problem and
+might render the use of an output non-linearity less important,
+which could explain why GRU performs well without it.
+9How much effort is “reasonable” will still depend on the search space. If
+the ranges are chosen much larger, the search will take much longer to find
+good hyperparameters.
+Input and forget gate coupling (CIFG) did not significantly
+change mean performance on any of the datasets, although
+the best performance improved slightly on music modeling.
+Similarly, removing peephole connections (NP) also did not
+lead to significant changes, but the best performance improved
+slightly for handwriting recognition. Both of these variants
+simplify LSTMs and reduce the computational complexity, so
+it might be worthwhile to incorporate these changes into the
+architecture.
+Adding full gate recurrence (FGR) did not significantly
+change performance on TIMIT or IAM Online, but led to
+worse results on the JSB Chorales dataset. Given that this
+variant greatly increases the number of parameters, we generally
+advise against using it. Note that this feature was present in
+the original proposal of LSTM [14, 15], but has been absent
+in all following studies.
+Removing the input gate (NIG), the output gate (NOG), and
+the input activation function (NIAF) led to a significant reduction in performance on speech and handwriting recognition.
+However, there was no significant effect on music modeling
+performance. A small (but statistically insignificant) average
+performance improvement was observed for the NIG and NIAF
+architectures on music modeling. We hypothesize that these
+behaviors will generalize to similar problems such as language
+modeling. For supervised learning on continuous real-valuedTRANSACTIONS ON NEURAL NETWORKS AND LEARNING SYSTEMS 7
+data (such as speech and handwriting recognition), the input
+gate, output gate, and input activation function are all crucial
+for obtaining good performance.
+B. Impact of Hyperparameters
+The fANOVA framework for assessing hyperparameter
+importance by Hutter et al. [19] is based on the observation
+that marginalizing over dimensions can be done efficiently
+in regression trees. This allows predicting the marginal error
+for one hyperparameter while averaging over all the others.
+Traditionally this would require a full hyperparameter grid
+search, whereas here the hyperparameter space can be sampled
+at random.
+Average performance for any slice of the hyperparameter
+space is obtained by first training a regression tree and then
+summing over its predictions along the corresponding subset
+of dimensions. To be precise, a random regression forest
+of 100 trees is trained and their prediction performance is
+averaged. This improves the generalization and allows for an
+estimation of uncertainty of those predictions. The obtained
+marginals can then be used to decompose the variance into
+additive components using the functional ANalysis Of VAriance
+(fANOVA) method [46] which provides an insight into the
+overall importance of hyperparameters and their interactions.
+Learning rate: Learning rate is the most important hyperparameter, therefore it is very important to understand how to
+set it correctly in order to achieve good performance. Figure 4
+shows (in blue) how setting the learning rate value affects the
+predicted average performance on the test set. It is important
+to note that this is an average over all other hyperparameters
+and over all the trees in the regression forest. The shaded area
+around the curve indicates the standard deviation over tree
+predictions (not over other hyperparameters), thus quantifying
+the reliability of the average. The same is shown in green with
+the predicted average training time.
+The plots in Figure 4 show that the optimal value for the
+learning rate is dependent on the dataset. For each dataset,
+there is a large basin (up to two orders of magnitude) of good
+learning rates inside of which the performance does not vary
+much. A related but unsurprising observation is that there is a
+sweet-spot for the learning rate at the high end of the basin.10
+In this region, the performance is good and the training time
+is small. So while searching for a good learning rate for the
+LSTM, it is sufficient to do a coarse search by starting with a
+high value (e.g. 1:0) and dividing it by ten until performance
+stops increasing.
+Figure 5 also shows that the fraction of variance caused
+by the learning rate is much bigger than the fraction due
+to interaction between learning rate and hidden layer size
+(some part of the “higher order” piece, for more see below
+at Interaction of Hyperparameters). This suggests that the
+learning rate can be quickly tuned on a small network and
+then used to train a large one.
+10Note that it is unfortunately outside the investigated range for IAM Online
+and JSB Chorales. This means that ideally we should have chosen the range
+of learning rates to include higher values as well.
+Hidden Layer Size: Not surprisingly the hidden layer size
+is an important hyperparameter affecting the LSTM network
+performance. As expected, larger networks perform better, but
+with diminishing returns. It can also be seen in Figure 4 (middle,
+green) that the required training time increases with the network
+size. Note that the scale here is wall-time and thus factors in
+both the increased computation time for each epoch as well as
+the convergence speed.
+Input Noise: Additive Gaussian noise on the inputs, a
+traditional regularizer for neural networks, has been used for
+LSTM as well. However, we find that not only does it almost
+always hurt performance, it also slightly increases training
+times. The only exception is TIMIT, where a small dip in error
+for the range of [0:2; 0:5] is observed.
+Momentum: One unexpected result of this study is that
+momentum affects neither performance nor training time in
+any significant way. This follows from the observation that for
+none of the datasets, momentum accounted for more than 1%
+of the variance of test set performance. It should be noted that
+for TIMIT the interaction between learning rate and momentum
+accounts for 2.5% of the total variance, but as with learning
+rate × hidden size (cf. Interaction of Hyperparameters below)
+it does not reveal any interpretable structure. This may be
+the result of our choice to scale learning rates dependent on
+momentum (Section IV-B). These observations suggest that
+momentum does not offer substantial benefits when training
+LSTMs with online stochastic gradient descent.
+Analysis of Variance: Figure 5 shows what fraction of the
+test set performance variance can be attributed to different
+hyperparameters. It is obvious that the learning rate is by
+far the most important hyperparameter, always accounting for
+more than two thirds of the variance. The next most important
+hyperparameter is the hidden layer size, followed by the input
+noise, leaving the momentum with less than one percent of the
+variance. Higher order interactions play an important role in
+the case of TIMIT, but are much less important for the other
+two data sets.
+Interaction of Hyperparameters: Some hyperparameters
+interact with each other resulting in different performance
+from what could be expected by looking at them individually.
+As shown in Figure 5 all these interactions together explain
+between 5% and 20% of the variance in test set performance.
+Understanding these interactions might allow us to speed up
+the search for good combinations of hyperparameters. To
+that end we visualize the interaction between all pairs of
+hyperparameters in Figure 6. Each heat map in the left part
+shows marginal performance for different values of the respective two hyperparameters. This is the average performance
+predicted by the decision forest when marginalizing over all
+other hyperparameters. So each one is the 2D version of the
+performance plots from Figure 4 in the paper.
+The right side employs the idea of ANOVA to better
+illustrate the interaction between the hyperparameters. This
+means that variance of performance that can be explained
+by varying a single hyperparameter has been removed. In
+case two hyperparameters do not interact at all (are perfectly
+independent), that residual would thus be all zero (grey).TRANSACTIONS ON NEURAL NETWORKS AND LEARNING SYSTEMS 8
+30
+35
+40
+45
+50
+55
+60
+65
+Classification Error
+34
+36
+38
+40
+42
+44
+46
+TIMIT
+37
+38
+39
+40
+41
+42
+43
+20
+40
+60
+80
+100
+Character Error Rate
+40
+50
+60
+70
+80
+90
+100
+IAM Online
+44
+46
+48
+50
+52
+54
+56
+58
+10-6 10-5 10-4 10-3 10-2
+learning rate
+8.5
+9.0
+9.5
+10.0
+10.5
+11.0
+11.5
+12.0
+12.5
+Negative Log Likelihood
+error
+time
+20 40 60 80 100 120 140 160 180 200
+hidden size
+9.70
+9.75
+9.80
+9.85
+9.90
+9.95
+10.00
+10.05
+10.10
+10.15 JSB Chorales
+0.0 0.2 0.4 0.6 0.8 1.0
+input noise standard deviation
+9.5
+9.6
+9.7
+9.8
+9.9
+10.0
+10.1
+10.2
+5 0
+10
+15
+20
+25
+30
+35
+40
+45
+0
+20
+40
+60
+80
+100
+0.20
+0.25
+0.30
+0.35
+0.40
+0.45
+0.50
+0.55
+0.60
+5
+10
+15
+20
+25
+30
+35
+40
+0
+20
+40
+60
+80
+100
+0.0
+0.5
+1.0
+1.5
+2.0
+2.5
+3.0
+17.0
+17.5
+18.0
+18.5
+19.0
+19.5
+20.0
+20.5
+21.0
+21.5
+total time in h
+26
+27
+28
+29
+30
+31
+32
+33
+34
+total time in h
+0.40
+0.45
+0.50
+total time in h
+Figure 4. Predicted marginal error (blue) and marginal time for different values of the learning rate, hidden size, and the input noise (columns) for the test set
+of all three datasets (rows). The shaded area indicates the standard deviation between the tree-predicted marginals and thus the reliability of the predicted mean
+performance. Note that each plot is for the vanilla LSTM but curves for all variants that are not significantly worse look very similar.
+Figure 5. Pie charts showing which fraction of variance of the test set
+performance can be attributed to each of the hyperparameters. The percentage
+of variance that is due to interactions between multiple parameters is indicated
+as “higher order.”
+For example, looking at the pair hidden size and learning
+rate on the left side for the TIMIT dataset, we can see that
+performance varies strongly along the x-axis (learning rate),
+first decreasing and then increasing again. This is what we
+would expect knowing the valley-shape of the learning rate
+from Figure 4. Along the y-axis (hidden size) performance
+seems to decrease slightly from top to bottom. Again this is
+roughly what we would expect from the hidden size plot in
+Figure 4.
+On the right side of Figure 6 we can see for the same pair
+of hyperparameters how their interaction differs from the case
+of them being completely independent. This heat map exhibits
+less structure, and it may in fact be the case that we would
+need more samples to properly analyze the interplay between
+them. However, given our observations so far this might not
+be worth the effort. In any case, it is clear from the plot on the
+left that varying the hidden size does not change the region of
+optimal learning rate.
+One clear interaction pattern can be observed in the IAM Online and JSB datasets between learning rate and input noise.
+Here it can be seen that for high learning rates (’ 10-4)
+lower input noise (/ :5) is better like also observed in the
+marginals from Figure 4. But this trend reverses for lower
+learning rates, where higher values of input noise are beneficial.
+Though interesting this is not of any practical relevance because
+performance is generally bad in that region of low learning
+rates. Apart from this, however, it is difficult to discern any
+regularities in the analyzed hyperparameter interactions. We
+conclude that there is little practical value in attending to the
+interplay between hyperparameters. So for practical purposes
+hyperparameters can be treated as approximately independent
+and thus optimized separately.
+VI. CONCLUSION
+This paper reports the results of a large scale study on
+variants of the LSTM architecture. We conclude that the
+most commonly used LSTM architecture (vanilla LSTM)
+performs reasonably well on various datasets. None of the eight
+investigated modifications significantly improves performance.
+However, certain modifications such as coupling the input andTRANSACTIONS ON NEURAL NETWORKS AND LEARNING SYSTEMS 9
+-2.0
+-1.5
+-1.0
+-0.5
+-0.0
+momentum
+TIMIT
+1.0
+1.2
+1.5
+1.8
+2.0
+hidden size
+-5.9 -5.0 -4.0 -3.0 -2.0
+learning rate
+0.0
+0.3
+0.5
+0.7
+1.0
+input noise std
+-2.0 -1.5 -1.0 -0.5 -0.0
+momentum
+1.0 1.2 1.5 1.8 2.0
+hidden size
+33
+36
+39
+42
+45
+48
+51
+54
+57
+-2.0
+-1.5
+-1.0
+-0.5
+-0.0
+momentum
+TIMIT
+1.0
+1.2
+1.5
+1.8
+2.0
+hidden size
+-5.9 -5.0 -4.0 -3.0 -2.0
+learning rate
+0.0
+0.3
+0.5
+0.7
+1.0
+input noise std
+-2.0 -1.5 -1.0 -0.5 -0.0
+momentum
+1.0 1.2 1.5 1.8 2.0
+hidden size
+2.4
+1.6
+0.8
+0.0
+0.8
+1.6
+2.4
+(a)
+-2.0
+-1.5
+-1.0
+-0.5
+-0.0
+momentum
+IAMOnline
+1.0
+1.2
+1.5
+1.7
+2.0
+hidden size
+-6.0 -5.0 -4.0 -3.0 -2.0
+learning rate
+0.0
+0.3
+0.5
+0.7
+1.0
+input noise std
+-2.0 -1.5 -1.0 -0.5 -0.0
+momentum
+1.0 1.2 1.5 1.7 2.0
+hidden size
+20
+30
+40
+50
+60
+70
+80
+90
+-2.0
+-1.5
+-1.0
+-0.5
+-0.0
+momentum
+IAMOnline
+1.0
+1.2
+1.5
+1.7
+2.0
+hidden size
+-6.0 -5.0 -4.0 -3.0 -2.0
+learning rate
+0.0
+0.3
+0.5
+0.7
+1.0
+input noise std
+-2.0 -1.5 -1.0 -0.5 -0.0
+momentum
+1.0 1.2 1.5 1.7 2.0
+hidden size
+24
+16
+8
+8 0
+16
+24
+(b)
+-2.0
+-1.5
+-1.0
+-0.5
+-0.0
+momentum
+JSB Chorales
+1.0
+1.2
+1.5
+1.8
+2.0
+hidden size
+-6.0 -5.0 -4.0 -3.1 -2.1
+learning rate
+0.0
+0.2
+0.5
+0.7
+1.0
+input noise std
+-2.0 -1.5 -1.0 -0.5 -0.0
+momentum
+1.0 1.2 1.5 1.8 2.0
+hidden size
+8.8
+9.2
+9.6
+10.0
+10.4
+10.8
+11.2
+11.6
+12.0 -2.0
+-1.5
+-1.0
+-0.5
+-0.0
+momentum
+JSB Chorales
+1.0
+1.2
+1.5
+1.8
+2.0
+hidden size
+-6.0 -5.0 -4.0 -3.1 -2.1
+learning rate
+0.0
+0.2
+0.5
+0.7
+1.0
+input noise std
+-2.0 -1.5 -1.0 -0.5 -0.0
+momentum
+1.0 1.2 1.5 1.8 2.0
+hidden size
+0.32
+0.24
+0.16
+0.08
+0.00
+0.08
+0.16
+0.24
+0.32
+(c)
+Figure 6. Total marginal predicted performance for all pairs of hyperparameters (left) and the variation only due to their interaction (right). The plot is divided
+vertically into three subplots, one for every dataset (TIMIT, IAM Online, and JSB Chorales). The subplots itself are divided horizontally into two parts, each
+containing a lower triangular matrix of heat maps. The rows and columns of these matrices represent the different hyperparameters (learning rate, momentum,
+hidden size, and input noise) and there is one heat map for every combination. The color encodes the performance as measured by the Classification Error for
+TIMIT, Character Error Rate for IAM Online and Negative Log-Likelihood for the JSB Chorales Dataset. For all datasets low (blue) is better than high (red).TRANSACTIONS ON NEURAL NETWORKS AND LEARNING SYSTEMS 10
+forget gates (CIFG) or removing peephole connections (NP)
+simplified LSTMs in our experiments without significantly
+decreasing performance. These two variants are also attractive
+because they reduce the number of parameters and the
+computational cost of the LSTM.
+The forget gate and the output activation function are the
+most critical components of the LSTM block. Removing any
+of them significantly impairs performance. We hypothesize
+that the output activation function is needed to prevent the
+unbounded cell state to propagate through the network and
+destabilize learning. This would explain why the LSTM variant
+GRU can perform reasonably well without it: its cell state is
+bounded because of the coupling of input and forget gate.
+As expected, the learning rate is the most crucial hyperparameter, followed by the network size. Surprisingly though, the
+use of momentum was found to be unimportant in our setting
+of online gradient descent. Gaussian noise on the inputs was
+found to be moderately helpful for TIMIT, but harmful for the
+other datasets.
+The analysis of hyperparameter interactions revealed no
+apparent structure. Furthermore, even the highest measured
+interaction (between learning rate and network size) is quite
+small. This implies that for practical purposes the hyperparameters can be treated as approximately independent. In particular,
+the learning rate can be tuned first using a fairly small network,
+thus saving a lot of experimentation time.
+Neural networks can be tricky to use for many practitioners
+compared to other methods whose properties are already well
+understood. This has remained a hurdle for newcomers to the
+field since a lot of practical choices are based on the intuitions
+of experts, as well as experiences gained over time. With this
+study, we have attempted to back some of these intuitions with
+experimental results. We have also presented new insights, both
+on architecture selection and hyperparameter tuning for LSTM
+networks which have emerged as the method of choice for
+solving complex sequence learning problems. In future work,
+we plan to explore more complex modifications of the LSTM
+architecture.
+REFERENCES
+[1] Sepp Hochreiter. Untersuchungen zu dynamischen neuronalen Netzen. Masters Thesis, Technische Universitat ¨
+Munchen, M ¨ unchen, 1991. ¨
+[2] S. Hochreiter, Y. Bengio, P. Frasconi, and J. Schmidhuber.
+Gradient flow in recurrent nets: the difficulty of learning
+long-term dependencies. In S. C. Kremer and J. F. Kolen,
+editors, A Field Guide to Dynamical Recurrent Neural
+Networks. IEEE Press, 2001.
+[3] A Graves, M Liwicki, S Fernandez, R Bertolami, H Bunke,
+and J Schmidhuber. A Novel Connectionist System
+for Improved Unconstrained Handwriting Recognition.
+IEEE Transactions on Pattern Analysis and Machine
+Intelligence, 31(5), 2009.
+[4] Vu Pham, Theodore Bluche, Christopher Kermorvant, and ´
+Jer ´ ome Louradour. Dropout improves Recurrent Neural ˆ
+Networks for Handwriting Recognition. arXiv:1312.4569
+[cs], November 2013. URL http://arxiv.org/abs/1312.
+4569.
+[5] Patrick Doetsch, Michal Kozielski, and Hermann Ney.
+Fast and robust training of recurrent neural networks for
+offline handwriting recognition. In 14th International
+Conference on Frontiers in Handwriting Recognition,
+2014. URL http://people.sabanciuniv.edu/berrin/cs581/
+Papers/icfhr2014/data/4334a279.pdf.
+[6] Alex Graves. Generating sequences with recurrent neural
+networks. arXiv:1308.0850 [cs], August 2013. URL
+http://arxiv.org/abs/1308.0850.
+[7] Wojciech Zaremba, Ilya Sutskever, and Oriol Vinyals. Recurrent Neural Network Regularization. arXiv:1409.2329
+[cs], September 2014. URL http://arxiv.org/abs/1409.
+2329.
+[8] Thang Luong, Ilya Sutskever, Quoc V. Le, Oriol Vinyals,
+and Wojciech Zaremba. Addressing the Rare Word
+Problem in Neural Machine Translation. arXiv preprint
+arXiv:1410.8206, 2014. URL http://arxiv.org/abs/1410.
+8206.
+[9] Hasim Sak, Andrew Senior, and Franc¸oise Beaufays.
+Long short-term memory recurrent neural network architectures for large scale acoustic modeling. In Proceedings of the Annual Conference of International
+Speech Communication Association (INTERSPEECH),
+2014. URL http://193.6.4.39/~czap/letoltes/IS14/IS2014/
+PDF/AUTHOR/IS141304.PDF.
+[10] Yuchen Fan, Yao Qian, Fenglong Xie, and Frank K. Soong.
+TTS synthesis with bidirectional LSTM based recurrent
+neural networks. In Proc. Interspeech, 2014.
+[11] Søren Kaae Sønderby and Ole Winther. Protein Secondary
+Structure Prediction with Long Short Term Memory
+Networks. arXiv:1412.7828 [cs, q-bio], December 2014.
+URL http://arxiv.org/abs/1412.7828. arXiv: 1412.7828.
+[12] E. Marchi, G. Ferroni, F. Eyben, L. Gabrielli, S. Squartini,
+and B. Schuller. Multi-resolution linear prediction based
+features for audio onset detection with bidirectional LSTM
+neural networks. In 2014 IEEE International Conference
+on Acoustics, Speech and Signal Processing (ICASSP),
+pages 2164–2168, May 2014. doi: 10.1109/ICASSP.2014.
+6853982.
+[13] Jeff Donahue, Lisa Anne Hendricks, Sergio Guadarrama,
+Marcus Rohrbach, Subhashini Venugopalan, Kate Saenko,
+and Trevor Darrell. Long-term Recurrent Convolutional Networks for Visual Recognition and Description. arXiv:1411.4389 [cs], November 2014. URL
+http://arxiv.org/abs/1411.4389. arXiv: 1411.4389.
+[14] Sepp Hochreiter and Jurgen Schmidhuber. Long Short ¨
+Term Memory. Technical Report FKI-207-95, Technische Universitat M ¨ unchen, M ¨ unchen, August 1995. ¨
+URL http://citeseerx.ist.psu.edu/viewdoc/summary?doi=
+10.1.1.51.3117.
+[15] Sepp Hochreiter and Jurgen Schmidhuber. Long Short- ¨
+Term Memory. Neural Computation, 9(8):1735–1780,
+November 1997. ISSN 0899-7667. doi: 10.1162/neco.
+1997.9.8.1735. URL http://www.bioinf.jku.at/publications/
+older/2604.pdf.
+[16] R. L. Anderson. Recent Advances in Finding Best
+Operating Conditions. Journal of the American Statistical
+Association, 48(264):789–798, December 1953. ISSNTRANSACTIONS ON NEURAL NETWORKS AND LEARNING SYSTEMS 11
+0162-1459. doi: 10.2307/2281072. URL http://www.jstor.
+org/stable/2281072.
+[17] Francisco J. Solis and Roger J.-B. Wets. Minimization by
+Random Search Techniques. Mathematics of Operations
+Research, 6(1):19–30, February 1981. ISSN 0364-765X.
+doi: 10.1287/moor.6.1.19. URL http://pubsonline.informs.
+org/doi/abs/10.1287/moor.6.1.19.
+[18] James Bergstra and Yoshua Bengio. Random search for
+hyper-parameter optimization. The Journal of Machine
+Learning Research, 13(1):281–305, 2012. URL http:
+//dl.acm.org/citation.cfm?id=2188395.
+[19] Frank Hutter, Holger Hoos, and Kevin Leyton-Brown.
+An Efficient Approach for Assessing Hyperparameter
+Importance. pages 754–762, 2014. URL http://jmlr.org/
+proceedings/papers/v32/hutter14.html.
+[20] Alex Graves and Jurgen Schmidhuber. Framewise ¨
+phoneme classification with bidirectional LSTM and other
+neural network architectures. Neural Networks, 18(5–6):
+602–610, July 2005. ISSN 0893-6080. doi: 10.1016/j.
+neunet.2005.06.042. URL http://www.sciencedirect.com/
+science/article/pii/S0893608005001206.
+[21] Felix A. Gers, Jurgen Schmidhuber, and Fred Cummins. ¨
+Learning to forget: Continual prediction with LSTM.
+In Artificial Neural Networks, 1999. ICANN 99. Ninth
+International Conference on (Conf. Publ. No. 470),
+volume 2, pages 850–855, 1999.
+[22] Felix A. Gers and Jurgen Schmidhuber. Recurrent nets ¨
+that time and count. In Neural Networks, 2000. IJCNN
+2000, Proceedings of the IEEE-INNS-ENNS International
+Joint Conference on, volume 3, pages 189–194. IEEE,
+2000. ISBN 0769506194.
+[23] AJ Robinson and Frank Fallside. The utility driven
+dynamic error propagation network. University of
+Cambridge Department of Engineering, 1987.
+[24] R. J. Williams. Complexity of exact gradient computation
+algorithms for recurrent neural networks. Technical Report
+Technical Report NU-CCS-89-27, Boston: Northeastern
+University, College of Computer Science, 1989.
+[25] P. J. Werbos. Generalization of backpropagation with
+application to a recurrent gas market model. Neural
+Networks, 1, 1988.
+[26] JS Garofolo, LF Lamel, WM Fisher, JG Fiscus, DS Pallett,
+and NL Dahlgren. DARPA TIMIT Acoustic-Phonetic
+Continuous Speech Corpus CD-ROM. National Institute
+of Standards and Technology, NTIS Order No PB91-
+505065, 1993.
+[27] Felix A. Gers, Juan Antonio Perez-Ortiz, Douglas Eck, ´
+and Jurgen Schmidhuber. DEFK-LSTM. In ¨ ESANN 2002,
+Proceedings of the 10th Eurorean Symposium on Artificial
+Neural Networks, 2002.
+[28] J Schmidhuber, D Wierstra, M Gagliolo, and F J Gomez.
+Training Recurrent Networks by EVOLINO. Neural
+Computation, 19(3):757–779, 2007.
+[29] Justin Bayer, Daan Wierstra, Julian Togelius, and Jurgen ¨
+Schmidhuber. Evolving memory cell structures for
+sequence learning. In Artificial Neural Networks–ICANN
+2009, pages 755–764. Springer, 2009. URL http://link.
+springer.com/chapter/10.1007/978-3-642-04277-5 76.
+[30] Rafal Jozefowicz, Wojciech Zaremba, and Ilya Sutskever.
+An empirical exploration of recurrent network architectures. In Proceedings of the 32nd International
+Conference on Machine Learning (ICML-15), pages 2342–
+2350, 2015.
+[31] Sebastian Otte, Marcus Liwicki, and Andreas Zell. Dynamic Cortex Memory: Enhancing Recurrent Neural Networks for Gradient-Based Sequence Learning. In Artificial
+Neural Networks and Machine Learning – ICANN 2014,
+number 8681 in Lecture Notes in Computer Science,
+pages 1–8. Springer International Publishing, September
+2014. ISBN 978-3-319-11178-0, 978-3-319-11179-7.
+URL http://link.springer.com/chapter/10.1007/978-3-319-
+11179-7 1.
+[32] Kyunghyun Cho, Bart van Merrienboer, Caglar Gulcehre,
+Fethi Bougares, Holger Schwenk, and Yoshua Bengio.
+Learning Phrase Representations using RNN EncoderDecoder for Statistical Machine Translation. arXiv
+preprint arXiv:1406.1078, 2014. URL http://arxiv.org/
+abs/1406.1078.
+[33] Junyoung Chung, Caglar Gulcehre, KyungHyun Cho,
+and Yoshua Bengio. Empirical Evaluation of Gated
+Recurrent Neural Networks on Sequence Modeling.
+arXiv:1412.3555 [cs], December 2014. URL http://arxiv.
+org/abs/1412.3555.
+[34] David Crystal. Dictionary of linguistics and phonetics,
+volume 30. John Wiley & Sons, 2011.
+[35] P. Mermelstein. Distance measures for speech recognition:
+Psychological and instrumental. In C. H. Chen, editor,
+Pattern Recognition and Artificial Intelligence, pages 374–
+388. Academic Press, New York, 1976.
+[36] Alexander Graves. Supervised Sequence Labelling with
+Recurrent Neural Networks. Ph.d., The Technical University of Munich, 2008.
+[37] Andrew K. Halberstadt. Heterogeneous acoustic measurements and multiple classifiers for speech recognition.
+PhD thesis, Massachusetts Institute of Technology, 1998.
+[38] Marcus Liwicki and Horst Bunke. IAM-OnDB-an on-line
+English sentence database acquired from handwritten text
+on a whiteboard. In Document Analysis and Recognition,
+2005. Proceedings. Eighth International Conference on,
+pages 956–961. IEEE, 2005.
+[39] Alex Graves, Santiago Fernandez, Faustino Gomez, and ´
+Jurgen Schmidhuber. Connectionist temporal classifica- ¨
+tion: labelling unsegmented sequence data with recurrent
+neural networks. In Proceedings of the 23rd international
+conference on Machine learning, pages 369–376, 2006.
+URL http://dl.acm.org/citation.cfm?id=1143891.
+[40] Moray Allan and Christopher KI Williams. Harmonising
+chorales by probabilistic inference. Advances in neural
+information processing systems, 17:25–32, 2005.
+[41] Nicolas Boulanger-Lewandowski, Yoshua Bengio, and
+Pascal Vincent. Modeling Temporal Dependencies in
+High-Dimensional Sequences: Application to Polyphonic
+Music Generation and Transcription. pages 1159–1166,
+2012. URL http://icml.cc/discuss/2012/590.html.
+[42] Ilya Sutskever, James Martens, George Dahl, and Geoffrey
+Hinton. On the importance of initialization and momenTRANSACTIONS ON NEURAL NETWORKS AND LEARNING SYSTEMS 12
+tum in deep learning. In JMLR, pages 1139–1147, 2013.
+URL http://jmlr.org/proceedings/papers/v28/sutskever13.
+html.
+[43] Jasper Snoek, Hugo Larochelle, and Ryan P Adams.
+Practical Bayesian Optimization of Machine Learning
+Algorithms. In F. Pereira, C. J. C. Burges, L. Bottou,
+and K. Q. Weinberger, editors, Advances in Neural
+Information Processing Systems 25, pages 2951–2959.
+Curran Associates, Inc., 2012.
+[44] F. Hutter, H. H. Hoos, and K. Leyton-Brown. Sequential Model-Based Optimization for General Algorithm
+Klaus Greff received his Diploma in Computer Science from the University of Kaiserslautern, Germany
+in 2011. Currently he is pursuing his PhD at IDSIA
+in Lugano, Switzerland, under the supervision of
+Prof. Jurgen Schmidhuber in the field of Machine ¨
+Learning. His research interests include Sequence
+Learning and Recurrent Neural Networks.
+Rupesh Srivastava is a PhD student at IDSIA
+& USI in Switzerland, supervised by Prof. Jurgen ¨
+Schmidhuber. He currently works on understanding and improving neural network architectures.
+In particular, he has worked on understanding the
+beneficial properties of local competition in neural
+networks, and new architectures which allow gradientbased training of extremely deep networks. In the
+past, Rupesh worked on reliability based design
+optimization using evolutionary algorithms at the
+Kanpur Genetic Algorithms Laboratory, supervised
+by Prof. Kalyanmoy Deb for his Masters thesis.
+Jan Koutn´ik received his Ph.D. in computer science
+from the Czech Technical University in Prague in
+2008. He works as machine learning researcher at
+The Swiss AI Lab IDSIA. His research is mainly
+focused on artificial neural networks, recurrent neural
+networks, evolutionary algorithms and deep-learning
+applied to reinforcement learning, control problems,
+image classification, handwriting and speech recognition.
+Configuration. In Proc. of LION-5, pages 507–523, 2011.
+[45] Alex Graves, Marcus Liwicki, Horst Bunke, Jurgen ¨
+Schmidhuber, and Santiago Fernandez. Unconstrained ´
+on-line handwriting recognition with recurrent neural
+networks. In Advances in Neural Information Processing
+Systems, pages 577–584, 2008.
+[46] Giles Hooker. Generalized Functional ANOVA Diagnostics for High-Dimensional Functions of Dependent Variables. Journal of Computational and Graphical Statistics,
+16(3):709–732, September 2007. ISSN 1061-8600, 1537-
+2715. doi: 10.1198/106186007X237892. URL http://www.
+tandfonline.com/doi/abs/10.1198/106186007X237892.
+Bas R. Steunebrink is a postdoctoral researcher
+at the Swiss AI lab IDSIA. He received his PhD
+in 2010 from Utrecht University, the Netherlands.
+Bas’s interests and expertise include Artificial General Intelligence (AGI), cognitive robotics, machine
+learning, resource-constrained control, and affective
+computing.
+Jurgen Schmidhuber ¨ is Professor of Artificial Intelligence (AI) at USI in Switzerland. He has pioneered
+self-improving general problem solvers since 1987,
+and Deep Learning Neural Networks (NNs) since
+1991. The recurrent NNs (RNNs) developed by his
+research groups at the Swiss AI Lab IDSIA & USI
+& SUPSI & TU Munich were the first RNNs to
+win official international contests. They have helped
+to revolutionize connected handwriting recognition,
+speech recognition, machine translation, optical character recognition, image caption generation, and are
+now in use at Google, Apple, Microsoft, IBM, Baidu, and many other
+companies. IDSIA’s Deep Learners were also the first to win object detection
+and image segmentation contests, and achieved the world’s first superhuman
+visual classification results, winning nine international competitions in machine
+learning & pattern recognition (more than any other team). They also were
+the first to learn control policies directly from high-dimensional sensory input
+using reinforcement learning. His research group also established the field of
+mathematically rigorous universal AI and optimal universal problem solvers.
+His formal theory of creativity & curiosity & fun explains art, science, music,
+and humor. He also generalized algorithmic information theory and the manyworlds theory of physics, and introduced the concept of Low-Complexity Art,
+the information age’s extreme form of minimal art. Since 2009 he has been
+member of the European Academy of Sciences and Arts. He has published
+333 peer-reviewed papers, earned seven best paper/best video awards, and is
+recipient of the 2013 Helmholtz Award of the International Neural Networks
+Society and the 2016 IEEE Neural Networks Pioneer Award.

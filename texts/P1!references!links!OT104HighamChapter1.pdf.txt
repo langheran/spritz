@@ -1,0 +1,2232 @@
+Chapter 1 Theory of Matrix Functions
+In this first chapter we give a concise treatment of the theory of matrix functions, concentrating on those aspects that are most useful in the development of algorithms.
+Most of the results in this chapter are for general functions. Results specific to particular functions can be found in later chapters devoted to those functions.
+1.1. Introduction
+The term "function of a matrix" can have several different meanings. In this book we are interested in a definition that takes a scalar function f and a matrix A  Cn×n and specifies f (A) to be a matrix of the same dimensions as A; it does so in a way that provides a useful generalization of the function of a scalar variable f (z), z  C. Other interpretations of f (A) that are not our focus here are as follows:
+· Elementwise operations on matrices, for example sin A = (sin aij). These operations are available in some programming languages. For example, Fortran 95 supports "elemental operations" [423, 1999], and most of MATLAB's elementary and special functions are applied in an elementwise fashion when given matrix arguments. However, elementwise operations do not integrate well with matrix algebra, as is clear from the fact that the elementwise square of A is not equal to the matrix product of A with itself. (Nevertheless, the elementwise product of two matrices, known as the Hadamard product or Schur product, is a useful concept [294, 1990], [296, 1991, Chap. 5].)
+· Functions producing a scalar result, such as the trace, the determinant, the spectral radius, the condition number (A) = A A-1 , and one particular generalization to matrix arguments of the hypergeometric function [359, 2006].
+· Functions mapping Cn×n to Cm×m that do not stem from a scalar function. Examples include matrix polynomials with matrix coefficients, the matrix transpose, the adjugate (or adjoint) matrix, compound matrices comprising minors of a given matrix, and factors from matrix factorizations. However, as a special case, the polar factors of a matrix are treated in Chapter 8.
+· Functions mapping C to Cn×n, such as the transfer function f (t) = B(tI - A)-1C, for B  Cn×m, A  Cm×m, and C  Cm×n.
+Before giving formal definitions, we offer some motivating remarks. When f (t) is a polynomial or rational function with scalar coefficients and a scalar argument, t, it is natural to define f (A) by substituting A for t, replacing division by matrix
+1
+Copyright ©2008 by the Society for Industrial and Applied Mathematics. This electronic version is for personal use and may not be duplicated or distributed.
+From "Functions of Matrices: Theory and Computation" by Nicholas J. Higham. This book is available for purchase at www.siam.org/catalog.
+
+2 Theory of Matrix Functions
+
+inversion (provided that the matrices to be inverted are nonsingular), and replacing 1 by the identity matrix. Then, for example,
+
+f (t)
+
+=
+
+1 + t2 1-t
+
+
+
+f (A) = (I - A)-1(I + A2) if 1 / (A).
+
+Here, (A) denotes the set of eigenvalues of A (the spectrum of A). Note that rational functions of a matrix commute, so it does not matter whether we write (I - A)-1(I + A2) or (I + A2)(I - A)-1. If f has a convergent power series representation, such as
+
+log(1 +
+
+t)
+
+=
+
+t
+
+-
+
+t2 2
+
++
+
+t3 3
+
+-
+
+t4 4
+
++···,
+
+|t| < 1,
+
+we can again simply substitute A for t to define
+
+log(I
+
++
+
+A)
+
+=
+
+A
+
+-
+
+A2 2
+
++
+
+A3 3
+
+-
+
+A4 4
+
++
+
+···,
+
+(A) < 1.
+
+(1.1)
+
+Here,  denotes the spectral radius and the condition (A) < 1 ensures convergence of the matrix series (see Theorem 4.7). In this ad hoc fashion, a wide variety of matrix functions can be defined. However, this approach has several drawbacks:
+
+· In order to build up a general mathematical theory, we need a way of defining f (A) that is applicable to arbitrary functions f .
+
+· A particular formula may apply only for a restricted set of A, as in (1.1). If we define f (A) from such a formula (rather than obtain the formula by applying suitable principles to a more general definition) we need to check that it is consistent with other definitions of the same function.
+
+· For a multivalued function (multifunction), such as the logarithm or square root, it is desirable to classify all possible f (A) that can be obtained by using different branches of the function and to identify any distinguished values.
+
+For these reasons we now consider general definitions of functions of a matrix.
+
+1.2. Definitions of f (A)
+There are many equivalent ways of defining f (A). We focus on three that are of particular interest. These definitions yield primary matrix functions; nonprimary matrix functions are discussed in Section 1.4.
+
+1.2.1. Jordan Canonical Form
+It is a standard result that any matrix A  Cn×n can be expressed in the Jordan canonical form
+
+Z-1AZ = J = diag(J1, J2, . . . , Jp),
+
+ k 1
+
+Jk = Jk(k) = 
+
+k . . . ...
+
+
+1   Cmk×mk , k
+
+(1.2a) (1.2b)
+
+Copyright ©2008 by the Society for Industrial and Applied Mathematics. This electronic version is for personal use and may not be duplicated or distributed.
+From "Functions of Matrices: Theory and Computation" by Nicholas J. Higham. This book is available for purchase at www.siam.org/catalog.
+
+1.2 Definitions of f (A)
+
+3
+
+where Z is nonsingular and m1 + m2 + · · · + mp = n. The Jordan matrix J is unique up to the ordering of the blocks Ji, but the transforming matrix Z is not unique.
+Denote by 1, . . . , s the distinct eigenvalues of A and let ni be the order of the largest Jordan block in which i appears, which is called the index of i.
+We need the following terminology.
+
+Definition 1.1. 1 The function f is said to be defined on the spectrum of A if the values
+f (j)(i), j = 0: ni - 1, i = 1: s
+exist. These are called the values of the function f on the spectrum of A.
+
+In most cases of practical interest f is given by a formula, such as f (t) = et.
+
+However, the following definition of f (A) requires only the values of f on the spectrum
+
+of A; it does not require any other information about f . Indeed any
+
+s i=1
+
+ni
+
+arbitrary
+
+numbers can be chosen and assigned as the values of f on the spectrum of A. It is
+
+only when we need to make statements about global properties such as continuity
+
+that we will need to assume more about f .
+
+Definition 1.2 (matrix function via Jordan canonical form). Let f be defined on the spectrum of A  Cn×n and let A have the Jordan canonical form (1.2). Then
+
+f (A) := Zf (J )Z-1 = Z diag(f (Jk))Z-1,
+
+(1.3)
+
+where
+
+ f (Jk) :=  f (k)
+
+f (k) f (k)
+
+...
+... ...
+
+f (mk-1))(k) 
+
+(mk - 1)! ...
+f (k)
+
+ .
+
+f (k)
+
+(1.4)
+
+A simple example illustrates the definition. For the Jordan block J =
+
+1/2 1 0 1/2
+
+and f (x) = x3, (1.4) gives
+
+f (J) =
+
+f (1/2) 0
+
+f (1/2) f (1/2)
+
+=
+
+1/8 0
+
+3/4 1/8
+
+,
+
+which is easily verified to be J3. To provide some insight into this definition we make several comments. First,
+the definition yields an f (A) that can be shown to be independent of the particular Jordan canonical form that is used; see Problem 1.1.
+Second, note that if A is diagonalizable then the Jordan canonical form reduces to an eigendecomposition A = ZDZ-1, with D = diag(i) and the columns of Z eigenvectors of A, and Definition 1.2 yields f (A) = Zf (D)Z-1 = Z diag(f (i))Z-1. Therefore for diagonalizable matrices f (A) has the same eigenvectors as A and its eigenvalues are obtained by applying f to those of A.
+1This is the terminology used by Gantmacher [203, 1959, Chap. 5] and Lancaster and Tismenetsky [371, 1985, Chap. 9]. Note that the values depend not just on the eigenvalues but also on the maximal Jordan block sizes ni.
+
+Copyright ©2008 by the Society for Industrial and Applied Mathematics. This electronic version is for personal use and may not be duplicated or distributed.
+From "Functions of Matrices: Theory and Computation" by Nicholas J. Higham. This book is available for purchase at www.siam.org/catalog.
+
+4 Theory of Matrix Functions
+
+Finally, we explain how (1.4) can be obtained from Taylor series considerations.
+
+In (1.2b) write Jk = kI +Nk  Cmk×mk , where Nk is zero except for a superdiagonal
+
+of 1s. Note that for mk = 3 we have  010
+
+ 001
+
+Nk =  0 0 1  , Nk2 =  0 0 0  , Nk3 = 0.
+
+000
+
+000
+
+In general, powering Nk causes the superdiagonal of 1s to move a diagonal at a time towards the top right-hand corner, until at the mkth power it disappears: Ekmk = 0; so Nk is nilpotent. Assume that f has a convergent Taylor series expansion
+
+f (t)
+
+=
+
+f (k)
+
++ f (k)(t -
+
+k) + · · · +
+
+f (j)(k)(t j!
+
+- k)j
+
++
+
+···.
+
+On substituting Jk  Cmk×mk for t we obtain the finite series
+
+f (Jk)
+
+=
+
+f (k)I
+
++
+
+f (k)Nk
+
++
+
+·
+
+·
+
+·
+
++
+
+f (mk-1)(k)Nkmk-1 (mk - 1)!
+
+,
+
+(1.5)
+
+since all powers of Nk from the mkth onwards are zero. This expression is easily seen to agree with (1.4). An alternative derivation of (1.5) that does not rest on a Taylor series is given in the next section.
+Definition 1.2 requires the function f to take well-defined values on the spectrum of A--including values associated with derivatives, where appropriate. Thus in the case of functions such as t and log t it is implicit that a single branch has been chosen in (1.4). Moreover, if an eigenvalue occurs in more than one Jordan block then the same choice of branch must be made in each block. If the latter requirement is violated then a nonprimary matrix function is obtained, as discussed in Section 1.4.
+
+1.2.2. Polynomial Interpolation
+
+The second definition is less obvious than the first, yet it has an elegant derivation and readily yields some useful properties. We first introduce some background on polynomials at matrix arguments.
+The minimal polynomial of A  Cn×n is defined to be the unique monic polynomial  of lowest degree such that (A) = 0. The existence of  is easily proved; see Problem 1.5. A key property is that the minimal polynomial divides any other polynomial p for which p(A) = 0. Indeed, by polynomial long division any such p can be written p = q + r, where the degree of the remainder r is less than that of . But 0 = p(A) = (A)q(A) + r(A) = r(A), and this contradicts the minimality of the degree of  unless r = 0. Hence r = 0 and  divides p.
+By considering the Jordan canonical form it is not hard to see that
+
+s
+(t) = (t - i)ni ,
+i=1
+
+(1.6)
+
+where, as in the previous section, 1, . . . , s are the distinct eigenvalues of A and ni is the dimension of the largest Jordan block in which i appears. It follows immediately that  is zero on the spectrum of A (in the sense of Definition 1.1).
+For any A  Cn×n and any polynomial p(t), it is obvious that p(A) is defined
+(by substituting A for t) and that p is defined on the spectrum of A. Our interest in
+polynomials stems from the fact that the values of p on the spectrum of A determine
+p(A).
+
+Copyright ©2008 by the Society for Industrial and Applied Mathematics. This electronic version is for personal use and may not be duplicated or distributed.
+From "Functions of Matrices: Theory and Computation" by Nicholas J. Higham. This book is available for purchase at www.siam.org/catalog.
+
+1.2 Definitions of f (A)
+
+5
+
+Theorem 1.3. For polynomials p and q and A  Cn×n, p(A) = q(A) if and only if p and q take the same values on the spectrum of A.
+Proof. Suppose that two polynomials p and q satisfy p(A) = q(A). Then d = p-q is zero at A so is divisible by the minimal polynomial . In other words, d takes only the value zero on the spectrum of A, that is, p and q take the same values on the spectrum of A.
+Conversely, suppose p and q take the same values on the spectrum of A. Then d = p - q is zero on the spectrum of A and so must be divisible by the minimum polynomial , in view of (1.6). Hence d = r for some polynomial r, and since d(A) = (A)r(A) = 0, it follows that p(A) = q(A).
+Thus it is a property of polynomials that the matrix p(A) is completely determined by the values of p on the spectrum of A. It is natural to generalize this property to arbitrary functions and define f (A) in such a way that f (A) is completely determined by the values of f on the spectrum of A.
+
+Definition 1.4 (matrix function via Hermite interpolation). Let f be defined on the spectrum of A  Cn×n and let  be the minimal polynomial of A. Then
+f (A) := p(A), where p is the polynomial of degree less than
+
+s
+ni = deg 
+i=1
+
+that satisfies the interpolation conditions
+
+p(j)(i) = f (j)(i),
+
+j = 0: ni - 1, i = 1: s.
+
+(1.7)
+
+There is a unique such p and it is known as the Hermite interpolating polynomial. 
+An example is useful for clarification. Consider f (t) = t and
+
+A=
+
+2 1
+
+2 3
+
+.
+
+The eigenvalues are 1 and 4, so s = 2 and n1 = n2 = 1. We take f (t) as the principal branch t1/2 of the square root function and find that the required interpolant satisfying p(1) = f (1) = 1 and p(4) = f (4) = 2 is
+
+p(t)
+
+=
+
+f
+
+(1)
+
+t 1
+
+- -
+
+4 4
+
++
+
+f
+
+(4)
+
+t 4
+
+- -
+
+1 1
+
+=
+
+1 3
+
+(t
+
++
+
+2).
+
+Hence
+
+f (A)
+
+=
+
+p(A)
+
+=
+
+1 3
+
+(A
+
++
+
+2I )
+
+=
+
+1 3
+
+4 1
+
+2 5
+
+.
+
+It is easily checked that f (A)2 = A. Note that the formula A1/2 = (A + 2I)/3 holds
+
+more generally for any diagonalizable n × n matrix A having eigenvalues 1 and/or 4
+
+(and hence having a minimal polynomial that divides (t) = (t-1)(t-4))--including
+
+the identity matrix. We are not restricted to using the same branch of the square root
+
+function at each eigenvalue. For example, with f (1) = 1 and f (4) = -2 we obtain
+
+p(t) = 2 - t and
+
+f (A) =
+
+0 -1
+
+-2 -1
+
+.
+
+Copyright ©2008 by the Society for Industrial and Applied Mathematics. This electronic version is for personal use and may not be duplicated or distributed.
+From "Functions of Matrices: Theory and Computation" by Nicholas J. Higham. This book is available for purchase at www.siam.org/catalog.
+
+6 Theory of Matrix Functions
+
+We make several remarks on this definition.
+
+Remark 1.5. If q is a polynomial that satisfies the interpolation conditions (1.7) and some additional interpolation conditions (at the same or different i) then q and the polynomial p of Definition 1.4 take the same values on the spectrum of A. Hence by Theorem 1.3, q(A) = p(A) = f (A). Sometimes, in constructing a polynomial q for which q(A) = f (A), it is convenient to impose more interpolation conditions than necessary--typically if the eigenvalues of A are known but the Jordan form is not (see the next remark, and Theorem 3.7, for example). Doing so yields a polynomial of higher degree than necessary but does not affect the ability of the polynomial to produce f (A).
+
+Remark 1.6. The Hermite interpolating polynomial p is given explicitly by the
+
+Lagrange­Hermite formula
+
+
+s
+p(t) = 
+i=1
+
+ni -1
+
+1 j!
+
+(ij)(i)(t
+
+-
+
+i)j
+
+j=0
+
+
+(t - j )nj  ,
+j=i
+
+(1.8)
+
+where i(t) = f (t)/ j=i(t - j)nj . For a matrix with distinct eigenvalues (ni  1, s = n) this formula reduces to the familiar Lagrange form
+
+n
+p(t) = f (i)i(t),
+i=1
+
+n
+i(t) =
+j=1 j=i
+
+t - j i - j
+
+.
+
+(1.9)
+
+An elegant alternative to (1.8) is the Newton divided difference form
+
+p(t) = f [x1] + f [x1, x2](t - x1) + f [x1, x2, x3](t - x1)(t - x2) + · · ·
+
++ f [x1, x2, . . . , xm](t - x1)(t - x2) . . . (t - xm-1),
+
+(1.10)
+
+where m = deg  and the set {xi}mi=1 comprises the distinct eigenvalues 1, . . . , s with i having multiplicity ni. Here the f [. . .] denote divided differences, which are
+defined in Section B.16. Another polynomial q for which f (A) = q(A) is given by (1.10) with m = n and {xi}ni=1 the set of all n eigenvalues of A:
+
+q(t) = f [1] + f [1, 2](t - 1) + f [1, 2, 3](t - 1)(t - 2) + · · ·
+
++ f [1, 2, . . . , n](t - 1)(t - 2) . . . (t - n-1).
+
+(1.11)
+
+This polynomial is independent of the Jordan structure of A and is in general of higher degree than p. However, the properties of divided differences ensure that q and p take the same values on the spectrum of A, so q(A) = p(A) = f (A).
+
+Remark 1.7. This definition explicitly makes f (A) a polynomial in A. It is important to note, however, that the polynomial p depends on A, through the values of f on the spectrum of A, so it is not the case that f (A)  q(A) for some fixed polynomial q independent of A.
+
+Remark 1.8. If f is given by a power series, Definition 1.4 says that f (A) is nevertheless expressible as a polynomial in A of degree at most n-1. Another way to arrive at this conclusion is as follows. The Cayley­Hamilton theorem says that any matrix
+
+Copyright ©2008 by the Society for Industrial and Applied Mathematics. This electronic version is for personal use and may not be duplicated or distributed.
+From "Functions of Matrices: Theory and Computation" by Nicholas J. Higham. This book is available for purchase at www.siam.org/catalog.
+
+1.2 Definitions of f (A)
+
+7
+
+satisfies its own characteristic equation: q(A) = 0,2 where q(t) = det(tI - A) is the characteristic polynomial. This theorem follows immediately from the fact that the minimal polynomial  divides q (see Problem 1.18 for another proof). Hence the nth power of A, and inductively all higher powers, are expressible as a linear combination of I, A, . . . , An-1. Thus any power series in A can be reduced to a polynomial in A of degree at most n - 1. This polynomial is rarely of an elegant form or of practical interest; exceptions are given in (1.16) and Problem 10.13.
+
+Remark 1.9. It is natural to ask whether f (A) is real whenever A is real. By considering real, diagonal A, it is clear that for this condition to hold it is necessary that the scalar function f is real on the subset of the real line on which it is defined. Since the nonreal eigenvalues of a real matrix occur in complex conjugate pairs ,  it is reasonable also to assume that f (), f () form a complex conjugate pair, and likewise for higher derivatives. The interpolation conditions (1.7) can be written in the form of a dual (confluent) Vandermonde system of equations whose solution is a vector comprising the coefficients of r. Considering, for a moment, a 2 × 2 real matrix with eigenvalues ,  ( = ) this system is, under the assumption on f above,
+
+1 1
+
+r0 r1
+
+=
+
+f () f ()
+
+=
+
+f () f ()
+
+.
+
+Premultiplying by the matrix
+
+11 -i i
+
+/2 yields the system
+
+1 Re  0 Im 
+
+r0 r1
+
+=
+
+Re f () Im f ()
+
+with a real coefficient matrix and right-hand side. We conclude that r has real coefficients and hence f (A) = p(A) is real when A is real. This argument extends to real n × n matrices under the stated condition on f . As a particular example, we can conclude that if A is real and nonsingular with no eigenvalues on the negative real axis then A has a real square root and a real logarithm. For a full characterization of the existence of real square roots and logarithms see Theorem 1.23. Equivalent conditions to f (A) being real for real A when f is analytic are given in Theorem 1.18.
+
+Remark 1.10. We can derive directly from Definition 1.4 the formula (1.4) for a
+function of the Jordan block Jk in (1.2). It suffices to note that the interpolation conditions are p(j)(k) = f (j)(k), j = 0: mk - 1, so that the required Hermite interpolating polynomial is
+
+p(t)
+
+=
+
+f (k)
+
++
+
+f (k)(t
+
+-
+
+k )
+
++
+
+f (k)(t - 2!
+
+k )2
+
++
+
+···
+
++
+
+f
+
+(mk
+
+-1) (k )(t (mk -
+
+- k 1)!
+
+)mk
+
+-1
+
+,
+
+and then to evaluate p(Jk), making use of the properties of the powers of Nk noted in the previous section (cf. (1.5)).
+
+1.2.3. Cauchy Integral Theorem
+Perhaps the most concise and elegant definition of a function of a matrix is a generalization of the Cauchy integral theorem.
+2It is incorrect to try to prove the Cayley­Hamilton theorem by "q(A) = det(AI - A) = 0".
+
+Copyright ©2008 by the Society for Industrial and Applied Mathematics. This electronic version is for personal use and may not be duplicated or distributed.
+From "Functions of Matrices: Theory and Computation" by Nicholas J. Higham. This book is available for purchase at www.siam.org/catalog.
+
+8 Theory of Matrix Functions
+
+Definition 1.11 (matrix function via Cauchy integral). For A  Cn×n,
+
+f (A)
+
+:=
+
+1 2i
+
+f (z)(zI - A)-1 dz,
+
+
+(1.12)
+
+where f is analytic on and inside a closed contour  that encloses (A).
+
+The integrand contains the resolvent, (zI - A)-1, which is defined on  since  is disjoint from the spectrum of A.
+This definition leads to short proofs of certain theoretical results and has the advantage that it can be generalized to operators.
+
+1.2.4. Equivalence of Definitions
+Our three definitions are equivalent, modulo the requirement in the Cauchy integral definition that f be analytic in a region of the complex plane containing the spectrum.
+
+Theorem 1.12. Definition 1.2 (Jordan canonical form) and Definition 1.4 (Hermite interpolation) are equivalent. If f is analytic then Definition 1.11 (Cauchy integral ) is equivalent to Definitions 1.2 and 1.4.
+Proof. Definition 1.4 says that f (A) = p(A) for a Hermite interpolating polynomial p satisfying (1.7). If A has the Jordan form (1.2) then f (A) = p(A) = p(ZJZ-1) = Zp(J)Z-1 = Z diag(p(Jk))Z-1, just from elementary properties of matrix polynomials. But since p(Jk) is completely determined by the values of p on the spectrum of Jk, and these values are a subset of the values of p on the spectrum of A, it follows from Remark 1.5 and Remark 1.10 that p(Jk) is precisely (1.4). Hence the matrix f (A) obtained from Definition 1.4 agrees with that given by Definition 1.2.
+For the equivalence of Definition 1.11 with the other two definitions, see Horn and Johnson [296, 1991, Thm. 6.2.28].
+We will mainly use (for theoretical purposes) Definitions 1.2 and 1.4. The polynomial interpolation definition, Definition 1.4, is well suited to proving basic properties of matrix functions, such as those in Section 1.3, while the Jordan canonical form definition, Definition 1.2, excels for solving matrix equations such as X2 = A and eX = A. For many purposes, such as the derivation of the formulae in the next section, either of the definitions can be used.
+In the rest of the book we will refer simply to "the definition of a matrix function".
+
+1.2.5. Example: Function of Identity Plus Rank-1 Matrix
+To illustrate the theory, and the consistency of the different ways of defining f (A), it is instructive to consider the cases where A is a rank-1 matrix and a rank-1 perturbation of the identity matrix.
+Consider, first, a rank-1 matrix A = uv. The interpolation definition provides the easiest way to obtain f (A). We first need to determine the Jordan structure of A. If vu = 0 then A has an eigenpair (vu, u) and 0 is a semisimple eigenvalue of multiplicity n - 1. The interpolation conditions (1.7) are therefore simply
+p(vu) = f (vu), p(0) = f (0),
+
+Copyright ©2008 by the Society for Industrial and Applied Mathematics. This electronic version is for personal use and may not be duplicated or distributed.
+From "Functions of Matrices: Theory and Computation" by Nicholas J. Higham. This book is available for purchase at www.siam.org/catalog.
+
+1.2 Definitions of f (A)
+
+9
+
+and so Hence
+
+p(t)
+
+=
+
+t 0
+
+- -
+
+vu vu
+
+f
+
+(0)
+
++
+
+t-0 vu -
+
+0
+
+f
+
+(vu).
+
+f (A)
+
+=
+
+p(A)
+
+=
+
+-
+
+f (0) vu
+
+uv
+
++
+
+f (0)I
+
++
+
+f
+
+(vu)
+
+uv vu
+
+= f (0)I +
+
+f (vu) - f (0) vu - 0
+
+uv
+
+= f (0)I + f [vu, 0] uv.
+
+(1.13)
+
+We have manipulated the expression into this form involving a divided difference because it is suggestive of what happens when vu = 0. Indeed f [0, 0] = f (0) and so when vu = 0 we may expect that f (A) = f (0)I + f (0)uv. To confirm this formula, note that vu = 0 implies that the spectrum of A consists entirely of 0 and that A2 = (vu)uv = 0. Hence, assuming A = 0, A must have one 2 × 2 Jordan block
+corresponding to the eigenvalue 0, with the other n - 2 zero eigenvalues occurring in
+1 × 1 Jordan blocks. The interpolation conditions (1.7) are therefore
+
+p(0) = f (0), p(0) = f (0),
+
+and so p(t) = f (0) + tf (0). Therefore p(A) = f (0)I + f (0)uv, as anticipated. To summarize, the formula
+
+f (uv) = f (0)I + f [vu, 0] uv
+
+(1.14)
+
+is valid for all u and v. We could have obtained this formula directly by using the divided difference form (1.10) of the Hermite interpolating polynomial r, but the derivation above gives more insight.
+We now show how the formula is obtained from Definition 1.2 when vu = 0 (for the case vu = 0 see Problem 1.15). The Jordan canonical form can be written as
+A = [ u X ] diag(vu, 0, . . . , 0) v/(vu) , Y
+
+where X and Y are chosen so that AX = 0, [ u X ] is nonsingular, and
+
+v/(vu)
+
+[u X]
+
+= I.
+
+Y
+
+(1.15)
+
+Hence
+
+f (A) = [ u
+
+X ] diag(f (vu), f (0), . . . , f (0))
+
+v/(vu) Y
+
+=
+
+f
+
+(v
+
+u)
+
+uv vu
+
++
+
+f (0)XY.
+
+But XY = I - uv/(vu), from (1.15), and hence (1.13) is recovered.
+
+If f has a power series expansion then (1.14) can also be derived by direct substi-
+
+tution into the power series, using Ak = (vu)k-1uv.
+
+The Cauchy integral definition (1.12) can also be used to derive (1.14) when f is
+
+analytic, by using the Sherman­Morrison formula (B.11).
+
+Even in the (1.14) provides
+
+rtahnek-t1wocassqeuisasrueesroooftns ounvex/istevncue
+
+are for
+
+present. For f vu = 0. But
+
+the square if vu =
+
+root, 0 the
+
+Copyright ©2008 by the Society for Industrial and Applied Mathematics. This electronic version is for personal use and may not be duplicated or distributed.
+From "Functions of Matrices: Theory and Computation" by Nicholas J. Higham. This book is available for purchase at www.siam.org/catalog.
+
+10 Theory of Matrix Functions
+
+formula breaks down because f (0) is undefined. In this case A has no square roots--
+
+essentially because Also note that if u
+
+the Jordan form of A has a and v are real, f (uv) will
+
+block be real
+
+01 00
+
+,
+
+only
+
+which has no square if f [vu, 0] is real.
+
+roots.
+
+Analysis very similar to that above provides a formula for a function of the identity
+
+plus a rank-1 matrix that generalizes (1.14) (see Problem 1.16):
+
+f (I + uv) = f ()I + f [ + vu, ]uv.
+
+(1.16)
+
+For a more general result involving a perturbation of arbitrary rank see Theorem 1.35.
+
+1.2.6. Example: Function of Discrete Fourier Transform Matrix
+
+Another interesting example is provided by the discrete Fourier transform (DFT)
+
+matrix
+
+Fn
+
+=
+
+1 n1/2
+
+exp(-2i(r - 1)(s - 1)/n)
+
+n  Cn×n.
+r,s=1
+
+(1.17)
+
+Fn is a very special matrix: it is complex symmetric and unitary (and is a Vandermonde matrix based on the roots of unity). Let us see how to evaluate f (Fn).
+The DFT has the special property that Fn4 = I, from which it follows that the minimal polynomial of Fn is (t) = t4 - 1 for n  4. The interpolating polynomial in (1.7) therefore has degree 3 for all n  4 and can be expressed in Lagrange form
+(1.9) as
+
+p(t) =
+
+1 4
+
+f (1) (t + 1) (t - i) (t + i) - f (-1) (t - 1) (t - i) (t + i)
+
++ if (i) (t - 1) (t + 1) (t + i) - if (-i) (t - 1) (t + 1) (t - i) .
+
+(1.18)
+
+Thus f (A) = p(A), and in fact this formula holds even for n = 1: 3, since incorpo-
+rating extra interpolation conditions does not affect the ability of the interpolating
+polynomial to yield f (A) (see Remark 1.5). This expression can be quickly evaluated in O(n2 log n) operations because multiplication of a vector by Fn can be carried out in O(n log n) operations using the fast Fourier transform (FFT).
+Because Fn is unitary and hence normal, Fn is unitarily diagonalizable: Fn = QDQ for some unitary Q and diagonal D. (Indeed, any matrix with minimal polynomial (t) has distinct eigenvalues and so is diagonalizable.) Thus f (Fn) = Qf (D)Q. However, this formula requires knowledge of Q and D and so is much more compli-
+cated to use than (1.18).
+
+1.3. Properties
+The sign of a good definition is that it leads to the properties one expects or hopes for, as well as some useful properties that are less obvious. We collect some general properties that follow from the definition of f (A).
+Theorem 1.13. Let A  Cn×n and let f be defined on the spectrum of A. Then (a) f (A) commutes with A; (b) f (AT ) = f (A)T ; (c) f (XAX-1) = Xf (A)X-1; (d) the eigenvalues of f (A) are f (i), where the i are the eigenvalues of A;
+
+Copyright ©2008 by the Society for Industrial and Applied Mathematics. This electronic version is for personal use and may not be duplicated or distributed.
+From "Functions of Matrices: Theory and Computation" by Nicholas J. Higham. This book is available for purchase at www.siam.org/catalog.
+
+1.3 Properties
+
+11
+
+(e) if X commutes with A then X commutes with f (A);
+(f) if A = (Aij) is block triangular then F = f (A) is block triangular with the same block structure as A, and Fii = f (Aii);
+(g) if A = diag(A11, A22, . . . , Amm) is block diagonal then
+f (A) = diag f (A11), f (A22), . . . , f (Amm) ;
+(h) f (Im  A) = Im  f (A), where  is the Kronecker product; (i) f (A  Im) = f (A)  Im.
+Proof. Definition 1.4 implies that f (A) is a polynomial in A, p(A) say. Then f (A)A = p(A)A = Ap(A) = Af (A), which proves the first property. For (b) we have f (A)T = p(A)T = p(AT ) = f (AT ), where the last equality follows from the fact that the values of f on the spectrum of A are the same as the values of f on the spectrum of AT . (c) and (d) follow immediately from Definition 1.2. (e) follows from (c) when X is nonsingular; more generally it is obtained from Xf (A) = Xp(A) = p(A)X = f (A)X. For (f), f (A) = p(A) is clearly block triangular and its ith diagonal block is p(Aii). Since p interpolates f on the spectrum of A it interpolates f on the spectrum of each Aii, and hence p(Aii) = f (Aii). (g) is a special case of (f). (h) is a special case of (g), since Im  A = diag(A, A, . . . , A). Finally, we have A  B = (B  A)T for a permutation matrix , and so
+f (AIm) = f ((Im A)T ) = f (Im A)T = (Im f (A))T = f (A)Im.
+Theorem 1.14 (equality of two matrix functions). With the notation of Section 1.2, f (A) = g(A) if and only if
+f (j)(i) = g(j)(i), j = 0: ni - 1, i = 1: s.
+Equivalently, f (A) = 0 if and only if
+f (j)(i) = 0, j = 0: ni - 1, i = 1: s.
+Proof. This result is immediate from Definition 1.2 or Definition 1.4.
+The next three results show how different functions interact in combination. It is worth emphasizing why these results are nontrivial. It is not immediate from any of the definitions of f (A) how to evaluate at A a composite function, such as f (t) = e-t sin(t) or g(t) = t - (t1/2)2. Replacing "t" by "A" in these expressions needs to be justified, as does the deduction g(A) = 0 from g(t) = 0. However, in any polynomial (which may be an expression made up from other polynomials) the "t  A" substitution is valid, and the proofs for general functions therefore work by reducing to the polynomial case. The first result concerns a sum or product of functions.
+Theorem 1.15 (sum and product of functions). Let f and g be functions defined on the spectrum of A  Cn×n.
+(a) If h(t) = f (t) + g(t) then h(A) = f (A) + g(A).
+(b) If h(t) = f (t)g(t) then h(A) = f (A)g(A).
+
+Copyright ©2008 by the Society for Industrial and Applied Mathematics. This electronic version is for personal use and may not be duplicated or distributed.
+From "Functions of Matrices: Theory and Computation" by Nicholas J. Higham. This book is available for purchase at www.siam.org/catalog.
+
+12 Theory of Matrix Functions
+
+Proof. Part (a) is immediate from any of the definitions of h(A). For part (b), let p and q interpolate f and g on the spectrum of A, so that p(A) = f (A) and q(A) = g(A). By differentiating and using the product rule we find that the functions h(t) and r(t) = p(t)q(t) have the same values on the spectrum of A. Hence h(A) = r(A) = p(A)q(A) = f (A)g(A).
+The next result generalizes the previous one and says that scalar functional relationships of a polynomial nature are preserved by matrix functions. For example sin2(A) + cos2(A) = I, (A1/p)p = A, and eiA = cos(A) + i sin(A). Of course, generalizations of scalar identities that involve two or more noncommuting matrices may fail; for example, eA+B, eAeB, and eBeA are in general all different (see Section 10.1).
+
+Theorem 1.16 (polynomial functional identities). Let Q(u1, . . . , ut) be a polynomial in u1, . . . , ut and let f1, . . . , ft be functions defined on the spectrum of A  Cn×n. If f () = Q(f1(), . . . , ft()) takes zero values on the spectrum of A then f (A) = Q(f1(A), . . . , ft(A)) = 0.
+Proof. Let the polynomials p1, . . . , pt interpolate f1, . . . , ft on the spectrum of A. Then pi(A) = fi(A), i = 1: t. Let p() = Q(p1(), . . . , pt()), and note that p() is a polynomial in . Since pi and fi take the same values on the spectrum of A, so do f and p. But f takes zero values on the spectrum of A, by assumption, and hence so does p. Therefore, by Theorem 1.14, f (A) = p(A) = 0.
+The next result concerns a composite function in which neither of the constituents need be a polynomial.
+
+Theorem 1.17 (composite function). Let A  Cn×n and let the distinct eigenvalues
+of A be 1, . . . , s with indices n1, . . . , ns. Let h be defined on the spectrum of A (so that the values h(j)(i), j = 0: ni - 1, i = 1: s exist) and let the values g(j)(h(i)), j = 0: ni - 1, i = 1: s exist. Then f (t) = g(h(t)) is defined on the spectrum of A and f (A) = g(h(A)).
+
+Proof. Let µk = h(k), k = 1: s. Since
+
+f (k) = g(µk), f (k) = g(µk)h(k),
+... f (nk-1)(k) = g(nk-1)(µk)h(k)nk-1 + · · · + g(µk)h(nk-1)(k),
+
+(1.19a) (1.19b)
+(1.19c)
+
+and all the derivatives on the right-hand side exist, f is defined on the spectrum of A. Let p(t) be any polynomial satisfying the interpolation conditions
+
+p(j)(µi) = g(j)(µi),
+
+j = 0: ni - 1, i = 1: s.
+
+(1.20)
+
+From Definition 1.2 it is clear that the indices of the eigenvalues µ1, . . . , µs of h(A) are at most n1, . . . , ns, so the values on the right-hand side of (1.20) contain the values of g on the spectrum of B = h(A); thus g(B) is defined and p(B) = g(B). It now follows by (1.19) and (1.20) that the values of f (t) and p(h(t)) coincide on the spectrum of A. Hence by applying Theorem 1.16 to Q(f (t), h(t)) = f (t) - p(h(t)) we conclude that
+f (A) = p(h(A)) = p(B) = g(B) = g(h(A)),
+
+Copyright ©2008 by the Society for Industrial and Applied Mathematics. This electronic version is for personal use and may not be duplicated or distributed.
+From "Functions of Matrices: Theory and Computation" by Nicholas J. Higham. This book is available for purchase at www.siam.org/catalog.
+
+1.3 Properties
+
+13
+
+as required.
+
+The assumptions in Theorem 1.17 on g for f (A) to exist are stronger than neces-
+
+sary in certain cases where a Jordan block of A splits under evaluation of h. Consider,
+
+for example, g(t) = t1/3, h(t) = t2, and A =
+
+01 00
+
+.
+
+The
+
+required derivative g(0) in
+
+Theorem 1.17 does not exist, but f (A) = (A2)1/3 = 0 nevertheless does exist. (A
+
+full description of the Jordan canonical form of f (A) in terms of that of A is given in
+
+Theorem 1.36.)
+
+Theorem 1.17 implies that exp(log A) = A, provided that log is defined on the
+
+spectrum of A. However, log(exp(A)) = A does not hold unless the spectrum of
+
+A satisfies suitable restrictions, since the scalar relation log(et) = t is likewise not
+
+generally true in view of et = et+2ki for any integer k; see Problem 1.39.
+
+Although f (AT ) = f (A)T always holds (Theorem 1.13 (b)), the property f (A) =
+
+f (A) does not. The next result says essentially that for an analytic function f
+
+defined on a suitable domain that includes a subset S of the real line, f (A) = f (A)
+
+holds precisely when f maps S back into the real line. This latter condition also
+
+characterizes when A real implies f (A) real (cf. the sufficient conditions given in
+
+Remark 1.9).
+
+Theorem 1.18 (Higham, Mackey, Mackey, and Tisseur). Let f be analytic on an open subset   C such that each connected component of  is closed under conjugation. Consider the corresponding matrix function f on its natural domain in Cn×n, the set D = { A  Cn×n : (A)   }. Then the following are equivalent:
+(a) f (A) = f (A) for all A  D. (b) f (A) = f (A) for all A  D. (c) f (Rn×n  D)  Rn×n. (d) f (R  )  R.
+Proof. The first two properties are obviously equivalent, in view of Theorem 1.13 (b). Our strategy is therefore to show that (b)  (c)  (d)  (b).
+(b)  (c): If A  Rn×n  D then
+f (A) = f (A) (since A  Rn×n)
+= f (A) (given),
+so f (A)  Rn×n, as required. (c)  (d): If   R   then I  Rn×n  D. So f (I)  Rn×n by (c), and hence,
+since f (I) = f ()I, f ()  R. The argument that (d)  (b) is more technical and involves complex analysis; see
+Higham, Mackey, Mackey, and Tisseur [283, 2005, Thm. 3.2].
+Our next result shows that although the definition of f (A) utilizes only the values of f on the spectrum of A (the values assumed by f elsewhere in C being arbitrary), f (A) is a continuous function of A under suitable assumptions on f and the domain.
+
+Theorem 1.19 (continuity). Let D be an open subset of R or C and let f be n - 1 times continuously differentiable on D. Then f (A) is a continuous matrix function on the set of matrices A  Cn×n with spectrum in D.
+Proof. See Horn and Johnson [296, 1991, Thm. 6.2.27 (1)], and Mathias [412, 1996, Lem. 1.1] for the conditions as stated here.
+
+Copyright ©2008 by the Society for Industrial and Applied Mathematics. This electronic version is for personal use and may not be duplicated or distributed.
+From "Functions of Matrices: Theory and Computation" by Nicholas J. Higham. This book is available for purchase at www.siam.org/catalog.
+
+14 Theory of Matrix Functions
+
+For continuity of f (A) on the set of normal matrices just the continuity of f is sufficient [296, 1991, Thm. 6.2.37].
+Our final result shows that under mild conditions to check the veracity of a matrix identity it suffices to check it for diagonalizable matrices.
+
+Theorem 1.20. Let f satisfy the conditions of Theorem 1.19. Then f (A) = 0 for all A  Cn×n with spectrum in D if and only if f (A) = 0 for all diagonalizable A  Cn×n with spectrum in D.
+Proof. See Horn and Johnson [296, 1991, Thm. 6.2.27 (2)].
+For an example of the use of Theorem 1.20 see the proof of Theorem 11.1. Theorem 1.13 (f) says that block triangular structure is preserved by matrix functions. An explicit formula can be given for an important instance of the block 2 × 2 case.
+
+Theorem 1.21. Let f satisfy the conditions of Theorem 1.19 with D containing the
+
+spectrum of
+
+n-1 1
+
+A = n-1
+1
+
+B 0
+
+c 
+
+ Cn×n.
+
+Then
+
+f (A) =
+
+f (B) 0
+
+g(B)c f ()
+
+,
+
+(1.21)
+
+where g(z) = f [z, ]. In particular, if  / (B) then g(B) = (B - I)-1(f (B) - f ()I).
+
+Proof. We need only to demonstrate the formula for the (1,2) block F12 of f (A). Equating (1,2) blocks in f (A)A = Af (A) (Theorem 1.13 (a)) yields BF12 + cf () = f (B)c + F12, or (B - I)F12 = (f (B) - f ()I)c. If  / (B) the result is proved. Otherwise, the result follows by a continuity argument: replace  by () =  + , so
+that () / (B) for sufficiently small , let   0, and use the continuity of divided
+differences and of f (A).
+
+For an expression for a function of a general block 2 × 2 block triangular matrix see Theorem 4.12.
+
+1.4. Nonprimary Matrix Functions
+
+One of the main uses of matrix functions is for solving nonlinear matrix equations, g(X) = A. Two particular cases are especially important. We will call any solution of X2 = A a square root of A and any solution of eX = A a logarithm of A. We naturally turn to the square root and logarithm functions to solve the latter two equations. But for certain matrices A some of the solutions of g(X) = A are not obtainable as a primary matrix function of A, that is, they cannot be produced by our (three equivalent) definitions of f (A) (with f = g-1 or otherwise). These X are examples of nonprimary matrix functions. Informally, a nonprimary matrix function is a "matrix equation solving function" that cannot be expressed as a primary matrix function; we will not try to make this notion precise.
+Suppose we wish to find square roots of
+
+A=
+
+1 0
+
+0 1
+
+,
+
+Copyright ©2008 by the Society for Industrial and Applied Mathematics. This electronic version is for personal use and may not be duplicated or distributed.
+From "Functions of Matrices: Theory and Computation" by Nicholas J. Higham. This book is available for purchase at www.siam.org/catalog.
+
+1.4 Nonprimary Matrix Functions
+
+15
+
+that is, solve X2 = A.
+
+ Taking f (t) = t, the interpolation conditions in Defini-
+
+tions 1.4 are (with s = 1, n1 = 1) simply p(1) = 1. The interpolating polynomial
+
+is therefore either p(t) = 1 or p(t) = -1, corresponding to the two square roots of
+
+1, giving I and -I as square roots of A. Both of these square roots are, trivially,
+
+polynomials in A. Turning to Definition 1.2, the matrix A is already in Jordan form
+
+with two 1 × 1 Jordan blocks, and the definition provides the same two square roots.
+
+However, if we ignore the prescription at the end of Section 1.2.1 about the choice of
+
+branches then we can obtain two more square roots,
+
+-1 0
+
+0 1
+
+,
+
+1 0
+
+0 -1
+
+,
+
+in which the two eigenvalues 1 have been sent to different square roots. Moreover, since A = ZIZ-1 is a Jordan canonical form for any nonsingular Z, Definition 1.2
+yields the square roots
+
+Z
+
+-1 0
+
+0 1
+
+Z -1 ,
+
+Z
+
+1 0
+
+0 -1
+
+Z -1 ,
+
+(1.22)
+
+and these formulae provide an infinity of square roots, because only for diagonal Z are the matrices in (1.22) independent of Z. Indeed, one infinite family of square roots of A comprises the Householder reflections
+
+H() =
+
+cos  sin 
+
+sin  - cos 
+
+,
+
+  [0, 2].
+
+Definitions 1.2, 1.4, and 1.11 yield primary matrix functions. In most applications
+
+it is primary matrix functions that are of interest, and virtually all the existing the-
+
+ory and available methods are for such functions. Nonprimary matrix functions are
+
+obtained from Definition 1.2 when two equal eigenvalues in different Jordan blocks
+
+are mapped to different values of f ; in other words, different branches of f are taken
+
+for different Jordan blocks with the same eigenvalue. The function obtained thereby
+
+depends on the matrix Z in (1.3). This possibility arises precisely when the function is
+
+multivalued and the matrix is derogatory, that is, the matrix has multiple eigenvalues
+
+and an eigenvalue appears in more than one Jordan block.
+
+Unlike primary matrix functions, nonprimary ones are not expressible as polyno-
+
+mials in the matrix. However, a nonprimary function obtained from Definition 1.2,
+
+using the prescription in the previous paragraph, nevertheless commutes with the ma-
+
+trix. Such a function has the form X = Z diag(fk(Jk))Z-1, where A = Z diag(Jk)Z-1
+
+is a Jordan canonical form and where the notation fk denotes that the branch of f
+
+taken depends on k. Then XA = AX, because fk(Jk) is a primary matrix function and so commutes with Jk.
+
+But note that not all nonprimary matrix functions are obtainable from the Jordan
+
+canonical form prescription above.
+
+For example, A =
+
+00 00
+
+has the square root
+
+X=
+
+01 00
+
+,
+
+and
+
+X
+
+is
+
+a
+
+Jordan
+
+block
+
+larger
+
+than
+
+the
+
+1×1
+
+Jordan
+
+blocks
+
+of
+
+A.
+
+This
+
+example also illustrates that a nonprimary function can have the same spectrum as a
+
+primary function, and so in general a nonprimary function cannot be identified from
+
+its spectrum alone.
+
+Nonprimary functions can be needed when, for a matrix A depending on a param-
+
+eter t, a smooth curve of functions f (A(t)) needs to be computed and eigenvalues of
+
+A(t) coalesce. Suppose we wish to compute square roots of
+
+G() =
+
+cos  - sin 
+
+sin  cos 
+
+Copyright ©2008 by the Society for Industrial and Applied Mathematics. This electronic version is for personal use and may not be duplicated or distributed.
+From "Functions of Matrices: Theory and Computation" by Nicholas J. Higham. This book is available for purchase at www.siam.org/catalog.
+
+16 Theory of Matrix Functions
+
+as  varies from 0 to 2. Since multiplication of a vector by G() represents a rotation through  radians clockwise, G(/2) is the natural square root. However, for  = ,
+
+G() =
+
+-1 0
+
+0 -1
+
+,
+
+G(/2) =
+
+0 -1
+
+1 0
+
+.
+
+The only primary square roots of G() are ±iI, which are nonreal. While it is nonprimary, G(/2) is the square root we need in order to produce a smooth curve of square roots.
+An example of an application where nonprimary logarithms arise is the embeddability problems for Markov chains (see Section 2.3).
+A primary matrix function with a nonprimary flavour is the matrix sign function (see Chapter 5), which for a matrix A  Cn×n is a (generally) nonprimary square root of I that depends on A.
+Unless otherwise stated, f (A) denotes a primary matrix function throughout this book.
+
+1.5. Existence of (Real) Matrix Square Roots and Logarithms
+
+If A is nonsingular, or singular with a semisimple zero eigenvalue, then the square root function is defined on the spectrum of A and so primary square roots exist. If A is singular with a defective zero eigenvalue then while it has no primary square roots it may have nonprimary ones. The existence of a square root of either type can be neatly characterized in terms of null spaces of powers of A.
+
+Theorem 1.22 (existence of matrix square root). A  Cn×n has a square root if and only if in the "ascent sequence" of integers d1, d2, . . . defined by
+di = dim(null(Ai)) - dim(null(Ai-1))
+
+no two terms are the same odd integer.
+
+Proof. See Cross and Lancaster [122, 1974] or Horn and Johnson [296, 1991, Cor. 6.4.13].
+
+To illustrate, consider a Jordan block J  Cm×m with eigenvalue zero. We have dim(null(J0)) = 0, dim(null(J)) = 1, dim(null(J2)) = 2, . . . , dim(null(Jm)) = m,
+
+and so the ascent sequence comprises m 1s. Hence Jk does not have a square root unless m = 1. However, the matrix
+
+ 010
+0 0 0
+
+(1.23)
+
+000
+
+has ascent sequence 2, 1, 0, . . . and so does have a square root--for example, the matrix
+
+ 001
+0 0 0
+010
+
+(1.24)
+
+(which is the 3 × 3 Jordan block with eigenvalue 0 with rows and columns 2 and 3 interchanged).
+
+Copyright ©2008 by the Society for Industrial and Applied Mathematics. This electronic version is for personal use and may not be duplicated or distributed.
+From "Functions of Matrices: Theory and Computation" by Nicholas J. Higham. This book is available for purchase at www.siam.org/catalog.
+
+1.6 Classification of Matrix Square Roots and Logarithms
+
+17
+
+Another important existence question is "If A is real does there exist a real f (A), either primary or nonprimary?" For most common functions the answer is clearly yes, by considering a power series representation. For the square root and logarithm the answer is not obvious; the next result completes the partial answer to this question given in Remark 1.9 and Theorem 1.18.
+Theorem 1.23 (existence of real square root and real logarithm). (a) A  Rn×n has a real square root if and only if it satisfies the condition of
+Theorem 1.22 and A has an even number of Jordan blocks of each size for every negative eigenvalue.
+(b) The nonsingular matrix A  Rn×n has a real logarithm if and only if A has an even number of Jordan blocks of each size for every negative eigenvalue.
+(c) If A  Rn×n has any negative eigenvalues then no primary square root or logarithm is real.
+Proof. For the last part consider the real Schur decomposition, QT AQ = R (see Section B.5), where Q  Rn×n is orthogonal and R  Rn×n is upper quasi-triangular. Clearly, f (A) is real if and only if QT f (A)Q = f (R) is real, and a primary matrix function f (R) is block upper triangular with diagonal blocks f (Rii). If A has a negative real eigenvalue then some Rii is 1 × 1 and negative, making f (Rii) nonreal for f the square root and logarithm.
+The result of (b) is due to Culver [126, 1966], and the proof for (a) is similar; see also Horn and Johnson [296, 1991, Thms. 6.4.14, 6.4.15] and Nunemacher [451, 1989].
+
+Theorem 1.23 implies that -In has a real, nonprimary square root and logarithm
+
+for every even n. For some insight into part (a), note that if A has two Jordan blocks
+
+J of the same size then its Jordan matrix has a principal submatrix of the form
+
+J0 0J
+
+=
+
+0I J0
+
+2.
+
+1.6. Classification of Matrix Square Roots and Logarithms
+The theory presented above provides a means for identifying some of the solutions to nonlinear matrix equations such as X2 = A, eX = A, and cos(X) = A, since in each case X can be expressed as a function of A. However, more work is needed to classify all the solutions. In particular, the possibility remains that there are solutions X that have a spectrum of the form required for a primary matrix function but that are not primary matrix functions according to our definition. This possibility can be ruled out when the inverse of the function of interest has a nonzero derivative on the spectrum of X.
+We will concentrate on the matrix square root. Entirely analogous arguments apply to the logarithm, which we briefly discuss, and the matrix pth root, which is treated in Section 7.1. For f the square root function and k = 0 we write
+Lk(jk)  L(kjk)(k) = f (Jk(k)),
+where f (Jk(k)) is given in (1.4) and where jk = 1 or 2 denotes the branch of f ; thus L(k1) = -Lk(2). Our first result characterizes all square roots.
+
+Copyright ©2008 by the Society for Industrial and Applied Mathematics. This electronic version is for personal use and may not be duplicated or distributed.
+From "Functions of Matrices: Theory and Computation" by Nicholas J. Higham. This book is available for purchase at www.siam.org/catalog.
+
+18 Theory of Matrix Functions
+
+Theorem 1.24 (Gantmacher). Let A  Cn×n be nonsingular with the Jordan canonical form (1.2). Then all solutions to X2 = A are given by
+
+X = ZU diag(L(1j1), L2(j2), . . . , Lp(jp))U -1Z-1, where U is an arbitrary nonsingular matrix that commutes with J.
+
+(1.25)
+
+Proof. Let X be any square root of A. Since A is nonsingular so is X, and hence the derivative of the function x2 is nonzero at the eigenvalues of X. By Theorem 1.36,
+given that A has the Jordan canonical form J = diag(J1(1), J2(2), . . . , Jp(p)), X must have the Jordan canonical form
+
+JX = diag(J1(µ1), J2(µ2), . . . , Jp(µp)),
+
+(1.26)
+
+where µ2k = k, k = 1: p. Now consider the matrix
+
+L = diag(L1(j1), L2(j2), . . . , Lp(jp)),
+
+(1.27)
+
+where we choose the jk so that L(kjk) has eigenvalue µk for each k. Since L is a square root of J, by the same argument as above L must have the Jordan canonical form JX . Hence X = W LW -1 for some nonsingular W . From X2 = A we have W J W -1 = W L2W -1 = ZJ Z-1, which can be rewritten as (Z-1W )J = J (Z-1W ). Hence U = Z-1W is an arbitrary matrix that commutes with J, which completes the
+proof.
+
+The structure of the matrix U in Theorem 1.24 is described in the next result.
+
+Theorem 1.25 (commuting matrices). Let A  Cn×n have the Jordan canonical form (1.2). All solutions of AX = XA are given by X = ZW Z-1, where W = (Wij) with Wij  Cmi×mj (partitioned conformably with J in (1.2)) satisfies
+
+Wij =
+
+0, Tij ,
+
+i = j, i = j,
+
+where Tij is an arbitrary upper trapezoidal Toeplitz matrix which, for mi < mj, has the form Tij = [0, Uij], where Uij is square.
+
+Proof. See Lancaster and Tismenetsky [371, 1985, Thm. 12.4.1].
+Next we refine Theorem 1.24 to classify the square roots into primary and nonprimary square roots.
+
+Theorem 1.26 (classification of square roots). Let the nonsingular matrix A  Cn×n have the Jordan canonical form (1.2) with p Jordan blocks, and let s  p be the number of distinct eigenvalues of A. Then A has precisely 2s square roots that are primary functions of A, given by
+Xj = Z diag(L(1j1), L(2j2), . . . , Lp(jp))Z-1, j = 1: 2s,
+corresponding to all possible choices of j1, . . . , jp, jk = 1 or 2, subject to the constraint that ji = jk whenever i = k.
+
+Copyright ©2008 by the Society for Industrial and Applied Mathematics. This electronic version is for personal use and may not be duplicated or distributed.
+From "Functions of Matrices: Theory and Computation" by Nicholas J. Higham. This book is available for purchase at www.siam.org/catalog.
+
+1.6 Classification of Matrix Square Roots and Logarithms
+
+19
+
+If s < p, A has nonprimary square roots. They form parametrized families
+Xj (U ) = ZU diag(L1(j1), L(2j2), . . . , Lp(jp))U -1Z-1, j = 2s + 1: 2p,
+where jk = 1 or 2, U is an arbitrary nonsingular matrix that commutes with J, and for each j there exist i and k, depending on j, such that i = k while ji = jk.
+Proof. The proof consists of showing that for the square roots (1.25) for which ji = jk whenever i = k,
+U diag(L(1j1), L(2j2), . . . , Lp(jp))U -1 = diag(L(1j1), L2(j2), . . . , L(pjp)),
+that is, U commutes with the block diagonal matrix in the middle. This commutativity follows from the explicit form for U provided by Theorem 1.25 and the fact that upper triangular Toeplitz matrices commute.
+Theorem 1.26 shows that the square roots of a nonsingular matrix fall into two classes. The first class comprises finitely many primary square roots, which are "isolated", being characterized by the fact that the sum of any two of their eigenvalues is nonzero. The second class, which may be empty, comprises a finite number of parametrized families of matrices, each family containing infinitely many square roots sharing the same spectrum.
+Theorem 1.26 has two specific implications of note. First, if k = 0 then the two upper triangular square roots of Jk(k) given by (1.4) with f the square root function are the only square roots of Jk(k). Second, if A is nonsingular and nonderogatory, that is, none of the s distinct eigenvalues appears in more than one Jordan block, then A has precisely 2s square roots, each of which is a primary function of A.
+There is no analogue of Theorems 1.24 and 1.26 for singular A. Indeed the Jordan block structure of a square root (when one exists) can be very different from that of A. The search for square roots X of a singular matrix is aided by Theorem 1.36 below, which helps identify the possible Jordan forms of X; see Problem 1.29.
+Analogous results, with analogous proofs, hold for the matrix logarithm.
+
+Theorem 1.27 (Gantmacher). Let A  Cn×n be nonsingular with the Jordan canonical form (1.2). Then all solutions to eX = A are given by
+
+X = ZU diag(L(1j1), L(2j2), . . . , Lp(jp))U -1Z-1,
+
+where
+
+Lk(jk) = log(Jk(k)) + 2jkiImk ;
+
+(1.28)
+
+log(Jk(k)) denotes (1.4) with the f the principal branch of the logarithm, defined by Im(log(z))  (-, ]; jk is an arbitrary integer; and U is an arbitrary nonsingular matrix that commutes with J.
+
+Theorem 1.28 (classification of logarithms). Let the nonsingular matrix A  Cn×n have the Jordan canonical form (1.2) with p Jordan blocks, and let s  p be the number of distinct eigenvalues of A. Then eX = A has a countable infinity of solutions that are primary functions of A, given by
+Xj = Z diag(L1(j1), L(2j2), . . . , Lp(jp))Z-1,
+
+Copyright ©2008 by the Society for Industrial and Applied Mathematics. This electronic version is for personal use and may not be duplicated or distributed.
+From "Functions of Matrices: Theory and Computation" by Nicholas J. Higham. This book is available for purchase at www.siam.org/catalog.
+
+20 Theory of Matrix Functions
+where L(1j1) is defined in (1.28), corresponding to all possible choices of the integers j1, . . . , jp, subject to the constraint that ji = jk whenever i = k.
+If s < p then eX = A has nonprimary solutions. They form parametrized families
+Xj (U ) = ZU diag(L1(j1), L2(j2), . . . , Lp(jp))U -1Z-1,
+where jk is an arbitrary integer, U is an arbitrary nonsingular matrix that commutes with J, and for each j there exist i and k, depending on j, such that i = k while ji = jk.
+1.7. Principal Square Root and Logarithm
+Among the square roots and logarithms of a matrix, the principal square root and principal logarithm are distinguished by their usefulness in theory and in applications. We denote by R- the closed negative real axis.
+Theorem 1.29 (principal square root). Let A  Cn×n have no eigenvalues on R-. There is a unique square root X of A all of whose eigenvalues lie in the open right half-plane, and it is a primary matrix function of A. We refer to X as the principal square root of A and write X = A1/2. If A is real then A1/2 is real.
+Proof. Note first that a nonprimary square root of A, if one exists, must have eigenvalues µi and µj with µi = -µj, and hence the eigenvalues cannot all lie in the open right half-plane. Therefore only a primary square root can have spectrum in the open right half-plane. Since A has no eigenvalues on R-, it is clear from Theorem 1.26 that there is precisely one primary square root of A whose eigenvalues all lie in the open right half-plane. Hence the existence and uniqueness of A1/2 is established. That A1/2 is real when A is real follows from Theorem 1.18 or Remark 1.9.
+See Problem 1.27 for an extension of Theorem 1.29 that allows A to be singular.
+Corollary 1.30. A Hermitian positive definite matrix A  Cn×n has a unique Hermitian positive definite square root.
+Proof. By Theorem 1.29 the only possible Hermitian positive definite square root is A1/2. That A1/2 is Hermitian positive definite follows from the expression A1/2 = QD1/2Q, where A = QDQ is a spectral decomposition (Q unitary, D diagonal), with D having positive diagonal entries.
+For a proof of the corollary from first principles see Problem 1.41.
+Theorem 1.31 (principal logarithm). Let A  Cn×n have no eigenvalues on R-. There is a unique logarithm X of A all of whose eigenvalues lie in the strip { z : - < Im(z) <  }. We refer to X as the principal logarithm of A and write X = log(A). If A is real then its principal logarithm is real.
+Proof. The proof is entirely analogous to that of Theorem 1.29.
+Copyright ©2008 by the Society for Industrial and Applied Mathematics. This electronic version is for personal use and may not be duplicated or distributed.
+From "Functions of Matrices: Theory and Computation" by Nicholas J. Higham. This book is available for purchase at www.siam.org/catalog.
+
+1.8 f (AB) and f (BA)
+
+21
+
+1.8. f (AB) and f (BA)
+
+Although the matrices AB and BA are generally different, their Jordan structures are closely related. We show in this section that for arbitrary functions f , f (AB) and f (BA) also enjoy a close relationship--one that can be exploited both in theory and computationally. Underlying all these relations is the fact that for any polynomial p, and any A and B for which the products AB and BA are defined,
+
+Ap(BA) = p(AB)A.
+
+(1.29)
+
+This equality is trivial for monomials and follows immediately for general polynomials. First we recap a result connecting the Jordan structures of AB and BA. We
+denote by zi(X) the nonincreasing sequence of the sizes z1, z2, . . . , of the Jordan blocks corresponding to the zero eigenvalues of the square matrix X.
+
+Theorem 1.32 (Flanders). Let A  Cm×n and B  Cn×m. The nonzero eigenvalues of AB are the same as those of BA and have the same Jordan structure. For the zero eigenvalues (if any), |zi(AB) - zi(BA)|  1 for all i, where the shorter sequence is appended with zeros as necessary, and any such set of inequalities is attained for some A and B. If m = n then the larger (in dimension) of AB and BA has a zero eigenvalue of geometric multiplicity at least |m - n|.
+Proof. See Problem 1.43.
+
+Theorem 1.33. Let A  Cn×n and B  Cm×m and let f be defined on the spectrum of both A and B. Then there is a single polynomial p such that f (A) = p(A) and f (B) = p(B).
+Proof. Let p be the Hermite interpolating polynomial satisfying the union of the interpolation conditions (1.7) for A with those for B. Let r be the Hermite interpolating polynomial to f on the spectrum of A. Then p and r take the same values on the spectrum of A, so f (A) := r(A) = p(A). By the same argument with A and B interchanged, f (B) = p(B), as required.
+
+Corollary 1.34. Let A  Cm×n and B  Cn×m and let f be defined on the spectra
+
+of both AB and BA. Then
+
+Af (BA) = f (AB)A.
+
+(1.30)
+
+Proof. By Theorem 1.33 there is a single polynomial p such that f (AB) = p(AB) and f (BA) = p(BA). Hence, using (1.29),
+
+Af (BA) = Ap(BA) = p(AB)A = f (AB)A.
+
+When A and B are square and A, say, is nonsingular, another proof of Corollary 1.34 is as follows: AB = A(BA)A-1 so f (AB) = Af (BA)A-1, or f (AB)A = Af (BA).
+As a special case of the corollary, when AB (and hence also BA) has no eigenvalues on R- (which implies that A and B are square, in view of Theorem 1.32),
+A(BA)1/2 = (AB)1/2A.
+
+Copyright ©2008 by the Society for Industrial and Applied Mathematics. This electronic version is for personal use and may not be duplicated or distributed.
+From "Functions of Matrices: Theory and Computation" by Nicholas J. Higham. This book is available for purchase at www.siam.org/catalog.
+
+22 Theory of Matrix Functions
+
+In fact, this equality holds also when AB has a semisimple zero eigenvalue and the definition of A1/2 is extended as in Problem 1.27.
+Corollary 1.34 is useful for converting f (AB) into f (BA) within an expression, and vice versa; see, for example, (2.26), the proof of Theorem 6.11, and (8.5). However, when m > n, (1.30) cannot be directly solved to give an expression for f (AB) in terms of f (BA), because (1.30) is an underdetermined system for f (AB). The next result gives such an expression, and in more generality.
+
+Theorem 1.35. Let A  Cm×n and B  Cn×m, with m  n, and assume that BA
+is nonsingular. Let f be defined on the spectrum of Im + AB, and if m = n let f be defined at . Then
+
+f (Im + AB) = f ()Im + A(BA)-1 f (In + BA) - f ()In B.
+
+(1.31)
+
+Proof. Note first that by Theorem 1.32, the given assumption on f implies that f is defined on the spectrum of In + BA and at .
+Let g(t) = f [ + t, ] = t-1(f ( + t) - f ()), so that f ( + t) = f () + tg(t). Then, using Corollary 1.34,
+
+f (Im + AB) = f ()Im + ABg(AB)
+= f ()Im + Ag(BA)B = f ()Im + A(BA)-1 f (In + BA) - f ()In B,
+
+as required.
+
+This result is of particular interest when m > n, for it converts the f (Im + AB) problem--a function evaluation of an m × m matrix--into the problem of evaluating f and the inverse on n × n matrices. Some special cases of the result are as follows.
+(a) With n = 1, we recover (1.16) (albeit with the restriction vu = 0).
+(b) With f the inverse function and  = 1, (1.31) yields, after a little manipulation, the formula (I + AB)-1 = I - A(I + BA)-1B, which is often found in textbook exercises. This formula in turn yields the Sherman­Morrison­Woodbury formula (B.12) on writing A + U V  = A(I + A-1U · V ). Conversely, when f is analytic we can obtain (1.31) by applying the Sherman­Morrison­Woodbury formula to the Cauchy integral formula (1.12). However, Theorem 1.35 does not require analyticity.
+As an application of Theorem 1.35, we now derive a formula for f (In +uv +xy), where u, v, x, y  Cn, thereby extending (1.16) to the rank-2 case. Write
+
+uv + xy = [ u
+
+x]
+
+v y
+
+ AB.
+
+Then Hence
+
+C := BA =
+
+vu yu
+
+vx yx
+
+ C2×2.
+
+f (In + uv + xy) = f ()In + [ u x ] C-1 f (I2 + C) - f ()I2
+
+v y
+
+.
+
+(1.32)
+
+The evaluation of both C-1 and f (I2 + C) can be done explicitly (see Problem 1.9 for the latter), so (1.32) gives a computable formula that can, for example, be used
+for testing algorithms for the computation of matrix functions.
+
+Copyright ©2008 by the Society for Industrial and Applied Mathematics. This electronic version is for personal use and may not be duplicated or distributed.
+From "Functions of Matrices: Theory and Computation" by Nicholas J. Higham. This book is available for purchase at www.siam.org/catalog.
+
+1.9 Miscellany
+
+23
+
+1.9. Miscellany
+
+In this section we give a selection of miscellaneous results that either are needed elsewhere in the book or are of independent interest.
+The first result gives a complete description of the Jordan canonical form of f (A) in terms of that of A. In particular, it shows that under the action of f a Jordan block J() splits into at least two smaller Jordan blocks if f () = 0.
+
+Theorem 1.36 (Jordan structure of f (A)). Let A  Cn×n with eigenvalues k, and let f be defined on the spectrum of A.
+(a) If f (k) = 0 then for every Jordan block J(k) in A there is a Jordan block of the same size in f (A) associated with f (k).
+(b) Let f (k) = f (k) = · · · = f (-1)(k) = 0 but f ()(k) = 0, where   2, and consider a Jordan block J(k) of size r in A.
+(i ) If   r, J(k) splits into r 1 × 1 Jordan blocks associated with f (k) in f (A).
+(ii ) If   r - 1, J(k) splits into the following Jordan blocks associated with f (k) in f (A):
+·  - q Jordan blocks of size p,
+· q Jordan blocks of size p + 1,
+where r = p + q with 0  q   - 1, p > 0.
+
+Proof. We prove just the first part. From Definition 1.2 it is clear that f either preserves the size of a Jordan block Jk(k)  Cmk×mk of A--that is, f (Jk(k)) has Jordan form Jk(f (k))  Cmk×mk --or splits Jk(k) into two or more smaller blocks, each with eigenvalue f (k). When f (k) = 0, (1.4) shows that f (Jk(k))-f (k)I has rank mk - 1, which implies that f does not split the block Jk(k). When f (k) = 0, it is clear from (1.4) that f (Jk(k)) - f (k)I has rank at most mk - 2, which implies that f (Jk(k)) has at least two Jordan blocks. For proofs of the precise splitting details, see Horn and Johnson [296, 1991, Thm. 6.2.25] or Lancaster and Tismenetsky
+[371, 1985, Thm. 9.4.7].
+
+To illustrate the result, consider the matrix
+
+0 1 0 0
+
+A
+
+=
+
+
+
+0 0
+
+0 0
+
+1 0
+
+0 1
+
+
+
+,
+
+0000
+
+which is in Jordan form with one Jordan block of size 4. Let
+
+0 0 0 1
+
+f
+
+(A)
+
+=
+
+A3
+
+=
+
+
+
+0 0
+
+0 0
+
+0 0
+
+0 0
+
+
+
+.
+
+0000
+
+Clearly f (A) has Jordan form comprising two 1 × 1 blocks and one 2 × 2 block. We have f (0) = f (0) = 0 and f (0) = 0. Applying Theorem 1.36 (b) with  = 3,
+r = 4, p = 1, q = 1, the theorem correctly predicts  - q = 2 Jordan blocks of size
+
+Copyright ©2008 by the Society for Industrial and Applied Mathematics. This electronic version is for personal use and may not be duplicated or distributed.
+From "Functions of Matrices: Theory and Computation" by Nicholas J. Higham. This book is available for purchase at www.siam.org/catalog.
+
+24 Theory of Matrix Functions
+1 and q = 1 Jordan block of size 2. For an example of a Jordan block splitting with f (X) = X2, see the matrices (1.23) and (1.24).
+Theorem 1.36 is useful when trying to solve nonlinear matrix equations, because once the Jordan form of f (A) is known it narrows down the possible Jordan forms of A; see, e.g., Problems 1.30 and 1.51.
+We noted in Section 1.4 that a nonprimary function of a derogatory A may commute with A but is not a polynomial in A. The next result shows that all matrices that commute with A are polynomials in A precisely when A is nonderogatory--that is, when no eigenvalue appears in more than one Jordan block in the Jordan canonical form of A.
+Theorem 1.37. Every matrix that commutes with A  Cn×n is a polynomial in A if and only if A is nonderogatory.
+Proof. This result is a consequence of Theorem 1.25. See Lancaster and Tismenetsky [371, 1985, Prop. 12.4.1] for the details.
+While commuting with A is not sufficient to be a polynomial in A, commuting with every matrix that commutes with A is sufficient.
+Theorem 1.38. B  Cn×n commutes with every matrix that commutes with A  Cn×n if and only if B is a polynomial in A.
+Proof. See Horn and Johnson [296, 1991, Thm. 4.4.19].
+The following result is useful for finding solutions of a nonlinear matrix equation of the form f (X) = A.
+Theorem 1.39. Consider the equation f (X) = A  Cn×n. (a) If A is upper triangular and nonderogatory then any solution X is upper tri-
+angular. (b) If A is a single Jordan block J() then any solution X is upper triangular
+with constant diagonal elements xii  , where f () = . (c) If the equation with A = I has a solution X that is not a multiple of I then
+there are infinitely many solutions to the equation.
+Proof. (a) The nonderogatory matrix A = f (X) commutes with X so, by Theorem 1.37, X is a polynomial in A, which means that X is upper triangular. (b) This follows from the proof of (a) on noting that a polynomial in J() has constant diagonal. (c) Since f (X) = I, for any nonsingular Z we have I = Z-1f (X)Z = f (Z-1XZ), so Z-1XZ is a solution. The result now follows from the fact that any matrix other than a scalar multiple of the identity shares its Jordan canonical form with infinitely many other matrices.
+The next result shows that a family of pairwise commuting matrices can be simultaneously unitarily triangularized.
+Theorem 1.40. If A1, A2, . . . , Ak  Cn×n satisfy AiAj = AjAi for all i and j then there exists a unitary U  Cn×n such that U AiU is upper triangular for all i.
+Copyright ©2008 by the Society for Industrial and Applied Mathematics. This electronic version is for personal use and may not be duplicated or distributed.
+From "Functions of Matrices: Theory and Computation" by Nicholas J. Higham. This book is available for purchase at www.siam.org/catalog.
+
+1.9 Miscellany
+
+25
+
+Proof. See Horn and Johnson [295, 1985, Thm. 2.3.3].
+We denote by i(A) the ith eigenvalue of A in some given ordering.
+Corollary 1.41. Suppose A, B  Cn×n and AB = BA. Then for some ordering of the eigenvalues of A, B, and AB we have i(AopB) = i(A)opi(B), where op = +, -, or .
+Proof. By Theorem 1.40 there exists a unitary U such that U AU = TA and U BU = TB are both upper triangular. Thus U (A op B)U = TA op TB is upper triangular with diagonal elements (TA)ii op (TB)ii, as required.
+This corollary will be used in Section 11.1. Note that for any A and B we have trace(A+B) = trace(A)+trace(B) and det(AB) = det(A) det(B), but the conclusion of the corollary for commuting A and B is much stronger.
+Related to Theorem 1.40 and Corollary 1.41 are the following characterizations of A and B for which "i(p(A, B)) = p(i(A), i(B))".
+Theorem 1.42 (McCoy). For A, B  Cn×n the following conditions are equivalent.
+(a) There is an ordering of the eigenvalues such that i(p(A, B)) = p(i(A), i(B)) for all polynomials of two variables p(x, y).
+(b) There exists a unitary U  Cn×n such that U AU and U BU are upper triangular.
+(c) p(A, B)(AB - BA) is nilpotent for all polynomials p(x, y) of two variables.
+Theorem 1.43. A  Cn×n is unitary if and only if A = eiH for some Hermitian H. In this representation H can be taken to be Hermitian positive definite.
+Proof. The Schur decomposition of A has the form A = QDQ with Q unitary and D = diag(exp(ij)) = exp(i), where  = diag(j)  Rn×n. Hence A = Q exp(i)Q = exp(iQQ) = exp(iH), where H = H. Without loss of generality we can take j > 0, whence H is positive definite.
+
+Theorem 1.44. A  Cn×n has the form A = eS with S real and skew-symmetric if and only if A is real orthogonal with det(A) = 1.
+
+Proof. "": If S is real and skew-symmetric then A is real, ATA = e-SeS = I,
+
+and det(eS) = exp( i(S)) = exp(0) = 1, since the eigenvalues of S are either zero
+
+or occur in pure imaginary complex conjugate pairs.
+
+"": If A is real orthogonal then it has the real Schur decomposition A = QDQT
+
+with Q orthogonal and D = diag(Dii), where each Dii is 1, -1, or of the form
+
+aj bj -bj aj
+
+with a2j + bj2 = 1. Since det(A) = 1, there is an even number of -1s, and so we can
+
+include the -1 blocks among the
+
+aj bj -bj aj
+
+blocks. It is easy to show that
+
+aj -bj
+
+bj aj
+
+
+
+cos j - sin j
+
+sin j cos j
+
+= exp
+
+0 j -j 0
+
+=: exp(j).
+
+(1.33)
+
+We now construct a skew-symmetric K such that D = eK: K has the same block
+structure as D, kii = 0 if dii = 1, and the other blocks have the form j in (1.33). Hence A = QeK QT = eQKQT = eS, where S is real and skew-symmetric.
+
+Copyright ©2008 by the Society for Industrial and Applied Mathematics. This electronic version is for personal use and may not be duplicated or distributed.
+From "Functions of Matrices: Theory and Computation" by Nicholas J. Higham. This book is available for purchase at www.siam.org/catalog.
+
+26 Theory of Matrix Functions
+
+Theorem 1.45. For A  Cn×n, det(eA) = exp(trace(A)).
+Proof. We have
+nn
+det(eA) = i(eA) = ei(A) = e1(A)+···+n(A) = exp trace(A) .
+i=1 i=1
+Note that another way of expressing Theorem 1.45 is that for any logarithm of a nonsingular X, det(X) = exp(trace(log(X))).
+
+1.10. A Brief History of Matrix Functions
+
+Sylvester (1814­1897) [465, 2006] coined the term "matrix" in 1850 [553, 1850]. Cayley (1821­1895) [121, 2006], in his A Memoir on the Theory of Matrices [99, 1858], was the first to investigate the algebraic properties of matrices regarded as objects of study in their own right (in contrast with earlier work on bilinear and quadratic forms). Matrix theory was subsequently developed by Cayley, Sylvester, Frobenius, Kronecker, Weierstrass, and others; for details, see [253, 1974], [254, 1977], [255, 1977], [463, 1985].
+The study of functions of matrices began in Cayley's 1858 memoir, which treated the square roots of 2 × 2 and 3 × 3 matrices, and he later revisited these cases in [100, 1872]. Laguerre [367, 1867], and later Peano [467, 1888], defined the exponential of a matrix via its power series. The interpolating polynomial definition of f (A) was stated by Sylvester [557, 1883] for n × n A with distinct eigenvalues i, in the form
+
+f (A)
+
+=
+
+n i=1
+
+f (i)
+
+j=i
+
+A - jI i - j
+
+.
+
+Buchheim gave a derivation of the formula [84, 1884] and then generalized it to mul-
+
+tiple eigenvalues using Hermite interpolation [85, 1886].
+
+Weyr [614, 1887] defined f (A) using a power series for f and showed that the
+
+series converges if the eigenvalues of A lie within the radius of convergence of the
+
+series. Hensel [258, 1926] obtained necessary and sufficient conditions for convergence
+
+when one or more eigenvalues lies on the circle of convergence (see Theorem 4.7).
+
+Metzler [424, 1892] defined the transcendental functions eA, log(A), sin(A), and
+
+arcsin(A), all via power series.
+
+The Cauchy integral representation was anticipated by Frobenius [195, 1896], who
+
+states that if f is analytic then f (A) is the sum of the residues of (zI - A)-1f (z) at
+
+the eigenvalues of A. Poincar´e [473, 1899] uses the Cauchy integral representation,
+
+and this way of defining f (A) was proposed in a letter from Cartan to Giorgi, circa
+
+1928 [216, 1928].
+
+The Jordan canonical form definition is due to Giorgi [216, 1928]; Cipolla [109,
+
+1932] extended it to produce nonprimary matrix functions.
+
+Probably the first book (actually a booklet) to be written on matrix functions is
+
+that of Schwerdtfeger [513, 1938]. With the same notation as in Definitions 1.2 and
+
+1.4 he defines
+
+f (A) =
+
+s
+
+Ai
+
+ni -1
+
+f
+
+(j
+
+)(i) j!
+
+(A
+
+-
+
+i I )j ,
+
+i=1 j=0
+
+where the Ai are the Frobenius covariants: Ai = Z diag(gi(Jk))Z-1, where gi(Jk) = I if i is an eigenvalue of Jk and gi(Jk) = 0 otherwise, where A = Z diag(Jk)Z-1 is the
+
+Copyright ©2008 by the Society for Industrial and Applied Mathematics. This electronic version is for personal use and may not be duplicated or distributed.
+From "Functions of Matrices: Theory and Computation" by Nicholas J. Higham. This book is available for purchase at www.siam.org/catalog.
+
+1.11 Notes and References
+
+27
+
+Jordan canonical form. This is just a rewritten form of the expression for f (A) given by Definition 1.2 or by the Lagrange­Hermite formula (1.8). It can be restated as
+
+s ni-1
+
+f (A) =
+
+f (j)(i)Zij ,
+
+i=1 j=0
+
+where the Zij depend on A but not on f . For more details on these formulae see Horn and Johnson [296, 1991, pp. 401­404, 438] and Lancaster and Tismenetsky [371, 1985, Sec. 9.5].
+The equivalence of all the above definitions of f (A) (modulo their different levels of generality) was first shown by Rinehart [493, 1955] (see the quote at the end of the chapter).
+One of the earliest uses of matrices in practical applications was by Frazer, Duncan, and Collar of the Aerodynamics Department of the National Physical Laboratory (NPL), England, who were developing matrix methods for analyzing flutter (unwanted vibrations) in aircraft. Their book Elementary Matrices and Some Applications to Dynamics and Differential Equations [193, 1938] emphasizes the important role of the matrix exponential in solving differential equations and was "the first to employ matrices as an engineering tool" [71, 1987], and indeed "the first book to treat matrices as a branch of applied mathematics" [112, 1978].
+Early books with substantial material on matrix functions are Turnbull and Aitken [579, 1932, Sec. 6.6­6.8]; Wedderburn [611, 1934, Chap. 8], which has a useful bibliography arranged by year, covering 1853­1933; MacDuffee [399, 1946, Chap. IX], which gives a concise summary of early work with meticulous attribution of results; Ferrar [184, 1951, Chap. 5]; and Hamburger and Grimshaw [245, 1951]. Papers with useful historical summaries include Afriat [5, 1959] and Heuvers and Moak [259, 1987].
+Interest in computing matrix functions grew rather slowly following the advent of the digital computer. As the histogram on page 379 indicates, the literature expanded rapidly starting in the 1970s, and interest in the theory and computation of matrix functions shows no signs of abating, spurred by the growing number of applications. A landmark paper is Moler and Van Loan's "Nineteen Dubious Ways to Compute the Exponential of a Matrix" [437, 1978], [438, 2003], which masterfully organizes and assesses the many different ways of approaching the eA problem. In particular, it explains why many of the methods that have been (and continue to be) published are unsuitable for finite precision computation.
+The "problem solving environments" MATLAB, Maple, and Mathematica have been invaluable for practitioners using matrix functions and numerical analysts developing algorithms for computing them. The original 1978 version of MATLAB included the capability to evaluate the exponential, the logarithm, and several other matrix functions. The availability of matrix functions in MATLAB and it competitors has undoubtedly encouraged the use of succinct, matrix function-based solutions to problems in science and engineering.
+
+1.11. Notes and References
+The theory of functions of a matrix is treated in a number of books, of which several are of particular note. The most encyclopedic treatment is given by Horn and Johnson [296, 1991, Chap. 6], who devote a chapter of 179 pages to the subject. A more concise but very elegant exposition emphasizing the interpolation definition
+
+Copyright ©2008 by the Society for Industrial and Applied Mathematics. This electronic version is for personal use and may not be duplicated or distributed.
+From "Functions of Matrices: Theory and Computation" by Nicholas J. Higham. This book is available for purchase at www.siam.org/catalog.
+
+28 Theory of Matrix Functions
+is given by Lancaster and Tismenetsky [371, 1985, Chap. 9]. A classic reference is Gantmacher [203, 1959, Chap. 5]. Golub and Van Loan [224, 1996, Chap. 11] briefly treat the theory before turning to computational matters. Linear algebra and matrix analysis textbooks with a significant component on f (A) include Cullen [125, 1972], Pullman [481, 1976], and Meyer [426, 2000].
+For more details on the Jordan canonical form see Horn and Johnson [295, 1985, Chap. 3] and Lancaster and Tismenetsky [371, 1985, Chap. 6].
+Almost every textbook on numerical analysis contains a treatment of polynomial interpolation for distinct nodes, including the Lagrange form (1.9) and the Newton divided difference form (1.10). Textbook treatments of Hermite interpolation are usually restricted to once-repeated nodes; for the general case see, for example, Horn and Johnson [296, 1991, Sec. 6.1.14] and Stoer and Bulirsch [542, 2002, Sec. 2.1.5].
+For the theory of functions of operators (sometimes called the holomorphic functional calculus), see Davies [133, 2007], Dunford and Schwartz [172, 1971], [171, 1988], and Kato [337, 1976].
+Functions of the DFT matrix, and in particular fractional powers, are considered by Dickinson and Steiglitz [151, 1982], who obtain a formula equivalent to (1.18). Much has been written about fractional transforms, mainly in the engineering literature; for the fractional discrete cosine transform, for example, see Cariolaro, Erseghe, and Kraniauskas [96, 2002].
+Theorems 1.15­1.17 can be found in Lancaster and Tismenetsky [371, 1985, Sec. 9.7]. Theorem 1.18 is from Higham, Mackey, Mackey, and Tisseur [283, 2005, Thm. 3.2]. The sufficient condition of Remark 1.9 and the equivalence (c)  (d) in Theorem 1.18 can be found in Richter [491, 1950]. Different characterizations of the reality of f (A) for real A can be found in Evard and Uhlig [179, 1992, Sec. 4] and Horn and Piepmeyer [298, 2003]. The terminology "primary matrix function" has been popularized through its use by Horn and Johnson [296, 1991, Chap. 6], but the term was used much earlier by Rinehart [495, 1960] and Cullen [125, 1972]. A number of early papers investigate square roots and pth roots of (singular) matrices, including Taber [561, 1890], Metzler [424, 1892], Frobenius [195, 1896], Kreis [363, 1908], Baker [40, 1925], and Richter [491, 1950], and Wedderburn's book also treats the topic [611, 1934, Secs. 8.04­8.06]. Theorem 1.24 is a special case of a result of Gantmacher for pth roots [203, 1959, Sec. 8.6]. Theorem 1.26 is from Higham [268, 1987]. Theorem 1.27 is from [203, 1959, Sec. 8.8]. Theorem 1.32 is proved by Flanders [188, 1951]. Alternative proofs are given by Thompson [566, 1968] and Horn and Merino [297, 1995, Sec. 6]; see also Johnson and Schreiner [321, 1996]. We derived Theorem 1.35 as a generalization of (1.16) while writing this book; our original proof is given in Problem 1.45. Harris [249, 1993, Lem. 2] gives the result for  = 0 and f a holomorphic function, with the same method of proof that we have given. The special case of Theorem 1.35 with f the exponential and  = 0 is given by Celledoni and Iserles [102, 2000]. Formulae for a rational function of a general matrix plus a rank-1 perturbation, r(C + uv), are derived by Bernstein and Van Loan [61, 2000]. These are more complicated and less explicit than (1.31), though not directly comparable with it since C need not be a multiple of the identity. The formulae involve the coefficients of r and so cannot be conveniently applied to an arbitrary function f by using "f (A) = p(A)
+Copyright ©2008 by the Society for Industrial and Applied Mathematics. This electronic version is for personal use and may not be duplicated or distributed.
+From "Functions of Matrices: Theory and Computation" by Nicholas J. Higham. This book is available for purchase at www.siam.org/catalog.
+
+Problems
+
+29
+
+for some polynomial p." Theorem 1.42 is due to McCoy [415, 1936]. See also Drazin, Dungey, and Gru-
+enberg [164, 1951] for a more elementary proof and the discussions of Taussky [564, 1957], [565, 1988]. A complete treatment of simultaneous triangularization is given in the book by Radjavi and Rosenthal [483, 2000].
+
+Problems
+
+The only way to learn mathematics is to do mathematics. -- PAUL R. HALMOS, A Hilbert Space Problem Book (1982)
+
+1.1. Show that the value of f (A) given by Definition 1.2 is independent of the particular Jordan canonical form that is used.
+
+1.2. Let Jk be the Jordan block (1.2b). Show that
+
+ f (-Jk) =  f (-k)
+
+-f (-k) f (-k)
+
+...
+... ...
+
+(-1)mk
+
+-1
+
+f
+
+(mk -1) (-k (mk - 1)!
+
+)
+
+...
+
+-f (-k)
+
+ 
+
+.
+
+f (-k)
+
+(1.34)
+
+1.3. (Cullen [125, 1972, Thm. 8.9]) Define f (A) by the Jordan canonical form definition. Use Theorem 1.38 and the property f (XAX-1) = Xf (A)X-1 to show that
+f (A) is a polynomial in A.
+
+1.4. (a) Let A  Cn×n have an eigenvalue  and corresponding eigenvector x. Show that (f (), x) is a corresponding eigenpair for f (A).
+(b) Suppose A has constant row sums , that is, Ae = e, where e = [1, 1, . . . , 1]T . Show that f (A) has row sums f (). Deduce the corresponding result for column sums.
+
+1.5. Show that the minimal polynomial  of A  Cn×n exists, is unique, and has degree at most n.
+
+1.6. (Turnbull and Aitken [579, 1932, p. 75]) Show that if A  Cn×n has minimal
+
+polynomial
+
+(A)
+
+=
+
+A2
+
+-A-
+
+I
+
+then
+
+(I
+
+-
+
+1 3
+
+A)-1
+
+=
+
+3 5
+
+(A
+
++ 2I).
+
+1.7. (Pullman [481, 1976, p. 56]) The matrix
+
+ -2 2 -2 4 
+
+A
+
+=
+
+
+
+-1 0
+
+2 0
+
+-1 1
+
+1 0
+
+
+
+-2 1 -1 4
+
+has minimal polynomial (t) = (t - 1)2(t - 2). Find cos(A).
+1.8. Find the characteristic polynomial and the minimal polynomial of the nonzero rank-1 matrix uv  Cn×n.
+1.9. Use (1.11) to give an explicit formula for f (A) for A  C2×2 requiring knowledge only of the eigenvalues of A.
+
+Copyright ©2008 by the Society for Industrial and Applied Mathematics. This electronic version is for personal use and may not be duplicated or distributed.
+From "Functions of Matrices: Theory and Computation" by Nicholas J. Higham. This book is available for purchase at www.siam.org/catalog.
+
+30 Theory of Matrix Functions
+
+1.10. Let J = eeT  Rn×n denote the matrix of 1s. Show using Definition 1.4 that f (I + J) = f ()I + n-1(f ( + n) - f ())J.
+
+1.11. What are the interpolation conditions (1.7) for the polynomial p such that p(A) = A?
+
+1.12. Let A  Cn×n have only two distinct eigenvalues, 1 and 2, both semisimple. Obtain an explicit formula for f (A).
+
+1.13. Show using each of the three definitions (1.2), (1.4), and (1.11) of f (A) that AB = BA implies f (A)B = Bf (A).
+
+1.14. For a given A  Cn×n and a given function f explain how to reliably compute in floating point arithmetic a polynomial p such that f (A) = p(A).
+
+1.15. Show how to obtain the formula (1.14) from Definition 1.2 when vu = 0 with uv = 0.
+
+1.16. Prove the formula (1.16) for f (I + uv). Use this formula to derive the Sherman­Morrison formula (B.11).
+
+1.17. Use (1.16) to obtain an explicit formula for f (A) for A =
+
+In-1 c 0
+
+ Cn×n.
+
+Check your result against Theorem 1.21.
+
+1.18. (Schwerdtfeger [513, 1938]) Let p be a polynomial and A  Cn×n. Show that p(A) = 0 if and only if p(t)(tI - A)-1 is a polynomial in t. Deduce the Cayley­
+Hamilton theorem.
+
+1.19. Cayley actually discovered a more general version of the Cayley­Hamilton the-
+orem, which appears in a letter to Sylvester but not in any of his published work
+[120, 1978], [121, 2006, p. 470], [464, 1998, Letter 44]. Prove his general version: if A, B  Cn×n, AB = BA, and f (x, y) = det(xA - yB) then f (B, A) = 0. Is the
+commutativity condition necessary?
+
+1.20. Let f satisfy f (-z) = ±f (z). Show that f (-A) = ±f (A) whenever the primary matrix functions f (A) and f (-A) are defined. (Hint: Problem 1.2 can be used.)
+
+1.21. Let P  Cn×n be idempotent (P 2 = P ). Show that f (aI + bP ) = f (a)I + (f (a + b) - f (a))P .
+
+1.22. Is f (A) = A possible for a suitable choice of f ? Consider, for example, f () = .
+
+1.23. Verify the Cauchy integral formula (1.12) in the case f () = j and A = Jn(0), the Jordan block with zero eigenvalue.
+
+1.24. Show from first principles that for k = 0 a Jordan block Jk(k) has exactly two upper triangular square roots. (There are in fact only two square roots of any
+form, as shown by Theorem 1.26.)
+
+1.25. (Davies [131, 2007]) Let A  Cn×n (n > 1) be nilpotent of index n (that is, An = 0 but An-1 = 0). Show that A has no square root but that A + cAn-1 is a square root of A2 for any c  C. Describe all such A.
+
+Copyright ©2008 by the Society for Industrial and Applied Mathematics. This electronic version is for personal use and may not be duplicated or distributed.
+From "Functions of Matrices: Theory and Computation" by Nicholas J. Higham. This book is available for purchase at www.siam.org/catalog.
+
+Problems
+
+31
+
+1.26. Suppose that X  Cn×n commutes with A  Cn×n, and let A have the Jordan canonical form Z-1AZ = diag(J1, J2, . . . , Jp) = J. Is Z-1XZ block diagonal with blocking conformable with that of J?
+1.27. (Extension of Theorem 1.29.) Let A  Cn×n have no eigenvalues on R- except possibly for a semisimple zero eigenvalue. Show that there is a unique square root X of A that is a primary matrix function of A and whose nonzero eigenvalues lie in the open right half-plane. Show that if A is real then X is real.
+1.28. Investigate the square roots of the upper triangular matrix  011
+A =  1 1. 0
+
+1.29. Find all the square roots of the matrix
+ 01
+A = 0 0 00
+
+ 0 0
+0
+
+(which is the matrix in (1.23)). Hint: use Theorem 1.36.
+
+1.30. Show that if A  Cn×n has a defective zero eigenvalue (i.e., a zero eigenvalue appearing in a Jordan block of size greater than 1) then A does not have a square root that is a polynomial in A.
+
+1.31. The symmetric positive definite matrix A with aij = min(i, j) has a square
+
+root X with
+
+xij =
+
+0, i + j  n, 1, i + j > n.
+
+For example,
+
+ 0 0 0 1 2  1 1 1 1 
+
+
+
+0 0
+
+0 1
+
+1 1
+
+1 1
+
+
+
+=
+
+
+
+1 1
+
+2 2
+
+2 3
+
+2 3
+
+
+
+.
+
+1111
+
+1234
+
+Is X a primary square root of A? Explain how X fits in with the theory of matrix square roots.
+
+1.32. Show that any square root or logarithm X of A  Cn×n (primary or nonprimary) commutes with A. Show further that if A is nonderogatory then X is a polynomial in A.
+
+1.33. Find a logarithm of the upper triangular Toeplitz matrix
+
+1
+
+1 2!
+
+1 3!
+
+...
+
+1
+(n-1)!
+
+A = 
+
+1
+
+1 2!
+
+...
+
+1 ...
+
+...
+
+... ...
+1
+
+ .
+
+2!
+
+1
+
+Hence find all the logarithms of A.
+
+Copyright ©2008 by the Society for Industrial and Applied Mathematics. This electronic version is for personal use and may not be duplicated or distributed.
+From "Functions of Matrices: Theory and Computation" by Nicholas J. Higham. This book is available for purchase at www.siam.org/catalog.
+
+32 Theory of Matrix Functions
+
+1.34.
+
+Let A  Cn×n
+
+have no eigenvalues on R-.
+
+Show that A1/2
+
+=
+
+1
+e2
+
+log A,
+
+where
+
+the logarithm is the principal logarithm.
+
+1.35. Let A, B  Cn×n and AB = BA. Is it true that (AB)1/2 = A1/2B1/2 when the square roots are defined?
+
+1.36. (Hille [290, 1958]) Show that if eA = eB and no two elements of (A) differ by a nonzero integer multiple of 2i then AB = BA. Given an example to show that this conclusion need not be true without the assumption on (A).
+
+1.37. Show that if eA = eB and no eigenvalue of A differs from an eigenvalue of B by a nonzero integer multiple of 2i then A = B.
+
+1.38. Let A  Cn×n be nonsingular. Show that if f is an even function (f (z) = f (-z) for all z  C) then f ( A) is the same for all choices of square root (primary or
+
+noAnp±r1ifm(aryA)).
+
+Show is the
+
+that same
+
+if f for
+
+is all
+
+an odd choices
+
+function (f (-z) of square root.
+
+=
+
+-f (z)
+
+for
+
+all
+
+z
+
+
+
+C)
+
+then
+
+1.39. Show that for A  Cn×n, log(eA) = A if and only if | Im(i)| <  for every eigenvalue i of A, where log denotes the principal logarithm. (Since (A)  A for any consistent norm, A <  is sufficient for the equality to hold.)
+
+1.40. Let A, B  Cn×n and let f and g be functions such that g(f (A)) = A and
+g(f (B)) = B. Assume also that B and f (A) are nonsingular. Show that f (A)f (B) =
+f (B)f (A) implies AB = BA. For example, if the spectra of A and B lie in the open right half-plane we can take f (x) = x2 and g(x) = x1/2, or if (A) <  and (B) <  we can take f (x) = ex and g(x) = log x (see Problem 1.39).
+
+1.41. Give a proof from first principles (without using the theory of matrix functions developed in this chapter) that a Hermitian positive definite matrix A  Cn×n has a
+unique Hermitian positive definite square root.
+
+1.42. Let A  Cn×n have no eigenvalues on R-. Given that A has a square root X with eigenvalues in the open right half-plane and that X is a polynomial in A, show from first principles, and without using any matrix decompositions, that X is the unique square root with eigenvalues in the open right half-plane.
+
+1.43. Prove the first and last parts of Theorem 1.32. (For the rest, see the sources cited in the Notes and References.)
+
+1.44. Give another proof of Corollary 1.34 for m = n by using the identity
+
+AB 0 B0
+
+Im 0
+
+A In
+
+=
+
+Im 0
+
+A In
+
+00 B BA
+
+(1.35)
+
+(which is (1.36) below with  = 0). What additional hypotheses are required for this proof ?
+1.45. Give another proof of Theorem 1.35 based on the identity
+
+AB + Im 0 B In
+
+Im 0
+
+A In
+
+=
+
+Im 0
+
+A In
+
+Im B
+
+0 BA + In
+
+.
+
+(1.36)
+
+What additional hypotheses are required for this proof? 1.46. Show that Corollary 1.34 can be obtained from Theorem 1.35.
+
+Copyright ©2008 by the Society for Industrial and Applied Mathematics. This electronic version is for personal use and may not be duplicated or distributed.
+From "Functions of Matrices: Theory and Computation" by Nicholas J. Higham. This book is available for purchase at www.siam.org/catalog.
+
+Problems
+
+33
+
+1.47. Can (1.31) be generalized to f (D+AB) with D  Cm×m diagonal by "replacing I by D"?
+
+1.48. (Klosinski, Alexanderson, and Larson [355, 1991]) If A and B are n×n matrices does ABAB = 0 imply BABA = 0?
+
+1.49. Let A  Cm×n and B  Cn×m. Show that det(Im + AB) = det(In + BA).
+
+1.50. (Borwein, Bailey, and Girgensohn [77, 2004, p. 216]) Does the equation sin A =
+
+1 1996 01
+
+have a solution? (This was Putnam Problem 1996-B4.)
+
+1.51. Show that the equation
+
+1 a a ... a
+
+cosh(A) = 
+
+1
+
+a 1
+
+... ... ...
+
+a ... a
+
+
+
+
+
+Cn×n
+
+1
+
+has no solutions for a = 0 and n > 1.
+1.52. An interesting application of the theory of matrix functions is to the Drazin inverse of A  Cn×n, which can be defined as the unique matrix AD satisfying ADAAD = AD, AAD = ADA, Ak+1AD = Ak, where k is the index of A (see Section B.2). If A  Cn×n has index k then it can be written
+
+A=P
+
+B 0
+
+0 N
+
+P -1,
+
+(1.37)
+
+where B is nonsingular and N is nilpotent of index k (and hence has dimension at
+
+least k), and then
+
+AD = P
+
+B-1 0
+
+0 0
+
+P -1.
+
+(a) For what function f is AD = f (A)? (b) Show that if p is a polynomial such that for B in (1.37), B-1 = p(B), then AD = Akp(A)k+1. (c) Determine (uv)D, for nonzero u, v  Cn.
+1.53. How might the definition of f (A) be extended to rectangular matrices?
+
+Copyright ©2008 by the Society for Industrial and Applied Mathematics. This electronic version is for personal use and may not be duplicated or distributed.
+From "Functions of Matrices: Theory and Computation" by Nicholas J. Higham. This book is available for purchase at www.siam.org/catalog.
+
+34 Theory of Matrix Functions
+After developing some properties of "linear transformations" in earlier papers, Cayley finally wrote "A Memoir on the Theory of Matrices" in 1858 in which a matrix is considered as a single mathematical quantity. This paper gives Cayley considerable claim to the honor of introducing the modern concept of matrix, although the name is due to Sylvester (1850). -- CYRUS COLTON MACDUFFEE, Vectors and Matrices (1943)
+It will be convenient to introduce here a notion . . . namely that of the latent roots of a matrix. . .
+There results the important theorem that the latent roots of any function of a matrix are respectively the same functions of the latent roots of the matrix itself. -- J. J. SYLVESTER, On the Equation to the Secular Inequalities in the Planetary Theory (1883)
+There have been proposed in the literature since 1880 eight distinct definitions of a matric function, by Weyr, Sylvester and Buchheim, Giorgi, Cartan, Fantappi`e, Cipolla, Schwerdtfeger and Richter . . .
+All of the definitions except those of Weyr and Cipolla are essentially equivalent.
+-- R. F. RINEHART, The Equivalence of Definitions of a Matric Function (1955)
+I have not thought it necessary to undertake the labour of a formal proof of the theorem in the general case of a matrix of any degree.3
+-- ARTHUR CAYLEY, A Memoir on the Theory of Matrices (1858)
+On reaching the chapter on functions of matrices I found that, starting from a few `well-known' facts,
+the theory unfolded itself naturally and easily, but that only patches of it here and there appeared to have been published before.
+-- W. L. FERRAR, Finite Matrices (1951)
+If one had to identify the two most important topics in a mathematics degree programme,
+they would have to be calculus and matrix theory. Noncommutative multiplication underlies the whole of quantum theory
+and is at the core of some of the most exciting current research in both mathematics and physics.
+-- E. BRIAN DAVIES, Science in the Looking Glass (2003) 3Re the Cayley­Hamilton theorem.
+Copyright ©2008 by the Society for Industrial and Applied Mathematics. This electronic version is for personal use and may not be duplicated or distributed. From "Functions of Matrices: Theory and Computation" by Nicholas J. Higham. This book is available for purchase at www.siam.org/catalog.
+

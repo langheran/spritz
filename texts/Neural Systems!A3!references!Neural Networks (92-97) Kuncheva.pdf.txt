@@ -1,0 +1,408 @@
+68
+
+2.4
+
+BASE CLASSIFIERS
+
+NEURAL NETWORKS
+
+Artificial Neural Networks (ANNs or simply NNs) originated from the idea to model
+mathematically human intellectual abilities by biologically plausible engineering
+designs. Meant to be massive, parallel computational schemes resembling a real brain,
+NNs evolved to become a valuable classification tool with a significant influence on
+pattern recognition theory and practice. Neural networks are often used as base
+classifiers in multiple classifier systems [360]. Similarly to tree classifiers, NNs are
+unstable, in that small changes in the training data might lead to a large change in the
+classifier, both in its structure and parameters.
+Literature on NNs is excessive and continuously growing [40, 180, 330], discussing
+NNs at various theoretical and algorithmic depth.
+Consider an n-dimensional pattern recognition problem with c classes. The NN
+obtains a feature vector x = [x1 , ... , xn ]T  Rn at its input and produces values for
+the c discriminant functions g1 (x), ... , gc (x) at its output. Typically NNs are trained
+to minimize the squared error on a labeled training set Z = {z1 , ... , zN }, zj  Rn , and
+yj  :
+)2
+1 (
+gi (zj ) - (i , yj ) ,
+E=
+2 j=1 i=1
+N
+
+c
+
+(2.32)
+
+where (i , yj ) is an indicator function taking value 1 if the label of zj , yj is i ,
+and 0 otherwise. It has been shown that the set of discriminant functions obtained
+by minimizing Equation 2.32 approach the posterior probabilities for the classes for
+data size N   [328, 341, 406], that is,
+lim gi (x) = P(i |x), x  Rn .
+
+N
+
+(2.33)
+
+This result was brought to light in connection with NNs but, in fact, it holds for any
+classifier which can approximate an arbitrary discriminant function with a specified
+precision. This universal approximation property has been proven for the two important NN models: the Multi-Layered Perceptron (MLP) and the Radial Basis Function
+(RBF) networks (for summaries of the literature and proofs refer to [40] and [330]).
+Various NN training protocols and algorithms have been developed, and these have
+been the key to the success of NN classifiers.
+2.4.1
+
+Neurons
+
+The processing units in the human brain are neurons of different specialization
+and functioning. The earliest models of neurons, including the one proposed by
+McCulloch and Pitts [269] and Fukushima's cognitron [142], reprinted in the collection [17], were more similar to the biological neuron than later models. For example,
+they incorporated both activating and veto-type inhibitory inputs. To avoid confusion, artificial neurons are often given other names: "nodes" [313], "units" [40, 330],
+
+NEURAL NETWORKS
+
+u
+
+q+1
+
+u0
+
+w0
+
+u1
+
+w1
+
+...
+
+v
+
+v
+
+
+
+v= (
+
+wq
+
+69
+
+q
+i =0
+
+wi ui)
+
+uq
+FIGURE 2.12 The NN processing unit.
+
+"neurodes" [268]. Simple models will need a large structure for the whole system to
+work well (e.g., the weightless neural networks [7]) while for more complex models
+of neurons a few units will suffice. In both cases proper algorithms are needed to
+train the structure and parameters of the NN. Complex models without good training
+algorithms are not of much use. The basic scheme of a processing node is shown in
+Figure 2.12.
+Let u = [u0 , ... , uq ]T  Rq+1 be the input vector to the node and v  R be its output. We call w = [w0 , ... , wq ]T  Rq+1 a vector of synaptic weights. The processing
+element implements the function
+v = ();  =
+
+q
+
+
+w i ui ,
+
+(2.34)
+
+i=0
+
+where  : R  R is the activation function and  is the net sum. Typical choices for
+ are
+
+ The Heaviside (threshold) function:
+{
+
+() =
+
+ The sigmoid function:
+() =
+
+ The identity function:
+
+1,
+
+if   0,
+
+0,
+
+otherwise.
+
+1
+.
+1 + exp(-)
+
+() = .
+
+The three activation functions are shown in Figure 2.13.
+
+(2.35)
+
+(2.36)
+
+(2.37)
+
+70
+
+BASE CLASSIFIERS
+
+Output
+
+Threshold
+
+Sigmoid
+
+Identity
+
+2
+
+2
+
+2
+
+1
+
+1
+
+1
+
+0
+
+0
+
+0
+
+-1
+-10
+
+0
+Net sum
+
+FIGURE 2.13
+
+-1
+-10
+
+10
+
+0
+Net sum
+
+10
+
+-1
+-1
+
+0
+1
+Net sum
+
+2
+
+Threshold, sigmoid, and identity activation functions.
+
+The sigmoid activation function is the most widely used one because:
+
+ It can model both linear and threshold functions to a desirable precision.
+ The sigmoid function is differentiable, which is important for the NN training
+algorithms. Moreover, the derivative on  has the simple form  () = ()(1 -
+()).
+
+The weight "-w0 " is used as a bias and the corresponding input value u0 is set to
+1. Equation (2.34) can be rewritten as
+(
+
+(
+
+)
+
+v =   - (-w0 ) = 
+
+q
+
+
+)
+wi ui - (-w0 ) ,
+
+(2.38)
+
+i=1
+
+where  is now the weighted sum of the inputs from 1 to q. Geometrically, the
+equation
+q
+
+
+wi ui - (-w0 ) = 0
+
+(2.39)
+
+i=1
+
+defines a hyperplane in Rq . Therefore a node with a threshold activation function
+(2.35) responds with value +1 to all inputs [u1 , ... , uq ]T on the one side of the
+hyperplane, and value 0 on the other side.
+2.4.2
+
+Rosenblatt's Perceptron
+
+An important model of a neuron was defined by Rosenblatt [340]. It is called perceptron and is famous for its training algorithm. The perceptron is implemented as
+Equation 2.34 with a threshold activation function
+{
+() =
+
+1,
+-1,
+
+if   0,
+otherwise.
+
+(2.40)
+
+NEURAL NETWORKS
+
+71
+
+This one-neuron classifier separates two classes in Rn by the linear discriminant
+function defined by  = 0. The vectors from one of the classes get an output value of
++1, and from the other class, -1. The algorithm starts with random initial weights
+w and proceeds by modifying the weights as each object from Z is submitted. The
+weight modification takes place only if the current object zj is misclassified (appears
+on the "wrong" side of the hyperplane). The weights are corrected by
+w  w - vzj ,
+
+(2.41)
+
+where v is the output of the node for zj and  is a parameter specifying the learning rate.
+Beside its simplicity, the perceptron training has the following interesting properties:
+
+ If the two classes are linearly separable in Rn , the algorithm always converges
+
+in a finite number of steps to a linear discriminant function that gives no resubstitution errors on Z, for any . (This is called "the perceptron convergence
+theorem.")
+ If the two classes are not linearly separable in Rn , the algorithm will loop
+infinitely through Z and never converge. Moreover, there is no guarantee that
+if we terminate the procedure at some stage, the resultant linear function is the
+one with the smallest possible misclassification count on Z.
+2.4.3
+
+Multi-Layer Perceptron
+
+By connecting perceptrons we can design an NN structure called the Multi-Layer
+Perceptron (MLP). MLP is a feed-forward structure because the output of the input
+layer and all intermediate layers is submitted only to the higher layer. The generic
+model of a feed-forward NN classifier is shown in Figure 2.14.
+Here "layer" means a layer of neurons. The feature vector x is submitted to an
+input layer, and at the output layer there are c discriminant functions g1 (x), ... , gc (x).
+The number of hidden layers and the number of neurons at each hidden layer are not
+limited. The most common default conventions are:
+
+ The activation function at the input layer is the identity function (2.37).
+ There are no lateral connections between the nodes at the same layer (feedforward structure).
+ Nonadjacent layers are not connected directly.
+ All nodes at all hidden layers have the same activation function .
+
+This model is not as constrained as it might look. It has been proven that an MLP
+with a single hidden layer and threshold nodes can approximate any function with
+a specified precision [40, 330, 349]. However, the proofs did not offer a feasible
+training algorithm for the MLP. The conception and subsequent refinement of the
+error backpropagation training algorithm in the 1980 heralded a new era in the NN
+field, which continues to this day.
+
+72
+
+BASE CLASSIFIERS
+
+g1(x) g2(x)
+
+gc(x)
+···
+
+output layer
+
+hidden layers
+
+···
+x1
+
+x2
+x
+
+FIGURE 2.14
+
+n
+
+input layer
+
+xn
+
+A generic model of an MLP classifier.
+
+The error backpropagation training of an MLP updates the network weights iteratively until the output error drops below a given threshold or until the limit of the
+number of iterations is reached. It is a gradient descend (greedy) algorithm, which
+converges to a set of weights corresponding to a local minimum of the output error.
+Different random initializations may lead to different minima. The algorithm goes
+through the following steps.
+1. Choose the MLP structure: number of hidden layers, number of nodes at each
+layer, and a differentiable activation function. Pick the learning rate  > 0, the
+error goal  > 0, and T, the number of training epochs.4
+2. Initialize the training procedure by picking small random values for all weights
+(including biases) of the NN.
+3. Set the initial error at E = , the epoch counter at t = 1, and the object counter
+at j = 1.
+4. While (E >  and t  T) do
+(a) Submit zj as the next training example.
+(b) Forward propagation. Calculate the output of the NN with the current
+weights.
+(c) Backward propagation. Calculate the error term at each node at the output
+layer. Calculate recursively all error terms at the nodes of the hidden layers.
+(d) For each hidden and each output node update the weights using the learning
+rate  to scale the update.
+4 An
+
+epoch is a pass of the whole data set, object by object, through the training algorithm.
+
+SUPPORT VECTOR MACHINES
+
+73
+
+(e) Calculate E using the current weights and Equation 2.32.
+(f) If j = N (a whole pass through Z--an epoch--is completed), then set
+t = t + 1 and j = 0. Else, set j = j + 1.
+5. End of the while loop.
+Marked with  are steps for which the details are omitted. The full algorithmic
+detail can be recovered from the MATLAB code given in the Appendix 2.A.2.3. The
+MLP trained through this code has a single hidden layer (the most popular choice)
+with a number of nodes given as an input parameter.
+There are two ways to implement the training procedure: batch and online. The
+version explained above is the online version where the updates of the weights
+take place after the submission of each object. In the batch version, the errors are
+accumulated and the updating is done only after all of Z is seen, that is, there is one
+update after each epoch.
+
+ Example 2.7 Classification boundaries of the MLP classifier
+
+Figure 2.15 shows the classification boundaries for the fish data of 20 MLP classifiers
+run with different random initializations. The figure shows why the MLP classifier
+is one of the preferred base models in classifier ensembles: the boundaries are fairly
+precise and diverse at the same time.
+
+FIGURE 2.15 Decision boundaries of the MLP classifier with eight hidden neurons (average
+training error 17.45% ± 6.67) for the fish data with 10% label noise.
+
+2.5
+2.5.1
+
+SUPPORT VECTOR MACHINES
+Why Would It Work?
+
+Ever since its conception, the SVM classifier has been a prominent landmark in
+statistical learning theory [61]. The success of SVM can be attributed to two ideas:
+(1) a transformation of the original space into a very high-dimensional new space
+and (2) identifying a "large margin" linear boundary in the new space.
+

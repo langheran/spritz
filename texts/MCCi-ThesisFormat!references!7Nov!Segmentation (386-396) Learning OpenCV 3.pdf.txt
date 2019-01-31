@@ -1,0 +1,257 @@
+mask will result in a better approximation to the L2 distance, at the cost of a slightly slower computation. Alternatively, cv::DIST_MASK_PRECISE can be used to indicate the Felzenszwalb algorithm (when used with cv::DIST_L2).
+
+cv::distanceTransform() for Labeled Distance Transform
+It is also possible to ask the distance transform algorithm to not only calculate the distances, but to also report which object that minimum distance is to. These "objects" are called connected components. We will have a lot more to say about con nected components in Chapter 14 but, for now, you can think of them as exactly what they sound like: structures made of continuously connected groups of zeros in the source image.
+
+void cv::distanceTransform(
+
+cv::InputArray src,
+
+// Input image
+
+cv::OutputArray dst,
+
+// Result image
+
+cv::OutputArray labels,
+
+// Connected component ids
+
+int distanceType,
+
+// Distance metric to use
+
+int maskSize,
+
+// (3, 5, or see below)
+
+int labelType = cv::DIST_LABEL_CCOMP // How to label
+
+);
+
+If a labels array is provided, then as a result of running cv::distanceTransform() it will be of the same size as dst. In this case, connected components will be compu ted automatically, and the label associated with the nearest such component will be placed in each pixel of labels. The output "labels" array will basically be the discrete Voronoi diagram.
+
+If you are wondering how to differentiate labels, consider that for any pixel that is 0 in src, then the corresponding distance must also be 0. In addition, the label for that pixel must be the label of the connected component it is part of. As a result, if you want to know what label was given to any particular zero pixel, you need only look up that pixel in labels.
+
+The argument labelType can be set either to cv::DIST_LABEL_CCOMP or cv::DIST_LABEL_PIXEL. In the former case, the function automatically finds connec ted components of zero pixels in the input image and gives each one a unique label. In the latter case, all zero pixels are given distinct labels.
+Segmentation
+The topic of image segmentation is a large one, which we have touched on in several places already, and will return to in more sophisticated contexts later in the book. Here, we will focus on several methods of the library that specifically implement
+
+360 | Chapter 12: Image Analysis
+
+techniques that are either segmentation methods in themselves, or primitives that will be used later by more sophisticated tactics. Note that, at this time, there is no general "magic" solution for image segmentation, and it remains a very active area in computer vision research. Despite this, many good techniques have been developed that are reliable at least in some specific domain, and in practice can yield very good results.
+
+Flood Fill
+
+Flood fill [Heckbert90; Shaw04; Vandevenne04] is an extremely useful function that is often used to mark or isolate portions of an image for further processing or analy sis. Flood fill can also be used to derive, from an input image, masks that can be used by subsequent routines to speed or restrict processing to only those pixels indicated by the mask. The function cv::floodFill() itself takes an optional mask that can be further used to control where filling is done (e.g., for multiple fills of the same image). In OpenCV, flood fill is a more general version of the sort of fill functionality that you probably already associate with typical computer painting programs. For both, a seed point is selected from an image and then all similar neighboring points are col ored with a uniform color. The difference is that the neighboring pixels need not all be identical in color.19 The result of a flood fill operation will always be a single con tiguous region. The cv::floodFill() function will color a neighboring pixel if it is within a specified range (loDiff to upDiff) of either the current pixel or if (depend ing on the settings of flags) the neighboring pixel is within a specified range of the original seed value. Flood filling can also be constrained by an optional mask argu ment. There are two different prototypes for the cv::floodFill() routine, one that accepts an explicit mask parameter, and one that does not.
+
+int cv::floodFill(
+
+cv::InputOutputArray image,
+
+// Input image, 1 or 3 channels
+
+cv::Point
+
+seed,
+
+// Start point for flood
+
+cv::Scalar
+
+newVal,
+
+// Value for painted pixels
+
+cv::Rect*
+
+rect,
+
+// Output bounds painted domain
+
+cv::Scalar
+
+lowDiff = cv::Scalar(),// Maximum down color distance
+
+cv::Scalar
+
+highDiff = cv::Scalar(),// Maximum up color distance
+
+int flags
+
+// Local/global, and mask-only
+
+);
+
+int cv::floodFill( cv::InputOutputArray image, cv::InputOutputArray mask,
+
+// Input w-by-h, 1 or 3 channels // 8-bit, w+2-by-h+2 (Nc=1)
+
+19 Users of contemporary painting and drawing programs should note that most of them now employ a filling algorithm very much like cv::floodFill().
+Segmentation | 361
+
+cv::Point cv::Scalar cv::Rect* cv::Scalar cv::Scalar int );
+
+seed,
+
+// Start point for flood
+
+newVal,
+
+// Value for painted pixels
+
+rect,
+
+// Output bounds painted domain
+
+lowDiff = cv::Scalar(), // Maximum down color distance
+
+highDiff = cv::Scalar(), // Maximum up color distance
+
+flags
+
+// Local/global, and mask-only
+
+The parameter image is the input image, which can be 8-bit or a floating-point type, and must either have one or three channels. In general, this image array will be modi fied by cv::floodFill(). The flood-fill process begins at the location seed. The seed will be set to value newVal, as will all subsequent pixels colored by the algorithm. A pixel will be colorized if its intensity is not less than a colorized neighbor's intensity minus loDiff and not greater than the colorized neighbor's intensity plus upDiff. If the flags argument includes cv::FLOODFILL_FIXED_RANGE, then a pixel will be com pared to the original seed point rather than to its neighbors. Generally, the flags argument controls the connectivity of the fill, what the fill is relative to, whether we are filling only a mask, and what values are used to fill the mask. Our first example of flood fill is shown in Figure 12-10.
+
+Figure 12-10. Results of flood fill (top image is filled with gray, bottom image with white) from the dark circle located just off center in both images; in this case, the upDiff and loDiff parameters were each set to 7.0
+The mask argument indicates a mask that can function both as an input to cv::flood Fill() (in which case, it constrains the regions that can be filled) and as an output
+362 | Chapter 12: Image Analysis
+
+from cv::floodFill() (in which case, it will indicate the regions that actually were filled). mask must be a single-channel, 8-bit image whose size is exactly two pixels larger in width and height than the source image.20 In the sense that mask is an input to cv::floodFill(), the algorithm will not flood across nonzero pixels in the mask. As a result, you should zero it before use if you don't want masking to block the flooding operation. When the mask is present, it will also be used as an output. When the algorithm runs, every "filled" pixel will be set to a nonzero value in the mask. You have the option of adding the value cv::FLOODFILL_MASK_ONLY to flags (using the usual Boolean OR operator). In this case, the input image will not be modified at all. Instead, only mask will be modified.
+If the flood-fill mask is used, then the mask pixels corresponding to the repainted image pixels are set to 1. Don't be confused if you fill the mask and see nothing but black upon display; the filled values are there, but the mask image needs to be rescaled if you want to display it so you can actually see it on the screen. After all, the dif ference between 0 and 1 is pretty small on an intensity scale of 0 to 255.
+Two possible values for flags have already been mentioned: cv::FLOOD FILL_FIXED_RANGE and cv::FLOODFILL_MASK_ONLY. In addition to these, you can also add the numerical values 4 or 8.21 In this case, you are specifying whether the floodfill algorithm should consider the pixel array to be four-connected or eight-connected. In the former case, a four-connected array is one in which pixels are only connected to their four nearest neighbors (left, right, above, and below). In the eight-connected case, pixels are considered to be connected to diagonally neighboring pixels as well. The flags argument is slightly tricky because it has three parts that are possibly less intuitive than they could be. The low 8 bits (0­7) can be set to 4 or 8, as we saw before, to control the connectivity considered by the filling algorithm. The high 8 bits (16­23) are the ones that contain the flags such as cv::FLOODFILL_FIXED_RANGE and cv::FLOODFILL_MASK_ONLY. The middle bits (8­15), however, are used a little bit dif
+20 This is done to make processing easier and faster for the internal algorithm. Note that since the mask is larger than the original image, pixel (x,y) in image corresponds to pixel (x+1,y+1) in mask. Therefore, you may find this an excellent opportunity to use cv::Mat::getSubRect().
+21 The text here reads "add," but recall that flags is really a bit-field argument. Conveniently, however, 4 and 8 are single bits. So you can use "add" or "OR," whichever you prefer (e.g., flags = 8 | cv::FLOOD FILL_MASK_ONLY).
+Segmentation | 363
+
+ferently to actually represent a numerical value: the value with which you want the mask to be filled. If the middle bits of flags are 0s, the mask will be filled with 1s (the default), but any other value will be interpreted as an 8-bit unsigned integer. All these flags may be linked together via OR. For example, if you want an eight-way connec tivity fill, filling only a fixed range, filling the mask (not the image), and filling using a value of 47, then the parameter to pass in would be:
+flags = 8 | cv::FLOODFILL_MASK_ONLY | cv::FLOODFILL_FIXED_RANGE | (47<<8);
+Figure 12-11 shows flood fill in action on a sample image. Using cv::FLOOD FILL_FIXED_RANGE with a wide range resulted in most of the image being filled (start ing at the center). We should note that newVal, loDiff, and upDiff are prototyped as type cv::Scalar so they can be set for three channels at once. For example, loDiff = cv::Scalar(20,30,40) will set loDiff thresholds of 20 for red, 30 for green, and 40 for blue.
+Figure 12-11. Results of flood fill (top image is filled with gray, bottom image with white) from the dark circle located just off center in both images; in this case, flood fill was done with a fixed range and with a high and low difference of 25.0
+364 | Chapter 12: Image Analysis
+
+Watershed Algorithm
+In many practical contexts, we would like to segment an image but do not have the benefit of any kind of separate background mask. One technique that is often effec tive in this context is the watershed algorithm [Meyer92], which converts lines in an image into "mountains" and uniform regions into "valleys" that can be used to help segment objects. The watershed algorithm first takes the gradient of the intensity image; this has the effect of forming valleys or basins (the low points) where there is no texture, and of forming mountains or ranges (high ridges corresponding to edges) where there are dominant lines in the image. It then successively floods basins start ing from caller-specified points until these regions meet. Regions that merge across the marks so generated are segmented as belonging together as the image "fills up." In this way, the basins connected to the marker point become "owned" by that marker. We then segment the image into the corresponding marked regions. More specifically, the watershed algorithm allows a user (or another algorithm) to mark parts of an object or background that are known to be part of the object or background. Alternatively, the caller can draw a simple line or collection of lines that effectively tells the watershed algorithm to "group points like these together." The watershed algorithm then segments the image by allowing marked regions to "own" the edge-defined valleys in the gradient image that are connected with the segments. Figure 12-12 clarifies this process.
+Figure 12-12. Watershed algorithm: after a user has marked objects that belong together (left), the algorithm merges the marked area into segments (right)
+Segmentation | 365
+
+The function specification of the watershed segmentation algorithm is:
+
+void cv::watershed(
+
+cv::InputArray
+
+image,
+
+cv::InputOutputArray markers
+
+);
+
+// Input 8-bit, three channels // 32-bit float, single channel
+
+Here, image must be an 8-bit, three-channel (color) image and markers is a singlechannel integer (CV::S32) image of the same (x, y) dimensions. On input, the value of markers is 0 except where the caller has indicated by using positive numbers that some regions belong together. For example, in the left panel of Figure 12-12, the orange might have been marked with a "1," the lemon with a "2," the lime with "3," the upper background with "4," and so on.
+
+After the algorithm has run, all of the former zero-value pixels in markers will be set to one of the given markers (i.e., all of the pixels of the orange are hoped to come out with a "1" on them, the pixels of the lemon with a "2," etc.), except the boundary pix els between regions, which will be set to ­1. Figure 12-12 (right) shows an example of such a segmentation.
+
+It is tempting to think that all regions will be separated by pixels with marker value ­1 at their boundaries. However, this is not actually the case. Notably, if two neighboring pixels were input originally with nonzero but distinct values, they will remain touch ing and not separated by a ­1 pixel on output.
+Grabcuts
+The Grabcuts algorithm, introduced by Rother, Kolmogorov, and Blake [Rother04], extends the Graphcuts algorithm [Boykov01] for use in user-directed image segmen tation. The Grabcuts algorithm is capable of obtaining excellent segmentations, often with no more than a bounding rectangle around the foreground object to be segmented. The original Graphcuts algorithm used user-labeled foreground and user-labeled background regions to establish distribution histograms for those two classes of image regions. It then combined the assertion that unlabeled foreground or back ground should conform to similar distributions with the idea that these regions tend to be smooth and connected (i.e., a bunch of blobs). These assertions were then com bined into an energy functional that gave a low energy (i.e., cost) to solutions that
+
+366 | Chapter 12: Image Analysis
+
+conformed to these assertions and a high energy to solutions that violated them. The algorithm obtained the final result by minimizing this energy function.22 The Grabcuts algorithm extends Graphcuts in several important ways. The first is that it replaces the histogram models with a different (Gaussian mixture) model, ena bling the algorithm to work on color images. In addition, it solves the energy func tional minimization problem in an iterative manner, which provides better results overall, and allows much greater flexibility in the labeling provided by the user. Nota bly, this latter point makes possible even one-sided labelings, which identify either only background or only foreground pixels (where Graphcuts required both). The implementation in OpenCV allows the caller to either just provide a rectangle around the object to be segmented, in which case the pixels "under" the rectangle's boundary (i.e., outside of it) are taken to be background and no foreground is speci fied. Alternatively, the caller can specify an overall mask in which pixels are catego rized as being either definitely foreground, definitely background, probably foreground, or probably background.23 In this case, the definite regions will be used to classify the other regions, with the latter being classified into the definite categories by the algorithm. The OpenCV implementation of Grabcuts is implemented by the cv::Grabcuts() function:
+
+void cv::grabCut(
+
+cv::InputArray
+
+img,
+
+cv::InputOutputArray mask,
+
+cv::Rect
+
+rect,
+
+cv::InputOutputArray bgdModel,
+
+cv::InputOutputArray fgdModel,
+
+int iterCount,
+
+int mode = cv::GC_EVAL
+
+);
+
+Given an input image img, the resulting labeling will be computed by cv::grabCut() and placed in the output array mask. This mask array can also be used as an input. This is determined by the mode variable. If mode contains the flag
+
+22 This minimization is a nontrivial problem. In practice it is performed through a technique called Mincut, which is how both the Graphcuts and Grabcuts algorithms get their respective names.
+23 Perhaps unintuitively, the algorithm, as implemented, does not allow for a "don't know" prior labeling.
+Segmentation | 367
+
+cv::GC_INIT_WITH_MASK,24 then the values currently in mask when it is called will be used to initialize the labeling of the image. The mask is expected to be a singlechannel image of cv::U8 type in which every value is one of the following enumera tions.
+
+Enumerated value cv::GC_BGD cv::GC_FGD cv::PR_GC_BGD cv::PR_GC_FGD
+
+Numerical value 0 1 2 3
+
+Meaning Definitely background Definitely foreground Probably background Probably foreground
+
+The argument rect is used only when you are not using mask initialization. When the mode contains the flag cv::GC_INIT_WITH_RECT, the entire region outside of the provided rectangle is taken to be "definitely background," while the rest is automati cally set to "probably foreground." The next two arrays are essentially temporary buffers. When you first call cv::grab Cut(), they can be empty arrays. However, if for some reason you should run the Grabcuts algorithm for some number of iterations and then want to restart the algo rithm for more iterations (possibly after allowing a user to provide additional "defi nite" pixels to guide the algorithm), you will need to pass in the same (unmodified) buffers that were filled by the previous run (in addition to using the mask you got back from the previous run as input for the next run). Internally, the Grabcuts algorithm essentially runs the Graphcuts algorithm some number of times (with the minor extensions mentioned previously). In between each such run, the mixture models are recomputed. The itercount argument determines how many such iterations will be applied. Typical values for itercount are 10 or 12, though the number required may depend on the size and nature of the image being processed.
+Mean-Shift Segmentation
+Mean-shift segmentation finds the peaks of color distributions over space [Comani ciu99]. It is related to the mean-shift algorithm, which we will discuss later when we
+
+24 Actually, the way that the cv::grabCut() is implemented, you do not need to explicitly provide the cv::GC_INIT_WITH_MASK flag. This is because mask initialization is actually the default behavior. So, as long as you do not provide the cv::GC_INIT_WITH_RECT flag, you will get mask initialization. However, this is not implemented as a default argument, but rather a default in the procedural logic of the function, and is there fore not guaranteed to remain unchanged in future releases of the library. It is best to either use the cv::GC_INIT_WITH_MASK flag or the cv::GC_INIT_WITH_RECT flag explicitly; doing so not only adds future proofing, but also enhances general clarity.
+368 | Chapter 12: Image Analysis
+
+talk about tracking and motion in Chapter 17. The main difference between the two is that the former looks at spatial distributions of color (and is thus related to our cur rent topic of segmentation), while the latter tracks those distributions through time in successive frames. The function that does this segmentation based on the color dis tribution peaks is cv::pyrMeanShiftFiltering(). Given a set of multidimensional data points whose dimensions are (x, y, blue, green, red), mean-shift can find the highest density "clumps" of data in this space by scan ning a window over the space. Notice, however, that the spatial variables (x, y) can have very different ranges from the color-magnitude ranges (blue, green, red). There fore, mean-shift needs to allow for different window radii in different dimensions. In this case we should have, at a minimum, one radius for the spatial variables (spatial Radius) and one radius for the color magnitudes (colorRadius). As mean-shift win dows move, all the points traversed by the windows that converge at a peak in the data become connected to or "owned" by that peak. This ownership, radiating out from the densest peaks, forms the segmentation of the image. The segmentation is actually done over a scale pyramid--cv::pyrUp(), cv::pyrDown()--as described in Chapter 11, so that color clusters at a high level in the pyramid (shrunken image) have their boundaries refined at lower levels in the pyramid. The output of the mean-shift segmentation algorithm is a new image that has been "posterized," meaning that the fine texture is removed and the gradients in color are mostly flattened. You can then further segment such images using whatever algo rithm is appropriate for your needs (e.g., cv::Canny() combined with cv::findCon tours(), if in fact a contour segmentation is what you ultimately want). The function prototype for cv::pyrMeanShiftFiltering() looks like this:
+
+void cv::pyrMeanShiftFiltering(
+
+cv::InputArray src,
+
+// 8-bit, Nc=3 image
+
+cv::OutputArray dst,
+
+// 8-bit, Nc=3, same size as src
+
+cv::double
+
+sp,
+
+// Spatial window radius
+
+cv::double
+
+sr,
+
+// Color window radius
+
+int maxLevel = 1, // Max pyramid level
+
+cv::TermCriteria termcrit = TermCriteria(
+
+cv::TermCriteria::MAX_ITER | cv::TermCriteria::EPS,
+
+5,
+
+1
+
+)
+
+);
+
+In cv::pyrMeanShiftFiltering() we have an input image src and an output image dst. Both must be 8-bit, three-channel color images of the same width and height. The spatialRadius and colorRadius define how the mean-shift algorithm averages color and space together to form a segmentation. For a 640 × 480 color image, it works well to set spatialRadius equal to 2 and colorRadius equal to 40. The next parameter of this algorithm is max_level, which describes how many levels of scale
+
+Segmentation | 369
+
+pyramid you want used for segmentation. A max_level of 2 or 3 works well for a 640 × 480 color image. The final parameter is cv::TermCriteria, which we have seen in some previous algo rithms. cv::TermCriteria is used for all iterative algorithms in OpenCV. The meanshift segmentation function comes with good defaults if you just want to leave this parameter blank. Figure 12-13 shows an example of mean-shift segmentation using the following values:
+cv::pyrMeanShiftFiltering( src, dst, 20, 40, 2);
+Figure 12-13. Mean-shift segmentation over scale using cv::pyrMeanShiftFiltering() with parameters max_level=2, spatialRadius=20, and colorRadius=40; similar areas now have similar values and so can be treated as super pixels (larger statistically simi lar areas), which can speed up subsequent processing significantly
+Summary
+In this chapter, we expanded our repertoire of techniques for image analysis. Build ing on the general image transforms from the previous chapter, we learned new methods that we can use to better understand the images we are working with and which, as we will see, will form the foundation for many more complex algorithms. Tools such as the distance transform, integral images, and the segmentation techni ques will turn out to be important building blocks for other algorithms in OpenCV as well as for your own image analysis.
+370 | Chapter 12: Image Analysis
+
+

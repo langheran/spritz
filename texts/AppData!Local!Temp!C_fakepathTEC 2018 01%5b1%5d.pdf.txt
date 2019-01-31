@@ -1,0 +1,1391 @@
+Redes neuronales
+artificiales:
+Nuevos modelos
+y algoritmos de
+entrenamiento
+Juan Humberto SOSSA AZUELA
+E-mail: hsossa@cic.ipn.mx and humbertosossa@gmail.com
+http://sites.google.com/site/cicvision/
+
+¿Porqué las
+Redes
+Neuronales?
+
+No tienen un cerebro
+
+Tienen un cerebro
+
+¿Qué es un
+cerebro?
+
+¡¡¡El cerebro es un órgano increíble!!!
+
+Es la pieza más compleja de materia
+organizada conocida en el universo
+
+Dicta la forma en que vemos, oímos,
+olemos, probamos, y tocamos.
+
+Es el órgano responsable de nuestro
+comportamiento, memoria, percepciones,...
+
+...incluyendo el más misterioso de todos los
+fenómenos, la conciencia.
+
+Es responsable de comportamientos "sencillos"
+como el caminar o comer, pero también complejos
+como el pensar, el hablar o el crear.
+
+Nuestro cerebro ocupa aproximadamente
+un 2% del total de nuestro cuerpo.
+
+¿Sin el cerebro qué
+seríamos?
+
+Seríamos organismos muy primitivos...
+
+¡¡¡El cerebro, es lo que nos hace
+inteligentes!!!
+
+Consideremos
+el caso de un
+niño
+pequeño...
+
+A la edad de un
+año, el (ella) es
+capaz de llevar a
+cabo tareas
+extraordinarias.
+
+Volvamos a
+nuestra pregunta:
+¿Qué es el
+cerebro?
+
+¡El cerebro humano es una masa de
+tejido nervioso que ocupa unos 1,200
+centímetros cúbicos y que pesa unos
+1,400 gramos!
+
+¡Se compone
+de unas 86 mil millones de
+neuronas!
+
+
+
+¡Y unas  sinapsis!
+(unos 170,000 Km de fibras
+nerviosas)
+
+Por décadas, el hombre ha soñado con construir
+máquinas con cerebros como los nuestros:
+
+Hacer esto, requiere resolver algunos de los
+problemas computacionales más complejos que
+podamos imaginar;
+
+¡¡¡Problemas que nuestros cerebros resuelven de
+alguna forma en unos cuantos milisegundos...!!!
+
+Para lograr esto se requiere
+desarrollar maneras radicalmente
+diferentes para programar una
+computadora, usando técnicas
+nuevas o ya usadas, pero de formas
+distintas...
+
+Los límites del
+cómputo
+tradicional:
+
+¿Porqué hay ciertos problemas muy difíciles de
+resolver para una computadora?
+
+¿Porqué hay ciertos problemas muy difíciles de
+resolver para una computadora?
+Los programas de cómputo tradicionales son
+diseñados para hacer dos cosas bien:
+1) Realizar operaciones aritméticas muy rápido, y
+2) Seguir de
+instrucciones.
+
+manera
+
+explícita
+
+un
+
+lista
+
+de
+
+¡¡¡Por ejemplo, si se queremos procesar grandes
+cantidades de datos financieros, estamos de
+suerte!!!
+Un programa de cómputo tradicional lo puede
+resolver.
+
+Analicemos un problema ligeramente diferente...
+
+Base de datos de dígitos escritos a mano MNIST.
+
+Cada dígito en la primera fila puede ser reconocido como un
+"0".
+Lo mismo se puede decir de los restantes nueve dígitos.
+
+¿Qué reglas podrían ser usadas para distinguir un dígito de
+otro?
+Uno podría establecer una primer regla para identificar un "0"
+como un ciclo cerrado sencillo.
+
+Esto, por supuesto, no es suficiente. ¿Qué pasa si alguien no
+cierra el lazo?
+
+¿Cómo distinguimos entre 3´s y 5´s?
+
+¿Cómo distinguimos entre 4´s y 9´s?
+Podemos ir adicionando reglas y más reglas o rasgos
+descriptores, a través de un análisis profundo u
+observaciones a lo largo de semanas, meses,...
+No es claro, que al final vayamos a resolver el
+problema...
+¡Algo se no escapa!
+
+Muchos problemas caen en esta categoría:
+
+- Reconocimiento de objetos.
+- Entendimiento de lenguaje.
+- Traducción automática.
+- Etcétera.
+Hecho: No sabemos qué programas escribir porque
+no sabemos cómo resolvemos estos problemas en
+nuestro cerebro.
+
+¡¡¡Es más, si supiéramos cómo hacemos esto, el
+programa
+pudiera
+ser
+horrendamente
+complicado!!!
+
+Mecánica del
+aprendizaje para
+máquinas:
+
+¿Cómo aprendemos
+las cosas
+naturales?
+
+Hecho: Las cosas más naturales, las aprendemos a través de
+ejemplos, no de fórmulas...
+
+Hecho: Las cosas más naturales, las aprendemos a través de
+ejemplos, no de fórmulas...
+Ejemplo: De niños nuestros padres no nos enseñaron cómo
+reconocer a un perro. Lo aprendimos al ver ejemplos de perros.
+
+Nuestro cerebro nos provee de un modelo que nos describe
+cómo somos capaces de percibir el mundo.
+
+A lo largo de nuestra vida, nuestro modelo se va volviendo más
+preciso, conforme asimilamos más ejemplos.
+
+Todo esto pasa sin darnos cuenta, de manera inconsciente.
+
+Si nuestro modelo viene dado como:
+ ,  ,
+Con:
+
+ uno de los ejemplos observados representado en forma
+vectorial, y
+ el vector de parámetros que nuestro modelo usa.
+
+Nuestro algoritmo de aprendizaje trataría de perfeccionar,
+poco a poco, el vector  a través de más y más ejemplos, lo
+que redundaría en un mejor modelo.
+
+Ejemplos
+observados
+
+ , 
+
+Ejemplos
+observados
+
+Error
+ , 
+
+Ejemplos
+observados
+
+Error
+ , 
+
+Algoritmo
+de
+aprendizaje
+
+Ejemplos
+observados
+
+Error
+ , 
+
+Algoritmo
+de
+aprendizaje
+
+Modelo
+sencillo
+de
+neurona:
+
+Neurona simple:
+
+Ejemplo:  = 3,  = 2 y  = -1.5.
+ = (3(2) - 1.5) = (4.5).
+
+Neurona con varias entradas:
+
+Ejemplo:  = 2, 1 = -1, 2 = 1, 1 = 2, 2 = 4 y  = -1.
+ = (-1 2 + 1 4 - 1) = (1).
+
+¿Cómo sería una red
+de neuronas en una
+capa?
+
+Arquitecturas
+de RNAs:
+
+Una capa de neuronas:
+
+Todas las neuronas
+reciben el vector de
+entrada.
+Cada neurona emite su
+respuesta:
+
+ =     + 
+
+Red neuronal en capas:
+
+Función de activación: Es la operación que lleva a cabo el
+mapeo del vector al conjunto (RNAs de primera y segunda
+generación):
+
+Objetivo: Introducir una no-linealidad a la RNA.
+Sin esta no-linealidad la RNA no podrá aprender funciones
+no lineales.
+
+Funciones de activación típicas:
+
+Límite duro:
+
+Cuando  < 0,  = 0,
+Cuando  >= 0,  = +1.
+
+Funciones de activación típicas:
+
+Sigmoidea o semilineal:
+
+Cuando  es pequeño, () tiende a "0".
+Cuando  = 0, () es 0.5.
+Cuando  es grande, () tiende a "1".
+
+Funciones de activación típicas:
+
+Tangente hiperbólica:
+
+Cuando  es pequeño, tanh() tiende a "-1".
+Cuando  = 0, tanh  = 0.
+Cuando  es grande,tanh() tiende a "+1".
+
+Funciones de activación típicas:
+
+ReLU:   = max(0, )
+
+Cuando   0,   = 0.
+Cuando  > 0,  = .
+
+La función ReLU* se ha convertido en la función de activación
+selección en problemas relacionados con la visión por
+computadora.
+*V. Nair and G. E. Hinton. Rectified Linear Units Improve Restricted Boltzmann
+Machines. Proceedings of the 27th International Conference on Machine Learning
+(ICML-10). 2010, pp. 807-814.
+
+Limitaciones: (con un solo perceptron no se pueden resolver
+problemas como los mostrados):
+
+Si se quiere resolver este tipo de problemas, los perceptrones
+estándar deben ser combinados en capas:
+
+...para obtener soluciones como las mostradas:
+
+Uno de los problemas en el diseño una red neuronal es el
+ajuste de sus pesos:
+
+Este es el caso
+de cuaquier
+RNA
+
+La mayoría de los métodos utlizan el principio de descenso
+del gradiente.
+
+Pueden usar la regla
+de la propagación
+hacia
+atrás
+para
+calcular
+los
+gradientes.
+
+Estos algoritmos:
+
+1) Calculan derivadas de la función de costo con
+respect a los pesos de la red,
+
+Estos algoritmos:
+
+1) Calculan derivadas de la función de costo con
+respect a los pesos de la red,
+
+2) Cambian estos pesos en la dirección del
+gradient.
+
+La mayoría de estos métodos caen en tres
+categorías:
+
+1) Los basados en descenso de gradiente.
+
+2) Lo quasi-Newtonianos.
+3) Los basados en gradientes conjugados.
+
+Otros tipos de enfoques son:
+
+1) Los enfoques no-paramétricos.
+
+2) Los basados en máxima esperanza.
+3) Los basados en cómputo evolutivo.
+
+Nuestra manera
+de ver las
+cosas:
+
+Agregar
+procesamiento
+dendrítico a los
+perceptrones:
+
+¿Porqué?
+
+Biological neurons include dendritic trees.
+
+Each dendritic tree includes several dendrites.
+Dendrites perform computation over the incoming signals.
+
+P. Poirazi (2014). Dendritic
+Neuroscience. pp. 1-7.
+
+Computation.
+
+Encyclopedia
+
+of
+
+Computational
+
+M. London and M. Häusser (2005). Dendritic computation. Annu Rev Neurosci.
+28:503-32.
+Dendritic computation.
+https://www.coursera.org/learn/synapses/lecture/ESz4k/dendritic-computation
+
+Dendritic computation refers to the ability of individual dendritic branches
+to perform elementary computations on incoming signals.
+
+These computations include addition, subtraction, multiplication, and division
+and can also take the form of logical operations (e.g., AND, OR, XOR).
+
+Dendritic computation:
+1) Dendrites enable neurons to act as multiple functional
+units.
+2) Dendrites enable classification of inputs.
+3) Neurons with dendrites can compute direction of
+motion.
+4) Dendrites improve sound localization.
+5) Dendrites help to sharpen the tuning of cortical neurons.
+C. Koch; T. Poggio; V. Torres Retinal Ganglion Cells: A Functional Interpretation of
+Dendritic Morphology. Philosophical Transactions of the Royal Society of London.
+Series B, Biological Sciences, 298(1090):227-263. Jul. 27, 1982.
+Sh. Hussain and A. Basu. Multiclass Classification by Adaptive Network of
+Dendritic Neurons with Binary Synapses Using Structural Plasticity. 10. Article113.
+March 2016.
+
+Caso del perceptron clásico:
+
+Caso del perceptron clásico:
+
+Operación lineal
+(product punto entre dos vectores)
+
+Caso del perceptron clásico:
+
+operación no-lineal
+(un mapeo)
+
+The Morphological
+Perceptron with
+Dendritic
+Processing
+(MPDP):
+
+A MPDP has  dendrites 1 , 2 , ... ,  :
+
+Pre-synaptic
+Neurons
+
+Dendrites
+Soma
+Axon
+(Three levels of processing)
+
+A MPDP has  dendrites 1 , 2 , ... ,  :
+
+Pre-synaptic
+Neurons
+
+Dendrites
+Soma
+Axon
+(Three levels of processing)
+
+A MPDP has  dendrites 1 , 2 , ... ,  :
+
+Pre-synaptic
+Neurons
+
+Dendrites
+Soma
+Axon
+(Three levels of processing)
+
+A MPDP has  dendrites 1 , 2 , ... ,  :
+
+Pre-synaptic
+Neurons
+
+Dendrites
+Soma
+Axon
+(Three levels of processing)
+
+Ouput  of neuron  with  dendrites is given as:
+
+
+=
+
+ 
+=1
+
+Output   of -th dendrite is given
+as:
+
+  = 
+
+-1
+
+1-
+
+
+ + 
+
+ 
+
+ = 1 , ... ,    .
+  =
+
+1
+0
+
+        0
+
+
+This neuron is a binary classifier due to:
+  =
+
+1
+0
+
+        0
+
+
+MPDPs perform a mapping between a -dimensional
+vector onto a to a set composed of two labels: 0 and 1.
+
+What can we do
+with this kind of
+neurons?
+
+We can define open firing intervals:
+
+Neuron  receives information of neuron 1 .
+ will shot when    , i.e. when   =  +   0   
+-  = .
+Geometrically speaking, neuron  will shoot when values
+through the  axis are greater or equal to .
+
+We can also define closed firing intervals:
+:
+
+Neuron  will shoot by adding an inhibition to the same
+branch.
+
+  = 1  +   2  +   0.
+Thus   ,  .
+
+Something that can be done with a MP and cannot be done
+with a classical perceptron follows (unions of closed
+intervals):
+
+
+
+
+ = +1,   ,   ,   , 
+
+How do we generate firing regions as shown?
+
+Solution: By connecting two inputs 1 y 2 to the neuron.
+So if  <  and  < , then:
+ = +1,   ,   , 
+
+Solution: By connecting two inputs 1 y 2 to the neuron.
+So if  <  and  < , then:
+ = +1,   ,   , 
+
+The
+resulting
+firing
+region
+shown in figure
+(b).
+This
+arrangement
+allows solving
+classification
+problems
+as
+follows:
+
+Remark:
+With just one neuron one can solve a non-linear classification
+problem that would require at least two hidden neurons with a
+standard ANN!!!
+Example (XOR problem):
+
+Another example: We can show that with the following
+arrangement we can solve the following non-linear problem:
+
+
+
+One neuron with three
+dendrites.
+
+The logical question is:
+
+How do we arrive
+to a solution like
+this?
+
+Answer: By a training algorithm that allows filling up a
+table like this:
+DK
+
+1
+p1k
+
+p1k0
+
+p 12 k
+
+p 20k
+
+ak
+
+D1
+
+
+
+
+
+DK
+
+In the case of two
+dimensions, each
+dendrite requires
+5 values to be
+adjusted.
+
+Ritter´s method:
+Gerhard X. Ritter, Laurentiu Iancu, Gonzalo Urcid (2003).
+Morphological Perceptrons with Dendritic Structure. The IEEE
+International Conference on Fuzzy Systems, pp. 1296-1301.
+Gerhard X. Ritter, Gonzalo Urcid (2003). Lattice algebra
+approach to single-neuron computation. IEEE Transactions on
+Neural Networks 14(2):282­295.
+
+Ritter´s method (proceeds in two steps as follows):
+1) Enclose patterns of one class into a single box.
+
+Ritter´s method (proceeds in two steps as follows):
+1) Enclose patterns of one class into a single box.
+
+2) If this box encloses patterns of both classes, the algorithm
+(in an iterative way) adds boxes (voids) that enclose patterns of
+the other class. If not, it finishes.
+In this case, it finishes at the first round.
+
+Ritter´s method (another example):
+1) Enclose patterns of one class into a single box.
+
+Ritter´s method (second step):
+
+2) If this box encloses patterns of both classes, the algorithm
+(in an iterative way) adds boxes (voids) that enclose patterns of
+the other class.
+
+For this, Ritter´s algorithm selects at random a point, it then
+grows up a box until reaching a pattern of the other class.
+
+Ritter´s method (second step):
+2) If this box encloses patterns of both classes then iteratively
+adds boxes (voids) that enclose patterns of the other class.
+
+It repeats this process for other points until ending.
+Features of Ritter´s algorithm:
+
+1) It provides good results.
+2) First box is too just!
+3) There is overlapping among boxes.
+
+Divide and Conquer
+Method (DCM):
+
+H. Sossa and E. Guevara (2014). Efficient training for
+dendrite morphological neural networks. Neurcomputing
+131:132-142.
+
+Idea of operation by an example:
+
+First step: Enclose ALL patterns.
+
+Second step:
+
+Divide
+box
+into
+2 =
+22 = 4 boxes.
+
+Due to the first always
+encloses patterns of all
+classes
+
+Verify if each box; if it
+contains patterns of at least
+2 clases, divide it into 2 =
+22 = 4 boxes.
+
+Do this iteratively until no
+box contains patterns of
+two classes.
+
+Simplify boxes.
+
+Result:
+
+For  = 2, boxes are rectangles:
+
+For  = 3, boxes are cubes:
+
+For  > 3, boxes are hiper-boxes.
+
+Features of the DCM:
+
+1) It is applicable to any problem with  classes and 
+features.
+2) It is incremental.
+3) Complexity of the algorithm is at least ( × 2 ).
+
+Application of the
+DCM for training
+MPDPs:
+
+Results with other databases:
+Iris plant:
+Glass:
+Liver disorders:
+
+Problem
+Iris
+Glass
+Liver disorders
+Segmentation:
+Recognition of:
+letters:
+dígits:
+
+3 classes and 4 features.
+6 classes and 5 features.
+2 classes and 9 features.
+MLP
+% Error
+6.77
+31.46
+39.5
+27.33
+
+# Dendrites
+20
+64
+132
+92
+
+40.33
+15.38
+
+1439
+2259
+
+SLMP-P
+
+% Error
+0.3
+2.67
+0.19
+30.69
+0.88
+35.47
+0.54
+24.14
+0.72
+0.25
+
+38.75
+9.55
+
+For some problems, the number of dendrites is high.
+
+Details can be found in:
+H.
+Sossa
+and
+E.
+Guevara (2014). Efficient
+training
+for
+dendrite
+morphological
+neural
+networks.
+Neurcomputing 131:132142
+
+Applications:
+
+H. Sossa and E. Guevara (2013). Modified Dendrite Morphological
+Neural Network Applied to 3D Object Recognition. Mexican
+Conference on Pattern Recognition (MCPR 2013). LNCS 7914, pp.
+314-324.
+H. Sossa and E. Guevara (2013). Modified Dendrite Morphological
+Neural Network Applied to 3D Object Recognition on RGB-D
+Data. 8th International Conference on Hybrid Artificial Intelligence
+Systems (HAIS 2013). LNAI 8073, pp. 304.313.
+R. Vega, E. Guevara, L. E. Falcon, G. Sanchez-Ante and H. Sossa
+(2013). Blood Vessel Segmentation in Retinal Images using
+Lattice Neural Networks. 12th Mexican International Conference on
+Artificial Intelligence (MICAI 2013). LNAI 8265, pp. 529-540.
+R. Vega, G. Sánchez, L. E. Falcón, H. Sossa and E. Guevara
+(2015). Retinal vessel extraction using Lattice Neural Networks
+with dendritic processing. Computers in Biology and Medicine
+58:20-30.
+
+R. Ocampo, G. Sanchez, L. E. Falcon and H. Sossa (2016).
+Automatic Construction of Radial-Basis Function
+Networks through an Adaptive Partition Algorithm. 8th
+Mexican Conference MCPR 2016. Guanajuato, México, June
+22-25, 2016. Pp. 198-207.
+B. Gudiño, H. Sossa, G. Sanchez and J. M. Antelis (2016).
+Classication of Motor States from Brain Rhythms Using
+Lattice Neural Networks. 8th Mexican Conference MCPR
+2016. Guanajuato, México, June 22-25, 2016. Pp. 303-312.
+M. Antelis, B. Gudiño, L. Facón, G. Sánchez and H. Sossa
+(2018). Dendrite morphological neural networks for motor
+task recognition from electroencephalographic signals.
+To appear in Biomedical Signal Processing and Control.
+
+Improved MPDP
+training
+algorithm
+(linear method):
+
+A mani problem of the DCM is of exponential complexity
+ 2 .
+
+In E. Guevara, H. Sossa, E. Zamora (2018). Linear Time
+Training with a Dendrite Morphological Neuron Networks.
+(Under review in Neurocomputing)
+we describe an improvement over this algorithm with linear
+complexity   .
+
+Both methods compared:
+Both methods (the DCM and the LDCM) provide the
+same result.
+
+The difference resides on the implementation.
+
+For  small there is no significant difference.
+
+As  grows, time computation for the first algorithm
+increases exponentially.
+
+To appreciate this we generated two classes with
+100 samples each, with  = 2,3, ... , 25.
+We obtais the following results:
+
+seconds
+Original method
+
+Time in seconds
+
+Improved method
+
+Number of features
+
+Differential
+Evolution for
+MPDP training:
+
+In F. Arce, E. Zamora, H. Sossa and R. Barrón (2016).
+Dendrite Morphological Neural Networks Trained by Differential
+Evolution. 2016 IEEE Symposium Series on Computational
+Intelligence (IEEE SSCI 2016), Athens, Greece, December 69, 2016.
+F. Arce, H. Sossa, E. Zamora and R. Barron (2018). Differential
+Evolution Training Algorithm for Dendrite Morphological Neural
+Networks. To appear in Applied Soft Computing.
+We now show how Differential Evolution (DE) can be used to
+train a MNNDP (finding the set of weights defining the
+MNNDP).
+
+Goal: To establish a decision boundary between  classes with
+the less number of hyper-boxes.
+
+The proposed training algorithm:
+The purpose of the proposed training algorithm is to
+create and place a set of hyper-boxes   ×2
+for {1,2, ... , } that establish an optimum decision
+boundary between the classes using the smallest
+number.
+
+The algorithm, step by step:
+1. Initialization.
+2. Application of DE to the actual hyper-boxes.
+
+3. Selection of the set of boxes producing the
+smallest error.
+4. Design of the MNNDP.
+
+Experimental results: (Validation with synthetic 2-dimentional
+datasets)
+Dataset
+A:
+two
+classes, two features,
+generated by two
+Gaussian distributions
+with
+a
+standard
+deviation of 0.9.
+First class centered
+around (0,0).
+Second
+class
+centered around (1,1).
+
+Dataset B composed of three classes and two features:
+
+Classes placed
+around:
+(-1,-1),
+(1,1), and
+(-1,2).
+
+Results for the first problem:
+
+Boxes generated by new DE-based method (2 boxes) and
+by the DCM method (419 boxes).
+
+Results for the second problem:
+
+Boxes generated by new DE-based method (3 boxes) and
+by the DCM method (505 boxes).
+
+For both databases, 80% of the data was used for training and
+20% for testing.
+Results:
+
+Data
+set
+A
+B
+
+DE based
+DMNN
+#
+Dendrites
+2
+3
+
+DCM
+%
+Error
+20.5
+15.2
+
+#
+%
+Dendrites Error
+419
+25.0
+505
+20.3
+
+Ritter´s
+#
+%
+Dendrites Error
+194
+28.0
+161
+50.3
+
+SLMP-P has a 0% training error but presents overfitting.
+DE based method has an training error (21.7 and 16.6) but
+provides a good generalization.
+
+Validation with six real datasets from the UCI Machine Learning
+Repository:
+DE based
+DMNN
+Dataset
+#
+%
+Dendrites Error
+Iris (4)
+3
+0.0
+Mammographic (5)
+8
+10.4
+Liver Disorders (6)
+12
+31.1
+Glass Identification (10)
+12
+13.6
+Wine Quality (11)
+60
+40.0
+Mice Protein Expression
+32
+4.5
+(77)
+
+DCM
+#
+Dendrites
+28
+26
+183
+82
+841
+809
+
+Ritter´s
+%
+Error
+3.3
+19.2
+35.5
+31.8
+42.1
+5.0
+
+#
+Dendrites
+5.0
+51
+41
+60
+120
+77
+
+%
+Error
+6.7
+14.4
+42.0
+36.7
+51.0
+18.9
+
+Error for MNNDP DE based training:
+
+Dataset
+Sintetic A
+Sintetic B
+Iris
+Mammographic
+Liver Disorders
+Glass Identification
+Wine Quality
+Mice Protein Expression
+
+MNNDP-DE
+# Dendrites
+2
+3
+3
+8
+12
+12
+60
+32
+
+% Training
+error
+21.7
+16.6
+3.3
+15.8
+37.6
+4.7
+42.1
+6.6
+
+% Testing
+error
+20.5
+15.2
+0.0
+10.4
+31.1
+13.6
+40.0
+4.5
+
+Comparison with standard classifiers: MLP, SVM and RBN:
+DE for DMNN
+Dataset
+#
+%
+Dendrites Error
+Synthetic A (2)
+2
+20.5
+Synthetic B (2)
+3
+15.2
+Iris (4)
+3
+0.0
+Mammographic Mass
+8
+10.4
+(5)
+Liver Disorders (6)
+12
+31.1
+Glass Identification
+12
+13.6
+(10)
+Wine Quality (11)
+60
+40.0
+Mice
+Protein
+32
+4.5
+Expression (77)
+
+MLP
+%
+Error
+24.0
+16.7
+0.0
+11.2
+
+SVM
+Degree %
+Error
+3
+22.0
+2
+16.7
+1
+0.0
+2
+11.2
+
+RBN
+#
+%
+Clusters Error
+3
+23.5
+4
+17.0
+2
+0.0
+6
+16.0
+
+40.6
+20.4
+
+5
+1
+
+40.2
+18.2
+
+1
+4
+
+37.8
+20.4
+
+39.0
+0.6
+
+2
+2
+
+43.0
+0.5
+
+2
+1
+
+44.3
+13.9
+
+Apparently our method does not perform very well in the
+presence of a big .
+
+Stochastic
+Gradient Descent
+for MPDP training:
+
+In:
+
+E. Zamora and H. Sossa (2016). Dendrite Morphological
+Neurons Trained by Stochastic Gradient Descent. 2016 IEEE
+Symposium Series on Computational Intelligence (IEEE
+SSCI 2016), Athens, Greece, December 6-9, 2016.
+E. Zamora and H. Sossa (2017). Dendrite Morphological
+Neurons Trained by Stochastic Gradient Descent.
+Neurocomputing. doi.org/10.1016/j.neucom.2017.04.044
+We show that SGD can be used to train a MNNDP.
+
+The algorithm, step by step:
+1. Initialization.
+
+2. Weight tuning by means of SGD approach.
+
+Initialization (4 methods):
+HpC method initializes
+with a box per class.
+
+dHpC first encloses each
+pattern set with a HB, it
+then divides box in 2 (to
+have more boxes).
+D&C method uses Divide
+and Conquer to initialize
+dendrites.
+k-means method first
+makes a clustering to
+define where to put the
+initial HB using classical
+k-means method.
+
+Databases:
+
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+
+is the number of classes.
+ is the number of samples for training.
+ is the number of samples for testing.
+
+Synthetic data:
+
+"A",
+Two
+Gaussian
+with
+standard deviation of 0.9. First
+class at (0,0). Second class at
+(1,1).
+
+"B", Three Gaussians with
+standard deviation of 1.0.
+Centres at : (-1,-1), (1,1), (1,2).
+
+Real databases:
+
+MNNDP standard methods:
+
+- (SMLP) Ritter and Urcid [18].
+- Hyperbox per Class (HpC) Sussner and Esmi [28], and
+- DCM (D&C) Sossa and Guevara [24].
+
+[18] Ritter, G. X., Urcid, G., 2007. Computational Intelligence Based on
+Lattice Theory. Springer Berlin Heidelberg, Berlin, Heidelberg, Ch. Learning
+in Lattice Neural Networks that Employ Dendritic Computing, pp. 2544.
+[28] Sussner, P., Esmi, E. L., 2011. Morphological perceptrons with
+competitive learning: Lattice-theoretical framework and constructive learning
+algorithm. Information Sciences 181(10): 1929-1950, special Issue on
+Information Engineering Applications Based on Lattices.
+[24] Sossa, H., Guevara, E., 2014. Efficient training for dendrite
+morphological neural networks. Neurocomputing 131, 132-142.
+
+Results with synthetic data:
+
+In both cases our 4 methods perform better.
+
+Results with real data:
+
+In most cases our 4 methods perform better.
+
+Comparison with other machine learning methods:
+
+The best result is
+indicated again in
+blue.
+
+Dendral Ellipsoidal
+Neuron for Pattern
+Classification:
+
+In:
+F. Arce, E. Zamora and H. Sossa. Dendritic Ellipsoidal
+Neural Network. IJCNN 2017, Anchorage, Alaska, May 1419, 2017.
+F. Arce, E. Zamora, C. Fócil and H. Sossa (2018). Dendrite
+ellipsoidal neurons based on k-means optimization. Under
+review in Evolving Systems.
+
+We present a new kind of ANN and its corresponding
+training algorithm.
+
+Modifications to the original model:
+
+1 Instead of using hyper-boxes we use hyper-ellipsoids.
+
+2 We propose a new training method.
+
+Steps of the new algorithm:
+1) Select a clustering method and a desired error (DE).
+2) For the first set of points, position a hyper-ellipsoid (HE).
+
+3) If obtained error (OE) is greater than DE then add more
+HE. Repeat this step until OE<DE.
+4) Repeat 2 and 3 for remaining classes.
+
+- B. J. Frey and D. Duec (2007), Clustering by Passing Messages Between Data
+Points, Science 315: 972-977.
+- D. Arthur and S. Vassilvitskii (2007), k-means++: The Advantages of Careful
+Seeding. SODA '07 Proceedings of the eighteenth annual ACM-SIAM
+symposium on Discrete algorithms, Pp. 1027-1035.
+- B. Bahmani, B. Moseley, A. Vattani (2012). Scalable K-Means++ Proceedings of
+the VLDB Endowment, 5(7):622-63.
+
+Example:
+
+Structure of the neuron:
+- Two dendrites for the first class.
+- One dendrite for the second class, and
+- Three dendrites for the third class.
+
+
+ = ( -  )  -1 ( -  )
+X1
+arg min ()
+X2
+
+Results with synthetic databases:
+
+Comparison with Ritter`s and DCM:
+
+Comparison with MLP, SVM and RBN classifiers:
+
+Geometric Object Recognition by NAO Robot:
+
+Automatic Line Detection for Autonomous Navigation:
+
+Application paper:
+F. Arce, E. Zamora, G. Hernández, H. Sossa
+(2017). Efficient Lane Detection based on
+Artificial Neural Networks. UDMS-SDSC_2017.
+2nd International Conference on Smart Data and
+Smart Cities. October 4­6, 2017, Puebla, Mexico.
+
+Other related works:
+
+In G. Hernández, E. Zamora and H. Sossa (2018).
+Morphological Linear Neural Network. Submitted to WCCI 2018.
+
+We present a new model that merges two different types of
+neural layers: a hidden layer of morphological neurons and an
+output layer of classical perceptrons.
+
+Experimental results over 25 real datasets show that this hybrid
+model has a classification accuracy about 7.5% higher than the
+multilayer perceptrons requiring 5.25 times fewer learning
+parameters, and 2% higher than the dendrite morphological
+neurons requiring 3.39 times fewer learning parameters.
+
+In G. Hernández, E. Zamora, H. Sossa (2018). Deep neural
+networks and dendrite morphological neurons at low
+dimensionality. Machine Learning.
+
+We we present an extensive comparative study between deep
+neural networks and dendrite morphological neurons. We
+evaluate both models on 20 real datasets with low
+dimensionality showing that the dendrite morphological neurons
+present 7.12% higher accuracy and need 26.1% less number of
+parameters on average than deep neural networks.
+
+Conclusions:
+
+Conclusions:
+1) MNNDP can be used for efficient pattern classification.
+
+2) Linear training allows drastically reducing training times.
+3) DE allows efficient training of MNNDP.
+4) Stochastic gradient decent can be used to train MNNDP.
+5) Hyper-Ellipsoids combined with Mahalanobis distance
+improve pattern classification.
+

@@ -1,0 +1,69 @@
+Bell state
+The Bell states, a concept in quantum information science, are specific quantum states of two qubits that represent the simplest (and maximal) examples of quantum entanglement. They are named after John S. Bell because they are the subject of his famous Bell inequality. A n EPR pair is a pair of qubits (or quantum bits) that are in a Bell state together. Because of the entanglement, measurement of one qubit will assign one of two possible values to the other qubit instantly, where the value assigned depends on which Bell state the two qubits are in. This behaviour is not subject to relativistic limitations such as the speed of light, but the nocommunication theorem prevents this behaviour to be used to transmit information faster than light. The phenomena can be used to agree upon random numbers in less time than it would take to communicate the numbers at the speed of light over the distance between the peers ­ this was believed to be a result of an error in quantum physics and was named the EPR paradox. Originally, the paradox was resolved by giving up the assumption that the principle of locality is true, but other interpretations have also emerged.
+Contents
+The Bell states Bell state measurement Bell state correlations See also References Notes
+The Bell states
+The Bell states are four specific maximally entangled quantum states of two qubits.
+The degree to which a state in a quantum system consisting of two "particles" is entangled is measured by the Von Neumann entropy of either of the two reduced density operators of the state. The Von Neumann entropy of a pure state is zero--also for the Bell states, which are specific pure states. But the 2x2 density matrix corresponding to the Bell states can be formed as usual, and the von Neumann entropy of this density operator of the Bell states is positive and maximal, if the matrix does not degenerate to a projector.[1]
+The qubits are usually thought to be spatially separated. However far apart they are, they exhibit perfect correlation even though there is no way to tell which state each qubit is in -- a situation that cannot be explained without quantum mechanics.
+In order to explain this, consider first the Bell state :
+
+This superposition means the following: The qubit held by Alice (subscript "A") can be 0 as well as 1. If Alice measured her qubit in the standard basis, the outcome would be perfectly random, either possibility 0 or 1 having probability 1/2. But if Bob (subscript "B") then measured his qubit, the outcome would be the same as the one Alice got. So, if Bob measured, he would also get a random outcome on first sight, but if Alice and Bob communicated, they would find out that, although their outcomes seemed random, they are perfectly correlated.
+
+The perfect correlation at a distance is special: maybe the two particles "agreed" in advance, when the pair was created (before the qubits were separated), which outcome they would show in case of a measurement.
+
+Hence, following Einstein, Podolsky, and Rosen in 1935 in their famous "EPR paper", there is something missing in the description of the qubit pair given above--namely this "agreement", called more formally a hidden variable.
+
+But quantum mechanics allows qubits to be in quantum superposition--i.e. in 0 and 1 simultaneously--that is, a linear combination of the
+
+two states -- for example, the states
+
+or . If Alice and Bob chose to measure in this basis, i.e. check whether their
+
+qubit were or , they would find the same correlations as above. That is because the Bell state can be formally rewritten as follows:
+
+Note that this is still the same state.
+In his famous paper of 1964, John S. Bell showed by simple probability theory arguments that these correlations (the one for the 0,1 basis and the one for the +,- basis) cannot both be made perfect by the use of any "pre-agreement" stored in some hidden variables-- but that quantum mechanics predicts perfect correlations. In a more formal and refined formulation known as the Bell-CHSH inequality, it is shown that a certain correlation measure cannot exceed the value 2 if one assumes that physics respects the constraints of local "hidden variable" theory (a sort of common-sense formulation of how information is conveyed), but certain systems permitted in quantum mechanics can attain values as high as .
+Four specific two-qubit states with the maximal value of are designated as "Bell states". They are known as the four maximally entangled two-qubit Bell states, and they form a maximally entangled basis, known as the Bell basis, of the four-dimensional Hilbert space for two qubits: [2]
+
+Bell state measurement
+The Bell measurement is an important concept in quantum information science: It is a joint quantum-mechanical measurement of two qubits that determines which of the four Bell states the two qubits are in.
+
+If the qubits were not in a Bell state before, they get projected into a Bell state (according to the projection rule of quantum measurements), and as Bell states are entangled, a Bell measurement is an entangling operation.
+
+Bell state measurement is the crucial step in quantum teleportation. The result of a Bell state measurement is used by one's coconspirator to reconstruct the original state of a teleported particle from half of an entangled pair (the "quantum channel") that was previously shared between the two ends.
+
+Experiments that utilize so-called "linear evolution, local measurement" techniques cannot realize a complete Bell state measurement. Linear evolution means that the detection apparatus acts on each particle independently from the state or evolution of the other, and local measurement means that each particle is localized at a particular detector registering a "click" to indicate that a particle has been detected. Such devices can be constructed, for example, from mirrors, beam splitters, and wave plates, and are attractive from an experimental perspective because they are easy to use and have a high measurement cross-section.
+
+For entanglement in a single qubit variable, only three distinct classes out of four Bell states are distinguishable using such linear optical techniques. This means two Bell states cannot be distinguished from each other, limiting the efficiency of quantum communication protocols such as teleportation. If a Bell state is measured from this ambiguous class, the teleportation event fails.
+
+Entangling particles in multiple qubit variables, such as (for photonic systems) polarization and a two-element subset of orbital angular momentum states, allows the experimenter to trace over one variable and achieve a complete Bell state measurement in the other.[3] Leveraging so-called hyper-entangled systems thus has an advantage for teleportation. It also has advantages for other protocols such as superdense coding, in which hyper-entanglement increases the channel capacity.
+
+In general, for hyper-entanglement in variables, one can distinguish between at most optical techniques.[4]
+
+classes out of Bell states using linear
+
+Bell state correlations
+Independent measurements made on two qubits that are entangled in Bell states positively correlate perfectly, if each qubit is measured in the relevant basis. For the state, this means selecting the same basis for both qubits. If an experimenter chose to measure both qubits in a Bell state using the same basis, the qubits would appear positively correlated when measuring in the basis, anti-
+
+correlated in the
+
+basis[a] and partially (probabilistically) correlated in other bases.
+
+The correlations can be understood by measuring both qubits in the same basis and observing perfectly anti-correlated results. More
+
+generally, can be understood by measuring the first qubit in basis , the second qubit in basis
+
+and observing perfectly
+
+positively correlated results.
+
+Bell state Basis
+
+Relationship between the correlated bases of two qubits in the state.
+See also
+Bell test experiments
+References
+Nielsen, Michael A.; Chuang, Isaac L. (2000), Quantum computation and quantum information, Cambridge University Press, ISBN 978-0-521-63503-5, pp. 25 (https://books.google.com/books?id=66TgFp2YqrAC&pg=PA25). Kaye, Phillip; Laflamme, Raymond; Mosca, Michele (2007), An introduction to quantum computing, Oxford University Press, ISBN 978-0-19-857049-3, pp. 75 (https://books.google.com/books?id=W0ud06mkPqoC&pg=PA75). On the Einstein Podolsky and Rosen paradox, Bell System Technical Journal, 1964.
+Notes
+

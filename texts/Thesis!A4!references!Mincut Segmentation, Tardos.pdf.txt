@@ -1,0 +1,191 @@
+7.10 Image Segmentation 391
+We now convert this to a schedule using the same kind of construction we
+saw in the proof of (7.42), where we converted a flow to a collection of paths.
+In fact, the situation is easier here since the graph has no cycles. Consider an
+edge (s, ui) that carries one unit of flow. It follows by conservation that (ui, vi)
+carries one unit of flow, and that there is a unique edge out of vi that carries
+one unit of flow. If we continue in this way, we construct a path P from s to
+t, so that each edge on this path carries one unit of flow. We can apply this
+construction to each edge of the form (s, uj) carrying one unit of flow; in this
+way, we produce k paths from s to t, each consisting of edges that carry one
+unit of flow. Now, for each path P we create in this way, we can assign a single
+plane to perform all the flights contained in this path.
+Extensions: Modeling Other Aspects of the Problem
+Airline scheduling consumes countless hours of CPU time in real life. We
+mentioned at the beginning, however, that our formulation here is really a
+toy problem; it ignores several obvious factors that would have to be taken
+into account in these applications. First of all, it ignores the fact that a given
+plane can only fly a certain number of hours before it needs to be temporarily
+taken out of service for more significant maintenance. Second, we are making
+up an optimal schedule for a single day (or at least for a single span of time) as
+though there were no yesterday or tomorrow; in fact we also need the planes
+to be optimally positioned for the start of day N + 1 at the end of day N. Third,
+all these planes need to be staffed by flight crews, and while crews are also
+reused across multiple flights, a whole different set of constraints operates here,
+since human beings and airplanes experience fatigue at different rates. And
+these issues don’t even begin to cover the fact that serving any particular flight
+segment is not a hard constraint; rather, the real goal is to optimize revenue,
+and so we can pick and choose among many possible flights to include in our
+schedule (not to mention designing a good fare structure for passengers) in
+order to achieve this goal.
+Ultimately, the message is probably this: Flow techniques are useful for
+solving problems of this type, and they are genuinely used in practice. Indeed,
+our solution above is a general approach to the efficient reuse of a limited set
+of resources in many settings. At the same time, running an airline efficiently
+in real life is a very difficult problem.
+7.10 Image Segmentation
+A central problem in image processing is the segmentation of an image into
+various coherent regions. For example, you may have an image representing
+a picture of three people standing in front of a complex background scene. A392 Chapter 7 Network Flow
+natural but difficult goal is to identify each of the three people as coherent
+objects in the scene.
+The Problem
+One of the most basic problems to be considered along these lines is that
+of foreground/background segmentation: We wish to label each pixel in an
+image as belonging to either the foreground of the scene or the background. It
+turns out that a very natural model here leads to a problem that can be solved
+efficiently by a minimum cut computation.
+Let V be the set of pixels in the underlying image that we’re analyzing.
+We will declare certain pairs of pixels to be neighbors, and use E to denote
+the set of all pairs of neighboring pixels. In this way, we obtain an undirected
+graph G = (V, E). We will be deliberately vague on what exactly we mean by
+a “pixel,” or what we mean by the “neighbor” relation. In fact, any graph
+G will yield an efficiently solvable problem, so we are free to define these
+notions in any way that we want. Of course, it is natural to picture the pixels
+as constituting a grid of dots, and the neighbors of a pixel to be those that are
+directly adjacent to it in this grid, as shown in Figure 7.18(a).
+s t
+(a) (b)
+Figure 7.18 (a) A pixel graph. (b) A sketch of the corresponding flow graph. Not all
+edges from the source or to the sink are drawn.7.10 Image Segmentation 393
+For each pixel i, we have a likelihood ai that it belongs to the foreground,
+and a likelihood bi that it belongs to the background. For our purposes, we
+will assume that these likelihood values are arbitrary nonnegative numbers
+provided as part of the problem, and that they specify how desirable it is to
+have pixel i in the background or foreground. Beyond this, it is not crucial
+precisely what physical properties of the image they are measuring, or how
+they were determined.
+In isolation, we would want to label pixel i as belonging to the foreground
+if ai > bi, and to the background otherwise. However, decisions that we
+make about the neighbors of i should affect our decision about i. If many
+of i’s neighbors are labeled “background,” for example, we should be more
+inclined to label i as “background” too; this makes the labeling “smoother” by
+minimizing the amount of foreground/background boundary. Thus, for each
+pair (i, j) of neighboring pixels, there is a separation penalty pij = 0 for placing
+one of i or j in the foreground and the other in the background.
+We can now specify our Segmentation Problem precisely, in terms of the
+likelihood and separation parameters: It is to find a partition of the set of pixels
+into sets A and B (foreground and background, respectively) so as to maximize
+q(A, B) = 
+i?A
+ai + 
+j?B
+b
+j - 
+(i, j)?E
+|An{i, j}|=1
+pij.
+Thus we are rewarded for having high likelihood values and penalized for
+having neighboring pairs (i, j) with one pixel in A and the other in B. The
+problem, then, is to compute an optimal labeling—a partition (A, B) that
+maximizes q(A, B).
+Designing and Analyzing the Algorithm
+We notice right away that there is clearly a resemblance between the minimumcut problem and the problem of finding an optimal labeling. However, there
+are a few significant differences. First, we are seeking to maximize an objective
+function rather than minimizing one. Second, there is no source and sink in the
+labeling problem; and, moreover, we need to deal with values ai and bi on the
+nodes. Third, we have an undirected graph G, whereas for the minimum-cut
+problem we want to work with a directed graph. Let’s address these problems
+in order.
+We deal with the fact that our Segmentation Problem is a maximization
+problem through the following observation. Let Q = i(ai + bi). The sum
+i?A ai + j?B bj is the same as the sum Q - i?A bi - j?B aj, so we can
+write394 Chapter 7 Network Flow
+q(A, B) = Q - 
+i?A
+bi - 
+j?B
+aj - 
+(i, j)?E
+|An{i, j}|=1
+pij.
+Thus we see that the maximization of q(A, B) is the same problem as the
+minimization of the quantity
+q(A, B) = 
+i?A
+bi + 
+j?B
+aj + 
+(i, j)?E
+|An{i, j}|=1
+pij.
+As for the missing source and the sink, we work by analogy with our constructions in previous sections: We create a new “super-source” s to represent
+the foreground, and a new “super-sink” t to represent the background. This
+also gives us a way to deal with the values ai and bi that reside at the nodes
+(whereas minimum cuts can only handle numbers associated with edges).
+Specifically, we will attach each of s and t to every pixel, and use ai and bi to
+define appropriate capacities on the edges between pixel i and the source and
+sink respectively.
+Finally, to take care of the undirected edges, we model each neighboring
+pair (i, j) with two directed edges, (i, j) and (j, i), as we did in the undirected
+Disjoint Paths Problem. We will see that this works very well here too, since
+in any s-t cut, at most one of these two oppositely directed edges can cross
+from the s-side to the t-side of the cut (for if one does, then the other must go
+from the t-side to the s-side).
+Specifically, we define the following flow network G = (V, E) shown in
+Figure 7.18(b). The node set V consists of the set V of pixels, together with
+two additional nodes s and t. For each neighboring pair of pixels i and j, we
+add directed edges (i, j) and (j, i), each with capacity pij. For each pixel i, we
+add an edge (s, i) with capacity ai and an edge (i, t) with capacity bi.
+Now, an s-t cut (A, B) corresponds to a partition of the pixels into sets A
+and B. Let’s consider how the capacity of the cut c(A, B) relates to the quantity
+q(A, B) that we are trying to minimize. We can group the edges that cross the
+cut (A, B) into three natural categories.
+. Edges (s, j), where j ? B; this edge contributes aj to the capacity of the
+cut.
+. Edges (i, t), where i ? A; this edge contributes bi to the capacity of the
+cut.
+. Edges (i, j) where i ? A and j ? B; this edge contributes pij to the capacity
+of the cut.
+Figure 7.19 illustrates what each of these three kinds of edges looks like relative
+to a cut, on an example with four pixels.7.10 Image Segmentation 395
+u v
+w x
+t
+s
+b
+u
+b
+v
+ax
+a
+w p
+uw
+pvx
+Figure 7.19 An s-t cut on a graph constructed from four pixels. Note how the three
+types of terms in the expression for q(A, B) are captured by the cut.
+If we add up the contributions of these three kinds of edges, we get
+c(A, B) = 
+i?A
+bi + 
+j?B
+aj + 
+(i, j)?E
+|An{i, j}|=1
+pij
+= q(A, B).
+So everything fits together perfectly. The flow network is set up so that the
+capacity of the cut (A, B) exactly measures the quantity q(A, B): The three
+kinds of edges crossing the cut (A, B), as we have just defined them (edges
+from the source, edges to the sink, and edges involving neither the source nor
+the sink), correspond to the three kinds of terms in the expression for q(A, B).
+Thus, if we want to minimize q(A, B) (since we have argued earlier that
+this is equivalent to maximizing q(A, B)), we just have to find a cut of minimum
+capacity. And this latter problem, of course, is something that we know how
+to solve efficiently.
+Thus, through solving this minimum-cut problem, we have an optimal
+algorithm in our model of foreground/background segmentation.
+(7.55) The solution to the Segmentation Problem can be obtained by a
+minimum-cut algorithm in the graph G constructed above. For a minimum
+cut (A, B), the partition (A, B) obtained by deleting s* and t* maximizes the
+segmentation value q(A, B).

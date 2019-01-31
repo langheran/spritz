@@ -1,0 +1,214 @@
+arXiv:1102.1612v1 [quant-ph] 8 Feb 2011
+
+The physical Church-Turing thesis and the principles of quantum theory
+Pablo Arrighi1,2 and Gilles Dowek3
+1 E´cole normale sup´erieure de Lyon, LIP, 46 all´ee d'Italie, 69008 Lyon, France 2 Universit´e de Grenoble, LIG, 220 rue de la chimie, 38400 SMH, France parrighi@imag.fr 3 INRIA Gilles.Dowek@inria.fr
+Abstract. Notoriously, quantum computation shatters complexity theory, but is innocuous to computability theory [17]. Yet several works have shown how quantum theory as it stands could breach the physical Church-Turing thesis [26, 25] We draw a clear line as to when this is the case, in a way that is inspired by Gandy [20]. Gandy formulates postulates about physics, such as homogeneity of space and time, bounded density and velocity of information -- and proves that the physical ChurchTuring thesis is a consequence of these postulates. We provide a quantum version of the theorem. Thus this approach exhibits a formal non-trivial interplay between theoretical physics symmetries and computability assumptions.
+1 Introduction
+The physical Church-Turing thesis states that any function that can be computed by a physical system can be computed by a Turing Machine. There are many mathematical functions that cannot be computed on a Turing Machine (the halting function h : N  {0, 1} that decides whether the ith Turing Machine halts, the function that decides whether a multivariate polynomial has integer solutions, etc.). Therefore, the physical Church-Turing thesis is a strong statement of belief about the limits of both physics and computation.
+The shift from classical to quantum computers challenges the notion of complexity: some functions can be computed faster on a quantum computer than on a classical one. But, as noticed by Deutsch [17], it does not challenge the physical Church-Turing thesis itself: a quantum computer can always be (very inefficiently) simulated by pen and paper, through matrix multiplications. Therefore, what they compute can be computed classically.
+Yet several researchers [26, 25, 21] have pointed out that Quantum theory does not forbid, in principle, that some evolutions would break the physical Church-Turing thesis. Indeed, if one follows the postulates by the book, the only limitation upon evolutions is that they be unitary operators. Then, according to Nielsen's argument [26], it suffices to consider the unitary operator U =
+
+|i, h(i)  b i, b|, with i over integers and b over {0, 1}, to have a counterexample.
+The paradox between Deutsch's argument and Nielsen's argument is only an apparent one; both arguments are valid; the former applies specifically to Quantum Turing Machines, the latter applies to full-blown quantum theory. Nevertheless, this leaves us in a unsatisfactory situation: if the point about the Quantum Turing Machine was to capture Quantum theory's computational power, then it falls short of this aim, and needs to be amended! Unless Quantum theory itself needs to be amended, and its computational power brought down to that of the Quantum Turing Machine?
+Quantum theory evolutions are about possibly infinite-dimensional unitary operators and not just matrices -- for a good reason: even the state space of a particle on a line is infinite-dimensional. Can this fact be reconciled with the physical Church-Turing thesis, at least at the theoretical-level? Mathematically speaking, can we allow for all those unitary operators we need for good physical reasons and at the same time forbid the above U = |i, h(i)  b i, b|, but for good physical reasons as well? These are the sort of questions raised by Nielsen [26], who calls for a programme of finding the non-ad-hoc, natural limitations that one could place upon Quantum theory in order to make it computable: we embark upon this programme of a computable Quantum theory.
+The idea that physically motivated limitations lead to the physical ChurchTuring thesis has, in fact, already been investigated by Gandy [20]. Although some similarities exist, Gandy's proof of the Church-Turing thesis serves different goals from those of the proof by Dershowitz and Gurevich [16], as it is based not on an axiomatic notion of algorithm, but on physical hypotheses. In Gandy's proof, one finds the important idea that causality (i.e. bounded velocity of information), together with finite density of information, could be the root cause of computability (i.e. the physical Church-Turing thesis). More generally, Gandy provides a methodology whereby hypotheses about the real world have an impact upon the physical Church-Turing thesis; an idea which can be transposed to other settings: we transpose it to Quantum theory.
+2 Gandy's theorem for classical physics
+We first recall Gandy's argument in the classical case [20, 15, 30]. We consider the tridimensional euclidean space E. A region is any subset of
+E. If A is a region, we write (A) for the set of possible states of A. If A is a region and t a point in time, we write (A, t) for the state of A at time t. The state (A, t) is an element of (A). For instance (E, t) is the global state at time t, an element of (E) the global state space. A region is said to be of finite size, if it is included in a sphere. Let A be a region, the area of radius r around A is the union of the closed spheres of radius r centered on a point of A.
+Gandy's hypotheses are the following.
+­ Homogeneity of space. If  is a translation, then the region  A has the same set of states as A.
+
+The function mapping the global state of a system at time t to its global state at time t + T commutes with all translations. ­ Homogeneity of time. The function mapping the global state of a system at time t to its global state at time t + T is independent of t. ­ Bounded density of information. If A is a region of finite size, then the state space of A, (A), is a finite set. ­ Bounded velocity of propagation of information. There exists a constant T such that for any region A, any point in time t, the state of A at time t + T , (A, t + T ) depends only on (A, t), with A the region of radius 1 around A. ­ Quiescence. For each region A, there exists a canonical state qA called the quiescent sate. If a region A is in the quiescent state qA, then the state of any subset B of A is the quiescent state qB. At the origin, all the space, except a region of finite size, is quiescent and the global evolution preserves this fact. Consider a region A that partitions into two regions B and C. We know that if A is quiescent, then both B and C are quiescent. Conversely, as the state of A is determined by the state of B and C, if B and C are quiescent then so is A. Combined with the bounded velocity of information and the homogeneity of space, the quiescence hypothesis implies that if the region A around A is quiescent at time t, then so is A at time t + T .
+Definition 1. Let K be the one-to-one mapping from N2 to N, defined by K(n, p) = (n + p)(n + p + 1)/2 + n and ; be the one-to-one mapping from N2 to N \ {0}, defined by n; p = K(n, p)+1. Let N be the one-to-one mapping from Z to N defined by N (x) = 2x if x  0 and N (x) = -2x - 1 if x < 0. Let [.] be the one-to-one mapping from Z3 to N defined by [n, n, n] = K(N (n), K(N (n), N (n))).
+Let . be the one-to-one mapping from the set of finite sequences of natural numbers to N defined by j1, . . . , jl-1, jl = (j1; . . . (jl-1; (jl; 0)) . . .).
+Theorem 1 (Gandy). Under the setting and hypotheses above and given the initial global state, the function mapping the natural number k to the global state at time kT is a computable function.
+Proof. [P artition]. In the tridimensional physical space, we chose a coordinate system O, i, j, k and we consider a partition of the space into cubic cells of the form [x, x + 1) × [y, y + 1) × [z, z + 1) with x, y, z  Z. We also consider a set of translations T described by vectors of the form xi + yj + zk with x, y, z  Z. Each cell and each translation is referenced by a triple of integers x, y, z and can be indexed by the number [x, y, z].
+This choice of partition, indexing and set of translations, is one amongst many that respect the following properties:
+­ if C is a cell and  is a translation in T, then  C is also a cell; ­ conversely, if C and D are two cells, then there exists a translation  of T,
+such that D =  C;
+
+­ the index of the cell  C can be computed from the index of  and that of C; ­ there exists a finite number of translations 1,. . . , r such that the cells
+intersecting the area of radius 1 around a cell C are 1C,. . . , rC.
+[(A) = S]. Call (A) the set of states of a cell A. As each cell is of finite size, and using the bounded density of information hypothesis, all the (A) are finite. Using the fact that each cell can be obtained by a translation from any other and the homogeneity of space hypothesis, the set of states is the same for each cell, call it S = {e1, . . . , en}, with e1 = q the quiescent state.
+[a = wqqq . . .]. Using the quiescence hypothesis, at the origin of time, and at all times, only a finite number of cells are in a non-quiescent state.
+Thus a global state is a function from Z3 to S, associating a state to each cell, that are equal to q almost everywhere. As both cells and states are indexed, a global state c can be represented as an infinite sequence j of elements of {1, ..., n}, such that p = jk if and only if k = [x, y, z] and ep = c(x, y, z). The sequence j is equal to 1 almost everywhere. Thus we can also represent the global state c by the natural number a = j where j is the shortest sequence such that j = j111 . . . This natural number a is the index of the global state c.
+If a is a global state, we write a(C) for the state of the cell (of index) C in the global state (of index) a.
+[G(t)(a) = G(a)]. Call G(t) the function mapping (the index of) the global state at time t to (the index of) the global state at time t + T .
+Notice that G(t) is a function mapping global states to global states, G(t)(a) is a global state and G(t)(a)(C) is a cell state.
+Using the homogeneity of time the function G is independent of the time t, i.e. there exists a function G such that for all t and a, G(t)(a) = G(a).
+[G(a)(C) = X(C, a(1C), ..., a(rC))]. Using the bounded velocity of propagation of information, the state of each cell C at a time t + T depends only of the state at time t of the finite number of cells, 1C, . . . , rC, that intersect the area A around this cell of radius 1. Thus, there exists a function X such that for all a and C, G(a)(C) = X(C, a(1C), . . . , a(rC)).
+[X(C, s1, ..., sr) = (s1, ..., sr)]. Let C and D two cells and s1, ..., sr be elements of S. Let  be a translation such that  (C) = D and a a state such that a(1D) = s1, ..., a(rD) = sr. Using the homogeneity of space hypothesis G commutes with the function  which sends the content any cell C into that of cell  (C). Thus, G(a)   = G(a   ), i.e. G(a)( (C)) = G(a   )(C), i.e. X(D, a(1D), ..., a(rD)) = X(C, a(1D), ..., a(rD)), i.e. X(D, s1, ..., sr) = X(C, s1, ..., sr). Thus, there exists a function  such that X(C, s1, ..., sr) = (s1, ..., sr).
+[Computability] As the function  is finite, it is computable. The function G can be reconstructed from  with G(a)(C) = (a(1C), . . . , a(rC). Thus it is computable. Let a0 the the initial global state. As the function G is computable, the function k  Gk(a0) mapping the natural number k to the state of the system at time kT is computable.
+
+Remark 1. The proof above uses a fixed orthonormal coordinate system to define the partition. As nothing is assumed about this coordinate system, any other could have been chosen.
+3 Necessity
+Each of the hypotheses is necessary for Proposition 1 to hold. Indeed, we will now, in turn, drop one of these hypotheses whilst continuing to assume the four others, and show that the Proposition can then be disproved. Several of the counter-examples provided here have already been noticed in the literature [7­ 9] and similar examples may have inspired [20]. But it is useful to list them in a concise fashion; to this end we reuse the notations of Section 2, choose U some undecidable subset of N, and define fU as the non computable one-to-one function from N to N mapping the nth element of U to 2n and the nth element of N \ U to 2n + 1.
+­ Without homogeneity of space, the irregularities in space could be used to encode U . If the state space associated to each cell is translation-invariant but the function G is not, for an initial configuration a of alphabet S = {q, 0, 1}, we would not be able to exclude that the global dynamics G does a N ot upon the content a( i(C)) of the ith cell  i(C) if and only if a( i(C)) is in {0, 1} and U (i) = 1. (More concisely, G(a)( i(C)) = N otU(i)(a( i(C))).) Such a dynamics could be used to compute U just by setting a( i(C)) to 0 and reading off G(a)( i(C)). The same trick can be played if the state space associated to each cell is not translation-invariant, for instance using ( i(C)) = {q, 2i, 2i + 1}.
+­ Without homogeneity of time, the irregularities in behaviour of the dynamics could be used to encode U . We would not be able to exclude that G(t + iT )(a)(C) = N otU(i)(a(C)).
+­ Without bounded density of information, the dynamics of each individual cell would be unconstrained. For instance with S = N, we would not be able to exclude that G(a)(C) = fU (a(C)).
+­ Without bounded velocity of propagation of information, the way the dynamics deals with sets of cells is too loose. For instance with S = {q, 0, 1}, we would not be able to exclude a dynamics that maps a segment of cells of the form qx1iq where x = 0 or x = 1 to qN otU(i)(x)1iq.
+­ Without quiescence, the initial configuration could be used to encode U . Choosing a trivial G, if it is given and uncomputable input, it will obviously yield an uncomputable output. This hypothesis is just a way to state that the input configuration is computable.
+4 Hypotheses in the quantum case
+There are of course several criticisms one can make about Gandy's hypotheses about the physical world, and these hypotheses have indeed been criticized.
+
+The hypothesis of finite density of information, in particular, seems inspired by the idea of `quantization' of the state space, but is in blatant contradiction with Quantum theory. Indeed in Quantum theory even a system with two degrees of freedom, i.e. the qubit, has an infinite state space {|0 +|1 | ||2+||2 = 1}.
+The hypothesis of finite velocity of propagation of information could also, in some particular EPR-paradox sense, be said to contradict Quantum theory. Notice however that in the EPR-paradox no `accessible' information can be communicated faster than the speed of light [10]. Similarly, it can be proved that not more that one bit of `accessible' information can be stored within a single qubit [24]. Drawing this distinction between the `description' of the quantum states (infinite, non-local) and the information that can actually be accessed about them, hints towards the quantum version of these hypotheses.
+4.1 Bounded density of information
+Dimension. As we have seen the hypothesis that information has a finite density cannot be formulated as the fact that the set of states of a given cell is finite: in the quantum case this set is always infinite. Yet, this does not mean that the amount of possible outcomes, when measuring the system, is itself infinite. Thus, the bounded density of information principle can be formulated as the fact that each projective measurement of a finite system, at any given point in time, may only yield a finite number of possible outcomes. This requirement amounts to the fact that the state space of each cell is a finite-dimensional vector space. It constitutes a good quantum alternative of Gandy's formulation of the finite density of information hypothesis -- one which does not demand that cells be actually measured in any way. Scalars. The field C2 includes states such |0 +µ|1 , where  is a non-computable real number and µ any number such that ||2 + |µ|2 = 1, for instance,  has a 1 in the ith decimal if the ith Turing Machine halts and a 0 otherwise. In order to avoid such scalars, we shall also assume that the state space of each cell is defined over a finite extension of the field of rationals. Since we are in discretetime discrete-space quantum theory, such a restriction as little consequences: we have all the scalars that can be generated by a universal set of quantum gates for instance [12], see also [1] for a more in-depth discussion. Nevertheless, in the continuous picture, this kind of assumptions are not without consequences, and these are currently being investigated [14, 11].
+4.2 Bounded velocity of propagation of information
+Entanglement and state of a subsystem. In the classical case we could assume that the state of a compound system was simply given by the state of each component. In the quantum setting this no longer holds; some correlation information needs to be added. In other words, the state space of two regions is not the cartesian product of the state space of each region, but its tensor product. Actually if we stick to state vectors, knowing the state vector (e.g. (|0  |0 ) + (|1  |1 )) of
+
+the compound system, we cannot even assign a state vector to the first system. In order to do so, we must switch to the density matrix formalism. Each state vector | is then replaced by the pure density matrix | | and if  is the density matrix of a compound system, then we can assign a density matrix to each subsystem -- defined as a partial trace of . (The partial trace is defined by mapping A × B to A and extending linearly to A  B  A). Still, knowing the density matrix of each subsystem is again not sufficient to reconstruct the state of the compound system.
+Causality plus unitarity implies localizability. The above shows how delicate it is to formalize the bounded velocity of propagation of information hypothesis in the quantum setting. The most natural way to do so has been formalized in [5] where it was referred to as `Causality'. It says that: "There exists a constant T such that for any region A, any point in time t, the density matrix associated to the region A at time t + T , (A, t + T ) depends only on (A, t), with A the region of radius 1 around A." Actually this definition is a rephrase of the C-algebra formulation found in [28], which itself stems from quantum field theoretical approaches to enforcing causality [13]. The difficulty of this axiomatic formalization of the bounded velocity of propagation of information in the quantum case, is that it is rather non-constructive. As we have explained, it is no longer the case that because we know that (A, t + T ) is a local function fA of (A, t), and (B, t + T ) is a local function fB of (B, t), then (A  B, t + T ) can be reconstructed from (A  B, t) by means of these two functions. A more constructive approach to formalizing the bounded velocity of propagation of information in the quantum case would be to, instead, state that the global evolution is `localizable' [6, 18, 29, 3], meaning that the global evolution is implementable by local mechanisms, each of them physically acceptable. Here this would say that the global evolution G is in fact quantum circuit of local gates with infinite width but finite depth. The disadvantage of this approach in the context of this paper is that this is a strong supposition to make. Fortunately, in [3, 4], the two approaches where shown to be equivalent. Hence we only need to suppose the former, axiomatic version of the hypothesis.
+4.3 Quiescence
+The quiescence hypothesis remains the same as in the classical case, except that we need to assume that the quiescent states are pure states, in order to obtain that a region A that partitions into two regions B and C, is quiescent if and only if both B and C are quiescent.
+4.4 Overall
+­ Homogeneity of space. As in the classical case. ­ Homogeneity of time. As in the classical case. ­ Bounded density of information. The state space of each finite region is a
+finite-dimensional vector space over a finite extension of the rationals.
+
+­ Bounded velocity of propagation of information. There exists a constant T such that for any region A, any point in time t, the density matrix associated to A at time t + T , (A, t + T ) depends only on (A, t), with A the region of radius 1 around A.
+­ Quiescence. For each region A of space, there exists a canonical pure state vector |q A called the quiescent sate. If a region A is in the quiescent state |q A, then the state of any subset B of A is the quiescent state |q B. At the origin, all the space, except a region of finite size, is quiescent. The global evolution preserves this fact.
+­ Unitarity. The global evolution from any point in time t to any other t + T is a unitary operator.
+5 A quantum version of Gandy's theorem
+We first define the space that will be used to describe a global state of the system.
+Definition 2 (The Fock space H). Let K be a finite extension of the field of rationals and  be a finite-dimensional K-vector space of basis {e1, . . . , en}. We also write |q for the vector e1.
+Let C be the set of configurations, i.e. functions from Z3 to {e1, . . . , en} that are equal to |q , i.e. e1, almost everywhere. As both cells and base vectors are indexed, a configuration can be represented as an infinite sequence j of elements of {1, ..., n}, such that jk = p if and only if k is the index of the triple x, y, z and c(x, y, z) = ep. We write this configuration ej. The sequence j is equal to 1 almost everywhere. Thus, we can also represent the configuration ej by the natural number a, the index of the shortest sequence j such that j = j111 . . . This natural number is the index of the configuration ej.
+The vector space H is the K-vector space of formal linear combinations of elements of C. The set C is an orthonormal basis of this space.
+We define an operation  from  ×H to H as the bilinear operation mapping the vector ei and the configuration ej1,j2,... to the configuration ei,j1,j2,...
+As the space H is of countable dimension over a countable field, it is itself countable and can be indexed, for instance, we can index the vector 1ej1 + . . . + kejk by the number s(1), j1 , . . . , s(k), jk . However, unlike in the classical case where only finite sequences of natural numbers were indexed (and we know that the choice of an indexing is immaterial in this case, provided that list operations remain computable via the chosen indexing) , we need to be more cautious when indexing the space H. We use the fact that, as the structure K, , H, +, ×, +, ., +, .,  is finitely generated relatively to the field K, +, × [2], the choice of an indexing for H is again immaterial, provided the indexing is chosen in such a way that the operations of the structure are computable.
+In the classical case, an important role was played in the proof by the fact that finite functions are computable. The analogue in the quantum case is the computability of local linear maps.
+
+Definition 3 (Local linear map). A linear map  from H to H is said to be local if there exists an integer p and an linear map L from p to p, such
+that for any finite sequence i1, . . . , ip of length p and infinite sequence j1, j2, . . . equal to 1 almost everywhere,
+
+(ei1  . . .  eip  ej1  ej2  . . .) = L(ei1  . . .  eip )  ej1  ej2  . . . Proposition 1. If  is a local linear map from H to H, then  is computable.
+
+Proof. Let u be an arbitrary vector of H and i,j its coordinates
+
+u = i,j (ei  ej )
+i,j
+Let J be the finite set of infinite sequences j such that i,j is different from zero for some i. Then
+
+(u) = i,j (( Li,iei )  ej ) = ( Li,ii,j )(ei  ej )
+
+i,j i
+
+i,j i
+
+and the coordinate of the vector (u) along the base vector eiej is This coordinate is 0 when j is not an element of J.
+If the vector u is provided as an index
+
+i Li,ii,j .
+
+s(1), i1j1 , . . . , s(k), ikjk
+
+then an index of the vector (u) is
+
+s( Li1,ii,j1 ), i1j1 , . . . , s( Lik ,ii,jk ), ik jk
+ii
+where i1j1, . . . , ik jk are all the sequences where i is a finite sequence of length p and j an element of J.
+The function mapping
+
+s(1), i1j1 , . . . , s(k), ikjk
+
+to s( Li1,ii,j1 ), i1j1 , . . . , s( Lik ,ii,jk ), ik jk
+ii
+is computable, thus the linear map  is computable.
+
+Theorem 2. Under the setting and hypotheses of Section 4 and given the initial global state, the function G mapping the natural number k to the global state at time kT is a computable function relatively to some indexing of the state space.
+
+Proof. [P artition]. We consider the same partition of space into cells as in the classical case.
+
+[(A) = ]. Call (A) the set of states of the cell A. As each cell is of finite size, and using the finite density of information hypothesis, all the (A) are finite-dimensional vector space over a field K that is finite extension of the field of rationals -- or more precisely the set of density matrices upon them. Using the fact that each cell can be obtained by a translation from any other and the homogeneity of space hypothesis, the set of states is the same for each cell. Call it , and choose a basis {e1, . . . , en}, with e1 = |q , the quiescent state of the cell.
+
+[| = | |qq . . . ]. Using the Quiescence hypothesis, at the origin of time, and at all times, only a finite number of cells are in a non-quiescent state. Thus, we can identify the state space with the space H. We call |0 the initial global state.
+
+[G(t)(| ) = G(| )]. Call G(t) the function mapping the state of the whole system at time t to the state of the whole system at time t + T . Using the homogeneity of time this function is independent of the time t, i.e. there exists a function G such that for all t and | , G(t)(| ) = G(| ).
+
+[G = Swap KC]. Using the bounded velocity of propagation of information, the state of each cell C at a time t + T depends only on the state at time t
+
+of the finite number of cells, 1C, . . . , rC, that intersect the area of radius one around this cell. This property may be called the causality of G.
+
+As the operator G is both causal and unitary (by the unitarity hypothesis),
+
+we can apply the Arrighi-Nesme-Werner theorem [3, 4]. This theorem requires that each cell C of state space  be equipped with an ancillary cell C of state space . If we denote SwapC the Swap gate between cell C and cell C, we have
+that
+
+G = ( SwapC )( KC)
+
+C Z3
+
+C Z3
+
+with KC = GSwapC G. Notice that the KC commute with one another and act only upon C, 1C, . . . , rC, see [3, 4] for details.
+[G = Swap K]. Let  be any translation. Using the properties of the
+translation, the cells that intersect the area around  C of radius is 1 are the cells
+1 C, . . . , r C. Using the homogeneity of space hypothesis G commutes with the function  which sends the content any cell C into that of cell  C. Hence G = G, i.e. G also commutes with translations. Moreover SwapC = SwapC. Hence KC = GSwapC G = GSwapC G = SwapC G = SwapCG = KC. Therefore KC = KC. In other words each KC is a fixed, local unitary operator K applied upon C, 1C, . . . , rC. In the same way that each SwapC is a fixed, local unitary operator Swap applied upon C, C.
+Each K and Swap being local, they are therefore computable by Proposition 1.
+
+[G = F Swap F K]. Notice also that KC| . . . qqqq . . . = | . . . qqqq . . . because of the quiescence hypothesis, therefore G and hence G preserve quiescence,
+and so does SwapC . Hence K applied upon quiescent cells 1C, . . . , rC leaves them quiescent. For any state | , only a finite number of cells are in a nonquiescent state. Let us call A| this finite region, and A| the region around
+
+A, which is also finite. Therefore at this time step we have
+
+G| = GA| | = (
+
+Swap)(
+
+K)| .
+
+C A|
+
+C A|
+
+This describes an algorithm for computing G: - compute A| from the index of | ; - apply K at each C in A| ; - apply Swap at each C in A| .
+Hence the function mapping k to Gk|0 is computable.
+
+6 Necessity.
+Again it is the case that each of the hypotheses are necessary for Theorem 2 to hold. The counter-examples we have provided in the classical case (See Section 3) have been chosen to that they would also apply in the quantum setting, hence they justify everything that is left of the classical-case hypotheses within the quantum-case hypotheses. But there remains some differences:
+­ Within the bounded density of information hypothesis in the quantum case, the counter-example we have provided does show that the state space of each cell needs to be a finite-dimensional vector spaces. But it does not explain why the scalars ought to be a finite extension of the rationals. Actually, there is some degree of freedom as to what kind of scalars should be allowed, but these should definitely stay within the computable complex numbers C~ . Indeed, following the argument given by [26], consider the unitary transformation N which maps |p into |q , |0 into u|0 + 1 - u|1 , and |1 into 1 - u|0 -u|1 , where u is some uncomputable complex number of modulus less than one. Let G = N , repeated measurements of the qubits within each cell yield a probabilistic procedure for approximating u, which again is beyond the computational power of both a deterministic and a probabilistic Turing machine.
+­ On the necessity of the unitarity hypothesis, it could be argued that is placed there just in order to be conform with quantum theory -- and not for the sake of obtaining a computability result. We could end our discussion here, but on the other hand, it is well-known that standard quantum theory can be extended to opens systems by allowing more general randomised unitary evolutions, namely quantum operations (also referred to as superoperators or TPCP-maps). If we were to allow this extension however, Proposition 2 would no longer hold. In order to see this, all one needs to know about quantum operations is that they include probabilistic, classical evolutions. So, let us go back to the classical setting and suppose that G can now be a stochastic map. Again take U and undecidable subset of N; this time the correlations produced by G can be used to encode U . That is we would not be able to exclude that S = {q, 0, 1}, and G(a)(C) equals q if a(C) = q, 1
+
+if a(C) = 1, and the probability distribution {(1/2, 0), (1/2, 1)} is a(C) = 0, with the added condition that those probability distributions are correlated with one another if and only if those two initial zeroes where separated by a distance i cells, and U (i) = 1. Such dynamics would yield a probabilistic procedure for computing U , just by setting a to . . . qq0(1)i0qq . . . and then measuring whether the images of the zeroes are correlated or not.
+(This counter-example does satisfy the bounded velocity of information hypothesis, but it does lead to the impression that the bounded velocity of information hypothesis that has become too weak in the presence of quantum operations, due to the lack of a `Unitarity plus causality implies localizability' theorem as in [3, 4] valid for quantum operations. But reinforcing notions of causality to account for quantum operations [6, 18, 29] or even just probabilistic evolutions is renowned to be a difficult topic [22].)
+7 Conclusion
+Summary. We have given a quantum version of Gandy's theorem. Namely, assuming only homogeneity of (euclidean) space and time, bounded density of space, bounded velocity of propagation of information, quiescence and unitarity, we have shown that the evolution of a quantum system is computable. Besides the classical version of the theorem [20, 15, 30], there were two key ingredients to this extension. First of all, Quantum theory is about vector spaces, and its evolutions are functions over these vector spaces. Therefore, we needed a `stable' notion of what is means to be computable in this context, a theory provided in [2]. Our Proposition 1 states that local linear operators are computable in this sense; this constitutes an interesting addendum to the theory. Secondly, Quantum theory is about tensor products of vector spaces, i.e. quantum systems are not just put aside but may be entangled. Therefore, whereas causality (i.e. bounded velocity of propagation of information) immediately provides a local transition function in the classical setting, of which the global evolution is composition, the counterpart is harder to obtain in the quantum setting. For this we have had to resort to the `Unitarity plus causality implies localizability' result provided in [3, 4]. In a sense our Theorem could also be seen as taking this result further, by stating that `Unitarity plus causality implies computability'.
+Future work. This result clarifies when it is the case that Quantum theory evolutions could break the physical Church-Turing thesis or not; a series of examples shows that it suffices that one of the above hypotheses be dropped. This draws the line between the positive result of [17] and the negative results of [26, 25, 21]. Because these hypotheses are physically motivated, this is a step along Nielsen's programme of a computable Quantum theory. Further work could be done along this direction by introducing a notion of `reasonable measurement' [27], or investigating the continuous-time picture as started by [31, 32]. Prior to
+
+that however this work raises deeper questions: Is the bounded density of information really compatible with modern physics? For instance, can we really divide up space into pieces under this condition, without then breaking further symmetries such as isotropy?
+Bigger picture. The question of the robustness of the physical Church-Turing thesis is certainly intriguing; but it is hard to refute, and fundamentally contingent upon the underlying physical theory that one is willing to consider. For instance in the General Relativity context a series of paper explain how `hypercomputation' might be possible in the presence of certain space-times [23, 19]. Beyond this sole question however, we find that it essential to exhibit the formal relationships that exist between the important hypotheses that we can make about our world. Even if some of these hypotheses cannot be refuted, whenever some can be related to one another at the theoretical level, then one can exclude the inconsistent scenarios.
+Acknowledgments
+We are particularly thankful to Vincent Nesme and Reinhard Werner, since their paper with one of the authors [3, 4] contains a rather central ingredient to our proof. We would like to thank Alexei Grimbaum and Zizhu Wang for several comments, as well as Simon Perdrix, Mehdi Mhalla and Philippe Jorrand.
+References
+1. P. Arrighi and G. Dowek. Operational semantics for formal tensorial calculus. In Proceedings of QPL, volume 33, pages 21­38. Turku Centre for Computer Science General Publication, 2004. ArXiv pre-print quant-ph/0501150.
+2. P. Arrighi and G. Dowek. On the Completeness of Quantum Computation Models. In Programs, Proofs, Processes: 6th Conference on Computability in Europe, Cie, 2010, Ponta Delgada, Azores, Portugal, June 30-July 4, 2010, Proceedings, page 21, 2010.
+3. P. Arrighi, V. Nesme, and R. Werner. Unitarity plus causality implies localizability. QIP 2010, ArXiv preprint: arXiv:0711.3975, 2010.
+4. P. Arrighi, V. Nesme, and R. Werner. Unitarity plus causality implies localizability (Full version). Journal of Computer and System Sciences, 2010.
+5. P. Arrighi, V. Nesme, and R. F. Werner. Quantum cellular automata over finite, unbounded configurations. In Proceedings of MFCS, Lecture Notes in Computer Science, volume 5196, pages 64­75. Springer, 2008.
+6. D. Beckman, D. Gottesman, M. A. Nielsen, and J. Preskill. Causal and localizable quantum operations. Phys. Rev. A, 64(052309), 2001.
+7. E.J. Beggs and J.V. Tucker. Embedding infinitely parallel computation in newtonian kinematic systems. Applied Mathematics and Computation, 178:25­43, 2006.
+8. E.J. Beggs and J.V. Tucker. Can newtonian systems, bounded in space, time, mass and energy compute all functions? Theoretical Computer Science, 371:4­19, 2007.
+9. E.J. Beggs and J.V. Tucker. Experimental computation of real numbers by newtonian machines. Proceedings Royal Society Series A, 463:1541­1561, 2007.
+10. J.S. Bell. On the Einstein Podolsky Rosen paradox. Physics, 1:195, 1964.
+
+11. P. Benioff. New Gauge Fields from Extension of Space Time Parallel Transport of
+Vector Spaces to the Underlying Number Systems. Arxiv preprint arXiv:1008.3134, 2010. 12. P. O. Boykin, T. Mor, M. Pulver, V. Roychowdhury, and F. Vatan. On universal and fault-tolerant quantum computing: A novel basis and a new constructive proof
+of universality for shor's basis. In FOCS '99: Proceedings of the 40th Annual Symposium on Foundations of Computer Science, page 486, Washington, DC, USA, 1999. IEEE Computer Society. 13. D. Buchholz. Current trends in axiomatic quantum field theory. Lect. Notes Phys.,
+558:4364, 2000. 14. A. Connes. The Witt construction in characteristic one and Quantization. Arxiv
+preprint arXiv:1009.1769, 2010. 15. B.J. Copeland and O. Shagrir. Physical Computation: How General are Gandys
+Principles for Mechanisms? Minds and Machines, 17(2):217­231, 2007. 16. N. Dershowitz and Y. Gurevich. A natural axiomatization of the computability
+and proof of Church's thesis. The Bulletin of Symbolic Logic, 14(3), 2008. 17. D. Deutsch. Quantum theory, the Church-Turing principle and the universal quan-
+tum computer. Proceedings of the Royal Society of London. Series A, Mathematical and Physical Sciences (1934-1990), 400(1818):97­117, 1985. 18. T. Eggeling, D. Schlingemann, and RF Werner. Semicausal operations are semilocalizable. EPL (Europhysics Letters), 57:782, 2002. 19. G. Etesi and I. N´emeti. Non-Turing computations via Malament­Hogarth space-
+times. International Journal of Theoretical Physics, 41(2):341­370, 2002. 20. R. Gandy. Church's thesis and principles for mechanisms. In The Kleene Sympo-
+sium, Amsterdam, 1980. North-Holland Publishing Company. 21. M. Gu, C. Weedbrook, A. Perales, and M.A. Nielsen. More really is different.
+Physica D: Nonlinear Phenomena, 238(9-10):835­839, 2009. 22. J. Henson. Comparing causality principles. Studies In History and Philosophy of
+Science Part B: Studies In History and Philosophy of Modern Physics, 36(3):519­ 543, 2005. 23. M. Hogarth. Non-Turing computers and non-Turing computability. In PSA: Pro-
+ceedings of the Biennial Meeting of the Philosophy of Science Association, volume 1994, pages 126­138. JSTOR, 1994. 24. A.S. Holevo. Information-theoretical aspects of quantum measurement. Problemy Peredachi Informatsii, 9(2):31­42, 1973. 25. T.D. Kieu. Computing the non-computable. Contemporary Physics, 44(1):51­71, 2003. 26. M. A. Nielsen. Computable functions, quantum measurements, and quantum dynamics. Phys. Rev. Lett., 79(15):2915­2918, Oct 1997. 27. A. Peres. Quantum theory: concepts and methods. Kluwer Academic Publishers,
+1993. 28. B. Schumacher and R. Werner. Reversible quantum cellular automata. ArXiv
+pre-print quant-ph/0405174, 2004. 29. B. Schumacher and M. D. Westmoreland. Locality and information transfer in
+quantum operations. Quantum Information Processing, 4(1):13­34, 2005. 30. W. Sieg and J. Byrnes. An abstract model for parallel computations: Gandy's
+thesis. Monist, 82:150­164, 1999. 31. W. D. Smith. Church's thesis meets quantum mechanics. Available on CiteSeerX
+doi=10.1.1.49.7057, 1999. 32. R. Werner and V. Sholz. Church-Turing thesis and quantum mechanics. Private
+communication., 2010.
+

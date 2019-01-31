@@ -1,0 +1,149 @@
+Sistemas Neuronales
+Modulo 5
+Redes Neuronales Recurrentes
+Primera parte
+
+Edgar E. Vallejo (Tecnologico de Monterrey)
+
+Edgar E. Vallejo
+Tecnologico de Monterrey
+
+Enero-Mayo, 2018
+
+Sistemas Neuronales
+
+Enero-Mayo, 2018
+
+1 / 12
+
+Problemas con datos no estructurados
+
+Reconocimiento de voz
+Clasificacion de sentimiento
+Traduccion automatica de lenguajes
+Reconocimiento de nombres de entidades
+Reconocimiento de actividad en video
+Analisis de secuencias moleculares
+Generacion automatica de musica
+
+Edgar E. Vallejo (Tecnologico de Monterrey)
+
+Sistemas Neuronales
+
+Enero-Mayo, 2018
+
+2 / 12
+
+Notacion
+
+x : Lopez Obrador lidera las encuestas de intencion de voto
+
+Edgar E. Vallejo (Tecnologico de Monterrey)
+
+Sistemas Neuronales
+
+Enero-Mayo, 2018
+
+3 / 12
+
+Representacion de palabras
+
+x : Lopez Obrador lidera las encuestas de intencion de voto
+
+Edgar E. Vallejo (Tecnologico de Monterrey)
+
+Sistemas Neuronales
+
+Enero-Mayo, 2018
+
+4 / 12
+
+Representacion de palabras
+
+x : Lopez Obrador lidera las encuestas de intencion de voto
+
+Edgar E. Vallejo (Tecnologico de Monterrey)
+
+Sistemas Neuronales
+
+Enero-Mayo, 2018
+
+5 / 12
+
+Word embeddings
+
+Edgar E. Vallejo (Tecnologico de Monterrey)
+
+Sistemas Neuronales
+
+Enero-Mayo, 2018
+
+6 / 12
+
+Uso de redes neuronales convencionales para datos de
+secuencias
+
+Las entradas y las salidas pueden tener diferentes longitudes en
+diferentes observaciones
+No permite compartir caracteristicas aprendidas a los largo de las
+diferentes posiciones de la secuencia
+
+Edgar E. Vallejo (Tecnologico de Monterrey)
+
+Sistemas Neuronales
+
+Enero-Mayo, 2018
+
+7 / 12
+
+Redes neuronales recurrentes
+
+Edgar E. Vallejo (Tecnologico de Monterrey)
+
+Sistemas Neuronales
+
+Enero-Mayo, 2018
+
+8 / 12
+
+Propagacion hacia adelante
+
+Edgar E. Vallejo (Tecnologico de Monterrey)
+
+Sistemas Neuronales
+
+Enero-Mayo, 2018
+
+9 / 12
+
+Propagacion hacia atras
+
+Edgar E. Vallejo (Tecnologico de Monterrey)
+
+Sistemas Neuronales
+
+Enero-Mayo, 2018
+
+10 / 12
+
+Diferentes tipos de redes neuronales recurrentes
+
+Edgar E. Vallejo (Tecnologico de Monterrey)
+
+Sistemas Neuronales
+
+Enero-Mayo, 2018
+
+11 / 12
+
+Gradientes que se desvanecen en RNN
+
+Edgar E. Vallejo (Tecnologico de Monterrey)
+
+Sistemas Neuronales
+
+Enero-Mayo, 2018
+
+12 / 12
+
+

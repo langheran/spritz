@@ -1,0 +1,46 @@
+Assignment 10
+ImageNet Classification with Deep Convolutional Neural Networks
+Nisim Hurst
+Thursday 22 March 2018
+
+Hypothesis
+A combination of techniques will prove to be useful in classifying high-resolution images:
+1. Non-saturating units make training faster
+2. Dropout to reduce overfiting
+3. Due to the connection limit between layer to layer, convolutional layers will help reduce complexity of
+large data networks while preserving label-preserving transformations.
+4. GPU's will make 2D convolutions preform better.
+
+Evidence and Results
+Won the top-5 test error rate of 15.3% on the ILSVRC-2012 competition vs 26.2% achieved by the second
+place.
+It takes between 5 and 6 days to train on two GTX 580 3GB GPU's.
+The Dataset
+There are roughly 1000 images for each of the 1000 categories. Thus, it has 1.4 million images divided into 1.2
+million training images, 50,000 validation images and 150,000 testing images. The images were down-sampled
+to 256x256.
+The included results are from both ILSVRC-2010 and ILSVRC-2012 competitions using top 1 and top 5 error
+rates.1
+Experiments
+
+Contribution
+1. Train one of the largest convolutional neural network on the ImageNet dataset used in the ILSVRC-2010
+and ILSVRC-2012.
+2. Won the competitions by improving several unusual features. This features were found empirically.
+GPU memory and training time were found to be the bounds of the network size.
+3. GPU 2D convolution highly optimized implementation.
+1 The
+
+fraction of test images for which the correct label is not among the five labels considered most probable
+
+1
+
+Weaknesses
+Convolutional layers add more hyper-parameters and allow to control the depth and breath of the networks.
+However, no mathematical model was presented to suggest how this hyper-parametrization must be made.
+
+Future Work
+References
+
+2
+

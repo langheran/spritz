@@ -1,0 +1,503 @@
+Sistemas Neuronales
+Modulo 4
+Arquitecturas de Redes de Convolucion
+
+Edgar E. Vallejo (Tecnologico de Monterrey)
+
+Edgar E. Vallejo
+Tecnologico de Monterrey
+
+Enero-Mayo, 2018
+
+.
+. .
+
+Sistemas Neuronales
+
+. . . . . . . . . . . . . .
+. . . . . . . . . . . . . .
+
+Enero-Mayo, 2018
+
+.
+.
+
+.
+.
+
+. .
+. .
+
+1 / 16
+
+.
+
+AlexNet
+
+A. Krizhevsky, I. Sutskever, G. E. Hinton (2012) ImageNet Classification with Deep Convolutional Neural Networks. Advances in
+Neural Information Processing Systems 25
+
+Edgar E. Vallejo (Tecnologico de Monterrey)
+
+.
+. .
+
+Sistemas Neuronales
+
+. . . . . . . . . . . . . .
+. . . . . . . . . . . . . .
+
+Enero-Mayo, 2018
+
+.
+.
+
+.
+.
+
+. .
+. .
+
+2 / 16
+
+.
+
+Caracteristicas de AlexNet
+
+Entrenamiento usando el conjunto de datos de ImageNet (mas de 15
+millones de imagenes provenientes de mas de 22,000 categorias)
+Uso de funciones de activacion ReLU
+Utilizacion de tecnicas de incremento del conjunto de datos
+Uso de capas de Dropout como mecanismo de regularizacion
+Entrenamiento basado en MBGD, momentum y decaimiento de pesos
+Entrenamiento usando dos GPUs GTX 580 durante 5-6 dias
+
+Edgar E. Vallejo (Tecnologico de Monterrey)
+
+.
+. .
+
+Sistemas Neuronales
+
+. . . . . . . . . . . . . .
+. . . . . . . . . . . . . .
+
+Enero-Mayo, 2018
+
+.
+.
+
+.
+.
+
+. .
+. .
+
+3 / 16
+
+.
+
+ZF Net
+
+M. D. Zeiler, R. Fergus (2013) Visualizing and Understanding Convolutional Networks. arXiv:1311.2901
+
+Edgar E. Vallejo (Tecnologico de Monterrey)
+
+.
+. .
+
+Sistemas Neuronales
+
+. . . . . . . . . . . . . .
+. . . . . . . . . . . . . .
+
+Enero-Mayo, 2018
+
+.
+.
+
+.
+.
+
+. .
+. .
+
+4 / 16
+
+.
+
+Caracteristicas de ZF Net
+
+Arquitectura similar a AlexNet con excepcion de algunas
+modificaciones minimas.
+Uso de funciones de activacion ReLU, funcion del error basada en
+entropia cruzada y MBGD
+Utilizacion de filtros de tamano 7 × 7 y un decremento del paso con
+relacion a AlexNet en la primera capa de convolucion
+Entrenamiento usando un GPUs GTX 580 durante 12 dias
+Desarrollo de una tecnica de visualizacion llamada deconvnet
+
+Edgar E. Vallejo (Tecnologico de Monterrey)
+
+.
+. .
+
+Sistemas Neuronales
+
+. . . . . . . . . . . . . .
+. . . . . . . . . . . . . .
+
+Enero-Mayo, 2018
+
+.
+.
+
+.
+.
+
+. .
+. .
+
+5 / 16
+
+.
+
+DeConvNet
+
+M. D. Zeiler, R. Fergus (2013) Visualizing and Understanding Convolutional Networks. arXiv:1311.2901
+
+Edgar E. Vallejo (Tecnologico de Monterrey)
+
+.
+. .
+
+Sistemas Neuronales
+
+. . . . . . . . . . . . . .
+. . . . . . . . . . . . . .
+
+Enero-Mayo, 2018
+
+.
+.
+
+.
+.
+
+. .
+. .
+
+6 / 16
+
+.
+
+DeConvNet
+
+M. D. Zeiler, R. Fergus (2013) Visualizing and Understanding Convolutional Networks. arXiv:1311.2901
+
+Edgar E. Vallejo (Tecnologico de Monterrey)
+
+.
+. .
+
+Sistemas Neuronales
+
+. . . . . . . . . . . . . .
+. . . . . . . . . . . . . .
+
+Enero-Mayo, 2018
+
+.
+.
+
+.
+.
+
+. .
+. .
+
+7 / 16
+
+.
+
+VGG Net
+
+K. Simonyan and A. Zisserman (2014) Very Deep Convolutional Networks for Large-Scale Image
+Recognition. arXiv: 1409.1556
+
+Edgar E. Vallejo (Tecnologico de Monterrey)
+
+.
+. .
+
+Sistemas Neuronales
+
+. . . . . . . . . . . . . .
+. . . . . . . . . . . . . .
+
+Enero-Mayo, 2018
+
+.
+.
+
+.
+.
+
+. .
+. .
+
+8 / 16
+
+.
+
+Caracteristicas de VGG Net
+
+Utilizacin de filtros de 3 × 3 filtros en la primera capa de convolucion
+y filtros de 7 × 7 en las siguientes capas.
+En general, el numero de filtros se duplica despues de cada capa
+Muestra buen desempeno en tareas de clasificacion y localizacion de
+imagenes
+Modelo construido usando el toobox Caffe
+Utilizacion de capas ReLU despues de cada capa de convolucion
+Entrenamiento usando BGD
+Entrenamiento usando tres GPUs GTX Titan durante 2-3 semanas
+
+Edgar E. Vallejo (Tecnologico de Monterrey)
+
+.
+. .
+
+Sistemas Neuronales
+
+. . . . . . . . . . . . . .
+. . . . . . . . . . . . . .
+
+Enero-Mayo, 2018
+
+.
+.
+
+.
+.
+
+. .
+. .
+
+9 / 16
+
+.
+
+GoogLeNet
+
+C. Szegedy, W. Liu, Y. Jia, et al (2014) Going Deeper with Convolutions. arXiv: 1409.4842
+
+Edgar E. Vallejo (Tecnologico de Monterrey)
+
+.
+. .
+
+Sistemas Neuronales
+
+. . . . . . . . . . . . . .
+. . . . . . . . . . . . . .
+
+Enero-Mayo, 2018
+
+.
+.
+
+.
+.
+
+. .
+. .
+
+10 / 16
+
+.
+
+Modulo de principio
+
+C. Szegedy, W. Liu, Y. Jia, et al (2014) Going Deeper with Convolutions. arXiv: 1409.4842
+
+Edgar E. Vallejo (Tecnologico de Monterrey)
+
+.
+. .
+
+Sistemas Neuronales
+
+. . . . . . . . . . . . . .
+. . . . . . . . . . . . . .
+
+Enero-Mayo, 2018
+
+.
+.
+
+.
+.
+
+. .
+. .
+
+11 / 16
+
+.
+
+Puntos clave de GoogLeNet
+
+Utilizacion de 9 modulos de principio y mas de 100 capas en total.
+Utilizacion de capas pooling promedio en lugar de capas
+completamente conectadas
+Emplea menos de la decima parte de parametros que AlexNet
+Entrenamiento usando GPUs de alto desempeno durante una semana
+
+Edgar E. Vallejo (Tecnologico de Monterrey)
+
+.
+. .
+
+Sistemas Neuronales
+
+. . . . . . . . . . . . . .
+. . . . . . . . . . . . . .
+
+Enero-Mayo, 2018
+
+.
+.
+
+.
+.
+
+. .
+. .
+
+12 / 16
+
+.
+
+Microsoft ResNet
+
+K. He X., Zhang, S., Ren , J. Sun (2015) Deep Residual Learning for Image Recognition. arXiv:1512.03385
+
+Edgar E. Vallejo (Tecnologico de Monterrey)
+
+.
+. .
+
+Sistemas Neuronales
+
+. . . . . . . . . . . . . .
+. . . . . . . . . . . . . .
+
+Enero-Mayo, 2018
+
+.
+.
+
+.
+.
+
+. .
+. .
+
+13 / 16
+
+.
+
+Puntos clave de ResNet
+
+Utilizacion de 152 capas (red ultra profunda).
+Se realizaron experimentos con un modelo de 1,202 capas sin obtener
+buenos resultados debido al sobreajuste
+El volumen de entrada se reduce de 224 × 224 a 56 × 56 en las dos
+primeras capas
+Entrenamiento usando 8 GPUs durante 2-3 semanas
+
+Edgar E. Vallejo (Tecnologico de Monterrey)
+
+.
+. .
+
+Sistemas Neuronales
+
+. . . . . . . . . . . . . .
+. . . . . . . . . . . . . .
+
+Enero-Mayo, 2018
+
+.
+.
+
+.
+.
+
+. .
+. .
+
+14 / 16
+
+.
+
+Redes generativas de adversarios
+
+I. J. Goodfellow, J. Pouget-Abadie, M. Mirza, Bing Xu, et al (2014) Generative Adversarial Nets.
+arXiv:1406.2661
+
+Edgar E. Vallejo (Tecnologico de Monterrey)
+
+.
+. .
+
+Sistemas Neuronales
+
+. . . . . . . . . . . . . .
+. . . . . . . . . . . . . .
+
+Enero-Mayo, 2018
+
+.
+.
+
+.
+.
+
+. .
+. .
+
+15 / 16
+
+.
+
+Generacion de descripciones de imagenes
+
+A. Karpathy L. Fei-Fei (2015) Deep Visual-Semantic Alignments for Generating Image Descriptions.
+arXiv:1412.2306
+
+Edgar E. Vallejo (Tecnologico de Monterrey)
+
+.
+. .
+
+Sistemas Neuronales
+
+. . . . . . . . . . . . . .
+. . . . . . . . . . . . . .
+
+Enero-Mayo, 2018
+
+.
+.
+
+.
+.
+
+. .
+. .
+
+16 / 16
+
+.
+

@@ -1,0 +1,293 @@
+2012 Fourth International Conference on Multimedia Information Networking and Security
+
+A method of Parking space detection based on image segmentation and LBP
+
+Wang Lixia College of electronic information engineering
+Beijing university of Technology Beijing, China
+abwanglixia@126.com
+
+Jiang Dalin College of electronic information engineering
+Beijing university of Technology Beijing, China
+jiangdl@vip.sina.com
+
+Abstract--This paper proposes a novel parking spaces
+detection algorithm which is based on image segmentation and local binary pattern. The vehicles are usually contains a lot of compositions ,while the vacant parking spaces' composition is relatively small.According to this characteristic, we segment the parking image. To judge whether each parking area has a large number of small split or not, can achieve the detection of the parking stalls. In this paper, we improve the Mean Shift algorithm and achieve the accurate segmentation result. This proposed method was tested on indoor and outdoor parking lots. The result confirmed the efficiency of the proposed method, with the detection rate being over 97%.. But, this method fails to detect non-vehicle objects and when the Vehicle color and ground color is very similar.So we the introduce the texture features, use LBP (local binary pattern) to extract the parking texture feature.Using the complementary between features and ultimately to achieve accurate detection.
+Keywords-Vehicle Detection; image segmentation; Mean Shift ;LBP
+.INTRODUCTION
+With the development of our country's economy, the number of motor vehicles is increasing greatly and the difficulty of parking is becoming one of the urban traffic problem. So, it is urgent to construct the IPMS(Intelligent Parking Management System).Parking stall detection technology is one of the key technologies of the intelligent parking management system. It can accurately guide cars to vacant cells and reduce congestion and finally save the drivers' time. It has important significance to research the car parking stalls detection algorithm.
+
+D.Bong[1] proposed a method of combining background subtraction and edge features.This method is simple, but the real-time updates of the background image is a tough problem. Nicholas et al. [2] use color features and corner features,through training SVM classifier to get the result .But he color features is not obvious when there have shadow present, and the corner feature extraction algorithm is easy affected by the environment.So this method has limitation.Tomas Fabian, et al. [3] proposed a new parking space detection algorithm which try to create a 3D model of each parking space, but the model is complex and time-consuming.
+Now the existing parking stall detection algorithms usually has a low robustness and low detection accuracy. In this paper, we propose a detection algorithm based on image segmentation and texture features.
+. Parking spaces image preprocessing
+The present study aims at development of a technique providing occupancy check for each individual parking space (cell). First interception of a single parking space sub-image ROI (Region Of Interest). Contains only the specific parking area of the image. Parking space image of the test in Fig. 1 show the parking area in a descending order of number of parking spaces for No. 1-6, we take the first parking space as example.The following are the No.1parking ROI image for processing. The interception process is shown in Fig 1.
+
+978-0-7695-4852-4/12 $26.00 © 2012 IEEE DOI 10.1109/MINES.2012.27
+
+2295
+
+Fig.1 The No.1 interception process map
+
+III. Parking spaces split feature extraction
+
+Now the existing parking stall detection algorithms usually has a low robustness and low detection accuracy. In this paper, we propose a detection algorithm based on image segmentation. As we all know, vehicles generally include windows, roof, headlights, license plates, tire composition, and they tend to have different colors, shapes and textures, while an vacant parking stall image doesn't own so rich compositions, their color, texture`s distribution is more evenly. According to this characteristic, we segment the parking image. To judge whether each parking area has a large number of small split or not, can achieve the detection of the parking stalls.In this paper I introduce Mean Shift algorithm,which is an adaptive image segmentation method and achieve the accurate segmentation result. This proposed method was tested on indoor and outdoor parking lots.
+
+A. Mean Shift algorithm
+Mean shift[4] is a general nonparametric technique which proposed for the analysis of a complex multimodal feature Space and to delineate arbitrarily shaped clusters in it.
+Kernel density estimation (known as the Parzen window technique) is the most popular density estimation method. Let an image be represented by n data points xi, i = 1,...,n in the d-dimensional space Rd. K(x) is the multivariate kernel density estimator and H is a symmetric positive d u d
+
+bandwidth matrix( H diag[h12 ,..., hd 2 ] ).
+
+The estimation of the multivariate kernel density computed at point x is given by:
+
+¦ ¦f^(x)
+
+n i
+
+1
+
+K
+
+§ ¨©
+
+xi
+
+ h
+
+x
+
+· ¸¹
+
+w( xi
+
+)
+
+hd
+
+n i
+
+1
+
+w(
+
+xi
+
+)
+
+(1)
+
+Here w(xi ) t 0 is the weight of xi ; K (x) is a kernal
+
+³function which should satisfy k(x)dx 1;
+
+In point x, the Mean Shift vector is defined as follow:
+
+Mh x
+
+¦i
+
+n 1
+
+G(
+
+xi
+
+ h
+
+x
+
+)w(
+
+xi
+
+)
+
+xi
+
+¦i
+
+n 1
+
+G(
+
+xi
+
+ h
+
+x
+
+)w(
+
+xi
+
+)
+
+x
+
+(2)
+
+We put on the right side of the first recorded as,namely:
+
+mh (x)
+
+¦n
+i1
+
+G(
+
+xi
+
+ h
+
+x
+
+)w(
+
+xi
+
+)xi
+
+¦i
+
+n 1
+
+G(
+
+xi
+
+ h
+
+x
+
+)w(
+
+xi
+
+)
+
+(3)
+
+Through choosing appropriate parameters (hs,hr,M), We can get a good segmentation result.We get each park
+
+ing stall ROI ,and use Mean Shift to segement .In exper
+
+iment ,we know every parking space has different size ,s
+
+o the parameters are also different. we take the first par
+
+king space as example.we choose (hs,hr,M)=(4,4,70),the experiment result is shown in Fig.2.
+
+a) original
+
+b) Segmentation result (hs,hr,M)=(4,4,70)
+Fig 2 vehicle parking image
+B. Implementation The approach described above is implemented in the
+following way. The following score (number of segments weighted by area) is used to decide whether an image offers a large number of small fragments:
+
+22360
+
+nn
+g ¦ kSk ¦ S k k1 k1
+
+(4)
+
+Here n denotes the total number of segments, and
+
+S1, S2 ,", Sn denote areas of individual segments in decreasing
+
+order.Consider the properties g.we know if in the parking place ,there is a car ,the g usually is very higher .
+In the formula, we give large blocks a small weights,while give the small ones a large weight.when parking place is occupancied, because there are large number of small split blocks, the calculated g is larger; when the Parking space is vacant, the calculation of g is small. Then we can set the threshold of g,which is gth.and determine whether there is a car or not in the parking space.
+
+overcome influence of shadow and uneven illumination.
+
+LBP principle :Calculate each pixel in the grayimage the
+
+relationship with its adjacent domains point and change into
+
+binary data according to certain rules, then the relationship
+
+between the binary form a pixel LBP code.
+
+LBP operator scans the image of an interception parking
+
+space, then using histogram statistics to descripe LBP codes,.
+
+histogram is defined as follows:
+H ¦ I{ fi (x, y) i},i 0,1,...n 1 x,y
+
+5
+
+Where n is the number of LBP yards, 3 * 3 mode LBP
+
+code binary number is 8, series 256, the LBP coding with the
+
+edge of the image mode, spots, so each LBP code can be used
+
+as amicromode.256 LBP code histogram of such an image can
+
+be seen as the LBP feature. LBP code parking image. Its
+
+histogram statistics LBP code. Is shown in Fig2:
+
+Fig 3 Parking image segmentation result
+The result confirmed the efficiency of the proposed method, with the detection rate being over 97%. Experimental results show that this method is a very practical way to detect parking stall. But, this method fails to detect non-vehicle objects and when the Vehicle color and ground color is very similar.
+IV. LBP texture feature extraction LBP (local binary pattern),proposed by Ojala, etc. [5] ,is an effective operator of texture description .It is used to characterize the the local texture of image spatial structure. It can extract and measure the local adjacent areas texture of the gray image. With gray-scale invariant characteristics , can
+
+
+
+
+1400
+1200
+1000
+800
+600
+400
+200
+0 0 25 50 75 100 125 150 175 200 225 250 275 300
+/%3
+Fig.4 Empty parking image and corresponding LBP coding Image and its histogram charts
+
+22371
+
+
+2000
+1500
+1000
+500
+0 0 25 50 75 100 125 150 175 200 225 250 275 300
+/%3
+Fig.5 Occupied parking image and corresponding LBP coding Image and its histogram charts
+V Classifier Design An alternate way of classifying the parking space LBP code histograms is to use a support vector machine. Developed by Vapnik, a support vector machine (SVM) is a sophisticated general classification algorithm which computes the maximum margin hyperplane separating the training data by class and uses it to classify the input data [6]. For this project, I used a binary SVM to classify parking spaces as vacant or occupied, based on the fact that vacant parkingspaces all have a similar color. In [1], a multi-class SVM was used to classify the state of three, contiguous parking spaces at a time. Markov Random Fields were then used to improve the final classification results by resolving con-flicting classifications between two neighboring three-space patches. to achieve good detection rates. Given the same number of training image regions, both methods achieve similar results. Working parallel to LBP code histogram classification we know the segement method fails to detect non-vehicle objects and when the Vehicle color and ground color is very similar and cause the Missing.LBP texture features can overcome this interference.Therefore, the judgment result is the union of the two results, that is, as long as one of the features of sentence it as to be occupied,we believe the parking space is occupied.
+C RESULT AND CONCLUSION We can easily get the split block.threshold of each parking space.We use SVM model to train LBP feature classifiers.In this paper,we chose 1439 parking lot image as the training image to train LBP feature classifier. And use 1225 test images to judge each feature `s detection ability and after combining the two feature.The experiment result is as follows.
+
+Table1 The combination of segement method and LBP
+
+No. (%) No.1 No.2h No.3 No.4 No.5 No.6
+
+Missing 1.025
+rate
+
+Virtual rate
+
+0.12
+
+False rate
+
+0.9875
+
+2.01 0.24 1.0548
+
+1.14 0
+0.897
+
+2.05 0
+1.2587
+
+1.045 0.135 0.874
+
+2.315 0.124 1.564
+
+This paper presents a novel parking. space vacancy detection system based on computer-vision.Using a combination of LBP histogram classification and segement feature ,the system achieves good detection results. One major weakness of the current algorithm is that it can't accurately detect the state of parking spaces which are slightly or mostly occluded by objects such as other vehicles. While this shortcoming doesn't prevent the algorithm from working, it does mean that any real world implementation of the system would require more cameras to cover all the parking spaces in ways that won't see occlusion. This of course would increase the overall cost, thus, making it desirable to find a solution to this problem. Future work could fold in real-time video feeds and use vehicle tracking to and from parking spots to help overcome the problem of occlusion.
+REFERENCE [1].D. Bong, K. Ting, and N. Rajaee.Car-park occupancy information system[C].In Proc. 3rd Real-Time Technology AndApplications Symposium, 2006. [2] Nicholas. True. Vacant parking space detection in static images[J].University of California,San Diego. 9500 Gilman Drive, La Jolla, CA 920932005. [3] Tom´as Fabi´anV.An Algorithm for Parking Lot Occupation Detection[C],in the 7th Computer Information Systems and Industrial Management Applications Conf .2008. [4]. ComnaieiuD. and PmeerMean Shift: a robust approach toward feature space analysis[J]. IEEE Transactions on Pattern Analysis and Machine Intelligence2002.24(5) [5]Ahonen T.Face Description with Local Binary Patterns: Application to Face Recognition[J].IEEE Transactions on Pattern Analysis and Machine Intelligence,2006,28(12
+
+23282
+

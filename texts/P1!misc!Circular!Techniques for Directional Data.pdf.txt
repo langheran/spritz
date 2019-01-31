@@ -1,0 +1,5015 @@
+00
+CN0
+ON4.
+
+0~'
+
+*
+
+es
+
+d02
+
+10..
+
+0
+
+0*
+
+0
+Q0
+
+z
+
+***
+
+> 00
+
+=4
+0
+
+b
+r_
+
+r
+
+C1
+V)
+
+=l
+
+00
+V)
+
+I
+
+TECHNIQUES FOR DIRECTIONAL DATA
+
+[
+
+by
+M.A. Stephens
+
+TECHNICAL REPORT NO. 150
+November 4, 1969
+
+PREPARED UNDER CONTRACT Nonr-225(52)
+NR-542-022
+OFFICE OF NAVAL RESEARCH
+
+Reproduction in Whole or in Part is Permitted for
+Purpose of the United States Government
+
+Sany
+
+DEPARTMENT OF STATISTICS
+
+STANFORD
+STANFORD,UNIVERSITY
+CALIFORNIA
+
+,,
+___
+
+..
+
+;ll,.
+
+4 "
+S
+
+]!'jU
+
+J"3
+
+!
+_________
+
+___
+
+IiTECHN'IQUES
+
+MOR DIRECTIONAL DATA
+by
+M.A. Stephens
+
+McGill University, Montreal and Stanford University
+
+1.
+
+I TRODUCTION
+1.1
+
+In recent years techniques have been developed for dealing
+
+with statistical data where the observations are directions, and where
+the directione are assumed to be more or less concentrated around a
+single mode.
+
+In three dimensions,
+
+the distribution used to describe
+
+such directional data is Fisher' s (1953) distribution, and in two
+dimensions it is the von Mises distribution.
+
+In this paper we extend
+
+the techniques for th2se distributions to deal with axial data, i.e.
+data consisting of vectors whose direction can be in either sense,
+
+and
+
+also for use with directed data from populations with two modes, in
+opposite directions.
+
+The techniques make use of tables already prepared
+
+for the Fisher and von Mises distlributions.
+are,
+
+in three dimensioLa,
+
+Examples of directed data
+
+directions of magnetization of roctks,
+
+or, in
+
+two dimensions; directions of bird flights or of prevailing winds;
+examples of axial data are normals to planes of cleavage of rocks, or
+inclinations of the long axis of pebbles in till deposits.
+The procedtLres will be given first for three dimensions, since
+later on it is easy to adapt them for two d.rensions; the rest of the
+introduction duals with notation to be used.
+
+The Fisher distribution is
+
+described in section 2) its bimodal extension, assuming axial data or
+directed data with equal modal strengths, is given in section 3, with
+
+examples; tests of hypotheses for three-dimensional data are in section
+
+4. For two dimensions, the von Mises distribution and its bimodal
+
+3
+
+section 5.
+
+extension are treated in
+
+The adaptation of all the procedures for directed data but with
+
+unequal modes in given in section 6. section 7 demonstrates the importance of knowing the type of data, and deals briefly with related topics.
+
+I
+
+Examples are included throughout the paper.
+
+1.2
+
+Notation. Observations denoting directions are recorded by unit
+
+vectorsi in three dimensions a typical vector is OF,
+center 0 of a sphere of radius
+surface of the sphere.
+
+starting at the
+
+1 and ending at P, a point on the
+
+Axial data could be best recorded by drawing
+
+the entire diameter POQ
+
+say, though
+
+in three dimensions this is then
+
+difficult, in practice, to show on the usual diagrams.
+axial data must not depend on whether
+an observation;
+
+2r.
+0;
+
+Let
+
+P
+
+P
+
+or
+
+9
+
+Techniques for
+
+is used to represent
+
+for all data, thus the vector used is called
+be located by the usual spherical polar coordinates
+
+we shall regard these also as coordinates of the line
+e = 0°
+
+simplicity, let
+
+of the sphere, so that
+
+OP.
+
+e,
+
+For
+
+be thought of as pointing to the "north pole"
+
+e = 900
+
+is the equator and
+
+e = 180
+
+is the
+
+south pole".
+
+1.3
+
+Other Notation.
+
+colatitude of
+
+P,
+
+and
+
+In the northern hemisphere,
+
+e = 90 - X, where
+
+in the southern hemisphere,
+
+e
+
+=
+
+X
+
+90 + X, where
+
+2
+
+e is then the
+
+is northern latitudei
+
+X
+
+is southern latitude;
+
+J
+
+[I
+
+i0
+
+0 to 3o eastward f
+
+is the lo0itude measured fr
+____
+
+1, is called also the orientation
+tion
+
+0
+
+latitude
+
+and
+X,
+
+dip angle 6
+
+e
+
+and
+
+P
+
+is
+
+00.
+
+sometimes measured by orienta-
+
+below the equator;
+
+= 90° +.
+
+0
+
+5
+
+corresponds to southern
+
+In practical work,
+
+9 (or 6) and
+
+0
+
+are
+
+often given in degrees, as has so far been assumed; in theoretical dis-
+
+Ii
+
+cussion, we shall assume
+
+are in radians.
+
+e, 0
+
+This will not affect
+
+the practical techniques, which use the components of the given vectors.
+Fur these, we must introduce a set of rectangular coordinates; a natural
+"'I
+
+9 = 0,
+
+set has the z-axis along
+and the
+
+I.
+
+y-axis along
+
+e, 0
+
+with coordinates
+
+9 = n/2, 0 = a/2.
+
+y = sin 0 sin
+
+For a given sample of size
+
+I
+
+=
+
+Ei, Y = Ey,' Z = Ez, ·
+
+or resultant
+
+B
+
+of the
+
+R2 = X2 + y2 + Z2 .
+r
+
+N,
+
+let
+
+Yi' zi
+
+x',
+
+i-th unit vector, and let
+
+X
+X
+
+2.
+
+I
+
+z = cos
+
+·
+
+(i=l,2,...,N)
+
+be the
+
+These are the components of the vector sum
+
+QF;
+
+if
+
+Z
+
+has length
+
+R,
+
+then
+
+When dealing with several samples, the subscript
+
+N1 + N 2 +--'+
+
+N s,
+
+where
+
+br
+s
+
+e.g.
+N
+
+Nr
+
+is the sample
+
+will denote the total
+
+is the number of ramples.
+
+THE FISHER DISTRIBUTION FOR DIRECTED VECTORS.
+2.1
+
+Suppose the vectors
+
+data, with an arrowhead at
+
+1!
+
+9i
+
+will give the value for the r-th sample,
+
+sample size
+
+,
+
+be its components; define
+
+size of the r-th sample, with resultant
+
+1
+1
+
+The components of a vector
+
+are then
+
+x = sin 0 cos 0 ,
+
+I
+
+e = 7/2, 0 = 0,
+
+the x-axis along
+
+O
+
+P
+
+(i=1,2,...,N)
+
+represent directed
+
+The Fisher distribution describes a probability density at the
+
+point
+
+ID which is proportional to
+
+e
+
+e
+
+the density of
+
+and
+
+90):
+
+),
+
+0 < 0 < nr
+
+4$ is independently uniformly distributed between
+
+The distribution is symmetrical aroun4
+the north pole),
+
+more precisely,
+
+is
+8.K
+Sin e exp(K cos
+
+(1)
+
+exp(K cOS
+
+and with
+
+.
+
+A
+
+single mode at
+
+0
+
+and
+
+2n.
+
+(along 0 = 0, pointing to
+A j
+
+K
+
+is
+
+a parameter
+
+(K > 0), which describes the concentration of the distribution.
+K
+
+is
+
+large the distribution is highly concentrated around
+K = 0
+
+when
+
+the vectori (i.,.
+
+rocks.
+
+end
+
+the points P) are uniformly distributed
+
+over the surface of the sphe -e.
+Fisher (1953)
+
+A,
+
+When
+
+This distribution was introduced by
+
+to describe vec .crs denoting remanent magnetization of
+
+Statiztical p.,t°edures were given by Fisher, and by Watson (1956),
+
+Watson and Williams (1956).
+
+and Watson and Irving (1956)i this work has
+
+been developec., and thE necessary i;ables produced, oy Stephens (1962b,
+1967,
+
+.0$69a).
+
+The techniques have begun to be used in applied work,
+
+particularly iV a geological context; see, for example, Andrews and
+Shimizu ' 1966),
+
+and, for a wider discussion, with a long list of
+
+references, Watson (1968).
+
+It will be convenient now to sumarize these
+
+procedures; in the next section they will be adapted for use with
+axial or bimodal three-dimensional data.
+
+2.2
+
+Estimation of modal vector and concentration parameter for
+
+the Fisher distribution.
+
+In the distribution (1) above, the modal
+
+I
+
+direction A was assumed along
+
+a
+
+=
+
+0
+
+K, must be estimated.
+
+be known, and, with
+
+will usually not
+
+in practice it
+
+The maximum likelihood
+
+equations for these estimators are based on the statistics
+
+J
+
+and
+
+X,
+
+from a sample of N unit vectors, already described in section 1.
+(a) The estimate of
+is
+
+a =WR
+
+(b) To estimate
+
+K,
+
+solve
+
+estimating
+
+A
+
+R by
+
+is known, replace
+
+solving (2) is in Stephens
+
+3.
+
+i.e., a unit vector
+
+cothc-1K=1FN
+
+(2)
+if
+
+R,
+
+is the direction of
+
+A
+
+A
+
+a
+
+j
+
+B
+
+X
+
+in this equation.
+
+A table for
+
+(1967).
+
+BIMODAL EXTENSION OF THE FISHER DISTRIBUTION
+3.1
+
+The natural extension of the Fisher distribution to cover
+
+bimodal data is obtained by superimposing two Fisher distributions with
+opposite modal vectors.
+
+Jcalled
+
+the modal axis
+
+the density of
+
+(3)
+
+I
+
+and
+
+e
+
+If the line along
+A,
+
+e = 0 and e = n,
+
+now
+
+represents the direction of the two modes,
+
+is then
+
+f(e) = 2 sin 0 (a exp(K cos 9)+(l-a)exp(-K cos e))
+
+P has a umiform distribution between
+
+0
+
+and
+
+2n
+
+as before.
+
+The relative strength of the two modes is measured by the parameter
+a, which lies between
+
+I
+I
+
+0
+
+and
+
+1.
+
+When
+
+a = 0.5,
+
+(5) becomes
+
+I
+(4)
+
+2 K(e)
+sih K (cosh (K cos e))
+
+<
+_
+
+e<A
+
+Distribution (3) will be used to describe directed data with unequal
+modesi distribution (4) will be used in analyzing axial data, if both
+ends are recorded.
+
+In general, the modal axis will not be known, and
+
+must be estimated.
+
+When A
+
+is known, pointing, say, to the North pole,
+
+3
+I
+
+we could choose to record axial data by one point only, in the northern
+hemisphere; the density of
+
+(5)
+
+f()
+
+e is then
+
+sin K (cosh (K cos e)), 0 < 8 < it12·
+
+In practice, a given experimenter
+
+Ii
+
+say collecting directions of
+
+magnetization of rocks, will probably show a natural preference for
+recording the data in one sense more often than the other, so that a
+given sample of axial data, as recorded, may look like directed data
+with two unequal modes or even only one mode; this can be very deceptive.
+It is therefore important to know what type of data is in a given sample
+in order to decide the analysis to be undertakeni one should not rely
+
+only on the appearance of the sample.
+
+-
+
+We illustrate this point in
+
+section 7.
+We now discuss two estimation problems, for distribution (4); how
+
+--
+
+to estimate the direction of the modal axis A, when this is not known
+(so that it does not lie along
+
+e = 0); and how to estimate K. The
+
+techniques to be given will not depend on which end of a diameter is
+chosen to represent an observation with no preferred sense; thus for
+
+-
+
+6
+
+6
+
+F
+
+B
+
+I
+II
+I
+
+this type of data one follows the procedures using the observations
+
+exactly as given.
+
+I
+
+This is also the case for data representing directed
+
+vectors from a population with two opposite modes of equal amplitude.
+Modes of unequal amplitude
+
+3
+3
+
+3.2
+through
+
+(a
+
+0.5) are discussed in sectiov 6.
+
+Estimation of the Modal Axis A.
+0,
+
+Suppose a plane
+
+characterized by its normal
+
+j ,
+
+M
+
+is chosen
+
+one end only of each
+
+recorded axial diameter is thei chosen to give a directed vector,
+such
+that all the directed vectors lie on one side of M. The resultant R
+is then calculated4 its value clearly depends on the choice
+of M, i.e.
+of
+
+.
+
+When
+
+e
+
+is along the modal diameter
+
+is at right angles to
+
+j
+
+and when
+
+A
+
+Iestimate
+
+A,
+
+A, the expected length
+
+lies in plane
+
+the expected length
+
+A,
+
+F
+
+M,
+
+so that
+
+R
+
+so that the plane
+of
+
+R
+
+is
+
+a maximum;
+
+n
+
+is at right angles to
+
+will be a minimum.
+
+This Etiggests that to
+
+we must find the plane
+
+M
+
+M
+
+which gives a maximum
+
+A,
+
+R,
+
+and this is done iteratively by the following method, which applies
+to
+both axial and directed data.
+(a)
+
+Directed data is recorded by the end
+
+P
+
+of the vector
+
+OP
+
+for an axial observation choose either end of the diameter to be
+initially
+Pi"
+
+In the steps which follow, the direction of a sample vector will
+
+sometimes be reversed, and Pi
+
+always refers to the end of the vector
+
+which is currently used to assign it a direction
+(b)
+
+If a good estimate
+
+V,
+
+length
+
+let the components of the unit vector
+
+v=
+
+V,
+
+OP
+
+of the modal vector exists,
+
+Y/V be
+
+7o
+
+l,
+
+m,
+
+n.
+
+IL
+
+I
+Suppose the sample ve'ctor
+
+(c)
+
+for each sample vector, calculate
+
+OP
+
+if
+
+OP,
+
+= v
+
+is negative, change the signs of
+
+a
+
+the original direction of
+
+xi, yi
+
+(e)
+
+(f)
+
+r
+
+are identical, stop
+
+r
+
+be called
+
+lies is the estimate of the modal axis
+
+be
+
+(lO,C,)
+
+(i,m,n) = (0,1,0)
+
+350
+modal axis
+
+take
+
+(l,m,n) = (0,0,1).
+
+and
+
+v =
+
+R
+
+Estimation of
+
+K.
+
+,
+
+A
+
+cose.
+
+-
+
+K
+
+cos
+
+i
+
+Repeat
+
+Of the three values
+R as the
+
+If the direction of the
+
+1. Modal axis known.
+
+is known, and lies along
+
+cosh K-
+
+T
+T
+
+A.
+
+and continue from step (b) above.
+
+9
+
+0;
+
+the maximum likelihood estimating equation for
+
+(6)
+
+the line
+
+and proceed with steps (c) and (d).
+
+so obtained, choose that with the largest length
+V
+
+ro;
+
+V exists in (b) above, start as follows.
+
+If no good estimate
+
+(l,m,n)
+
+I
+
+and repeat
+
+1, m, n,
+
+components
+
+let the final unit vector
+
+r0
+
+along which
+
+v.
+
+When two successive values of
+
+the procedure;
+
+initial
+
+I
+
+and ensures that it now makes an angle
+
+OF
+
+be the new
+
+r = _WR
+
+Let
+
+from step (c).
+
+of R
+
+This reverses
+
+z,.
+
+R.
+
+lergth
+
+(vector sum) R,
+
+where
+
+and
+
+a = lxi+myi+nzi;
+
+For the final set of sample vectors, calculate the resultant
+
+(d)
+
+with
+
+i.e.
+
+x1 ' Yi' zi3
+
+,/2 with V.
+
+less than
+
+L'-,t
+
+a
+
+has components
+
+ta
+
+it is easy to derive
+K.
+
+It is
+
+(K cos e,
+
+i=l1
+
+is the angle between
+
+OF
+
+an,.t the modal axis
+
+A, chosen
+
+-
+
+to point in either direction.
+2.
+
+Modal axis not known.
+
+from the estimate of
+
+Id
+
+A,
+
+along
+
+When
+
+A is not known, we measure
+
+e
+
+calculated in the previous section.
+
+r
+
+8
+
+F
+
+1
+'S
+
+R when using equation (2) for
+
+X by
+
+This is analogous to replacing
+the Fisher distribution.
+
+j
+
+cos e
+
+xi, Yip Zip
+
+are
+
+OP
+
+is actually required, and if
+and the final components of
+
+1, m
+io , o
+
+are
+
+r
+
+the components of
+
+ei
+
+cos
+
+For each sample vector, only
+
+cos e i
+
+is given by
+
++ noz
+
++ moy
+
+= I1x
+
+will be positive. Equation (6) is then solved
+cos e
+i
+iteratively by the following steps. Let R° be the final resultant,
+
+Every value of
+
+R° ,
+
+length
+
+= B"/1,
+
+r
+
+i.e.
+
+of the sample vectors,
+
+M(K)
+
+and let
+
+be the right hand side of (6) for any K.
+
+I
+
+(Z cos e i)/N
+
+(a) The quantity
+
+Y
+
+cosh K - 11K
+
+3
+
+is
+
+R°/N,
+
+solve
+This may
+
+to give an initial estimate
+
+K1
+
+for
+
+be done using e.g. Table 3 in Stephens (1967);
+
+if
+
+Y0> 8, K1
+
+K.
+
+is
+
+/(l-Yo)"
+(b) Solve
+
+3
+
+(c)
+
+Solve
+
+cosh K
+
+cosh
+
+1K = M(KI);
+
+-
+
+K
+- 1K = M(K2 );
+
+call the solution
+
+K
+
+call the solution
+
+K,
+
+and repeat this procedure; the sequence for
+is
+
+K.
+
+I
+
+the estimate of
+
+cosh
+
+K.
+
+is the solution of (6).
+
+in x, so
+
+M(K2 )
+
+Similarly
+
+K 4 < Kp
+
+M(K)
+
+Since tanh x < 1,
+
+is monotonic in K,
+
+K - 11K
+
+> M(K*),
+
+etc.
+
+1 2 < Kli
+
+Also
+
+K2
+
+>
+
+Y
+
+and so converges.
+
+limit, as
+
+n
+
+But
+
+> M(K*),
+
+K* : similarly
+
+Thus the sequence of solutions Ki
+K*,
+
+First suppose
+
+M(KI) < Yo ; and since
+
+But
+
+tanh x
+
+is monotonic
+
+so by repetition of the argument,
+
+< M(KI);
+
+and so
+
+etc.,
+
+K converges, and the limit
+
+The above procedure is proved convergent as follows.
+K*
+
+I
+
+say Y0;
+
+so
+
+K
+
+K, > K*
+
+> K* ;
+
+K3 < K2 '
+
+then
+
+for all
+
+i.
+
+is decreasing, bounded below by
+
+cosh Kn- 1Kn = M(K n_),
+
+and if we take the
+
+, uun both sides, we have the limiting value of
+9
+
+K
+
+--
+
+-
+
+--
+
+---
+
+:u-u
+
+-~---------
+
+------ --
+
+-'--=-
+
+----
+
+-
+
+As will be seen in the examples which now follow, the technique
+converges very rapidly for
+) .4 Examples.
+
+-.
+
+-
+
+-- --
+
+U
+I
+I
+
+K-values of 5 or more.
+
+The data are from measurements of inclination of
+
+till deposits, kindly made available by Dr. C. King of the Department
+
+of Geography, University of Nottingham, England; there are 4 samples each
+The effect of the
+
+of 2 observations, measured to the nearest 5 degrees.
+
+precision of measurement is not considered in this paper. Table 1 gives
+the data and the steps in the estimation procedures, for Sample 1.
+
+The
+
+table is divided into several parts:
+
+e, 0 are listed first, in degrees.
+
+(a) The 25 values of
+
+The
+
+degree symbol is omitted.
+Ro.
+
+(b) Estimation of
+
+Unit vectors along the
+
+are taken as starting values of
+
+v,
+
+x, y, and z
+
+assuming no initial approximation
+
+known for the modal axis; the resultant length is given,
+its coordinates
+
+axes
+
+together with
+
+and in the last column are listed those vectors
+
+e, 4,
+
+which must be reversed from the original given direction to lie at an
+angle less than 90 with tre current
+(c) The largest
+
+v.
+
+obtained from (b) is
+
+R
+
+20.20,
+
+with vector
+
+R. reduced to unit length. becomes the next
+
+No. 1 reversed4 this
+with direction cosines
+
+1
+
+=
+
+-0.329, m
+
+0.9211.
+
+n
+
+-0.208.
+
+v
+
+-
+
+Now vector
+
+No. 1 is returned to its original sense (thus all the vectors, as given,
+are within 90 of the current
+
+v)
+
+to make the new
+
+v. we get no charge in
+
+resultant,
+
+R°;
+
+its direction cosines are
+
+and its c
+
+~ordinates
+
+sample
+
+it is designated
+
+1,
+
+are
+
+R = 20.54; on using this
+
+and the new
+
+6 = lCQ.8,
+
+(D
+
+R1 ·
+10
+
+R,
+
+so that this is the final
+- 0.418, 0.889, - 0.188,
+
+_-15. 2
+
+.
+
+Since it
+
+is
+
+the
+
+°
+
+for
+
+r
+
+.. ...
+
+(d) Estimation of
+R= 20.54,
+
+is
+
+=
+
+K.
+
+5.61.
+
+..
+
+The first estimate Of
+
+K,
+
+.. .
+
+.
+
+i......
+
+derived from
+
+The successive estimates converge rapidly
+
+1
+
+to
+
+ii
+
+K = 5.56.
+
+Table 2 gives the final results for Samples 2, 3 and 4, for Samples 1
+and 2 taken together as one sample of 50 observations, and for Samples
+
+i
+
+3 and 4 taken together. X, Y, Z,
+
+are the components of
+
+its coordinates in degrees.
+
+X = R° sin e cos 0,
+
+Z - Rocos
+
+1 1!
+"
+
+Thus
+
+Y = Rosin
+
+e sin 0,
+
+e. The techniques converge very rapidly for these values of
+
+K. Even for Sample 5, only 3 iterations are needed to obtain
+
+4.
+
+are
+
+e; e, 0
+
+=
+
+5.92.
+
+TESTS OF HYPOTHESES.
+4.1
+
+We now consider tests for bimodnl data.
+
+The tests to be
+
+proposed are devised to make use of methods and tables already prepared
+for the Fisher distributions; these may be briefly sinrized as follows.
+
+-
+
+I
+I
+
+~
+
+For theFisher distribution, one-sample tests of hypotheses concerning
+
+A
+
+K are based on
+
+or
+
+the important test that
+A,
+
+and on
+
+R;
+
+samples.
+
+4.2
+
+R
+
+For
+
+different samples have the same modal vector
+
+is the length of
+
+RI+R2 I+- .+R,
+
+R. the overall resultant of all the
+
+s
+
+The tables for this test are in Stephens (1969).
+
+Possible test statistics for the Bimodal Distribution: R ° and S.
+
+For the bimodal distribution, when
+
+3
+
+X (Stephens, 1962, 1967).
+
+a test is based on the conditional distribution of
+
+given
+
+1
+
+s
+
+R
+
+A
+
+natural to base tests on the distribution of
+
+is not known, it would be
+H°, when
+
+possible test statistics could be the component of
+
+R°
+
+A
+on
+
+is known,
+,
+
+or the
+
+Ul
+!1
+I _ - . ...-..." ..
+
+'m
+
+!U
+sum C
+
+of the components on
+
+pointing so that its component is positive.
+
+statistic.
+estimates
+
+A
+
+A
+
+is not known; and we consider an alternative
+
+Suppose,
+
+A
+
+tant vector
+vector
+
+R°
+
+and
+P
+
+(Note that these two
+Unfortunately, even the
+
+statistics are not necessarily the same.)
+distribution of
+
+for a given sample of size
+
+A
+
+A
+
+K
+
+we have found the
+
+N,
+
+K by the above methods; we then ask for the resul-
+
+which would have given the same estimates, of modal
+
+and of
+
+K,
+
+on the ass,mpti'r.
+
+it
+
+is the resultant of a
+
+Fisher-distributed sampl3 of the same size.
+R
+
+3
+
+of all the given vectors, each one
+
+A
+
+Clearly
+
+Z
+
+will lie along
+
+and its length is easily found from the calculations leading to
+
+Kis
+
+The final
+
+Consider, for example, Sample 1.
+
+for the bimodal sample.
+
+A
+
+5-56., obtainedby solving
+
+coth K - 11
+
+= 0.820W. comparison with
+
+equation (2) for the Fisher distribution shows that 0.8200 must be the
+value of
+tuted
+
+S/N;
+
+so that
+
+S = 0.8200 x 25
+
+20.50.
+
+We call
+
+resultant of the bimodal sample. note that it
+
+S
+
+the
+
+might point along
+
+either direction of the estimated modal axis, according to the final
+direction taken by
+
+0
+
+R°
+
+.
+
+values of
+
+S
+
+-
+
+in effect we have imagined constructing a
+
+Fisher sample from the original data, with same
+(based on our estimates),
+
+-
+
+and
+
+S
+
+N, K,
+
+and modal vector
+
+would then be its resultant.
+
+are included in Table 2.
+
+The
+
+Since we hawe tests and tables
+
+--
+
+available for the Fisher distribution, based on the Fisher resultant
+R,
+
+we could now, as an approximate procedure for the bimodal distriba-
+
+tion, use the same tests, with the aCj
+
+One sample tests.
+
+Q replacing
+
+.
+
+This procedure will first be illustrated
+
+[
+
+with one-sample tests on Sample 1.
+12
+
+IO
+
+.d resultant
+
+-I
+I
+
+for Sample 1,
+
+Ho:
+
+Suppose the null hypothesis is
+
+Test for the modal axis A
+is along
+
+0 - 90, i.e. the y-axis.
+
+The appropriate
+
+Fisher distribution test is based on the conditional distribution of
+R
+
+given the component
+H0
+
+C
+
+*
+
+too large,
+
+I
+
+lies along the direction of
+The test, for
+
+I
+
+Here, the value of
+
+is rejected.
+
+R° ,
+
+S
+
+and its component
+
+is
+
+is
+
+it
+
+20.50;
+
+18.22.
+
+C is then
+
+a = 0.05. uses Figure 2 of Stephens (1962), or approxima-
+
+tions which accompany
+
+t for the case when the component, called
+
+in section 3.3 applies; the critical value of
+So-C
+
+F2
+
+in
+
+S,
+
+say
+
+will be
+
+SO ,
+
+4 8 (a)
+
+;
+
+calculated from
+
+F2
+
+48
+
+is the usual F-distribution,
+
+()
+
+here with 2 and 48 degrees of freedom, at the level
+so = 19.016.
+
+X
+
+In this case, the approximation
+
+the Figure, is beyond the range givpn.
+
+we gt
+
+R
+
+or the hypothesized 'odal vector, if
+
+Since
+
+S
+
+is greater tnan
+
+Q.
+
+S o, H o
+
+Oz= G.05,
+
+For
+i
+
+rejected
+
+at the 5% level.
+R . For reasonably larg.
+
+Use of
+
+,
+
+here, and the test could be made using
+18.26 (the
+for
+
+R0
+
+component of
+
+Y
+
+R0
+
+the componurt
+
+C
+
+Z, as
+is now
+
+RO . from Table 2) and the critical value
+
+would thor. be 19.051.
+
+next tes'.., for K,
+
+very nearly equals
+
+RK
+
+H
+
+rT:placemert of
+
+would again bc rejected.
+S
+
+by
+
+le
+
+IL the
+
+al-o does not change the
+
+result of the Lest.
+Test for K.
+4.5.
+
+Consider a 5% tes' of
+
+th- true
+
+" of Sample 1 is
+
+The test for the Fisher distribution is given in Stephens (1969);
+
+it uses the value of
+For
+
+H :
+
+N = 25,
+
+K
+
+4.5,
+
+P/N,
+
+and a table of the critical values is given.
+
+the upper 5% critical value is 0.854.
+
+15
+
+If for
+
+-
+
+I
+
+"
+
+R°
+
+Sample 1, we use
+
+bs t,st statistic, the value of
+
+this is not significart, so
+(or two-tail) test.
+
+H
+
+R°/N
+
+=
+
+0.822;
+
+is not rejected, for a one-tail
+
+Slmilar1
+
+;'N
+
+=
+
+0.820
+
+and use of
+
+S would give
+
+3
+
+the same result.
+
+4.4 Tests for rz',eral samples. Notation.
+tA the r-u~sarn'le have Cize Ai~ , Lxd let
+as calculated above, and
+Sr
+
+as before,
+
+N
+
+S
+
+I+ N2
+
+=
+
+R°
+
+be the resultant
+
+the adjus' ed resultant, with length
+-..
+
+We can combine the resulzutz
+
++
+
+RO
+
+N
+
+,
+
+where
+
+or
+
+s
+
+Rr ,
+
+is the number of samples.
+
+or the samples themselves,
+
+as
+
+in several ways:
+(a) Firstly, iu'pos
+J,
+
+m,
+
+say, are so aligne
+
+to the xector sum
+aligned.
+
+te rtsullants of the individual samples
+
+05i
+
+that they give the maximum length
+
+00
+t l + R° ;
+
+(Recall that any ca
+
+.ulated
+
+and may be reversed as desired.)
+
+we shall describe them as wellR0
+
+is ambiguous in direction
+
+For well-aligned vectors, this vector
+
+leR th is
+R.° klm
+-jl its
+itJeghi
+(b) Secondly, samples J, k: 1, m, may all be pooled into one
+
+sum will be called
+
+R
+
+sample. and the procedure above followed to calculate
+
+R°
+
+for the
+
+C
+
+overall sample; we shall use the notation
+of pooled samples.
+
+in calculating
+
+It will not necessarily be the ease that
+
+0
+
+R
+
+R0
+
+~Jklm
+P-_ klm.
+
+will be equal to
+
+Pjklm for the resultant
+
+a vector may point one way in sample
+
+J, say,
+
+and be reversed in calculating the pooled sample
+
+resultant.
+
+io
+
+14
+
+H---
+
+i
+
+I
+This car easily be checked by reference to the individual components;
+
+l
+
+the final
+
+X
+
+Iindividual
+
+component of the pooled sample will equal the sum of the
+
+X
+
+the vector sum equals the pooled resultant,
+
+componerts .f
+
+and similarly for the
+
+Y
+
+and
+
+Z
+
+components.
+
+consider Table 2. Samples 3 and 4; even when
+the
+
+X
+
+values of 3 and 4 both positive,
+
+As an illustration,
+is reversed, to make
+
+E4
+
+their sum is not the
+
+X
+
+value
+
+of Samples 5 and 4 pooled together; we can see that the
+
+X
+
+is 28.99 (16.74
+
+in this case
+
+f 12.25),
+
+while that of
+
+is
+
+P
+
+28.16.
+
+of
+
+R
+
+there occ-urs one vector in Sample 3 which changes direction in the
+
+Ioverall
+j
+
+pooled sample- it
+
+is
+
+at approximately 89.3 degrees to
+
+and at i0 A degrees to
+
+P0 .
+Zb4
+
+be greater than
+
+4
+
+=382.
+
+lengtr
+
+.R
+
+In sh
+
+circumstances
+gnjk
+R°
+
+has 1. ngth
+
+In a sl'i2ar way
+
+when the
+
+S
+
+w. can define
+
+vectors are well-aliged:
+
+4.r
+on
+
+R or
+
+we ,nall call this
+
+Test Statisti.cs.
+
+k
+
+(QJkLm
+
+has
+
+S +
+
+=
+
+S
+
+k
+
++
+
+s l ·
+
+S
+
+It
+
+will
+
+for the pooled samples
+
+length
+
+Q
+
+s.i.e
+
+rathz.r tn.:.
+
+S k)
+
+"
+
+We
+
+the appropria4e tables to be
+ard pooled resultant
+
+S
+
+since t+ne
+
+, are easily obtained
+
+from the eompitatio-al procedure dascribed abov-,
+
+when the samples are
+
+pooled into croe,
+
+=
+
+S
+
+S staticst cs. 8lnd on vector sun- or pooled values.
+
+used are based on F.E...r d.striburions,.
+
+l
+
+134
+
+Tests for several samples might be based
+
+shall suggest jsi.,.Lg S-st-atistlos.
+
+values-
+
+and
+
+i-,s length is
+
+not necessarily be "he same as the value of
+a-d uz
+
+will always
+
+For more than two samples the disparity may be
+
+greater-
+
+k, 1,
+
+38=58o20
+
+P0
+
+R
+
+Borderline decisions will in any =a3,pe
+
+15
+
+treated
+
+I
+with reserve owing to the approximate nature of the tests.
+
+3
+
+We now
+
+illustrate several multi-sample test procedures.
+
+Teat for a Common Modal Axis.
+
+the same unknown
+arithmetic sum
+
+K,
+
+A test for
+
+have a co
+
+SI+ S2 + .-.
+
+Ho:
+
+Q12 = 40.47.
+
+samples with
+
+n modal axis, will be based on the
+
++ Ss
+
+given
+
+Q2...
+
+Suppose we test this
+
+s'
+
+hypothesis, at the 5% level for samples 1 and 2.
+and
+
+s
+
+that
+
+S1 = 20.50, S2 = 20.78,
+
+1
+
+The test follows the procedure in Stephens (1969).
+
+The steps are as follows:
+= 0.810.
+
+(a) Calculate
+
+W = Q12 /
+
+(b) Calculate
+
+Z = (S 1 +S2 )/N = o.826.
+
+(c) Use section 2 of Stephens (1969) to find the critical value
+z
+
+for
+
+a = 0.05 ; using the F-approximation
+
+N = 50, W = 0.810, and
+
+there given, we find
+(d) Since
+
+Z
+
+z = 0.821.
+exceeds
+
+z,
+
+reject
+
+H
+
+at the 5% level.
+
+Z
+
+is
+
+0
+
+in fact just significant at the
+The vector sum
+
+S12
+
+replacement of
+
+Q1
+
+If one uses the
+steps (a)
+
+F
+
+S +P2
+by
+
+has length
+
+S12 = 40.49; obviously
+
+gives the same result for the test.
+
+statistics, the pooled resultant
+
+and (b) give
+
+significant at the
+
+S1
+
+2.5% level (critical value z = 0.824).
+
+W = 0.811
+
+and
+
+Z = 0.827.
+
+W,
+
+but so also does
+
+illustrates again that for reasonably large
+will give the same results.
+
+a conditional nature:
+
+Rl
+Z
+
+The
+is just
+
+K,
+
+Z.
+the
+
+The example
+S
+
+and
+
+R
+
+statis-
+
+This is especially so in the tits
+
+those for the modal axis for one sample,
+
+for a common -odal axis for several samples.
+
+16
+
+i.
+
+Again
+
+=
+
+2.5% level; the critical values go up very slightly
+
+with the slight increase in
+
+tics
+
+P
+
+of
+
+and those
+
+I
+1
+
+5. THE VON MISES DISTRIBUTION AND BIMODAL EXTENSION.
+The distribution analogous to Fisher' s, for use in two dimen-
+
+5 .1
+
+I
+
+P, or equivalently of
+
+£
+
+OP,
+
+the density is
+
+f(e) = 2i1
+
+with modal direction
+
+I
+
+as before.
+
+I
+
+Durand (195;)
+
+A
+
+exp(K cos
+
+e)
+
+e = 0
+
+and
+
+along
+
+-A < 0 <i
+
+K
+
+measuring concentration
+
+Treatment of this distribution is in Gumbel, Greenwood and
+and Watson and Williams (1956); tests are in Stephens
+
+1969b); Batschelet (1965)
+
+(1962a,
+
+is the polar coordinate of
+
+6
+
+sions, is the von Mises distribution; if
+
+gives a good account of the statistical
+
+procedures and a bibliography of applications,
+
+and May (1967) shows
+Again
+
+how the procedures may be applied to practical situations.
+
+-I
+
+R
+
+estimation and testing procedu.'es are based on the sample resultant
+and on
+
+X,
+
+tion of
+
+k
+
+its component along
+estimates
+
+SI(K)11o(K) =
+
+A
+
+/N ; when
+
+A,
+
+known or hypothesized.
+
+when this is not known;
+A
+
+is known,
+
+X
+
+replaces
+
+K
+
+The direc-
+
+is estimated from
+R.
+
+Io(K),
+
+II(K)
+
+are the usual imaginary Bessel functions of order zero and one.
+
+5.2
+
+The Bimodal Extension.
+
+The extension of the Von Mises distri-
+
+bution for bimodal data gives density
+
+f(e) =
+
+(7)
+
+when
+
+a
+
+= 0.5,
+
+(K) (a exp(K cos 9)+(l-a)exp(.K cose))
+this becomes
+
+17
+
+,
+
+-E1<9 <
+
+I
+
+Mai
+
+(8)
+
+(
+
+1
+
+o(coS 9)
+
+- <
+
+,
+
+along e = 0 or ,. If
+is replaced by cos(0-o )
+
+with a modal diameter 6
+S- G0 or 00 + x , cos 9
+
+<
+
+3
+
+lies along
+in (7)or (8).
+
+For distribution (8), used for axial data or directed data with
+
+opposite modes of equal amplitude, the technique for estimating
+N
+
+from a sample of size
+dimensions.
+along
+that
+
+is similar to that in section 3 for three
+
+A suitable set of rectangular coordinates puts the x-axis
+
+9 = 0
+
+(now no longer known to be the modal diameter A),
+
+so
+
+x =cos 8, y= sin
+
+5.3
+components
+
+Estimation of
+1, m, A
+
+'*
+
+R. Then, with suitable initial unit vector
+
+no good estimate of
+(1,m) , (1,0)
+
+5.4
+
+v,
+
+is estimated iteratively by following steps (c)
+
+to (e) of section 3.2 with the obvious change to two dimensions.
+A
+
+and then
+
+Estimation of
+
+If
+
+exists, we follow (f), starting now with
+(0,I).
+
+K. The equation for estimating
+
+N
+(9)
+
+A
+
+1 (K)/Io(K)
+
+cos
+
+0 tanh(K
+
+coS
+
+K
+
+is now
+
+e:
+
+i=l
+
+and this is solved iteratively exactly as in section 3 .3,steps (a)
+to (c); the initial right hand side is R°/N,
+
+where
+
+R°
+
+of the vector estimating A. The successive
+
+K
+
+by interpolation in a table giving values of
+
+II(K)/Io(K)
+
+is the length
+
+values must be found
+for given Ki
+
+a table is in Gumbel, Greenwood and Durand (1953) or Batschelet (1965).
+
+18
+
+I
+
+-
+
+_
+
+-
+
+--
+
+-
+
+--
+
+-
+
+--.
+
+--
+
+-.
+
+3
+
+-
+
+|
+5.5
+
+Some axial data, supplied by Dr. A.
+
+Examples.
+
+Samples 5 and 6.
+
+The data represents axi
+
+magnetization of rocks,
+
+IRange
+I
+
+in California, (Rees and Hamilton,
+
+S lies along
+
+R° .
+
+two-sample test
+
+the final right-hand side of (9)
+
+are in
+
+-
+
+is
+
+g:ves
+
+calculated
+S/N,
+
+are in
+
+Stephens (19
+
+6
+
+2a,
+
+1962b);
+
+We willustrate only a
+
+For a test of
+
+z
+
+of
+
+H :
+
+the two samples have
+
+Z = (SI+ S2 )/N = 0.973 ; W = Q2N = 0.959.
+Z
+
+is given in Stephens (1969c);
+
+this is a
+
+_-nprovenent. or. &-i F-test introduced by Watson and Williams
+and giv'es
+
+hypothesis
+
+C.
+
+A
+
+with Samples 5 and 6.
+
+The critical value
+
+(1956),
+
+K
+
+Stephens (1969c).
+
+a common modal axis we have
+
+Eligh
+
+gives
+
+B,
+
+Tests are conducted as for three dimensions;
+
+Tent for a Common Modal Axis.
+
+I
+
+Table 3 gives the
+
+The modified statistic
+
+those for the modal vector and for
+multi-sample tests
+
+Diablo
+
+for the samples taken separately
+
+A),
+
+and also pooled into one sample.
+
+and
+
+1965).
+
+(e, the polar coordinate of
+
+estimates of the parameters
+
+as for three dimensions;
+
+I
+
+of maximum susceptibility in
+
+and comes from the Franciscan rocks in
+
+the estimated inclination of
+
+I
+
+Table 3,,
+
+University of Southhampton, are in
+
+of Oceanography,
+
+Sment
+
+Rees of the Depart-
+
+H
+
+z = C,986
+
+at the 5% level.
+
+Thus we reject the null
+
+at. this level.
+
+OFFOSITE MODES CF UNEQUAL AMPLITUDE.
+6.1
+
+Data., with direction, from populations with modes which arp
+
+opposiie b'it of unequal amplitude, will be treated using distributions
+(
+
+:)
+lr (7)
+
+The vectors now have a definite sense.
+
+19
+
+The estimation
+
+.-
+
+.
+
+of
+
+A
+
+follows the steps as before, in sections 3 and 5; then
+
+I
+
+a , the proportion of vectors which is not reversed when
+
+estimated by
+A.
+
+estimating
+
+may be
+
+a
+
+(10 ) coth
+
+The equations for estimating
+(i
+
+I
+--
+
+KC
+
+N
+
+N
+
+Co s 0oa
+COB
+
+K
+
+3
+
+become
+
+exy(K cosei)-(l-a)exp(-K
+,
+- cosei)
+e) ( -
+
+i
+
+I a e(K cose I)+-(a)exp(-K cosO )
+
+-
+
+for three dimensions; for two dimensions the left hand side of (lQ).is
+A
+replaced by
+
+a
+
+In the right hand side one inserts
+
+Il(K)/lo(K).
+
+,
+
+!
+
+and
+
+follows the same iteration procedure as in section 3; the sequence for
+K converges to the estimate
+
+Example.
+
+K
+
+We illustrate this technique with some interesting data given
+
+several years ago by Dr. E. Gould of the Johns Hopkins School of Hygiene.
+The data represent directions taken by turtles after treatment;
+
+it is
+
+thought that the turtles have a preferred direction, but some are
+confusing forwards with backwards.
+
+.
+
+Thus the distribution is (7); the
+
+actual values and the analysis are in Table 3.
+
+May (1967) has varied
+
+the parameters to attempt to find a best fit; his best fit values are
+
+9 = 61.5, K = 3.167, and a
+
+=
+
+0.803.
+
+The results in Table 3 are in
+
+excellent agreement.
+
+Tests and Confidence Intervals.
+
+These would follow the procedures
+
+already described, using again the right hand side of (10) to give an
+adjusted resultant
+
+S.
+
+as before, lies along
+to find a 10%
+
+In this example it would have length
+
+0
+
+=
+
+63.08, the direction of
+
+B.
+
+confidence interval for the modal axis of
+
+20
+
+61.83, and,
+
+Suppose one wished
+
+(7), using
+
+-
+
+IFigure
+Ithe
+
+1 of Stephens (1962a) is used, or the approxImtions given when
+
+data is beyond the range of the figure) here, the approxzition in
+with a half-width equal
+
+section 3-.4 applies, and gives a band for 9
+
+1
+
+to 7.4 degrees.
+
+.
+
+7-.
+
+rFdM
+
+R§4S.
+
+Importance of knowledge of type of data.
+
+7-1
+
+this point, mentioned in
+
+I
+
+55-7 < 0 < 70.5
+
+The confidence interval is
+
+We illustrate
+
+section 3.1, with another two-dimensional
+
+sample of Bees and Hamilton (1965); the data, iO values of
+from their site San Jose 9.
+
+356,357,358.
+
+f
+
+analyzed, the modal direction would be along
+
+3.18;
+
+K
+
+is
+
+The values are 2, 13, l4, 141, 152, 156, 166
+
+1
+
+is
+
+0,
+
+A rough glance might suggest a von Mises samplei if so
+
+is
+
+0
+
+=
+
+41.13; the resultant
+
+0.672, indicating, of course, wide dispersion.
+
+In
+
+fact the data is axial; if diameters are drawn through the data points,
+we see one end of each diameter makes a set concentrated between
+
+I
+
+and 2,
+
+1
+
+260
+
+ifthe analysis of this paper is used, the modal axis is
+
+3= 551.6, A' is 9.59, S = 9.59, K = 32.10.
+difference in the estimates of modal direction.
+
+There is a big
+A knowledgeable ex-
+
+perimenter may of course present the data so that either analysis would
+give the same result for modal directions this has happ.,iied in our data
+
+I
+
+in Sample 1, where at the end we see that
+
+R°
+
+is found with none of the
+
+original vectors, as given, needing to be reversed. Thus straight
+Fisher-distribution techniques would have given the same resultant.
+But it would have been easy to reverse a selection of the given vectors
+
+21
+
+to produce an entirely different Fisher resultant.
+
+especially, it
+
+On the sphere,
+
+is not easy to see, especially with widespread data,
+
+which end should be chosen so that a Fisher analysis gives the same
+resultant as the techniques of section 2; the point of these techniques
+to render such a choice unnecessary.
+
+is
+
+Note that in any case,
+
+even
+
+J
+
+K for Fisher-
+
+with the same resultant, one would obtain a different
+distribution and for bi-modal analysis.
+
+7.2
+
+Alternate distributions.
+
+Another distribution for bimodal
+
+e
+
+or axial data has been proposed by Watson (1966); the density for
+20)
+(if the modal axis A is along
+is
+
+proportional to
+
+e - 0),
+
+I.
+|
+
+and
+
+D
+
+exp(X cos
+
+is uniform as before.
+
+Use of this distribution, with
+
+estimation as described in Watson (1966) gives the following modal axis estimates
+
+for Samples I to 4 in Table 1; Sample 1,
+
+6
+
+= 102.6,
+
+= 111.7 ; Sample 3,
+Sample 2, 0 = 78.2, 0
+
+e
+
+= 98.2,
+
+o = 148.4 ; Sample
+
+The results are in good agreement with those
+
+4, e = 106.2, 0 = 127.9.
+given in Table 1.
+
+.
+
+o = 113.6
+
+Testing procedures are not yet as well developed
+
+for this distribution as for the Fisher distribution.
+
+In two dimensions, the corresponding density is equivalent to a
+density proportional to exp(% cos 2e); thus the doubled angles have a
+von Mises distribution, and analysis proceeds by doubling the angles
+Thus for
+
+given, estimating the modal vector, and halving its angle.
+the doubled-angle vectors, for Sample 5, R = 7.40, along
+
+so that the modal axis estimate is
+6,
+
+R is
+
+8.76, along
+
+8
+
+=
+
+222.5,
+
+A , along
+
+= 183.6,
+
+e = 91.8A ; for Sample
+
+giving modal axis
+
+22
+
+e
+
+A
+
+along6
+
+=
+
+111.25.
+
+Direct application of voL Mises techniques rejects the hypothesis,
+
+at
+
+the 5% level, that the samples have a common modal vector; details are
+
+I
+
+in Stephens (1969c).
+
+These results compare well with those in Table 3.
+
+Neither of the above distributions in two or three dimensions, is
+strictly applicable to directed data with unequal modes, except that tbh
+
+4same
+
+techniques, to estimate the modal axis,
+
+can still
+
+this is done with the turtle data of Sample 7,
+
+be employed.
+
+If
+
+i.e. the angles are
+
+doubled and the direction of the resultant then found ana halved, we
+have the estimate of
+
+1
+
+7.3
+
+A
+
+along
+
+Goodness-of-fit.
+
+e
+
+62.57.
+
+One might wish to test the data to see if
+
+they are well-fitted by the distributions considered.
+
+I
+
+Tris is an
+
+important subject. and for the present only a few comments are offered
+here.
+
+For both sphere and circle,
+
+a distinction must be made between
+
+axial and bimodal directed data.
+
+When the axis
+
+it
+
+e
+
+should be taken as origin for
+
+A
+
+has been estimated,
+
+and all coordinates traisformed.
+
+Axial data shold be so recorded that all vectors are within 90 degrees
+of
+
+o1
+
+A, ie.
+
+their 0-values are less than
+
+the test is then made for a fit
+directed data.
+
+f
+
+(4)
+
+2 radians-
+
+to distribution (5).
+
+is used. or, with unequal modes,
+
+be made separately for
+
+6
+
+and for
+
+rough measure of goodness of fi-
+
+j
+
+1
+
+For the sphere,
+For bimodal
+
+(5)
+
+P, using say the
+
+The tects car
+X2
+
+can be found by use of the
+
+test.
+L2
+
+A
+and V
+
+goodness-of-fit statistics, but no precise tests can be madei as their
+distributions depend on the fact that parameters have been estimzted.
+SImilar remarks apply to the bimodal distributions on the circle.
+
+I
+
+23
+
+_
+
+____!.
+
+When
+
+--
+
+IM
+
+~
+
+M
+
+iA
+
+the coordinates have been transformed to make
+
+lie along
+
+= 0
+
+(7) or (8) are used for bimodal directed data.
+
+distributions
+
+data, distribution (8)
+
+is used, with twice the
+
+f(e)
+
+-e
+
+A,
+
+For axial
+
+shown and range
+
+3
+
+-X/2 < &< x/12.
+7.4 Acknowledgments.
+Nottingham,
+
+This work was begun at the University of
+
+and revised at Stanford University;
+
+the author is
+
+grateful
+
+particularly to Professors C. Granger and H. Solomon, for the opportunities
+
+I
+
+to visit these Universities, and to Dr. C. King for her interest in the
+problems discussed.
+
+The research was partly supported at McGill by the
+
+iational Research Council of Canada, and at Stanford by the U.S.
+
+Office
+
+of Naval Research, Contract Nonr 225(52); the author expresses his thanks
+for this support.
+
+-
+
+I
+
+-II
+
+24:
+
+F"
+
+i
+-a----
+
+i-
+
+-.-
+
+--
+
+-
+
+-
+
+-
+
+-.-
+
+-.
+
+-
+
+.--
+
+TABLE 1
+Three-dimensional axial data:
+
+Sample 1:
+
+--
+
+Coordinates e. 4
+
+i
+
+e
+
+0
+
+1
+
+80
+
+2
+
+110
+
+190
+70
+
+3
+
+115
+i.o
+
+70
+
+5 10
+6 105
+
+90
+90
+
+4
+
+i
+
+of 25 vectors:
+
+J.
+
+0
+
+e
+
+7 110
+8 110
+
+I
+
+t
+
+14
+
+100
+
+130
+140
+
+19
+20
+
+70
+80
+
+70
+90
+
+120
+
+15
+
+115
+
+i40
+
+2i
+
+65
+
+LOcX
+
+iC 15
+
+120
+
+16
+
+125
+
+140
+
+22
+
+75
+
+110
+
+OC1
+105
+
+125
+i25
+
+17 120
+
+10
+
+2375
+
+110
+
+18
+
+ii5r
+
+24
+
+8o
+
+115
+
+25
+2
+
+50
+
+150
+
+!
+
+12
+
+v d::ection cosiLes
+
+1
+
+is the vector number.
+
+e
+
+13 115
+
+95
+o20
+
+Estimation of modal axis Ai f'rai
+
+1
+
+i
+
+i10
+
+9
+
+8o
+
+estimation procedures for Sample I
+
+R
+
+lO
+
+e3t1lmatf. urderlined.
+
+.oordinates of R
+
+1
+
+m
+
+n
+
+1
+
+0
+
+0
+
+12.21
+
+0
+
+1
+
+0
+
+cO20
+
+0
+
+0
+
+-
+
+Vector numbers of
+
+D
+
+vectors reversed
+
+84.3
+
+32.3
+
+1 ; 7 to 18 :21
+
+102.0
+
+109.7
+
+1
+
+i.68
+
+4,.E
+
+-9(.9
+
+2 to 18.
+
+e
+
+-0.329
+
+0.92i
+
+-0.208
+
+2, .54
+
+i0.8
+
+i'
+
+.2
+
+none
+
+-0.418
+
+0.889
+
+-o. i88
+
+2O.r,4
+
+ioo. 8
+
+15.L'
+
+none
+
+to 25.
+
+Estimationi of K.
+N
+
+u -o88a%18
+
+new R.H.S.
+
+M1 )
+
+0.8201
+
+K2 =
+
+55
+
+new R.H.S.
+
+M
+
+o.8200
+
+<3
+
+.56 :
+
+R
+
+I
+I
+
+Ir
+
+= 20.r54
+
+Yo.
+
+a n- 1 rfa.
+
+R
+
+=
+
+=
+
+'
+
+i1
+
+5.6
+
+5.56
+
+54: adiisted Fishter resultant S,
+
+.5
+
+"'C.50
+
+@I
+
+TABLE 23
+Three-dimensional axial data: results for 4 samples, and pooled samples.
+
+I°"x
+
+Sample
+
+z
+
+3
+4
+
+-12.25
+
+18.26
+19.05
+- 8.11
+15.09
+
+1 &2
+3 &4
+
+-15.88
+28.16
+
+37.31
+-24.98
+
+-
+
+2
+
+8.59
+7.29
+16.4
+
+AcLusted
+
+0
+
+Size
+R°
+
+S
+
+K
+
+115.2
+
+20.54
+
+20.50
+
+5.56
+
+110.9
+154.2
+129.1
+
+20.81
+18.84
+20.35
+
+20.79
+18.64
+20.26
+
+5.95
+3.92
+5-28
+
+89.7 113.1
+77.1 518.4
+
+40.55
+58.62
+
+40.47
+38.15
+
+5.25
+4.21
+
+Resultant
+
+a
+
+-3.86 100.8
+4.o
+78.6
+2.95
+99.0
+-6.03 107.2
+0.24
+8.63
+
+J
+
+26.
+
+"'
+
+|
+
+°
+
+I
+b
+
+26
+
+-
+
+Two-dimensional axial and directional data:
+
+Sample 5:
+= 8
+
+Sample 6:
+N =10
+
+e
+
+e
+
+I
+
+i
+
+1
+3
+
+e
+
+e
+
+o
+
+e
+
+247
+
+90 124
+
+8 30
+
+48 58
+
+65 83
+
+95 138
+
+257 285
+
+267
+
+93 323
+
+9 34
+
+48 58
+
+68 88
+
+96 153
+
+238 319
+
+268
+
+104
+
+13 38
+
+48 61
+
+70 88
+
+98 153
+
+243 545
+
+271
+
+105
+
+15 38
+
+48 63
+
+73 88
+
+100 155
+
+244 350
+
+272
+
+109
+
+14 40
+
+50 64
+
+7890 o103 20o4
+
+250
+
+280
+
+111
+
+18 44
+
+251
+
+116
+
+22 45
+
+78 92
+78 92
+
+lO6 215
+
+282
+
+53 64
+56 64
+
+li,, 223
+
+257
+
+286
+
+121
+
+27 47
+
+57 65
+
+83 93
+
+118 226
+
+268
+
+Results:
+Sample
+
+Resultant
+
+No.
+
+1
+
+Sample 7:
+N = 76
+
+Size
+
+Adjusted
+
+X
+
+Y
+
+5
+5
+
+-0.23
+-3.55
+
+7.84
+9.00
+
+91.7
+111.52
+
+7.85
+9.68
+
+7.85
+9.68
+
+25.87
+15.38
+
+5 & 6
+
+-3.78
+
+16.84
+
+102.65
+
+17.26
+
+17.26
+
+12.19
+
+7
+
+28.39
+
+55.91
+
+63.o8
+
+6 ,.
+
+61.83
+
+3.05
+
+I
+
+R
+
+1&=0
+
+K
+
+.803
+
+I
+4
+27
+
+I,1
+
+___________
+
+:
+"i
+
+-
+
+-_
+
+ANDREWS, J.T. & SHIMIZU, K. (1966). "Three-dimensional vector techniques
+for analyzing till fabrics: Discussion and fortran program."
+
+I
+
+Geoaraphical Bulletin, 8, No. 2, 151-165.
+BATSCHELET, E. (1965).
+
+Statistical methods for the analysis of problems
+
+in animal orientation and certain biological rhythms.
+
+I
+
+The Catholic
+
+University of America. A.I.B.S. Monogrtphs.
+FISHER, R.A. (1953). "Dispersion on a sphere." Proc. Roy. Soc. A 217,
+295-305.
+GUMBEL, E.J., GREENWOOD, J.A. & DURAND, D. (1953).
+
+"The circular normal
+
+distribution theory and tables." J. Amer. Statist. Assoc., 4
+HAMILTON, N. & REES, A.I. (1965).
+
+131-152.
+
+The anisotropy of manetic suscepti-
+
+bility of the Franciscan Rocks of the Diablo Range, Central California.
+University of California San Diego, Marine Physical Lab. of the
+Scripps Institution of Oceanography.
+MAY,
+
+B.C. (1967).
+data.
+
+The application of statictical methods to circular
+
+M. Sc. Thesis, McGill University.
+
+STEPHENS, M.A. (1962a).
+Biometrika,
+
+463'-477.
+
+STEPHENS, M.A. (1962b).
+Biometrika,
+
+"Exact and approximate tests for directions. 1."
+
+_
+
+"Exact and approximate tests for directions. 2."
+
+547-552.
+
+STEPHENS, M.A. (1967).
+
+"Tests for the dispersion and for the modal vector
+
+of a distribution on a sphere."
+
+Biometrika, 54, 211-223.
+
+STEPHENS, M.A. (1969a). "Multisample tests for the Fisher distribution."
+Biometrika, 56, 169-182.
+STEPHENS, M.A. (1969b).
+_Biometri
+
+s,
+
+"Tests for the von Mises distribution."
+
+149-160.
+
+STEPHENS, M.A. (1969c).
+
+"Multisample tests for the von Mises distribution."
+
+To be published.2
+
+28
+
+U
+
+R
+
+ECS (Cont.)
+
+WATSON, G.S. (195 6 a). "Analysis of dispersion on a sphere."
+aRo. Astr. Soc.: 3eophys. Suppl. 7, 153-159.
+
+I
+
+WATSON, G.S. (1966).
+
+Mon. Not.
+
+"The statistics of orientation data." Jour. Geology,
+
+786-797.
+WATSON, G.S. (1968).
+
+Orientation statistics in the earth scie ces.
+Technical report no. 95, Dept. of Statistics, The Johns Hopkins
+University, Baltimore, Maryland.
+
+-:
+
+WATSON, G.S. & IRVING, E- (1957). "Statistical methods in rock magnetism."
+Mon. Not. Roy. Astr. Soc., Geophys. Suppl. 7, 289-500.
+WATSONj G.S. & WILLIAMS, E.J. (1956). "On the construction of significance
+
+:
+
+tests on the circle and the sphere."
+
+Biometrika,
+
+I
+I
+
+I
+I
+I
+I
+___ _ __ _ __ __ _ __ _ __ _ __ _ __ _7
+
+544-352.
+
+I
+Unclaaitfies
+k ni
+afiuati..
+DOCUMENT CONTROL DATA - UD
+0 ACTIITY MWM
+
+1.ODWMTW
+
+ab
+
+249- REPORT 99CURI TY C LASGIF¢ICAI
+
+Stanford Univeraity
+Stanford, California
+A.maPOG
+
+T
+*
+
+a*up
+
+TITI.S
+
+M
+
+FW DIRRUTIONAL DATA
+
+TDCHNCAL RZPQ~T
+8. AUYNOR) (Lea.
+One sme.
+
+!z
+
+WOWU
+
+M.A.
+%CPO RT DATE
+I4
+
+O-NTRACT
+
+T&ko.NPp@0
+Oir maps
+
+70. TOT"AL
+
+NOVENBZR 4, 1969
+
+29
+
+ON GRANT NO,
+
+17
+
+9&. ON1491HATON-0 RSPORT
+
+NJUISO
+
+Technical Peport No. 150
+
+· *J6,
+TN.
+
+P
+
+SbkIT"=ORT NCO) (Any, *ff mn~w
+
+II
+
+&4WWiYbe
+
+4
+
+*I*Wand
+
+A V A ILAillY/LSITATION NT80?I
+
+DISTRmTION OF THIS DOCUN
+
+IS UIM=
+
+11. SUPPLIM11INTARV NOTIS
+
+12I.SPOhNSORNG MLITANY ACT IVITY
+
+Logistics and Math. Sciences Branch
+lOffice of Naval Research
+iWashington, D.C.
+IS. ASTRACT
+
+Statistical data in the form of directions may be recorded as twoor three-dimensional unit vectors from an origin 0 to points P on
+the circumference of a circle or the surface of a sphere. In recent
+years techniques have been developed to deal with such data, when the
+vectors are directed, i.e., have a preferred sense. This paper shows
+how the techniques may be adopted for use with axial data, i.e., vectors
+with no preferred sense, and also for bimodal directed data. Several
+practical illustrations are given.
+
+i
+
+j
+
+DD
+
+IPOH"
+
+1473
+
+Unclassified
+u idty
+Classification
+
+I4AS
+
+!
+
+-
+
+-
+
+- - - - - - - - - -
+
+.
+
+----
+
+-
+
+- - - - - -
+
+-
+
+-
+
+L
+
+..
+... ._ .
+
+: j-
+
+~ ~~------
+
+.
+
+Z_'.-_
+
+....
+
+=.
+
+.......
+
+"
+
+------
+
+I
+
+Unclassified
+Sectiriy claslftcatim
+LINK A
+Kay
+
+W
+
+LINK
+Kos"a
+OLS
+
+UNEC
+WT
+
+10565
+
+WT
+
+Directions,
+Fisher distribution,
+von Mines distribution
+Spherical data
+Circular data
+
+U
+1. ORIONAIMNO
+
+b asa
+, E
+lCn thn
+
+ad
+
+ea
+
+of the contractr, ubconbtactar, 1rantee. Deprtmst of Do.
+or Other Organisation (ooperate a eut) isaima
+fern activity
+the report.
+
+2. REPORT SECUIRTY CLASrICATION Enter tbA over.
+all security classification of the rpW,t. tdicate whether
+"Restricted Data" is incude& Making Ls to be In accord.
+ance with appropriets security regulations.
+
+Igosed by soe ty lessification. vasig stadwd aft
+u
+
+1:
+a
+(1) "Qualifed eq
+(2
+(3)
+
+(4)
+
+4. DESCRIPTIVE NOTE : If appropriate, enter the type of
+report, e.g., interim, progress, summary, annu., 0t final.
+Give the inclusive dates when a specific rvporting period is
+covered,
+S. AUTHOR(SX Enter the name(s) of author(*) am shown on
+or in the report. Enter last name, first name, middle initial
+If :nolitnry, show rank end branch of service, The name of
+the principal author is an absolute minimum requiremnt.
+6. REPORT DATL Enter tim date of the report as day,
+month, year. or month. year. If more than one date appears
+on the report, use date of publication.
+7.. TOTAL NUMBER OF PAGE
+The total page cOUnt
+should follow normal pagination procedures. Le., enter the
+number of pages containing information.
+7b. NUMBER OF REFERENCE& Enter the total number of
+references cited in the report.
+Sa. CONTRACT OR GRANT NUMBER' If Spprolriato, entar
+the applicable number of the contract or grant under which
+the report was writtemf
+8b, 8c,L 8d. PROJECT NUMBER: Enter the appropriate
+military department identification, such as project nmber,
+aubproject number, system numbers, task number, etc.
+nter the offib REPORT NUMBER(S):e
+9. OrIGINATOR
+cisi report nomber by which the doument wll he ideified
+and controll,.d by the originating activity. This number must
+be unique tm this report,
+9b. OT-l REPORT NUMBER(S): If the report has been
+assigned iny other report numbers (eiher by the originator
+or by the iponeor), also enter this nutbae().
+
+copies of
+obtain
+agencie
+S. Goveoinm
+4111 report
+DDC. may
+Other
+qif led DDC
+this
+directly fso.
+requett though
+
+"U, S. mililtary agencies may obtain copies of tkis
+report directly from DDO.
+@hall request through
+
+capital letters. Titles in all cases should be unclasaifted.
+Ifa meaningful title cnot be selected without classifieation, show titleclassification in .atcapitals in parenthesis
+immediately foUowlng the title.
+
+t
+
+this Mott
+
+is DOD Di2b. GROUP Automatic downgrading is specified
+recive 5200.10 and Armed Forces Industrial Manual. Enter
+the Voup numb jr. Also, when applicable, show that optional
+markings have been used for Group 3 and Group 4 as suthorized,
+"
+3. REPORT TITLE Enter the conqlete report title in all
+
+t ea my obtain copies of this
+DDC,
+"Fregn annoucent and di e Mt-ation of this
+report by DDC is ant authorize.
+r
+
+(5)
+
+Other quallflod users
+
+I
+
+"All distribution of this report is controlled. qualified DDC users shall request though
+
+Ifthe report has been furnished to the Office of Technical
+Services. Depertment of Commerce, for sale to the public. Ldlcate this fact and enter the price, if known.
+IL SUPPLEMENTARY NOTS- Us for additional expla.
+tory 00tes.
+aer the name of
+12. SPONSORING MILITARY ACTIVITYt
+the departmental project office or laboratory eponsorLg (pap
+inj tor) the research and development, Include address.
+13. ABSTRACT: Enter an abstract giving a bref and (actl
+summary of the document indicaUve of the report, even though
+it may also appear elsawhere in the body of the technical report. It additional space is required, a continuation shot shlU
+be attached.
+It is highly desirable that the abstract of classified reports
+be unclassified. Each paregreph of the abstract shall ead with
+an indication of the milltsry security classification of the isformation in the paragraph, represented as (T). (s), (c). or (t).
+There is no limitUon on tie length of the abstract. However. the suggested length Is from 150 to 225 words.
+14. KEY WORDS: Ky woris am technically maaangnltt terms
+or abort phrases that characterize a report and may ho used an
+index entries for catalogig tie reprt. Key words most he
+selected so that no security clasaiflcation is requitd. ies.
+Uere, such as equipment model designation, trade name, military
+Project cede name, geographic location. may ho need as key
+words but will be followed by an indication of technical Cotast. The ea6*igment of links. Mies, WA weigtts in opti naL
+
+J
+
+10. AVA-ABILITY/LIMITATION NOTICES: Enter any litdissemination of the report, other than those1
+itto! -t ca further
+
+1473 (BACK)
+
+Unclassified
+Security Classificatlon
+
+3
+

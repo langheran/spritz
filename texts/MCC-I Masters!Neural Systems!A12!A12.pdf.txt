@@ -1,0 +1,125 @@
+A12
+April 19, 2018
+
+1
+
+Assignment 6
+1. Desarrolla un modelo de red neuronal de convolución para clasificar imágenes del conjunto de datos CIFAR10 disponible en Keras. Utiliza la metodología de ortogonalización para tratar de alcanzar el mejor
+desempeño posible en clasificación.
+2. Emplea al menos dos modelos pre-entrenados de redes neuronales de convolución (VGG16, InceptionV3,
+ResNet50, etc.) disponibles en el módulo Applications de Keras para clasificar imágenes del conjunto de
+datos CIFAR10 utilizando el método de extracción de características.
+3. Escribe un reporte que describa las diferentes etapas de la actividad, así como los resultados obtenidos.
+
+2
+2.1
+
+Experiments
+Load Keras
+
+In [1]: import warnings
+warnings.filterwarnings('ignore')
+import keras
+keras.__version__
+
+Using TensorFlow backend.
+
+Out[1]: '2.1.5'
+
+2.2
+
+Helper functions
+
+In [2]: def SaveHistory(history, filename):
+import pandas as pd
+df = pd.DataFrame(columns=['acc', 'val_acc', 'loss', 'val_loss'])
+df.loc[0]=[
+history.history['acc'],
+history.history['val_acc'],
+history.history['loss'],
+history.history['val_loss']
+]
+import pickle as pkl
+pkl.dump(df, open(filename, 'wb'))
+In [3]: def PlayFinishedSound(L = 300):
+import numpy as np
+max_time = 3
+f1 = 220.0
+f2 = 224.0
+rate = 8000.0
+times = np.linspace(0,L,rate*L)
+signal = np.sin(2*np.pi*f1*times) + np.sin(2*np.pi*f2*times)
+return signal
+sound_signal=PlayFinishedSound()
+from IPython.display import Audio
+Audio(data=sound_signal, rate=8000.0, autoplay=True)
+
+1
+
+Out[3]: <IPython.lib.display.Audio object>
+In [4]: def VisualizeOne(df):
+from IPython.display import display_markdown, Math, Markdown
+from matplotlib import pyplot as plt
+# display_markdown("#### Hyperparameters {}".format(index), raw=True)
+#print("accuracy:", df.loc[index]['accuracy'][-1])
+#print("validation accuracy:", df.loc[index]['accuracy'][-1])
+acc = df.loc[0]['acc']
+val_acc = df.loc[0]['val_acc']
+loss = df.loc[0]['loss']
+val_loss = df.loc[0]['val_loss']
+def func(x, a, b, c, d):
+return a*x**3 + b*x**2 +c*x + d
+from scipy.optimize import curve_fit
+def FitToCurve(y):
+x=[x for x in range(len(y))]
+popt, pcov = curve_fit(func, x, y)
+return [func(x, *popt) for x in x]
+acc_curve= FitToCurve(acc)
+val_acc_curve= FitToCurve(val_acc)
+loss_curve= FitToCurve(loss)
+val_loss_curve= FitToCurve(val_loss)
+epochs = range(len(acc))
+plt.plot(epochs,
+plt.plot(epochs,
+plt.plot(epochs,
+plt.plot(epochs,
+
+acc, 'bo', label='Training acc')
+val_acc, 'b', label='Validation acc')
+acc_curve, 'g', label='Training curve')
+val_acc_curve, 'r', label='Val. acc curve')
+
+plt.title('Training and validation accuracy')
+plt.legend()
+plt.figure()
+plt.plot(epochs, loss, 'bo', label='Training loss')
+plt.plot(epochs, val_loss, 'b', label='Validation loss')
+plt.plot(epochs, loss_curve, 'g', label='Training curve')
+plt.plot(epochs, val_loss_curve, 'r', label='Val. loss curve')
+plt.title('Training and validation loss')
+plt.legend()
+plt.show()
+
+2.3
+
+Load dataset
+
+In [5]: from keras.datasets import cifar10
+(x_train, y_train), (x_test, y_test) = cifar10.load_data()
+print('X_train shape:', x_train.shape)
+print(x_train.shape[0], 'train samples')
+print(x_test.shape[0], 'test samples')
+classes = list(set(y_train.flatten()))
+#print('classes:',classes)
+nb_classes = len(classes)
+print(nb_classes, 'classes')
+from keras.utils import to_categorical # softmax, one hot
+Y_train = to_categorical(y_train, nb_classes)
+Y_test = to_categorical(y_test, nb_classes)
+X_train = x_train.astype('float32')
+X_test = x_test.astype('float32')
+import numpy as np
+# subtract mean and normalize
+
+2
+

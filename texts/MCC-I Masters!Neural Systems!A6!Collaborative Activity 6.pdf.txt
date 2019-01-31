@@ -1,0 +1,710 @@
+Collaborative Activity 6
+
+March 5, 2018
+
+1
+
+Collaborative Activity 3
+
+1.0.1
+
+IA5008 Sistemas neuronales
+Author: Nisim Hurst
+Registry ID: A01012491
+Due Date: 24th of January 2018
+
+1.1
+
+Load Results
+
+In this section we show the code that will allow us to load the grid results of the obtained accuracies for each set
+of hyperparameters.
+In [1]: import numpy as np
+import pandas as pd
+import pickle as pkl
+import os
+from scipy.stats.stats import pearsonr
+from sklearn.metrics import mean_squared_error
+df_filename="df.pkl"
+iloc_filename="iloc.pkl"
+if(os.path.exists(iloc_filename)):
+#df=pkl.load(open(df_filename, 'rb'))
+df=pd.read_pickle(df_filename)
+iloc=pkl.load(open(iloc_filename, 'rb'))
+df['last_accuracy']= df['accuracy'].map(lambda x: x[-1]*100)
+df['mean_accuracy']= df['accuracy'].map(lambda x: np.mean(x)*100)
+df['std_accuracy']= df['accuracy'].map(lambda x: np.std(x)*100)
+df['max_accuracy']= df['accuracy'].map(lambda x: np.max(x)*100)
+df['last_val_accuracy']= df['validation_accuracy'].map(lambda x: x[-1]*100)
+df['mean_val_accuracy']= df['validation_accuracy'].map(lambda x: np.mean(x)*100)
+df['std_val_accuracy']= df['validation_accuracy'].map(lambda x: np.std(x)*100)
+df['max_val_accuracy']= df['validation_accuracy'].map(lambda x: np.max(x)*100)
+df['last_loss']= df['loss'].map(lambda x: x[-1])
+df['mean_loss']= df['loss'].map(lambda x: np.mean(x))
+df['std_loss']= df['loss'].map(lambda x: np.std(x))
+df['max_loss']= df['loss'].map(lambda x: np.max(x))
+df['last_val_loss']= df['validation_loss'].map(lambda x: x[-1])
+df['mean_val_loss']= df['validation_loss'].map(lambda x: np.mean(x))
+df['std_val_loss']= df['validation_loss'].map(lambda x: np.std(x))
+df['max_val_loss']= df['validation_loss'].map(lambda x: np.max(x))
+df['train_test_correlation']= df[['accuracy','validation_accuracy']].apply(lambda x :
+pearsonr(x[0],x[1])[0]*100, axis=1)
+#pearsonr(a,b)[0]
+#df
+def func(x, a, b, c, d):
+return a*x**3 + b*x**2 +c*x + d
+
+1
+
+from scipy.optimize import curve_fit
+def FitToCurve(y):
+x=[x for x in range(len(y))]
+popt, pcov = curve_fit(func, x, y)
+return [func(x, *popt) for x in x]
+def NormalizeStd(x):
+stdv=np.std(x)
+mu=np.mean(x)
+y=(x-mu)/stdv
+return y
+df['accuracy_curve']= df['accuracy'].map(lambda x: FitToCurve(x))
+df['val_accuracy_curve']= df['validation_accuracy'].map(lambda x: FitToCurve(x))
+df['loss_curve']= df['loss'].map(lambda x: FitToCurve(x))
+df['val_loss_curve']= df['validation_loss'].map(lambda x: FitToCurve(x))
+df['accuracy_curve_range']= df['accuracy'].map(lambda x: x[-1]-x[0])
+df['val_accuracy_curve_range']= df['val_accuracy_curve'].map(lambda x: x[-1]-x[0])
+df['loss_curve_range']= df['loss_curve'].map(lambda x: x[-1]-x[0])
+df['val_loss_curve_range']= df['val_loss_curve'].map(lambda x: x[-1]-x[0])
+df['accuracy_mse']= df[['accuracy','accuracy_curve']].apply(lambda x :
+mean_squared_error(NormalizeStd(x[0]),NormalizeStd(x[1])), axis=1)
+df['val_accuracy_mse']= df[['validation_accuracy','val_accuracy_curve']].apply(lambda x
+: mean_squared_error(NormalizeStd(x[0]),NormalizeStd(x[1])), axis=1)
+df['loss_mse']= df[['loss','loss_curve']].apply(lambda x :
+mean_squared_error(NormalizeStd(x[0]),NormalizeStd(x[1])), axis=1)
+df['val_loss_mse']= df[['validation_loss','val_loss_curve']].apply(lambda x :
+mean_squared_error(NormalizeStd(x[0]),NormalizeStd(x[1])), axis=1)
+from beakerx import *
+columns=[
+'hidden_layers_num',
+'hidden_units_num',
+'learning_rate',
+'batch_size',
+'sample_size',
+'last_accuracy',
+'max_accuracy',
+'mean_accuracy',
+'std_accuracy',
+'last_val_accuracy',
+'max_val_accuracy',
+'mean_val_accuracy',
+'std_val_accuracy',
+'accuracy_mse',
+'val_accuracy_mse',
+'loss_mse',
+'val_loss_mse',
+'val_accuracy_curve_range',
+]
+df[columns]
+
+1.2
+
+Column Explanation
+
+In this section we will proceed to explain why each column is important to our analysis and what is it's meaning.
+
+1.3
+
+Visualize Results
+
+In [2]: def VisualizeOne(df, index):
+from IPython.display import display_markdown, Math, Markdown
+import matplotlib.pyplot as plt
+table="Attribute | Value"+"\n"
+table=table + ":---|:----\n"
+# columns = list(df.columns.values)[:-4]
+columns=[
+'hidden_layers_num',
+
+2
+
+'hidden_units_num',
+'learning_rate',
+'batch_size',
+'sample_size'
+]
+for c in columns:
+table=table +"{}|{}\n".format(c, df.loc[index][c])
+display_markdown("#### Hyperparameters {}".format(index), raw=True)
+display_markdown(table, raw=True)
+print()
+#print("accuracy:", df.loc[index]['accuracy'][-1])
+#print("validation accuracy:", df.loc[index]['accuracy'][-1])
+acc = df.loc[index]['accuracy']
+val_acc = df.loc[index]['validation_accuracy']
+loss = df.loc[index]['loss']
+val_loss = df.loc[index]['validation_loss']
+acc_curve = df.loc[index]['accuracy_curve']
+val_acc_curve = df.loc[index]['val_accuracy_curve']
+loss_curve = df.loc[index]['loss_curve']
+val_loss_curve = df.loc[index]['val_loss_curve']
+epochs = range(len(acc))
+plt.plot(epochs,
+plt.plot(epochs,
+plt.plot(epochs,
+plt.plot(epochs,
+
+acc, 'bo', label='Training acc')
+val_acc, 'b', label='Validation acc')
+acc_curve, 'g', label='Training curve')
+val_acc_curve, 'r', label='Val. acc curve')
+
+plt.title('Training and validation accuracy')
+plt.legend()
+plt.figure()
+plt.plot(epochs, loss, 'bo', label='Training loss')
+plt.plot(epochs, val_loss, 'b', label='Validation loss')
+plt.plot(epochs, loss_curve, 'g', label='Training curve')
+plt.plot(epochs, val_loss_curve, 'r', label='Val. loss curve')
+plt.title('Training and validation loss')
+plt.legend()
+plt.show()
+In [3]: VisualizeOne(df, 215)
+
+Attribute
+
+Value
+
+hidden_layers_num
+hidden_units_num
+learning_rate
+batch_size
+sample_size
+
+2
+1024
+0.003125
+100
+2250
+
+Hyperparameters 215
+
+3
+
+1.4
+
+Correlation Matrix
+
+This section shows
+In [16]: from IPython.display import display_markdown, Math, Markdown
+from scipy.stats.stats import pearsonr
+import warnings
+warnings.filterwarnings('ignore')
+
+4
+
+columns=[
+'hidden_layers_num',
+'hidden_units_num',
+'learning_rate',
+'batch_size',
+'sample_size'
+]
+outputs0=[
+'last_accuracy',
+'mean_accuracy',
+'max_accuracy',
+'std_accuracy',
+'last_val_accuracy',
+'mean_val_accuracy',
+'max_val_accuracy',
+'std_val_accuracy',
+'last_loss',
+'mean_loss',
+'max_loss',
+'std_loss',
+'last_val_loss',
+'mean_val_loss',
+'max_val_loss',
+'std_val_loss',
+'accuracy_mse',
+'val_accuracy_mse',
+'loss_mse',
+'val_loss_mse',
+]
+outputs=outputs0[:4]
+table="Attribute | " + '|'.join(outputs) +"\n"
+table=table + ":-----------|" + '|'.join([':------------' for i in range(len(outputs))])
++ "\n"
+for i in columns:
+table=table +"{0}|".format(i)
+table=table +'|'.join(["{1:2.2f}".format(i, pearsonr(df[i],df[o])[0]*100) for o in
+outputs])
+table=table + "\n"
+display_markdown(table, raw=True)
+outputs=outputs0[4:8]
+table="Attribute | " + '|'.join(outputs) +"\n"
+table=table + ":-----------|" + '|'.join([':------------' for i in range(len(outputs))])
++ "\n"
+for i in columns:
+table=table +"{0}|".format(i)
+table=table +'|'.join(["{1:2.2f}".format(i, pearsonr(df[i],df[o])[0]*100) for o in
+outputs])
+table=table + "\n"
+display_markdown(table, raw=True)
+outputs=outputs0[8:12]
+table="Attribute | " + '|'.join(outputs) +"\n"
+table=table + ":-----------|" + '|'.join([':------------' for i in range(len(outputs))])
++ "\n"
+for i in columns:
+table=table +"{0}|".format(i)
+table=table +'|'.join(["{1:2.2f}".format(i, pearsonr(df[i],df[o])[0]*100) for o in
+outputs])
+table=table + "\n"
+display_markdown(table, raw=True)
+outputs=outputs0[12:16]
+table="Attribute | " + '|'.join(outputs) +"\n"
+table=table + ":-----------|" + '|'.join([':------------' for i in range(len(outputs))])
+
+5
+
++ "\n"
+for i in columns:
+table=table +"{0}|".format(i)
+table=table +'|'.join(["{1:2.2f}".format(i, pearsonr(df[i],df[o])[0]*100) for o in
+outputs])
+table=table + "\n"
+display_markdown(table, raw=True)
+outputs=outputs0[16:20]
+table="Attribute | " + '|'.join(outputs) +"\n"
+table=table + ":-----------|" + '|'.join([':------------' for i in range(len(outputs))])
++ "\n"
+for i in columns:
+table=table +"{0}|".format(i)
+table=table +'|'.join(["{1:2.2f}".format(i, pearsonr(df[i],df[o])[0]*100) for o in
+outputs])
+table=table + "\n"
+display_markdown(table, raw=True)
+
+Attribute
+
+last_accuracy
+
+mean_accuracy
+
+max_accuracy
+
+std_accuracy
+
+hidden_layers_num
+hidden_units_num
+learning_rate
+batch_size
+sample_size
+
+16.85
+9.05
+-84.26
+-3.24
+6.12
+
+14.72
+10.12
+-87.48
+-0.02
+13.79
+
+16.89
+10.72
+-84.87
+-2.15
+-0.58
+
+20.85
+9.71
+-69.73
+-6.74
+-20.37
+
+Attribute
+
+last_val_accuracy
+
+hidden_layers_num 18.69
+hidden_units_num 1.08
+learning_rate
+-59.36
+batch_size
+7.22
+sample_size
+33.89
+
+mean_val_accuracy max_val_accuracy
+
+std_val_accuracy
+
+16.12
+3.73
+-77.80
+3.89
+37.93
+
+22.06
+2.30
+-40.15
+10.97
+-24.23
+
+19.27
+2.16
+-75.89
+7.51
+9.52
+
+Attribute
+
+last_loss
+
+mean_loss
+
+max_loss
+
+std_loss
+
+hidden_layers_num
+hidden_units_num
+learning_rate
+batch_size
+sample_size
+
+-27.37
+1.44
+61.49
+-10.70
+2.50
+
+-28.46
+2.11
+64.47
+-8.82
+1.56
+
+-26.03
+5.85
+75.45
+-4.80
+-1.58
+
+-8.00
+6.84
+35.02
+11.94
+-8.73
+
+Attribute
+
+last_val_loss
+
+mean_val_loss
+
+max_val_loss
+
+std_val_loss
+
+hidden_layers_num
+hidden_units_num
+learning_rate
+batch_size
+sample_size
+
+-27.56
+1.79
+60.69
+-11.31
+2.12
+
+-28.56
+2.15
+63.48
+-9.07
+1.40
+
+-32.04
+4.80
+65.33
+-5.01
+-2.29
+
+-15.04
+5.63
+28.29
+12.18
+-9.58
+
+Attribute
+
+accuracy_mse
+
+val_accuracy_mse
+
+loss_mse
+
+val_loss_mse
+
+hidden_layers_num
+
+-26.46
+
+-32.27
+
+-26.63
+
+-19.86
+
+6
+
+Attribute
+
+accuracy_mse
+
+val_accuracy_mse
+
+loss_mse
+
+val_loss_mse
+
+hidden_units_num
+learning_rate
+batch_size
+sample_size
+
+-0.04
+65.70
+-10.49
+-5.22
+
+3.79
+41.86
+-0.43
+-18.24
+
+3.27
+76.71
+-4.61
+-1.34
+
+8.74
+18.67
+-11.65
+-28.38
+
+In [19]: outputs=outputs0
+table="Attribute | " + '|'.join(columns) +"\n"
+table=table + ":---------------|" + '|'.join([':----------------' for i in
+range(len(columns))]) + "\n"
+for i in outputs:
+table=table +"{0}|".format(i)
+table=table +'|'.join(["{1:2.2f}".format(i, pearsonr(df[i],df[o])[0]*100) for o in
+columns])
+table=table + "\n"
+display_markdown(table, raw=True)
+
+Attribute
+
+hidden_layers_num
+hidden_units_numlearning_rate
+
+last_accuracy
+16.85
+mean_accuracy 14.72
+max_accuracy 16.89
+std_accuracy
+20.85
+last_val_accuracy18.69
+mean_val_accuracy
+16.12
+max_val_accuracy
+19.27
+std_val_accuracy22.06
+last_loss
+-27.37
+mean_loss
+-28.46
+max_loss
+-26.03
+std_loss
+-8.00
+last_val_loss
+-27.56
+mean_val_loss -28.56
+max_val_loss
+-32.04
+std_val_loss
+-15.04
+accuracy_mse -26.46
+val_accuracy_mse-32.27
+loss_mse
+-26.63
+val_loss_mse
+-19.86
+1.4.1
+
+9.05
+10.12
+10.72
+9.71
+1.08
+3.73
+2.16
+2.30
+1.44
+2.11
+5.85
+6.84
+1.79
+2.15
+4.80
+5.63
+-0.04
+3.79
+3.27
+8.74
+
+-84.26
+-87.48
+-84.87
+-69.73
+-59.36
+-77.80
+-75.89
+-40.15
+61.49
+64.47
+75.45
+35.02
+60.69
+63.48
+65.33
+28.29
+65.70
+41.86
+76.71
+18.67
+
+batch_size
+
+sample_size
+
+-3.24
+-0.02
+-2.15
+-6.74
+7.22
+3.89
+7.51
+10.97
+-10.70
+-8.82
+-4.80
+11.94
+-11.31
+-9.07
+-5.01
+12.18
+-10.49
+-0.43
+-4.61
+-11.65
+
+6.12
+13.79
+-0.58
+-20.37
+33.89
+37.93
+9.52
+-24.23
+2.50
+1.56
+-1.58
+-8.73
+2.12
+1.40
+-2.29
+-9.58
+-5.22
+-18.24
+-1.34
+-28.38
+
+Hidden layers number
+
+The hidden layer number was positively correlated to the last accuracy and mean anccuracy, both for validation
+and training. The loss values are consistently decreasing. Due to this positive correlation, we havent yet reached
+the point in which the hidden layers begin to memorize the data. However, there is also a positive correlation
+between the max accuracies and accuracy variance, so we see that we need more epochs to estabilize the results.
+Nonetheless, the curve fitting mean square error is also decreasing, resulting in smoother curves that consistently give better results and converge with each epoch.
+1.4.2
+
+Hidden units number
+
+Hidden unit number also gave positive correlated results. However, there is also a possitive correlation between
+the loss, meaning that with higher hidden unit numbers, the net begiin to memorize the data.
+
+7
+
+1.4.3
+
+Learning rate
+
+1.4.4
+
+Batch size
+
+1.4.5
+
+Sample size
+
+In [ ]:
+In [133]: import matplotlib.pyplot as plt
+from mpl_toolkits.mplot3d import Axes3D
+def CalculateContour(att1, att2, att3):
+df2=df.pivot_table(att3, index=att1, columns=att2, aggfunc='max')
+X=df2.columns.values
+Y=df2.index.values
+Z=df2.values
+x,y=np.meshgrid(X, Y)
+return x, y, Z
+def ShowContour(x, y, Z, ax=None):
+if ax is None :
+cp = plt.contour(x, y, Z)
+plt.clabel(cp, inline=True, fontsize=10)
+plt.show()
+else:
+cp1 = ax.contour(x, y, Z)
+ax.clabel(cp1, inline=True, fontsize=10)
+ax.grid(True)
+# x, y, Z = CalculateContour('hidden_layers_num', 'hidden_units_num',
+'last_val_accuracy')
+# ShowContour(x, y, Z)
+columns=[
+'hidden_layers_num',
+'hidden_units_num',
+'learning_rate',
+'batch_size',
+'sample_size'
+]
+fig, axes = plt.subplots(nrows=len(columns), ncols=len(columns), sharex=False)
+fig.set_size_inches(22.5, 22.5)
+titles = [c1 + ":" + c2 for c1 in columns for c2 in columns]
+for ax, title in zip(axes.flat, titles):
+att3 = 'last_val_accuracy'
+att1, att2=title.split(":")
+if att1!=att2:
+x, y, Z = CalculateContour(att1, att2, att3)
+ax.set_title(att2 + ' vs ' + att1)
+ShowContour(x, y, Z, ax)
+plt.show()
+
+8
+
+9
+

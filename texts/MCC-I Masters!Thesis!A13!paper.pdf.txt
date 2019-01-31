@@ -1,0 +1,731 @@
+Survey on Computer Vision Datasets for Parking Lot Applications
+Nisim Jonatan Hurst Tarrab1 , Luis Fernando Camarena Trinidad1 , Ricardo Javier Cuevas Ascencio1 , Nestor
+Velasco Bermeo1 , and Miguel González Mendoza1
+Instituto Tecnológico y de Estudios Superiores de Monterrey ,
+mgonza@itesm.mx
+Abstract. Parking lots are well structured environments in which many surveillance systems focus.
+However, previous knowledge of the parking lot structure is frecuently obviated by researchers who
+make use of traditional datasets for training their algorithms. Even though those algorithms can be
+correct and complete, models trained or compared by such data tend to fall behind or be missleading in
+nature. In this paper, a task-based aproach is taken in which we carefully breakdown the complex task
+of detecting behavior in parking lots into smaller tractable pieces. Then, for each of those pieces we
+propose a set of datasets already available in the literature that can help to tackle the problem, each
+from a different perspective. A mayor reference for this paper was the work of [15] in which a broader
+focus on autonomous driving was taken.
+
+Table of Contents
+
+Survey on Computer Vision Datasets for Parking Lot Applications . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+Nisim Jonatan Hurst Tarrab1 , Luis Fernando Camarena Trinidad1 , Ricardo Javier Cuevas
+Ascencio1 , Nestor Velasco Bermeo1 , and Miguel González Mendoza1
+1 Introduction . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+2 Parking lot region detection or inference . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+2.1 Parking spots . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+2.2 Traffic lanes . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+3 Vehicle or pedestrian detection . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+3.1 KITTI Object Detection Evaluation 2012 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+3.2 MIT Traffic dataset . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+3.3 Statlog (Vehicle Silhouettes) Dataset . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+3.4 Our recommendation for vehicle detection . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+4 Vehicle part detection . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+4.1 PASCAL VOC Parts . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+4.2 Microsoft COCO . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+4.3 Our recommendation on vehicle parts tracking . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+5 Vehicle or vehicle agents tracking . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+5.1 MOTChallenge 2016 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+5.2 KITTI Object Tracking Evaluation 2012 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+5.3 PETS Arena dataset . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+5.4 DETRAC Tracking Challenge . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+5.5 Our recommendation on vehicle or pedestrian tracking . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+6 Interesting datasets for parking lots . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+7 Summary . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+8 References . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+
+1
+
+1
+
+2
+3
+3
+4
+5
+6
+6
+7
+7
+7
+7
+8
+9
+9
+9
+10
+10
+11
+12
+12
+12
+14
+
+Introduction
+
+Vehicles are assets that are used extensively in modern life by nearly all humans. Usually, interactions between vehicles
+and humans imply events that are important to the person in question or even to the rest of the people around the
+vehicle. This is the reason why so much surveillance efforts are put into parking lots.
+There are many difficulties in detecting these interactions. Vehicles occupy a relatively extensive parking ground that
+is sometimes infeasible to cover without the help of intelligent systems. Vehicle occlusion, perspective changes and
+disparate climate conditions make the task of surveillance even harder. Even so, celerity in decisions are a must in
+such a hasty but still critical environment.
+The interaction between agents in a parking lot can be thought as a detected behavior with some intrinsic meaning.
+This meaning depends on which part of the agents are interacting, where and how. When we recognize what is
+happening in a parking lot there isn't any further thought about it and a decision can be taken almost immediately.
+However, a machine has to decompose each step that we as humans take for granted. These are [35]:
+1.
+2.
+3.
+4.
+5.
+
+Parking lot regions detection or inference
+Vehicle or pedestrian detection
+Vehicle part detection (semantic segmentation)
+Vehicle or pedestrian tracking
+Vehicle / parking, human / vehicle and vehicle / vehicle behavior detection
+
+In this paper we briefly review the characteristics that each available dataset already has tailored to the needs of
+each of the proposed stages. Some of the datasets come annotated with benchmark values of accuracy using diverse
+algorithms. Some of these benchmarks are open challenges for contribution and publish individual results. Thus, an
+interested researcher with the purpose of improving certain task could first get a general notion of what could be
+improved inside the vision pipeline and then jump right through those datasets instead of exploring the full dataset
+collection available nowadays.
+
+Fig. 1. Vehicle behavior detection pipeline
+
+2
+
+Parking lot region detection or inference
+
+The parking lot region detection step is related with a semantic segmentation of the landscape. The structure of a
+typical parking lot consists of the following:
+Each of these structures can be used as prior evidence in a Bayesian network to classify the event detected. We provide
+example datasets for each one except entrance and exit points that are usually trivially manually annotated.
+
+2.1
+
+Parking spots
+
+Parking spots are usually painted and can be easily identified by color. On the other hand, not all parking lots are in
+good conditions or necessarily painted. For dealing with those cases, parking lots have been identified from aerial
+images by [32] using Markov Random Fields and Eigenspots. Other approaches include inference by analyzing the
+motion field as done by [39].
+
+2.1.1
+
+PNNL ParkingLot PNNL (Pacific Northwest National Laboratory) was published at the Univercity of
+Central Florida. This dataset constist of 3 video sequences, one of 1000 frames at 29fps at 1920X1080 resolution, one
+of 1500 frames at 30 fps at 1920x1080 and finally, one of 4000x3000 resolution at 6fps. Each camera is positioned at a
+different height.
+
+Fig. 2. PNNL "Parking Lot Pizza" sequence
+
+The dataset captures both pedestrians and vehicles in a crowded parking lot. However, the ground truth provided
+consists solely of pedestrians and doesn't include vehicles. Sequence 1 has 14 pedestrians and sequence 2 has 13
+pedestrians.
+This dataset is interesting to the parking lot video surveillance research due to their emphasis on 9 benchmark results
+focused on tracking multiple objects with a high number of occlusions.
+Among the metrics used are the standard tracking CLEAR Metrics [36], i.e. Multiple Object Tracking Accuracy
+(MOTA) and Multiple Object Tracking Precision (MOTP). These metrics provide a way to measure and compare
+performance in recognizing and consistently label objects over time. Other metrics used are the MT (mostly tracked),
+ML (mostly lost), IOU (intersection over union) and IDS (id switches) proposed by [20].
+
+2.1.2
+
+PKLot PKLot dataset was built by [1] and published under the Federal Parana University of Brazil. It
+contains 12417 images at 1280x720 resolution in sunny, cloudy and rainy conditions registered in 5 minute intervals.
+The main objective was to capture different environmental conditions. In total, it has 695900 images of parking spots
+43.48% occupied and 56.42% empty.
+
+Fig. 3. Parking spots are marked even if empty
+
+The dataset provided an XML with bounding boxes of parking spaces and whether they are occupied or free. The
+dataset is interesting to the parking lot video surveillance research for because it provides: 3 different climatic
+conditions, 3 different parking lots, cameras at different heights, presence of shadows, over exposition to light, etc.
+
+2.1.3
+
+Our recommendations on detecting parking spots The most important challenge in detecting
+parking spots is to handle occlusions and map the parking lot properly using some kind of heuristic. A previous
+camera calibration can help enormously to handle occlusions by considering parking spots an indivisible standard
+parking rectangle. For automatic detection techniques that can help are Markov Random Fields or motion analysis,
+both for aerial images and for perspective images. Datasets with similar height cameras must be tested. Datasets with
+different climate conditions can help if we want to test algorithms based on appearance of the landmarks.
+2.2
+
+Traffic lanes
+
+Traffic lanes and roads define the region of interest in which distinct events can happen. Features like the lane color,
+dash and solid lines can be used. Roads are more complicated because they are not bounded by man-made markings.
+However, the elevation, color and motion of the vehicles can still can be used.
+Traffic lanes can be trivially manually annotated inside road maps extracted from aerial OpenStreetMaps images [24]
+or from Google Maps [21]. Those sources can be considered datasets. They cover a vast geographical area and are
+updated frequently but the downside is that in most cases they are not annotated with vehicle ground truth. Another
+option is to infer traffic lanes and structures from movement mentioned in the previous section.
+
+2.2.1
+
+KIT AIS Dataset The KIS AIS Dataset comprises 239 png 895 x 1036 aerial image sequences, reference
+trajectories of vehicles and example code for tracking benchmarks. It is useful to infer structure form motion [31].
+
+Fig. 4. Aerial images courtesy of the German Aerospace Center
+
+The dataset is interesting because it is annotated with human annotated ground truth of vehicle trajectories and
+roads.
+
+2.2.2
+
+Cityscapes Dataset The CityScapes provides semantic annotations of urban street scenes for over 30
+object classes. It consists of 5000 high quality annotated stereo frames plus 20000 weakly annotated. The set of images
+annotated is the 20th image from a 30 frame video. It also provides a benchmark server that focus on performance
+over pixel-level semantic labeling and instance-level semantic labeling.
+An advantage of this dataset is its diversity. It has been recorded through 50 cities in several year seasons and with
+good to medium weather conditions.
+
+Fig. 5. leftImg8bit-demoVideo.zip (6.6GB)
+
+This dataset is interesting because it also provides metadata about GPS coordinates, ego-motion, stereo views, and
+even outside temperature. Thus, it can help to calibrate the parking lot camera to classify road sections over diverse
+conditions. The semantic annotations are measured by intersection over union, from pixel level to instance level.
+It also provides a benchmark for over 66 results for pixel level semantic labeling (using intersection over union IoU
+and instance level intersection over union iIoU) and 14 results for instance level semantic labeling (average precision).
+Finally, on their website one can submit own results with a custom algorithm.
+
+2.2.3 Our recommendation on detecting traffic lanes Detecting the boundaries of traffic lanes can be
+viewed as a more general problem than detecting the boundaries of parking lots. The camera perspective must be
+considered in choosing the datasets that will comprise the benchmarks. For example, aerial views datasets are useful
+for testing algorithms based in motion. However, they lack useful examples that can serve to test algorithms that can
+handle occlusions. Thus, you should choose the datasets based on the main challenge your algorithm is aiming to
+tackle. Parking lots can benefit from both aerial images and perspective images, if add up to the pipeline a previous
+camera calibration that make the movements orthogonal to the camera. However, this is only valid in outdoor parking
+lots environments for which aerial images are available.
+
+3
+
+Vehicle or pedestrian detection
+
+For detecting objects a classical computer vision pipeline is proposed by [18]. It comprises the following stages:
+preprocessing, region of interest extraction, object classification and feedback. In this review we leave aside sensor
+
+calibration, image preprocessing and feedback. In parking lots we focus on accurately identify the regions of interest
+that can contain a vehicle or a pedestrian and the ensuing detection of the object class and even vehicle model.
+Interesting features here are the area size, type of vehicle and pedestrian relative location. Using HAAR features
+in a Viola-Jones classifier, corner detector such as the Harris and part-based approaches (maybe using the Hough
+transform for detecting break lights) can help us extract region and point descriptors.
+
+3.1
+
+KITTI Object Detection Evaluation 2012
+
+The KITTI Vision Benchmark was built taking advantage of a custom autonomous driving and recording platform by
+[12]. This dataset allow us to compare vehicle, cyclists and pedestrian detection on the same sceneries.
+The object detection dataset is split into 3 sections one for 2D object detection, one for 3D object detection and one
+for birds eye view. The 2D object detection consists of 7481 training and 7518 test PNG images. It consists of images
+annotated with the bounding boxes around each object and also they can be downloaded individually.
+
+Actual submissions sum up to over 131 methods for car detection, 109 methods for pedestrian detection and 74
+methods for cyclist detection. Runtime measurements are also provided.
+There are 3 subsets of the dataset provided in which each algorithm is tested: Easy (the bounding box height is at
+least 40px and there is no occlusion), Moderate (25px-40px of bounding box and partially occluded) and Hard (0
+-25px of bounding box height and difficult to see occlusion).
+The benchmark results also comprise orientation detections with over 65 algorithms for car orientation detection, 46
+methods for pedestrian orientation detection and 40 methods for cyclist orientation detection.
+This dataset is useful in the context of parking lots for the algorithms it presents for car detection and also for car
+orientation detection. Car orientation can be a dominant feature for detecting strange vehicle behavior such as a car
+violating the established lane direction.
+
+3.2
+
+MIT Traffic dataset
+
+The MIT dataset was built with the sole objective of training a generic pedestrian detector by [40]. Eagle-eye
+perspective is assumed. The motion of pedestrians and vehicles are regulated by the inherent structure of the street
+and follow certain motion patterns.
+It comprises 20 video clips. Each video is 90 minutes long and contains vehicle and pedestrian entities. They were
+recorded by an outdoor stationary camera at daylight.
+
+Fig. 6. The only available view in the MIT Traffic Dataset
+
+The dataset comes annotated with pedestrian bounding boxes, image size and frame range ground truths. The data is
+divided in two files, one for training and one for testing each pointing to 10 clips of the 20. Both files are on MATLAB
+format.
+
+Although only pedestrian ground truth is provided, the dataset is interesting because the its paper proposes a new
+algorithm for adapting a generic pedestrian detector to a specific traffic scene using other cues such as the street
+structure. Thus, in parking lot environments where those structures are commonly provided by humans, this re-training
+algorithm can improve detection accuracy substantially.
+In the case of KITTI we saw that the PASCAL convention for measuring the intersection between predicted and
+ground truth areas was used. However, in this case just ROC (receiving operating characteristics curve) is proposed to
+measure bounding box estimation accuracy.
+
+3.3
+
+Statlog (Vehicle Silhouettes) Dataset
+
+Statlog dataset was gathered at the TI in 1986 by JP Siebert (Turing Institute, Glasgow, Scotland) and published as
+part of the [27]. It focus on the actual silhouette of a vehicle for region of interest detection regardless of texture or
+semantic segmentation. It comprises four vehicle models: a double decker bus, Cheverolet van, Saab 9000 and an Opel
+Manta 400.
+
+Fig. 7. Example data with its corresponding classes (last column)
+
+Statlog is an interesting dataset because its sole purpose is to detect the silhouette of a vehicle from its binarization
+and the images are scaled up to fit a 128x128 matrix. A background extraction algorithm could use an intermediate
+machine learning method trained on this dataset to just filter out non-vehicle ROIs and then proceed with more
+complex algorithms.
+
+3.4
+
+Our recommendation for vehicle detection
+
+The local feature approach can help us on detecting vehicles very fast. The Kitti dataset can help benchmark algorithms
+related to the extraction of orientation and 3D estimation. We should use this dataset if our algorithms are expecting
+well-formed and scaled images. The MIT dataset was recorded under ideal conditions where eagle eye perspective was
+assumed. So, we don't recommend using this dataset for training algorithms based on example instances. However,
+if your algorithm takes into account the positions at which the object is detected, then this kind of dataset would
+be very useful. The Silhouette dataset should be used in cases we just want to filter region of interests that will be
+processed by more expensive algorithms. On the other hand, the Silhouette can't help to extract other appearance
+base features except from the contour shape. We will explore a more convoluted approach using part detection in the
+following section.
+
+4
+
+Vehicle part detection
+
+Classification can be done by first splitting complex objects into easier parts to train with less data. Deformable Part
+Model and Implicit Shape Model extract features, one as HOG features and the other as codebook entries. Usually a
+separate context model is used to learn context necessary to handle occlusions [17]. That said, let us ponder a further
+action classification step taking into account the part of the object that takes the leading role [44] in the action.
+
+4.1
+
+PASCAL VOC Parts
+
+PASCAL VOC (Visual Object Classes) dataset consists of several object images that are semantically split into parts.
+It was collected since 2005 on a periodic challenge basis from Flickr. However, the program ended in 2012 and no
+more objects are still added. It has about 11,530 images with 27450 marked regions of interest for 20 distinct classes
+
+including vehicles. So, annotated ground truth consists of classes and bounding boxes. Also comprises over 11 action
+labels.
+
+Fig. 8. Vehicle semantic decomposition in PASCAL VOC Parts dataset
+
+The challenge consisted in 4 main tasks: Classification, Detection, Segmentation and Action Recognition.
+For segmentation it introduces accuracy measurement by using object detection recall, where detected 2D bounding
+boxes are correct if they overlap by at least 50% with a ground truth bounding box. Bootstraped average precision
+(AP) and Rank are used for detection, classifications and action classification results.
+In 2012 the final published results in [10] included over 12 methods that participated in at least one of the four tasks.
+The cross-fertilization between the challenges detectors used as part of the segmentation and classification methods
+and unsupervised segmentation is what makes this dataset interesting for our parking lot environment. Besides, the
+XML file format introduced by the challenge is still in use by other challenges like KITTI and ImageNet.
+
+4.2
+
+Microsoft COCO
+
+Microsoft COCO was also a huge crowd worked effort [22]. Microsoft COCO is significantly larger than PASCAL
+VOC. It has 91 object classes and 328,000 annotated images with 2.5 million regions of interest.
+The dataset is labeled using per-instance segmentation. Objects are annotated with ground truth for object detection,
+segmentation, person keypoints detection, stuff generation and caption generation. For the object detection task it has
+over 272 classes including an explicit class for roads and streets.
+These annotations can be downloaded and accessed through an open API package for Matlab, Python and Lua. They
+also can be downloaded from its web page. For end-users it provides a novel user interface that helped the crowd
+involvement.
+
+Fig. 9. Vehicle occlusion example, very similar to a parking lot environment
+
+COCO dataset is the most extensive dataset containing road and vehicle annotations in the same image. Occlusions like
+those shown on the previous image are common. Intersection-over-union and average precision are used for evaluation
+(a minimum of 0.5 is required).
+
+Fig. 10. Example COCO user interface for each of the human annotation tasks
+
+4.3
+
+Our recommendation on vehicle parts tracking
+
+Vehicle parts can be a good feature to detect or track vehicles. While PASCAL VOC can help us detect segments of
+vehicles or pedestrians, Microsoft COCO can help us on detecting not just segments, but aso train algorithms that use
+captions, person keypoints and environment stuff. However, unless dealing with models that are deformable, like a
+pedestrian or a moving car door, they are prohibitive for detection. For tracking it can do better, though. Once a part
+is detected it is more easy to handle occlusions over that part if we are already tracking the other parts and have
+their relative positions. Thus, using vehicle part detection can be useful only if our algorithm is looking forward to do
+tracking as well.
+
+5
+
+Vehicle or vehicle agents tracking
+
+A common trick in the literature of computer vision is to minimize occlusion by giving context to the current image
+from tracking objects that previously appeared in the video using layered motion models [37]. Furthermore, vehicle
+tracking has been used to deduce the actions taking place [34]. A common accuracy measurement for this kind of
+tasks are the Multiple Object Tracking Accuracy and the Multiple Object Tracking Precision introduced in [6].
+
+5.1
+
+MOTChallenge 2016
+
+The MOTChallenge dataset is a benchmark composed of 42 video sequences. It was filmed with both static and
+moving cameras. The annotations include pedestrians, vehicles, bicycles, motorbike, and occluders [25].
+
+Fig. 11. MOT17-04-SDP scenery in which pedestrians abound
+
+In total the 2017 benchmark has 21 video sequences, 17757 frames in which there are 2355 trajectories and 564228
+bounding boxes annotated.
+
+5.2
+
+KITTI Object Tracking Evaluation 2012
+
+KITTI Object tracking benchmark consist of 21 training video sequences and 29 test sequences. There are 8 classes
+labeled but only the pedestrian and cars classes are used for the benchmark.
+
+Fig. 12. KITTI vehicle on the road footage with bounding boxes marking a cyclist and two cars
+
+This benchmark is open for publishing external results and actually provides a benchmark for the results of 43
+algorithms for the car class and 21 algorithms for the pedestrian class.
+At the moment, the most interesting of these algorithms for cars detection is the youtu algorithm based on tracking
+by detection and that will be presented at the Computer Vision and Pattern Recognition competition.
+
+5.3
+
+PETS Arena dataset
+
+PETS Arena dataset consists of 14 video sequences of 22 acted behaviors around a parked vehicle. The dataset was
+recorded using 4 RGB cameras covering 360 degrees of field of view. The format is given in 1280 x 960 resolution at
+30 fps. Each of the 14 files has about 96 seconds.
+
+Fig. 13. Parking lot scenery in which a violent act is acted
+
+5.4
+
+DETRAC Tracking Challenge
+
+The DETRAC challenge has been this year opened. It has a detection and a tracking challenge. The dataset comprises
+10 video hours at 24 China locations. The videos are recorded at 25 fps and with resolution of 960x540. 8250 vehicles
+were manually annotated. It has four vehicle categories: car, bus, van and others. Bounding boxes range from small
+(0-50 pixels), medium (50-150 pixels) and large (more than 150 pixels). It classifies the vehicles into four categories, i.e.,
+car, bus, van, and others. Considers four categories of weather conditions, i.e., cloudy, night, sunny, and rainy. Vehicles
+are grouped into into three scales: small (0-50 pixels), medium (50-150 pixels), and large (more than 150 pixels).
+
+Fig. 14. Bounding boxes on tracking over multiple weather conditions
+
+The benchmark emphasizes the need to measure accuracy considering detection and tracking jointly. So, they introduce
+the UA-DETRAC metrics [43] which are based on the CLEAR MOT metrics measuring the area under the precisionrecall curve. Thus, the metrics are called with the prefix PR, namely: PR-MOTA, PR-MOTP, PR-MT, PR-ML,
+PR-IDS, PR-FM, PR-FP, PR-FN.
+
+Fig. 15. PR-MOTA 3D curve
+
+This dataset is interesting in the context of parking lots because the bulk of the scenery it presents is on street pole
+cameras which are very similar to parking lot cameras. Furthermore, the results and metrics of the challenge are
+organized to present the detection algorithm in conjunctions to the tracking algorithm.
+The most successful combination so far is CompACT+GOG that achieves the relatively higher PR-MOTA scores of
+14.2% [43].
+
+5.5
+
+Our recommendation on vehicle or pedestrian tracking
+
+While vehicles normally move at certain high speed range, pedestrians move at a different rate. However, occlusions
+are more common for to occur in small objects such as pedestrian tracking rather than in vehicle tracking. Thus, we
+recommend using a different approach for each kind of entity, i.e. if your algorithm relies heavily on tracking actions
+based on human interactions then you can use PETS Arena that can help you test tracking algorithms based on SVM
+or on HOG features. However, if your algorithm uses vehicle interactions then you are better off with the MOT or
+KITTI datasets. Those datasets provide way more benchmark accuracies for convoluted neural networks that have
+proven to be effective on tracking high speed vehicles. We also recommend using the DETRACT dataset because it
+provide benchmark values using metrics that have accounted both detection and tracking, not to mention the large
+instance number and the diverse class availability for training.
+
+6
+
+Summary
+
+This survey enumerates some useful datasets that developers can use in order to improve some part of the computer
+vision pipeline in parking lots. Some of the important points stemming from this survey are:
+1. Different people approach computer vision in parking lots with different goals in mind. Two important questions
+to ask are: Are you concerned with improving detection, tracking or behavior detection? Do you want to model
+real parking lot or work from an ideal standard?
+2. Parking spots can be trivially manually annotated by some security personnel. However, this solution might also
+be challenging in parking lots with a high number of cameras or when some of them are PTZ. Thus, previous
+camera calibration, motion analysis and some heuristic taking into account the standard parking spot size are
+recommended.
+3. Traffic lanes also can benefit from camera calibration. However, these are more general problems that require
+other heuristics stemming from motion, GPS data or appearance.
+4. Vehicle and pedestrian detection training can be based on instances and positions at which the event is detected.
+There are appropriate datasets for each of these tasks. You could also follow a pyramid approach in which you
+first detect candidate vehicle silhouettes and then proceed with more expensive algorithms.
+5. Vehicle detection by parts is not a cheap approach. However, vehicle tracking can gain a boost because it allows
+the capability to manage occlusions per part. Conversely, pedestrian detection by deformable parts models have
+been extensively used in literature.
+6. Due to mismatching speed ranges, we recommend that vehicle and pedestrian tracking are done by separate
+algorithms. Tracking goals must be defined to select which of the proposed datasets to use, i.e. using one that
+emphasizes human interaction over one that emphasizes vehicle interactions, each one with its own set of algorithms.
+DETRAC is a great dataset to test both detection an tracking at the same time.
+7. Parking lots are relatively background static environments. Nonetheless, foreground moves at a wide speed range,
+so detections or tracking of both vehicles and pedestrians by the same algorithm is not recommended.
+8. Each algorithm developed for single a parking lot camera setup must also be tested using a set of databases that
+are tailored to the algorithm's contribution. Thus, you should carefully choose which datasets are worth the effort
+when developing a computer vision parking lot algorithm. There are many datasets that vary on camera height,
+perspective, climate conditions, ground truth provided, instance speeds, etc.
+9. Metrics used to compare the algorithms are equally important than the set of chosen datasets. Without a good set
+of metrics, not only the benchmarks cannot be performed, but also the algorithm's contribution remains unclear.
+
+7
+
+References
+
+Books
+[18] Scott Krig. Computer Vision Metrics. Apress, 2014. isbn: 978-1-4302-5929-9. doi: 10.1007/978-1-43025930-5. url: http://link.springer.com/10.1007/978-1-4302-5930-5.
+
+Dataset
+PNNL ParkingLot
+PKLot
+KIT AIS Dataset
+Cityscapes Dataset
+KITTI Object Detection Evaluation 2012
+MIT Traffic dataset
+Statlog
+Dataset
+
+(Vehicle
+
+Silhouettes)
+
+PASCAL VOC Parts
+Microsoft COCO
+MOTChallenge 2016
+KITTI Object Tracking Evaluation 2012
+PETS Arena dataset
+DETRAC Tracking Challenge
+
+# classes
+
+# img / vid
+
+Avg. length
+
+# algorithms
+
+# metrics
+
+1
+2
+2
+30
+3
+1
+1
+20
+91
+5
+8
+22
+4
+
+3
+12417
+239
+5000f (stereo)
+7481+7518
+20
+946
+11,530
+328,00
+21+21
+21+29
+14
+60+40
+
+1250f
+NA
+NA
+NA
+NA
+90min
+NA
+NA
+NA
+45seg
+?
+45seg
+10 hr total
+
+8
+0
+3
+68pil +14inl
+471
+3
+none
+73
+30+9+5+80
+24
+43+21
+?
+10
+
+5
+1
+2
+3
+1
+1
+1
+2
+5
+5
+5
+?
+5
+
+Fig. 16. Quantitative comparison between datasets
+
+MOTA
+OE
+AP,F1
+IoU,iIoU,AP
+AP
+ROC
+AP,IoU
+MOTA
+MOTA
+PR-MOTA
+
+[28] Mahdi Rezaei and Reinhard Klette. Computer Vision for Driver Assistance. Vol. 45. Computational
+Imaging and Vision. Springer International Publishing, 2017. isbn: 978-3-319-50549-7. doi: 10.1007/9783-319-50551-0. url: http://link.springer.com/10.1007/978-3-319-50551-0.
+[29] Gerard. Salton and Michael J. McGill. Introduction to modern information retrieval. McGraw-Hill,
+1983. isbn: 0070544840. url: https://dl.acm.org/citation.cfm?id=576628.
+
+Articles
+[1] Paulo R.L. Almeida et al. "PKLot - A Robust Dataset for Parking Lot Classi cation The PKLot
+Dataset". In: Expert Systems with Applications 42.11 (July 2015), pp. 1­6. issn: 09574174. doi:
+10.1016/j.eswa.2015.02.009. url: http://linkinghub.elsevier.com/retrieve/pii/S0957417415001086.
+[2] Anton Andriyenko and Stefan Roth. "Discrete-Continuous Optimization for Multi-Target Tracking". In:
+June (2012), pp. 1926­1933. doi: 10.1109/CVPR.2012.6247893.
+[3] Anton Andriyenko, Konrad Schindler, and Z Eth. "Multi-target Tracking by Continuous Energy
+Minimization". In: June (2011), pp. 1265­1272.
+[4] Ron Appel et al. "Fast Feature Pyramids for Object Detection". In: 36.8 (2014), pp. 1­14. doi:
+10.1109/TPAMI.2014.2300479.
+[5] Seung Hwan Bae and Kuk Jin Yoon. "Robust online multi-object tracking based on tracklet confidence and online discriminative appearance learning". In: Proceedings of the IEEE Computer Society
+Conference on Computer Vision and Pattern Recognition (2014), pp. 1218­1225. issn: 10636919. doi:
+10.1109/CVPR.2014.159.
+[6] Keni Bernardin and Rainer Stiefelhagen. "Evaluating multiple object tracking performance: The CLEAR
+MOT metrics". In: Eurasip Journal on Image and Video Processing 2008 (2008). issn: 16875176. doi:
+10.1155/2008/246309.
+[7] Zhaowei Cai, Mohammad Saberian, and Nuno Vasconcelos. "Learning complexity-aware cascades for
+deep pedestrian detection". In: Proceedings of the IEEE International Conference on Computer Vision
+2015 Inter (2015), pp. 3361­3369. issn: 15505499. doi: 10.1109/ICCV.2015.384.
+[8] Jifeng Dai et al. "R-FCN: Object Detection via Region-based Fully Convolutional Networks". In: (2016).
+issn: 10495258. doi: 10.1109/ICASSP.2017.7952132. url: http://arxiv.org/abs/1605.06409.
+[9] Caglayan Dicle, Octavia I. Camps, and Mario Sznaier. "The way they move: Tracking multiple targets
+with similar appearance". In: Proceedings of the IEEE International Conference on Computer Vision
+(2013), pp. 2304­2311. issn: 1550-5499. doi: 10.1109/ICCV.2013.286.
+[10] Mark Everingham et al. "The Pascal Visual Object Classes Challenge: A Retrospective". In: International
+Journal of Computer Vision 111.1 (2014), pp. 98­136. issn: 15731405. doi: 10.1007/s11263-014-0733-5.
+[11] Pedro F Felzenszwalb et al. "Object Detection with Discriminatively Trained Part Based Models". In:
+IEEE Transactions on Pattern Analysis and Machine Intelligence 32.9 (2009), pp. 1­20. issn: 1939-3539.
+doi: 10.1109/TPAMI.2009.167. url: http://cs.brown.edu/%5Ctextasciitilde%7B%7Dpff/papers/lsvmpami.pdf.
+[12] Andreas Geiger, Philip Lenz, and Raquel Urtasun. "Are we ready for Autonomous Driving? The KITTI
+Vision Benchmark Suite". In: (2012). url: http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.
+296.7277%5C&rep=rep1%5C&type=pdf.
+[13] Ross Girshick et al. "Rich feature hierarchies for accurate object detection and semantic segmentation".
+In: Proceedings of the IEEE Computer Society Conference on Computer Vision and Pattern Recognition
+(2014), pp. 580­587. issn: 10636919. doi: 10.1109/CVPR.2014.81.
+[14] Alejandro Gonzalez et al. "On-Board Object Detection: Multicue, Multimodal, and Multiview Random
+Forest of Local Experts". In: IEEE Transactions on Cybernetics 47.11 (2016), pp. 3980­3990. issn:
+21682267. doi: 10.1109/TCYB.2016.2593940.
+
+[15] Roberto Henschel et al. "A Novel Multi-Detector Fusion Framework for Multi-Object Tracking". In:
+(2017). url: http://arxiv.org/abs/1705.08314.
+[16] Jonathan Huang et al. "Speed/accuracy trade-offs for modern convolutional object detectors". In:
+(2016). issn: 01689002. doi: 10.1016/j.nima.2015.05.028. url: http://arxiv.org/abs/1611.10012.
+[17] Joel Janai et al. "Computer Vision for Autonomous Vehicles: Problems, Datasets and State-of-the-Art".
+In: (Apr. 2017). url: http://arxiv.org/abs/1704.05519.
+[19] Byungjae Lee et al. "Multi-class multi-object tracking using changing point detection". In: Lecture Notes
+in Computer Science (including subseries Lecture Notes in Artificial Intelligence and Lecture Notes in
+Bioinformatics) 9914 LNCS.Mcmc (2016), pp. 68­83. issn: 16113349. doi: 10.1007/978-3-319-48881-3_6.
+[20] Yuan Li et al. "Learning to associate: Hybridboosted multi-target tracker for crowded scene". In: IN
+CVPR (2009). url: http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.309.8335.
+[22] Tsung-Yi Lin et al. "Microsoft COCO: Common Objects in Context". In: (May 2014). url: http:
+//arxiv.org/abs/1405.0312.
+[23] Wei Liu et al. "SSD: Single shot multibox detector". In: Lecture Notes in Computer Science (including
+subseries Lecture Notes in Artificial Intelligence and Lecture Notes in Bioinformatics) 9905 LNCS
+(2016), pp. 21­37. issn: 16113349. doi: 10.1007/978-3-319-46448-0_2.
+[25] Anton Milan et al. "MOT16: A Benchmark for Multi-Object Tracking". In: (2016), pp. 1­12. url:
+http://arxiv.org/abs/1603.00831.
+[26] Hamed Pirsiavash, Deva Ramanan, and Charless C. Fowlkes. "Globally-optimal greedy algorithms for
+tracking a variable number of objects". In: Proceedings of the IEEE Computer Society Conference on
+Computer Vision and Pattern Recognition (2011), pp. 1201­1208. issn: 10636919. doi: 10.1109/CVPR.
+2011.5995604.
+[30] Robert E. Schapire and Yoram Singer. "Improved boosting algorithms using confidence-rated predictions". In: Machine Learning 37.3 (1999), pp. 297­336. issn: 08856125. doi: 10.1023/A:1007614523901.
+[32] Young-Woo Seo and Chris Urmson. "A Hierarchical Image Analysis for Extracting Parking Lot
+Structures from Aerial Images". In: (2009). url: http : / / ai2 - s2 - pdfs . s3 . amazonaws . com / 0db7 /
+5ab657f4d1061878582dce9c8a10284210d8.pdf.
+[34] Sayanan Sivaraman and Mohan Manubhai Trivedi. "Looking at Vehicles on the Road: A Survey of
+Vision-Based Vehicle Detection, Tracking, and Behavior Analysis". In: IEEE Transactions on Intelligent
+Transportation Systems 14.4 (Dec. 2013), pp. 1773­1795. issn: 1524-9050. doi: 10.1109/TITS.2013.
+2266661. url: http://ieeexplore.ieee.org/lpdocs/epic03/wrapper.htm?arnumber=6563169.
+[35] Sayanan Sivaraman and Mohan Manubhai Trivedi. "Looking at vehicles on the road: A survey of
+vision-based vehicle detection, tracking, and behavior analysis". In: IEEE Transactions on Intelligent
+Transportation Systems 14.4 (2013), pp. 1773­1795. issn: 15249050. doi: 10.1109/TITS.2013.2266661.
+[37] Richard Szeliski. "Computer Vision : Algorithms and Applications". In: Computer 5 (2010), p. 832.
+issn: 10636919. doi: 10.1007/978-1-84882-935-0. url: http://research.microsoft.com/en-us/um/people/
+szeliski/book/drafts/szelski_20080330am_draft.pdf.
+[38] Siyu Tang et al. "Subgraph Decomposition for Multi-Target Tracking". In: (2015), pp. 5033­5041.
+[40] Meng Wang and Xiaogang Wang. "Automatic adaptation of a generic pedestrian detector to a specific
+traffic scene". In: Proceedings of the IEEE Computer Society Conference on Computer Vision and
+Pattern Recognition (2011), pp. 3401­3408. issn: 10636919. doi: 10.1109/CVPR.2011.5995698.
+[41] Xiaoyu Wang et al. "Regionlets for generic object detection". In: Proceedings of the IEEE International
+Conference on Computer Vision (2013), pp. 17­24. issn: 01628828. doi: 10.1109/ICCV.2013.10.
+[42] Longyin Wen et al. "Multiple target tracking based on undirected hierarchical relation hypergraph". In:
+Proceedings of the IEEE Computer Society Conference on Computer Vision and Pattern Recognition
+(2014), pp. 1282­1289. issn: 10636919. doi: 10.1109/CVPR.2014.167.
+[43] Longyin Wen et al. "UA-DETRAC: A New Benchmark and Protocol for Multi-Object Detection and
+Tracking". In: (2015). url: http://arxiv.org/abs/1511.04136.
+
+Miscellaneous
+[21] Tsung-Yi Lin, Serge Yin Cui Belongie, and James Hays. "Learning deep representations for groundto-aerial geolocalization". In: 2015 IEEE Conference on Computer Vision and Pattern Recognition
+
+[24]
+
+[27]
+[31]
+[33]
+
+[36]
+
+[39]
+
+[44]
+
+(CVPR). IEEE, June 2015, pp. 5007­5015. isbn: 978-1-4673-6964-0. doi: 10.1109/CVPR.2015.7299135.
+url: http://ieeexplore.ieee.org/document/7299135/.
+Gellert Mattyus et al. "Enhancing Road Maps by Parsing Aerial Images Around the World". In: 2015
+IEEE International Conference on Computer Vision (ICCV). IEEE, Dec. 2015, pp. 1689­1697. isbn:
+978-1-4673-8391-2. doi: 10.1109/ICCV.2015.197. url: http://ieeexplore.ieee.org/document/7410554/.
+UCI Machine Learning Repository. Statlog (Vehicle Silhouettes) Data Set. 2000. url: https://archive.
+ics.uci.edu/ml/datasets/Statlog+(Vehicle+Silhouettes).
+Florian Schmidt. KIT AIS Data Set. 2017. url: http://www.ipf.kit.edu/downloads_data_set_AIS_
+vehicle_tracking.php.
+Guang Shu et al. "Part-based multiple-person tracking with partial occlusion handling". In: 2012 IEEE
+Conference on Computer Vision and Pattern Recognition. IEEE, June 2012, pp. 1815­1821. isbn: 978-14673-1228-8. doi: 10.1109/CVPR.2012.6247879. url: http://ieeexplore.ieee.org/document/6247879/.
+Rainer Stiefelhagen et al. "The CLEAR 2006 Evaluation". In: Multimodal Technologies for Perception
+of Humans. Springer Berlin Heidelberg, 2006, pp. 1­44. doi: 10.1007/978- 3- 540- 69568- 4_1. url:
+http://link.springer.com/10.1007/978-3-540-69568-4_1.
+Yonatan Urman, Tamir Baruch Yampolsky, and Rami Cohen. "Unsupervised detection of available
+parking spots". In: 2016 IEEE International Conference on the Science of Electrical Engineering
+(ICSEE). IEEE, Nov. 2016, pp. 1­5. isbn: 978-1-5090-2152-9. doi: 10.1109/ICSEE.2016.7806204. url:
+http://ieeexplore.ieee.org/document/7806204/.
+Bangpeng Yao et al. "Human action recognition by learning bases of action attributes and parts". In: 2011
+International Conference on Computer Vision. IEEE, Nov. 2011, pp. 1331­1338. isbn: 978-1-4577-1102-2.
+doi: 10.1109/ICCV.2011.6126386. url: http://ieeexplore.ieee.org/document/6126386/.
+

@@ -1,0 +1,341 @@
+Electronics and Communications in Japan, Part 3, Vol. 84, No. 10, 2001
+Translated from Denshi Joho Tsushin Gakkai Ronbunshi, Vol. J82-D-II, No. 12, December 1999, pp. 23162324
+
+A Vehicle Parking Detection Method Using Image Segmentation
+Keiichi Yamada and Morimichi Mizuno
+Toyota Central R&D Labs. Inc., Aichi, 480-1192 Japan
+
+SUMMARY
+A method of individual vehicle detection using grayscale images acquired from a high position is proposed for guidance of incoming vehicles to vacant cells in a parking lot and other similar purposes. With the proposed method, each image region corresponding to a cell is fragmented according to density (gray level), and the distribution of segment area is analyzed to decide if a vehicle is present. Reference images taken in vacant state are not needed, hence the method can be easily applied to parking lots in continuous service. Shape features are not employed, hence detection is performed independent of car shape. The proposed method was tested on an actual outdoor parking lot during 4 days with different weather conditions from sunrise through sunset. The results confirmed the efficiency of the proposed method, with the detection rate being over 98.7%. © 2001 Scripta Technica, Electron Comm Jpn Pt 3, 84(10): 2534, 2001
+Key words: Machine vision; image processing; parking lot; vehicle detection; image segmentation.
+1. Introduction
+Parking vacancy monitoring is an important technology for efficient use of parking space and guiding cars to vacant cells, which is particularly true for parking lots with busy traffic such as those located in big cities, expressway service areas, or near large halls. Monitoring techniques can be divided into two types: the first suggests estimating
+
+occupancy of an entire parking lot, for example, by counting incoming vehicles, while the second type supports checking for the presence of a vehicle in each cell. Obviously, the latter is necessary for guiding cars to vacant cells. Various methods have been employed to monitor individual parking cells using ultrasonic or magnetic sensors placed at each cell, or TV cameras placed at high positions. The former method requires many sensors while the latterin the case of outdoor parking lotscan proceed with a few cameras responsible for relatively wide areas [1, 2].
+Regarding image-based vehicle detection, various techniques have been developed such as motion tracking using temporal subtraction [3, 4], comparison with reference images (vacant state) using normalized principal component of feature characteristics [5, 6], or path tracking [7]. Methods based on reference images are not really practicable because acquisition and update of reference images are difficult with a parking lot in service. Regarding tracking based on temporal subtraction, reference images are not required, while tracking can be performed even at nighttime by means of headlights [4]. However, relatively high processing speed is necessary to deal with cars moving fast. Besides, night detection becomes impossible if headlights are off. There are also some methods that do not rely on reference images or path tracking, for example, car detection through hidden white lines [8], or using typical shape of car elements [9]. When using white lines for vehicle detection, images must be captured from such viewpoints that white lines are hidden by vehicles, which is complicated in terms of spatial arrangement of TV cameras and white lines. With respect to extraction of car element features, a large number of pixels per vehicle is necessary, hence monitoring of numerous parking cells may prove difficult.
+
+© 2001 Scripta Technica 25
+
+The present study aims at development of a technique providing occupancy check for each individual parking space (cell). Specifically, the following features were pursued: applicability to parking lots in continuous service, simple configuration of processing system, no need for reference images or path tracking, stability under various weather conditions.
+The method presented in this study uses grayscale images to detect vehicle presence; images are segmented by gray levels, and segment area distribution is analyzed. Efficiency of the proposed method was confirmed experimentally by application to an actual outdoor parking lot under various weather conditions.
+2. Car Presence Detection
+An outline of the proposed monitoring system is shown in Fig. 1. Images of the parking lot are taken through a video camera placed, for example, on the roof of a neighboring building or on a high pole. In this way, the locations of all parking cells are assumed to be known. Accidental pedestrians or incoming/outgoing vehicles are not supposed to stay at one place for a long time, and hence neglected in processing. Since the proposed method is intended for outdoor parking lots, detection must be stable irrespective of weather conditions. Nighttime illumination is assumed sufficient for image acquisition.
+2.1. Principle of detection Vehicles have diverse shapes (e.g., sedans, minivans, recreation vehicles) and colors. On the other hand, the surface of the parking lot may bear white mark-off lines, casual shadows, or puddles. Therefore, when detecting a
+Fig. 1. Parking lot monitoring system.
+
+car, one should use features common to all vehicles while distinct from the aforementioned surface objects. The principle of detection employed in this study is based on the following approach.
+Vehicles are composed of numerous components such as hood, windows, headlights, bumpers, front grille, and license plate. In an image, such components are usually rendered as segments offering common properties such as color, density, and texture. In this study, density (gray level) is used for reasons of simple processing. Assuming that every component is rendered as a segment of nearly equal density, such segments must exist in quantity in an occupied cell. On the other hand, vacant cells would hardly offer such characteristics, even though white lines, building shadows, or puddles might exist.
+Based on the above reasoning, the following solution is proposed. Images of parking cells are fragmented by gray level, and a cell is recognized as occupied if it offers a relatively large number of small segments; otherwise, the cell is recognized as vacant.
+2.2. Implementation
+The approach described above is implemented in the following way. The following score (number of segments weighted by area) is used to decide whether an image offers a large number of small fragments:
+
+(1)
+
+Here n denotes the total number of segments, and S1, S2, . . . , Sn denote areas of individual segments in decreasing order.
+
+Consider properties of this score g. With a fixed total
+
+number of segments n, the more uniform the segment areas,
+
+the higher is the score g. The highest possible score g =
+
+(n + 1)/2 is obtained when all areas S1 through Sn are equal. On the other hand, the lowest score around 1 is obtained
+
+when areas S2 through Sn are much smaller than S1. Now consider how g varies with the total number of segments n.
+
+Suppose that each segment Sk is divided uniformly into
+a smaller segments Sk Sk . . . , Sk= Sk / a. In this
+case, the score changes from g to a(g  1/2) + 1/2 because
+
+the
+
+denominator
+
+in
+
+Eq.
+
+(1)
+
+changes
+
+to
+
+6
+
+n
+k
+
+16
+
+a j
+
+1{ak
+
+
+
+a  jSk / a}. Since g t 1, it is obvious that the score grows
+
+with finer fragmentation. Finally, consider how g is affected
+
+when count k is started not from 1 but, say, from 0. Suppose
+
+that count k is started from m; in this case, the denominator
+
+in Eq. (1) changes to 6kn 1k  1  mSk, hence the score
+changes from g to g  1 + m. Therefore, however k may be
+
+counted, only offset varies while differential score remains
+
+unchanged.
+
+26
+
+In this study, image segmentation is performed using the relative similarity approach proposed by Yokoya and colleagues [11, 12]. This approach suggests that segments are formed by successive linking of four consecutive pixel pairs (i, j) and (k, l) for which |gi, j  gk, l| d O1 
+O2min{[i, j, [k, l} is true. Here gi, j is the gray level of
+pixel i, j, and [i, j 1 / 86k,lN&i, j|gi, j  gk, l|
+while N8i, j shows 8 nearest neighbors of i, j. With this
+method of fragmentation, fragmentation becomes rougher/finer as similarity limiting parameters O1 and O2 increase/decrease. Considering that in this study, vehicle detection is performed using multiple components such as hood, windows, or headlights, the parameters O1 and O2 must be set so that fragmentation level corresponds to such components. With O1 and O2 set too large, fragmentation would be too rough to extract car components, while with too small parameters, surface objects would be extracted as well; in both cases, performance would be impaired. According to preparatory experiments, O1 = 0.5 and O2 = 0.5 were employed as optimal settings.
+Now consider using score g in practice. Actual examples of images for occupied and vacant parking cells are given in Fig. 2 (top) as well as results of segmentation (bottom). Images A and B pertain to light-colored and dark-colored cars, respectively, while images C and D present vacant cells with dirty spots (half-dried puddles). Segmentation was performed within areas marked off by white lines. The distribution of segment area for images in Fig. 2 is shown in Fig. 3, with rank k and area Sk plotted on the horizontal and vertical axes, respectively. The score g calculated by Eq. (1) is shown with arrows. When a cell is occupied, as in images A and B, there exist numerous small segments, and g is high. On the other hand, when a cell is empty, as in images C and D, few relatively large segments take up most of the cell (even though ground surface is not quite uniform), and g is low.
+The number of segments is not necessarily much different for occupied and vacant cells, as in cells B and C. However, in the case of occupied cell B, there are many
+
+Fig. 3. Score g of each parking space in Fig. 2.
+small segments corresponding to car components. On the contrary, with vacant cell C, there are few relatively large segments taking up most of the cell area, and many relatively small segments corresponding to white lines and surface irregularities. Therefore, g is rather high in the former case, and rather low in the latter case; even in such cases, the score g from Eq. (1) provides discrimination between occupied and vacant cells.
+Thus, score g can be employed as a reliable criterion for vehicle detection by checking with a threshold gth. This threshold is determined using sample images as explained below.
+
+Fig. 2. Sample images of parking cells.
+
+3. Experiments
+3.1. Experimental method
+Two experiments described below were carried out on an outdoor parking lot to verify the proposed method of vehicle detection. In the first experiment, threshold gth offering the best results in vehicle detection was found. A
+
+27
+
+total of 129 images were acquired at an interval of about 20 minutes during 3 days from June 5 through 7, 1997, from sunrise (about 4:30 a.m.) until sunset (about 7 p.m.). Among 5289 cells in these images, those with cars coming in and going out, or with people inside, were excluded, and the rest of 5182 cells were used to determine optimal threshold gth. In the second experiment, a total of 165 images were acquired during 4 days (June 6, 14, 16, and 18), from sunrise until sunset, at an interval of about 20 minutes. Similarly, 6733 relevant cells were selected out of 6765, and the performance of the proposed method was evaluated using the threshold gth obtained in the first experiment. On June 16 and 18, nighttime (7:20 p.m. through 10 p.m.) images were also used.
+A TV camera was mounted on the roof of a neighboring building at about 30 m above the ground with a dip of 30°. The shooting range was about 25 m wide by 40 m deep, with 41 parking cells involved. The number of pixels for one cell in images was from 52 wide by 52 deep for the nearest ones to 38 wide by 24 deep for the most distant ones.
+An example of images used in the experiment is given in Fig. 4. All images, including that shown in the diagram, were obtained from original 640 u 480 images by trimming to the relevant region of 610 u 295 pixels. As shown in Fig. 4, the processing areas were defined within the regions marked off by the white lines, for parking cells 11 through 21, and 33 through 40. For the cells 0 through 10, and 22 through 32, some parts in the regions were excluded to avoid shadows from cars parked in cells 11 through 21, and 33 through 40. In the daytime, illuminance varied from several hundred lux at sunrise and sunset, up to 100,000 lux around noon. For the nighttime (around 9 p.m.), electric lights in the parking lot provided 2 through 100 lux depending on cell location. Those electric lights switched on/off automatically according to the natural lighting cycle so that accurate estimation of illuminance was complicated.
+In experiments, the system with extended dynamic range of brightness previously developed by the authors
+
+[10] was used to support a wide brightness range. With this system, images with extended dynamic range are obtained through synthesis of two images captured by a CCD camera at different shutter speed. Here, the shutter speed ratio was maintained at 10, and the shutter speed was continuously varied depending on brightness of the previous image. A table of 21 shutter speed combinations from 1.3/0.13 ms through 4.0/0.4 ms was prepared. As shown in Fig. 5, when the average density of a synthesized image exceeds 70% of saturation level, the shutter speed is set one degree higher starting from the next image. On the contrary, when the average density drops below 30% of saturation level, the shutter speed is set one degree lower. Thus, images could be acquired in both direct daylight and evening dusk.
+Images with extended dynamic range offer accurate representation of relative brightness across a wide range; in our experiments, pixel values were set in proportion to brightness logarithm at 256-level grayscale (0 through 255). Specifically, with I denoting linear pixel value for brightness obtained through synthesis of two images, and Imax denoting its peak (saturation) value, logarithmic pixel value is L = 255log(I / Imax100/log100; however, L was considered 0 if the right part was negative. Image segmentation was performed using this 256-level scale.
+3.2. Experimental results
+Results of the first experiment are presented in Table 1 and Fig. 6. The diagram offers frequency distribution of
+
+Fig. 4. Sample image of parking lot used for evaluation experiments.
+28
+
+Fig. 5. Flowchart of image acquisition.
+
+Date
+6/5 6/6 6/7 Total
+
+Weather
+Clear Cloudy/rain
+Clear
+
+Table 1. Sample data to determine threshold gth
+
+Number of samples (cells)
+
+Total number
+
+Occupied
+
+Relevant samples Vacant
+
+1804 1681 1804 5289
+
+1089 995 463 2547
+
+675 658 1302 2635
+
+Total
+1764 1653 1765 5182
+
+Detection rate (%) at gth = 1.86
+99.72 98.79 99.72 99.42
+
+score g for 5182 cells (both occupied and vacant). As seen, the distribution is clearly distinct for occupied and vacant cells. In this experiment, the threshold score gth = 1.86 offered best detection results for 3 days; the average detection rate was 99.42% as shown in Table 1. Detection mistakes were caused by surface reflection when the sun was low, or by puddles and other surface irregularities. Table 2 shows optimal threshold and detection rate for every day of the experiment, based on the same sample data as in Table 1.
+Comparing Tables 1 and 2, the difference in detection rate when the same threshold 1.86 is used uniformly for all 3 days, or when the optimal threshold is updated every day, is from 0.00 to 0.06%. This difference is rather small compared to misdetection rate 0.58% (100%  99.42%). Therefore, in the second experiment, the uniform threshold 1.86 was used irrespective of weather conditions.
+Results of the second experiment are given in Tables 3 and 5; Tables 4 and 6 show optimal threshold and detection rate for every day (night) of the experiment, based on
+
+the same sample data as in Tables 3 and 5, respectively. As seen from Table 3, a detection rate over 98.7% was obtained from sunrise through sunset irrespective of weather conditions. Comparing Tables 3 and 4, the improvement in detection rate when the optimal threshold is determined for every day is from 0.00 to 0.12% as compared to the uniform threshold. With respect to the nighttime, comparison of Tables 5 and 6 shows no difference in detection rate between threshold updated daily, and uniform threshold. (It should be noted, however, that the nighttime sample data were 5 times smaller in volume than the daytime data.) Thus, one may conclude that with the proposed method, a uniform threshold can be preset irrespective of time of day or weather conditions provided that 0.12% decrease in detection rate is admissible.
+Table 7 shows the difference in detection rate as a function of the number of pixels per cell. It presents the detection rate at gth = 1.86 obtained from sample data of June 16 and 18 for cells 0 through 10 (about 1000 pixels per cell), and 33 through 40 (about 2500 pixels per cell) as shown in Fig. 4. In addition, the best detection rate obtained through tuning gth is also given. As seen from the table, the detection rate drops by 0.2% through 0.7% with less pixels per cell (at gth = 1.86). The probable reason is that with less pixels per cell (that is, lower resolution), the image gets blurred, and small car components such as headlights can-
+
+Fig. 6. Histogram of score g for 5182 sample data in Table 1.
+
+Table 2. Optimal threshold and best detection rate for each day
+
+Date
+
+Optimal threshold gth
+
+Best detection rate (%)
+
+6/5 1.87 6/6 1.93 6/7 1.86 ~ 1.87
+
+99.77 98.85 99.72
+
+29
+
+Table 3. Experimental results (daytime detection rate for 4 days under various weather conditions)
+
+Number of samples (cells)
+
+Date Weather Total number
+
+Relevant samples
+
+Detection rate (%) at gth = 1.86
+
+Occupied
+
+Vacant
+
+Total
+
+6/9 6/14 6/16 6/18 Total
+
+Rain Clear Rain/clear Cloudy/rain
+
+1558 1804 1722 1681 6765
+
+729 794 1126 1108 3757
+
+819 1003
+585 569 2976
+
+1548 1797 1711 1677 6733
+
+98.70 99.77 99.94 99.76 99.56
+
+Table 4. Optimal threshold and best detection rate for each day
+
+Date
+
+Optimal threshold gth
+
+Best detection rate (%)
+
+6/9 1.871.96 6/14 1.751.83 6/16 1.85 6/18 1.86 ~ 1.88
+
+98.77 99.89 100.00 99.76
+
+Date
+6/16 6/18 Total
+
+Table 5. Experimental results (nighttime detection rate for 2 nights)
+
+Number of samples (cells)
+
+Weather
+
+Total number
+
+Occupied
+
+Relevant samples Vacant
+
+Total
+
+Clear
+
+328
+
+124
+
+204
+
+328
+
+Rain 328 116 212 328
+
+656 240 416 656
+
+Detection rate (%) at gth = 1.86
+96.9 87.8 92.4
+
+Table 6. Optimal threshold and best detection rate for each night
+
+Date Optimal threshold gth Best detection rate (%)
+
+6/16 1.821.96 6/18 1.841.91
+
+96.9 87.8
+
+30
+
+Table 7. Variation of detection rate with image resolution (pixels per cell)
+
+Detection rate (%) for cells 010 Date (about 1000 pixels per cell)
+
+At uniform gth = 1.86
+
+Best (gth)
+
+Detection rate (%) for cells 3340 (about 2500 pixels per cell)
+
+At uniform gth = 1.86
+
+Best (gth)
+
+6/16 99.8 6/18 99.3
+
+100.0 (1.392.11)
+99.3 (1.861.90)
+
+100.0 100.0
+
+100.0 (1.301.96)
+100.0 (1.382.11)
+
+not be extracted; therefore, the number of segments decreases, and the score g drops. The same must take place with the daily updated threshold as well; however, this cannot be confirmed in our experiment because the best detection rate was obtained across a wide range of threshold values as shown in Table 7.
+Presented in Fig. 7 are typical images obtained under various weather conditions, and detection results at gth = 1.86. Parking cells recognized as vacant are marked by crosses. However, in Fig. 7(d) taken at nighttime, all parking cells are numbered, with white figures denoting cells recognized as occupied. Figure 8 shows the frequency distribution of score g for images (a) through (d) in Fig. 7, with the threshold gth indicated by the dashed line. As seen from Figs. 7 and 8, detection results are 100% correct for images (a) and (b). For image (c), one cell was misrecognized as occupied (second row, third from right). In image (d), one cell was misrecognized as vacant (third row, second from right).
+Figure 9 presents the frequency distribution of scores for a rainy day (June 9) and a fine day (June 14). As seen, rainy weather, as compared with fine weather, produces a more extended score distribution for vacant cells, and less
+
+Fig. 7. Images obtained under various weather conditions, and decision results.
+
+Fig. 8. Histograms of score g for images in Fig. 7. 31
+
+Fig. 10. Example of misdetection due to puddles.
+
+Fig. 9. Histograms of score g for (a) rainy day and (b) fine day.
+pronounced distinction from occupied cells. This can be attributed mostly to puddles and moisture.
+Misdetections that took place in the experiment were related to the following circumstances. A cell was misrecognized as occupied due to camera dip and a high minivan parked in front as shown in Fig. 7(c), second row, third from right. Another possible reason is that puddles are mistaken for a car as shown in Fig. 10. In some cases, light-colored cars could not be detected in rainy weather due to insufficient difference in density with ground surface, or flare reflections from ground surface were mistaken for cars in sunny weather. On the other hand, the aforementioned misdetection caused by an adjacent minivan only occurred with 2 cell images of 54 taken when the minivan was parked (the cell was vacant in 29 images). Influence due to this mistake on the overall detection rate was within 0.1%. Adjacent buildings or trees affected images of the parking lot taken in the morning or in the evening, but such distur-
+
+bances did not result in misdetection as seen in Fig. 7(b). Though difference in illumination between daytime and nighttime was of three orders, halation-related misdetection was prevented by the extended dynamic range of brightness as was explained above.
+Detection rate in twilight was worse than in daytime as shown in Fig. 5. This increase in mistakes in nighttime may be explained in the following way. Since electric lights, unlike natural daytime lighting, do not provide diffuse illumination, portions of the parking lot shaded by trees and other structures were not bright enough. In combination with a small difference in density between a dark-colored car and ground surface, that results in misrecognition of a cell as vacant. An example is the parking cell #31 in Fig. 7(d). Such mistakes are likely to occur in rainy weather when the difference in density between a dark-colored car and ground surface becomes even smaller. In nighttime, light spots thrown by car headlights are extremely bright but in our experiments, misdetection caused by halation was not registered which is due to the imaging system having an extended brightness dynamic range. In addition, there were no problems with image blur at shutter speed as slow as 4 seconds because objects (parked cars) were motionless.
+Thus, increased mistakes in nighttime were related mainly to deficient illumination, and a detection rate over 98% (close to that achieved in daytime) was provided except for parking cells with illuminance below 10 lux, as with #31, 32, 40 to 43, 49 to 51 in Fig. 7(d). Therefore, one may expect detection performance in nighttime to be nearly the same as in daytime through appropriate illumination, which, however, invites further investigation.
+As was confirmed by the experimental results, a detection rate over 98.7% was achieved in daytime under various weather conditions; moreover, the same level of accuracy might be obtained at night using a proper illumination design. In the experiments, processing time per image was about 2.7 seconds (Pentium Pro 200 MHz, 64
+
+32
+
+MB of memory), and about 80% of the processing time was accounted for by image segmentation. Computation was performed on Windows NT, with software written in Visual C++. Thus, the proposed method of vehicle detection was demonstrated to be efficient.
+4. Conclusion
+An image-based method of vehicle detection was proposed for the purpose of parking lot monitoring. With the proposed method, image fragmentation according to gray levels, and analysis of segment area distribution are performed to detect the presence of a vehicle. The method offers the following features: (1) no reference images are required, hence easy applicability to parking lots in continuous operation, and (2) no path tracking is used, hence simple processing system. Because segment shape is not taken into consideration, the method is not vehicle-specific.
+The proposed method was tested experimentally on an actual outdoor parking lot, during 4 days with diverse weather conditions (clear sky, cloudy, rain) from sunrise through sunset. The results offered a detection rate of more than 98.7%. Nighttime experiments suggested that nearly the same precision of vehicle detection as during daytime may be obtained with appropriate design of night illumination. The results confirmed the efficiency of the proposed method. Moreover, the proposed method is not restricted to detection of vehicles; the same approach may be applied to detection of obstacles, people, and so on.
+The performance of the proposed method versus typical previous techniques is as follows. Regarding the use of reference images (taken in vacant state, with vehicles not present) [5], the proposed method would hardly be of equal precision because much less data are employed. On the other hand, our method supports a detection rate as high as 98.7% without any reference images. Regarding pathtracking methods [7], the proposed method seems to be more precise. Strict quantitative comparison is difficult because of different experimental conditions, but the methods based on reference images, and on path tracking, are reported to yield recognition rates of 98.7% and 88.8%, respectively. This makes the authors believe that the proposed method, being both simple and accurate, compares well with existing techniques.
+In the future, the accuracy of the proposed method (including nighttime detection) should be further improved through better definition of detection score.
+
+Acknowledgments. The authors express gratitude to Messrs. S. Sunahara and Y. Murano from Toyota Motor Corp. for their cooperation in the experiments.
+REFERENCES
+1. Koizumi M, Koyama S. Parking lot monitoring system (based on image processing) in Tomei Expressway. Kosokudoro-to Jidosha 1992;35:3240.
+2. Takahashi Y et al. Image recognition technology for automation of parking lot management. NTT R&D 1992;41:493500.
+3. Mizukoshi N et al. Parking condition discrimination system of image processing type using a neural network model. IEEE Vehicle Navigation & Information Systems Conf, p 6974, 1994.
+4. Miyake M et al. Nighttime detection of vehicles in parking lot using image processing. Road Traffic Committee of IEE Japan, RTA-91-23, 1991.
+5. Maeda E et al. Object detection method with robustness to environmental changes. Trans IEICE 1991;J74-D-II:17311740.
+6. Maeda E, Ishii K. Evaluation of principal component feature characteristics in object detection. Trans IEICE 1991;J75-D-II:520529.
+7. Hasegawa T et al. Counting cars by tracking moving objects in outdoor parking lot. IEEE Vehicle Navigation and Information Systems Conf, p 6368, 1994.
+8. Kawakami H et al. Vehicle recognition from parking lot images. CISE 14th Conf of Pattern Measurement, p 17, 1991.
+9. Kokubun N et al. Vehicle extraction from fragmented images. 1988 Natl Conf of IEICE Japan, D-261.
+10. Yamada K et al. A vision sensor having an expanded dynamic range for autonomous vehicles. IEEE Trans Vehicular Technol 1998;47:332341.
+11. Yokoya N, Kitahashi T, Tanaka K, Asano T. Image segmentation scheme based on a concept of relative similarity. 4th Int Joint Conf on Pattern Recognition, p 645647, 1978.
+12. Image Processing Subroutine Package SPIDER: Users manual. Kyodo System Development; 1982. p III-360III-362.
+
+33
+
+AUTHORS (from left to right)
+Keiichi Yamada (member) graduated from Nagoya University (electrical engineering) in 1984 and completed the M.E. program in 1986. He then joined Toshiba Corp. He has been with Toyota Central R&D Labs since 1991, where he has conducted research on vision systems for vehicle detection and traffic control, industrial image measurement, and vision chips. He holds a D.Eng. degree, and is a member of IEE Japan, the Society for Visual Information Media, and IEEE.
+Morimichi Mizuno graduated from Tohoku University (communications engineering) in 1988 and completed the M.E. program in 1990. He then joined Toyota Central R&D Labs, where his research has involved human interface for automobiles, vision systems for robots, and traffic control.
+34
+

@@ -1,0 +1,77 @@
+Linear Algebra Talk Proposal
+Chapter 9. Functions of Matrices CS4014 Applied Mathematics
+Tuesday 4 September 2018
+Professor: Viacheslav Kalashnikov
+Team Members: Nisim Jonatan Hurst Tarrab, A01012491 , Cody Eduardo Evans Trejo, A01207043 , Víctor Manuel Arteaga Sandoval, A01372905
+Purpose and justification
+The purpose of this activity is to familiarize students with the concepts of matrix computations presented by Gene H. Golub's et al. book Matrix Computations [1]. The students are required to grasp Chapter 9's subject matters until they are able to present them in front of the rest of the class.
+High-level description
+Prepare a presentation and give a talk based on Chapter 9 of Golub's book. The chapter consist of the following subjects:
+· Eigenvalue Methods ­ A Jordan-Based Definition ­ The Taylor Series Representation ­ An Eigenvector Approach ­ A Schur Decomposition Approach ­ Sensitivity of Matrix Functions
+· Approximation Methods ­ A Jordan Analysis ­ A Schur Analysis ­ Taylor Approximants ­ Evaluating Matrix Polynomials ­ Computing Powers of a Matrix ­ Integrating Matrix Functions ­ A Note on the Cauchy Integral Formulation
+· The Matrix Exponential ­ A Pade Approximation Method ­ Perturbation Theory ­ Pseudospectra ­ Some Stability Issues
+· The Sign, Square Root, and Log of a Matrix ­ The Matrix Sign Function ­ The Matrix Square Root ­ The Polar Decomposition ­ The Matrix Logarithm
+There are about 20 different methods in total. Given the 20 minutes limit it is expected to just cover the essence and importance of the four main topics, i.e Eigenvalue Methods, Approximation Methods, The Matrix Exponential and The Sign, Square Root, and Log of a Matrix.
+1
+
+High-level requirements
+· Less than 20 minutes duration · English · Less than 50 slides
+
+Important milestones
+
+Milestone
+Upload the presentation to Blackboard Give a 20-minute talk in front of the class
+
+Date
+28 Oct 29 Oct
+
+The calendar below shows the less than 10 sessions left to the talk:
+
+Sunday Sep 2nd
+
+Monday 3rd
+
+Tuesday
+1 4th Talks Assignment
+
+9th 10th 11th
+
+16th Mexico's Independence Day
+23rd
+
+17th 24th
+
+3 18th 25th
+
+30th
+
+Oct 1st
+
+5 2nd
+
+7th 8th 9th
+
+14th 21st
+
+15th 22nd
+
+7 16th Midterm Exam
+23rd
+
+28th Upload presentation
+
+29th Give talk
+
+9 30th
+
+2 4 6 8 10
+
+Assigned leader and responsibility
+Assigned leader is student Nisim. The responsibilities of the leader are: 1. Give format to the presentation 2. Upload the presentation to Blackboard
+2
+
+3. Report individual team member participation
+References
+[1] G. H. Golub and C. F. Van Loan, Matrix computations, vol. 3. JHU Press, 2012.
+3
+

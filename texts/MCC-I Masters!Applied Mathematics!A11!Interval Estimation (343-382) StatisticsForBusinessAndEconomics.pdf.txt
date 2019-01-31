@@ -1,0 +1,1581 @@
+CHAPTER 8
+
+Interval Estimation
+
+CONTENTS
+STATISTICS IN PRACTICE: FOOD LION
+8.1 POPULATION MEAN:  KNOWN Margin of Error and the Interval Estimate Practical Advice
+8.2 POPULATION MEAN:  UNKNOWN Margin of Error and the Interval Estimate
+
+Practical Advice Using a Small Sample Summary of Interval
+Estimation Procedures
+8.3 DETERMINING THE SAMPLE SIZE
+8.4 POPULATION PROPORTION Determining the Sample Size
+
+Statistics in Practice
+
+309
+
+STATISTICS in PRACTICE
+
+FOOD LION*
+SALISBURY, NORTH CAROLINA
+Founded in 1957 as Food Town, Food Lion is one of the largest supermarket chains in the United States, with 1300 stores in 11 Southeastern and Mid-Atlantic states. The company sells more than 24,000 different products and offers nationally and regionally advertised brand-name merchandise, as well as a growing number of high-quality private label products manufactured especially for Food Lion. The company maintains its low price leadership and quality assurance through operating efficiencies such as standard store formats, innovative warehouse design, energyefficient facilities, and data synchronization with suppliers. Food Lion looks to a future of continued innovation, growth, price leadership, and service to its customers.
+Being in an inventory-intense business, Food Lion made the decision to adopt the LIFO (last-in, first-out) method of inventory valuation. This method matches current costs against current revenues, which minimizes the effect of radical price changes on profit and loss results. In addition, the LIFO method reduces net income thereby reducing income taxes during periods of inflation.
+Food Lion establishes a LIFO index for each of seven inventory pools: Grocery, Paper/Household, Pet Supplies, Health & Beauty Aids, Dairy, Cigarette/Tobacco, and Beer/Wine. For example, a LIFO index of 1.008 for the Grocery pool would indicate that the company's grocery inventory value at current costs reflects a 0.8% increase due to inflation over the most recent one-year period.
+A LIFO index for each inventory pool requires that the year-end inventory count for each product be valued at the current year-end cost and at the preceding year-end
+*The authors are indebted to Keith Cunningham, Tax Director, and Bobby Harkey, Staff Tax Accountant, at Food Lion for providing this Statistics in Practice.
+
+Fresh bread arriving at a Food Lion Store. © Jeff Greenberg/PhotoEdit.
+cost. To avoid excessive time and expense associated with counting the inventory in all 1200 store locations, Food Lion selects a random sample of 50 stores. Yearend physical inventories are taken in each of the sample stores. The current-year and preceding-year costs for each item are then used to construct the required LIFO indexes for each inventory pool.
+For a recent year, the sample estimate of the LIFO index for the Health & Beauty Aids inventory pool was 1.015. Using a 95% confidence level, Food Lion computed a margin of error of .006 for the sample estimate. Thus, the interval from 1.009 to 1.021 provided a 95% confidence interval estimate of the population LIFO index. This level of precision was judged to be very good.
+In this chapter you will learn how to compute the margin of error associated with sample estimates. You will also learn how to use this information to construct and interpret interval estimates of a population mean and a population proportion.
+
+In Chapter 7, we stated that a point estimator is a sample statistic used to estimate a population parameter. For instance, the sample mean x¯ is a point estimator of the population mean  and the sample proportion p¯ is a point estimator of the population proportion p. Because a point estimator cannot be expected to provide the exact value of the population parameter, an interval estimate is often computed by adding and subtracting a value, called the margin of error, to the point estimate. The general form of an interval estimate is as follows:
+Point estimate  Margin of error
+
+310 Chapter 8 Interval Estimation
+The purpose of an interval estimate is to provide information about how close the point estimate, provided by the sample, is to the value of the population parameter.
+In this chapter we show how to compute interval estimates of a population mean  and a population proportion p. The general form of an interval estimate of a population mean is
+x¯  Margin of error
+Similarly, the general form of an interval estimate of a population proportion is
+p¯  Margin of error
+The sampling distributions of x¯ and p¯ play key roles in computing these interval estimates.
+
+8.1 Population Mean:  Known
+
+WEB file
+Lloyd's
+
+In order to develop an interval estimate of a population mean, either the population standard deviation  or the sample standard deviation s must be used to compute the margin of error. In most applications  is not known, and s is used to compute the margin of error. In some applications, however, large amounts of relevant historical data are available and can be used to estimate the population standard deviation prior to sampling. Also, in quality control applications where a process is assumed to be operating correctly, or "in control," it is appropriate to treat the population standard deviation as known. We refer to such cases as the  known case. In this section we introduce an example in which it is reasonable to treat  as known and show how to construct an interval estimate for this case.
+Each week Lloyd's Department Store selects a simple random sample of 100 customers in order to learn about the amount spent per shopping trip. With x representing the amount spent per shopping trip, the sample mean x¯ provides a point estimate of , the mean amount spent per shopping trip for the population of all Lloyd's customers. Lloyd's has been using the weekly survey for several years. Based on the historical data, Lloyd's now assumes a known value of   $20 for the population standard deviation. The historical data also indicate that the population follows a normal distribution.
+During the most recent week, Lloyd's surveyed 100 customers (n  100) and obtained a sample mean of x¯  $82. The sample mean amount spent provides a point estimate of the population mean amount spent per shopping trip, . In the discussion that follows, we show how to compute the margin of error for this estimate and develop an interval estimate of the population mean.
+
+Margin of Error and the Interval Estimate
+In Chapter 7 we showed that the sampling distribution of x¯ can be used to compute the probability that x¯ will be within a given distance of . In the Lloyd's example, the historical data show that the population of amounts spent is normally distributed with a standard deviation of   20. So, using what we learned in Chapter 7, we can conclude that the sampling distribution of x¯ follows a normal distribution with a standard error of
+x¯  n  20100  2. This sampling distribution is shown in Figure 8.1.1 Because
+
+sa1x_Wanhmdeaptsuhlisaenegsntahodmerismpftraaliecbl tusdtithizisoaetrntiobtohfufentix_opnow.p1oIuf0ulalt0dhteitoaopnpcopoopefnuaaclrlamuatdiosoeunsnthhdtosaiwdst pntnheoiennttshFhaaiamgvsupearleiann8gno.or1dmr.imsatral idlbdiusittisrotirbnibuotuifotixon_ntio,s
+
+conclude that the sampling distribution of we could rely on the central limit theorem approximately normal. In either case, the
+
+8.1 Population Mean:  Known
+FIGURE 8.1 SAMPLING DISTRIBUTION OF THE SAMPLE MEAN AMOUNT SPENT FROM SIMPLE RANDOM SAMPLES OF 100 CUSTOMERS
+
+311
+
+Sampling distribution of x
+
+x =
+
+ n
+
+=
+
+20 100
+
+=2
+
+x
+the sampling distribution shows how values of x¯ are distributed around the population mean , the sampling distribution of x¯ provides information about the possible differences between x¯ and .
+Using the standard normal probability table, we find that 95% of the values of any normally distributed random variable are within 1.96 standard deviations of the mean. Thus, when the sampling distribution of x¯ is normally distributed, 95% of the x¯ values must be within 1.96x¯ of the mean . In the Lloyd's example we know that the sampling distribution of x¯ is normally distributed with a standard error of x¯  2. Because 1.96x¯ 1.96(2)  3.92, we can conclude that 95% of all x¯ values obtained using a sample size of n  100 will be within 3.92 of the population mean . See Figure 8.2.
+FIGURE 8.2 SAMPLING DISTRIBUTION OF x¯ SHOWING THE LOCATION OF SAMPLE MEANS THAT ARE WITHIN 3.92 OF 
+
+Sampling distribution of x
+
+95% of all x values
+
+x =2
+
+
+
+3.92 3.92
+
+1.96 x
+
+1.96 x
+
+x
+
+312 Chapter 8 Interval Estimation
+In the introduction to this chapter we said that the general form of an interval estimate of the population mean  is x¯  margin of error. For the Lloyd's example, suppose we set the margin of error equal to 3.92 and compute the interval estimate of  using x¯  3.92. To provide an interpretation for this interval estimate, let us consider the values of x¯ that could be obtained if we took three different simple random samples, each consisting of 100 Lloyd's customers. The first sample mean might turn out to have the value shown as x¯1 in Figure 8.3. In this case, Figure 8.3 shows that the interval formed by subtracting 3.92 from x¯1 and adding 3.92 to x¯1 includes the population mean . Now consider what happens if the second sample mean turns out to have the value shown as x¯2 in Figure 8.3. Although this sample mean differs from the first sample mean, we see that the interval formed by subtracting 3.92 from x¯2 and adding 3.92 to x¯2 also includes the population mean . However, consider what happens if the third sample mean turns out to have the value shown as x¯3 in Figure 8.3. In this case, the interval formed by subtracting 3.92 from x¯3 and adding 3.92 to x¯3 does not include the population mean . Because x¯3 falls in the upper tail of the sampling distribution and is farther than 3.92 from , subtracting and adding 3.92 to x¯3 forms an interval that does not include .
+Any sample mean x¯ that is within the darkly shaded region of Figure 8.3 will provide an interval that contains the population mean . Because 95% of all possible sample means are in the darkly shaded region, 95% of all intervals formed by subtracting 3.92 from x¯ and adding 3.92 to x¯ will include the population mean .
+Recall that during the most recent week, the quality assurance team at Lloyd's surveyed 100 customers and obtained a sample mean amount spent of x¯  82. Using x¯  3.92 to
+FIGURE 8.3 INTERVALS FORMED FROM SELECTED SAMPLE MEANS AT LOCATIONS x¯1, x¯2, AND x¯3
+
+Sampling distribution of x
+
+95% of all x values
+
+x =2
+
+Interval based on x2 ± 3.92
+
+ 3.92 3.92
+x1 x2
+The population mean 
+
+x
+Interval based on x1 ± 3.92
+x3 Interval based on x3 ± 3.92
+(note that this interval does not include )
+
+This discussion provides insight as to why the interval is called a 95% confidence interval.
+
+8.1 Population Mean:  Known
+
+313
+
+construct the interval estimate, we obtain 82  3.92. Thus, the specific interval estimate of  based on the data from the most recent week is 82  3.92  78.08 to 82  3.92  85.92. Because 95% of all the intervals constructed using x¯  3.92 will contain the population mean, we say that we are 95% confident that the interval 78.08 to 85.92 includes the popu-
+lation mean . We say that this interval has been established at the 95% confidence level. The value .95 is referred to as the confidence coefficient, and the interval 78.08 to 85.92 is
+called the 95% confidence interval.
+With the margin of error given by z/2(n ), the general form of an interval estimate of a population mean for the  known case follows.
+
+INTERVAL ESTIMATE OF A POPULATION MEAN:  KNOWN
+
+x¯
+
+
+
+z/2
+
+ n
+
+(8.1)
+
+where (1  ) is the confidence coefficient and z/2 is the z value providing an area of /2 in the upper tail of the standard normal probability distribution.
+
+Let us use expression (8.1) to construct a 95% confidence interval for the Lloyd's ex-
+ample. For a 95% confidence interval, the confidence coefficient is (1  )  .95 and thus,   .05. Using the standard normal probability table, an area of /2  .05/2  .025 in the upper tail provides z.025  1.96. With the Lloyd's sample mean x¯  82,   20, and a sample size n  100, we obtain
+
+82
+
+
+
+1.96
+
+20
+100
+
+82  3.92
+
+Thus, using expression (8.1), the margin of error is 3.92 and the 95% confidence interval is 82  3.92  78.08 to 82  3.92  85.92.
+Although a 95% confidence level is frequently used, other confidence levels such as 90% and 99% may be considered. Values of z/2 for the most commonly used confidence levels are shown in Table 8.1. Using these values and expression (8.1), the 90% confidence interval for the Lloyd's example is
+
+82
+
+
+
+1.645
+
+20
+100
+
+82  3.29
+
+TABLE 8.1 VALUES OF z/2 FOR THE MOST COMMONLY USED CONFIDENCE LEVELS
+
+Confidence Level  /2 z/2
+
+90%
+
+.10 .05
+
+1.645
+
+95% .05 .025 1.960
+
+99% .01 .005 2.576
+
+314 Chapter 8 Interval Estimation
+Thus, at 90% confidence, the margin of error is 3.29 and the confidence interval is 82  3.29  78.71 to 82  3.29  85.29. Similarly, the 99% confidence interval is
+82  2.576 20
+100
+82  5.15
+Thus, at 99% confidence, the margin of error is 5.15 and the confidence interval is 82  5.15  76.85 to 82  5.15  87.15.
+Comparing the results for the 90%, 95%, and 99% confidence levels, we see that in order to have a higher degree of confidence, the margin of error and thus the width of the confidence interval must be larger.
+Practical Advice
+If the population follows a normal distribution, the confidence interval provided by expression (8.1) is exact. In other words, if expression (8.1) were used repeatedly to generate 95% confidence intervals, exactly 95% of the intervals generated would contain the population mean. If the population does not follow a normal distribution, the confidence interval provided by expression (8.1) will be approximate. In this case, the quality of the approximation depends on both the distribution of the population and the sample size.
+In most applications, a sample size of n  30 is adequate when using expression (8.1) to develop an interval estimate of a population mean. If the population is not normally distributed, but is roughly symmetric, sample sizes as small as 15 can be expected to provide good approximate confidence intervals. With smaller sample sizes, expression (8.1) should only be used if the analyst believes, or is willing to assume, that the population distribution is at least approximately normal.
+
+NOTES AND COMMENTS
+
+1. The interval estimation procedure discussed in this section is based on the assumption that the population standard deviation  is known. By  known we mean that historical data or other information are available that permit us to obtain a good estimate of the population standard deviation prior to taking the sample that will be used to develop an estimate of the population mean. So technically we don't mean that  is actually known with certainty. We just mean that we obtained a good estimate of the standard deviation prior to sampling and thus we won't be using the
+
+same sample to estimate both the population mean and the population standard deviation. 2. The sample size n appears in the denominator of the interval estimation expression (8.1). Thus, if a particular sample size provides too wide an interval to be of any practical use, we may want to consider increasing the sample size. With n in the denominator, a larger sample size will provide a smaller margin of error, a narrower interval, and greater precision. The procedure for determining the size of a simple random sample necessary to obtain a desired precision is discussed in Section 8.3.
+
+Exercises
+Methods
+1. A simple random sample of 40 items resulted in a sample mean of 25. The population standard deviation is   5. a. What is the standard error of the mean, x¯? b. At 95% confidence, what is the margin of error?
+
+8.1 Population Mean:  Known
+
+315
+
+SELF test
+
+2. A simple random sample of 50 items from a population with   6 resulted in a sample mean of 32. a. Provide a 90% confidence interval for the population mean. b. Provide a 95% confidence interval for the population mean. c. Provide a 99% confidence interval for the population mean.
+3. A simple random sample of 60 items resulted in a sample mean of 80. The population standard deviation is   15. a. Compute the 95% confidence interval for the population mean. b. Assume that the same sample mean was obtained from a sample of 120 items. Provide a 95% confidence interval for the population mean. c. What is the effect of a larger sample size on the interval estimate?
+4. A 95% confidence interval for a population mean was reported to be 152 to 160. If   15, what sample size was used in this study?
+
+SELF test WEB file
+Nielsen
+WEB file
+TaxReturn
+
+Applications
+5. In an effort to estimate the mean amount spent per customer for dinner at a major Atlanta restaurant, data were collected for a sample of 49 customers. Assume a population standard deviation of $5. a. At 95% confidence, what is the margin of error? b. If the sample mean is $24.80, what is the 95% confidence interval for the population mean?
+6. Nielsen Media Research conducted a study of household television viewing times during the 8 p.m. to 11 p.m. time period. The data contained in the file named Nielsen are consistent with the findings reported (The World Almanac, 2003). Based upon past studies the population standard deviation is assumed known with   3.5 hours. Develop a 95% confidence interval estimate of the mean television viewing time per week during the 8 p.m. to 11 p.m. time period.
+7. The Wall Street Journal reported that automobile crashes cost the United States $162 billion annually (The Wall Street Journal, March 5, 2008). The average cost per person for crashes in the Tampa, Florida, area was reported to be $1599. Suppose this average cost was based on a sample of 50 persons who had been involved in car crashes and that the population standard deviation is   $600. What is the margin of error for a 95% confidence interval? What would you recommend if the study required a margin of error of $150 or less?
+8. The National Quality Research Center at the University of Michigan provides a quarterly measure of consumer opinions about products and services (The Wall Street Journal, February 18, 2003). A survey of 10 restaurants in the Fast Food/Pizza group showed a sample mean customer satisfaction index of 71. Past data indicate that the population standard deviation of the index has been relatively stable with   5. a. What assumption should the researcher be willing to make if a margin of error is desired? b. Using 95% confidence, what is the margin of error? c. What is the margin of error if 99% confidence is desired?
+9. AARP reported on a study conducted to learn how long it takes individuals to prepare their federal income tax return (AARP Bulletin, April 2008). The data contained in the file named TaxReturn are consistent with the study results. These data provide the time in hours required for 40 individuals to complete their federal income tax returns. Using past years' data, the population standard deviation can be assumed known with   9 hours. What is the 95% confidence interval estimate of the mean time it takes an individual to complete a federal income tax return?
+10. Playbill magazine reported that the mean annual household income of its readers is $119,155 (Playbill, January 2006). Assume this estimate of the mean annual household income is based on a sample of 80 households, and based on past studies, the population standard deviation is known to be   $30,000.
+
+316 Chapter 8 Interval Estimation
+a. Develop a 90% confidence interval estimate of the population mean. b. Develop a 95% confidence interval estimate of the population mean. c. Develop a 99% confidence interval estimate of the population mean. d. Discuss what happens to the width of the confidence interval as the confidence level
+is increased. Does this result seem reasonable? Explain.
+
+8.2 Population Mean:  Unknown
+
+William Sealy Gosset, writing under the name "Student," is the founder of the t distribution. Gosset, an Oxford graduate in mathematics, worked for the Guinness Brewery in Dublin, Ireland. He developed the t distribution while working on smallscale materials and temperature experiments.
+
+When developing an interval estimate of a population mean we usually do not have a good estimate of the population standard deviation either. In these cases, we must use the same sample to estimate both  and . This situation represents the  unknown case. When s is used to estimate , the margin of error and the interval estimate for the population mean are based on a probability distribution known as the t distribution. Although the mathematical development of the t distribution is based on the assumption of a normal distribution for the population we are sampling from, research shows that the t distribution can be successfully applied in many situations where the population deviates significantly from normal. Later in this section we provide guidelines for using the t distribution if the population is not normally distributed.
+The t distribution is a family of similar probability distributions, with a specific t distribution depending on a parameter known as the degrees of freedom. The t distribution with one degree of freedom is unique, as is the t distribution with two degrees of freedom, with three degrees of freedom, and so on. As the number of degrees of freedom increases, the difference between the t distribution and the standard normal distribution becomes smaller and smaller. Figure 8.4 shows t distributions with 10 and 20 degrees of freedom and their relationship to the standard normal probability distribution. Note that a t distribution with more degrees of freedom exhibits less variability and more
+
+FIGURE 8.4 COMPARISON OF THE STANDARD NORMAL DISTRIBUTION WITH t DISTRIBUTIONS HAVING 10 AND 20 DEGREES OF FREEDOM
+Standard normal distribution t distribution (20 degrees of freedom) t distribution (10 degrees of freedom)
+
+z, t 0
+
+8.2 Population Mean:  Unknown
+
+317
+
+As the degrees of freedom increase, the t distribution approaches the standard normal distribution.
+
+closely resembles the standard normal distribution. Note also that the mean of the t distribution is zero.
+We place a subscript on t to indicate the area in the upper tail of the t distribution. For example, just as we used z.025 to indicate the z value providing a .025 area in the upper tail of a standard normal distribution, we will use t.025 to indicate a .025 area in the upper tail of a t distribution. In general, we will use the notation t/2 to represent a t value with an area of /2 in the upper tail of the t distribution. See Figure 8.5.
+Table 2 in Appendix B contains a table for the t distribution. A portion of this table is shown in Table 8.2. Each row in the table corresponds to a separate t distribution with the degrees of freedom shown. For example, for a t distribution with 9 degrees of freedom, t.025  2.262. Similarly, for a t distribution with 60 degrees of freedom, t.025  2.000. As the degrees of freedom continue to increase, t.025 approaches z.025  1.96. In fact, the standard normal distribution z values can be found in the infinite degrees of freedom row (labeled ) of the t distribution table. If the degrees of freedom exceed 100, the infinite degrees of freedom row can be used to approximate the actual t value; in other words, for more than 100 degrees of freedom, the standard normal z value provides a good approximation to the t value.
+
+Margin of Error and the Interval Estimate
+In Section 8.1 we showed that an interval estimate of a population mean for the  known case is
+
+x¯
+
+
+
+z/2
+
+ n
+
+To compute an interval estimate of  for the  unknown case, the sample standard deviation s is used to estimate , and z/2 is replaced by the t distribution value t/2. The margin
+
+FIGURE 8.5 t DISTRIBUTION WITH /2 AREA OR PROBABILITY IN THE UPPER TAIL
+
+ /2 t
+0 t/2
+
+318 Chapter 8 Interval Estimation
+TABLE 8.2 SELECTED VALUES FROM THE t DISTRIBUTION TABLE*
+
+··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ··· ···
+
+Area or probability
+
+0t
+
+Degrees of Freedom
+1 2 3 4
+5 6 7 8 9
+60 61 62 63 64
+65 66 67 68 69
+90 91 92 93 94
+95 96 97 98 99 100 
+
+.20
+1.376 1.061 .978 .941
+.920 .906 .896 .889 .883
+.848 .848 .847 .847 .847
+.847 .847 .847 .847 .847
+.846 .846 .846 .846 .845
+.845 .845 .845 .845 .845 .845 .842
+
+.10
+3.078 1.886 1.638 1.533
+1.476 1.440 1.415 1.397 1.383
+1.296 1.296 1.295 1.295 1.295
+1.295 1.295 1.294 1.294 1.294
+1.291 1.291 1.291 1.291 1.291
+1.291 1.290 1.290 1.290 1.290 1.290 1.282
+
+Area in Upper Tail
+
+.05 .025
+
+6.314 2.920 2.353 2.132
+
+12.706 4.303 3.182 2.776
+
+2.015 1.943 1.895 1.860 1.833
+
+2.571 2.447 2.365 2.306 2.262
+
+1.671 1.670 1.670 1.669 1.669
+1.669 1.668 1.668 1.668 1.667
+
+2.000 2.000 1.999 1.998 1.998
+1.997 1.997 1.996 1.995 1.995
+
+1.662 1.662 1.662 1.661 1.661
+1.661 1.661 1.661 1.661 1.660 1.660 1.645
+
+1.987 1.986 1.986 1.986 1.986
+1.985 1.985 1.985 1.984 1.984 1.984 1.960
+
+*Note: A more extensive table is provided as Table 2 of Appendix B.
+
+.01
+31.821 6.965 4.541 3.747
+3.365 3.143 2.998 2.896 2.821
+2.390 2.389 2.388 2.387 2.386
+2.385 2.384 2.383 2.382 2.382
+2.368 2.368 2.368 2.367 2.367
+2.366 2.366 2.365 2.365 2.364 2.364 2.326
+
+.005
+63.656 9.925 5.841 4.604
+4.032 3.707 3.499 3.355 3.250
+2.660 2.659 2.657 2.656 2.655
+2.654 2.652 2.651 2.650 2.649
+2.632 2.631 2.630 2.630 2.629
+2.629 2.628 2.627 2.627 2.626 2.626 2.576
+
+8.2 Population Mean:  Unknown
+
+319
+
+of error is then given by t/2 sn. With this margin of error, the general expression for an interval estimate of a population mean when  is unknown follows.
+
+INTERVAL ESTIMATE OF A POPULATION MEAN:  UNKNOWN
+
+x¯
+
+
+
+t/2
+
+s n
+
+(8.2)
+
+where s is the sample standard deviation, (1  ) is the confidence coefficient, and t/2 is the t value providing an area of /2 in the upper tail of the t distribution with n  1 degrees of freedom.
+
+The reason the number of degrees of freedom associated with the t value in expression
+(8.2) is n  1 concerns the use of s as an estimate of the population standard deviation . The expression for the sample standard deviation is
+
+s 
+
+(xi  x¯)2 n1
+
+Degrees of freedom refer to the number of independent pieces of information that go into the
+
+computation of (xi  x¯)2. The n pieces of information involved in computing (xi  x¯)2 are as follows: x1  x¯, x2  x¯, . . . , xn  x¯. In Section 3.2 we indicated that (xi  x¯)  0 for any data set. Thus, only n  1 of the xi  x¯ values are independent; that is, if we know n  1 of the values, the remaining value can be determined exactly by using the condition that the
+
+sum of the ciated with
+
+xi  (xi
+
+x¯ values must be  x¯)2 and hence
+
+0. Thus, n  1 the number of
+
+is the number of degrees of degrees of freedom for the t
+
+freedom assodistribution in
+
+expression (8.2).
+
+To illustrate the interval estimation procedure for the  unknown case, we will consider
+
+a study designed to estimate the mean credit card debt for the population of U.S. households.
+
+A sample of n  70 households provided the credit card balances shown in Table 8.3. For
+
+this situation, no previous estimate of the population standard deviation  is available. Thus,
+
+the sample data must be used to estimate both the population mean and the population stan-
+
+dard deviation. Using the data in Table 8.3, we compute the sample mean x¯  $9312 and the
+
+sample standard deviation s  $4007. With 95% confidence and n  1  69 degrees of
+
+TABLE 8.3 CREDIT CARD BALANCES FOR A SAMPLE OF 70 HOUSEHOLDS
+
+WEB file
+NewBalance
+
+9430 7535 4078 5604 5179 4416 10676 1627 10112 6567 13627 18719
+
+14661 12195 10544 13659 7061 6245 13021 9719 2200 10746 12744 5742
+
+7159 8137 9467 12595 7917 11346 12806 4972 11356 7117 9465 19263
+
+9071 3603 16804 13479 14044 6817 6845 10493 615 13627 12557 6232
+
+9691 11448 8279 5649 11298 4353 3467 6191 12851 5337 8372 7445
+
+11032 6525 5239 6195
+12584 15415 15917 12591
+9743 10324
+
+320 Chapter 8 Interval Estimation
+
+freedom, Table 8.2 can be used to obtain the appropriate value for t.025. We want the t value in the row with 69 degrees of freedom, and the column corresponding to .025 in the upper tail. The value shown is t.025  1.995.
+We use expression (8.2) to compute an interval estimate of the population mean credit card balance.
+
+9312  1.995 4007
+70
+9312  955
+The point estimate of the population mean is $9312, the margin of error is $955, and the 95% confidence interval is 9312  955  $8357 to 9312  955  $10,267. Thus, we are 95% confident that the mean credit card balance for the population of all households is between $8357 and $10,267.
+The procedures used by Minitab, Excel and StatTools to develop confidence intervals for a population mean are described in Appendixes 8.1, 8.2 and 8.3. For the household credit card balances study, the results of the Minitab interval estimation procedure are shown in Figure 8.6. The sample of 70 households provides a sample mean credit card balance of $9312, a sample standard deviation of $4007, a standard error of the mean of $479, and a 95% confidence interval of $8357 to $10,267.
+
+Larger sample sizes are needed if the distribution of the population is highly skewed or includes outliers.
+
+Practical Advice
+If the population follows a normal distribution, the confidence interval provided by expression (8.2) is exact and can be used for any sample size. If the population does not follow a normal distribution, the confidence interval provided by expression (8.2) will be approximate. In this case, the quality of the approximation depends on both the distribution of the population and the sample size.
+In most applications, a sample size of n  30 is adequate when using expression (8.2) to develop an interval estimate of a population mean. However, if the population distribution is highly skewed or contains outliers, most statisticians would recommend increasing the sample size to 50 or more. If the population is not normally distributed but is roughly symmetric, sample sizes as small as 15 can be expected to provide good approximate confidence intervals. With smaller sample sizes, expression (8.2) should only be used if the analyst believes, or is willing to assume, that the population distribution is at least approximately normal.
+
+Using a Small Sample
+In the following example we develop an interval estimate for a population mean when the sample size is small. As we already noted, an understanding of the distribution of the population becomes a factor in deciding whether the interval estimation procedure provides acceptable results.
+Scheer Industries is considering a new computer-assisted program to train maintenance employees to do machine repairs. In order to fully evaluate the program, the director of
+
+FIGURE 8.6 MINITAB CONFIDENCE INTERVAL FOR THE CREDIT CARD BALANCE SURVEY
+
+Variable NewBalance
+
+N 70
+
+Mean 9312
+
+StDev 4007
+
+SE Mean 479
+
+95% CI (8357, 10267)
+
+8.2 Population Mean:  Unknown
+
+TABLE 8.4 TRAINING TIME IN DAYS FOR A SAMPLE OF 20 SCHEER INDUSTRIES EMPLOYEES
+
+WEB file
+Scheer
+
+52 59 54 42 44 50 42 48 55 54 60 55 44 62 62 57 45 46 43 56
+
+321
+
+manufacturing requested an estimate of the population mean time required for maintenance employees to complete the computer-assisted training.
+A sample of 20 employees is selected, with each employee in the sample completing the training program. Data on the training time in days for the 20 employees are shown in Table 8.4. A histogram of the sample data appears in Figure 8.7. What can we say about the distribution of the population based on this histogram? First, the sample data do not support the conclusion that the distribution of the population is normal, yet we do not see any evidence of skewness or outliers. Therefore, using the guidelines in the previous subsection, we conclude that an interval estimate based on the t distribution appears acceptable for the sample of 20 employees.
+We continue by computing the sample mean and sample standard deviation as follows.
+
+x¯
+
+
+
+xi n
+
+
+
+1030 20
+
+
+
+51.5
+
+days
+
+ s 
+
+(xi  x¯)2 n1
+
+
+
+889 20 
+
+1
+
+
+
+6.84
+
+days
+
+FIGURE 8.7 HISTOGRAM OF TRAINING TIMES FOR THE SCHEER INDUSTRIES SAMPLE
+
+6
+
+5
+
+4
+
+Frequency
+
+3
+
+2
+
+1
+0 40 45 50 55 60 65
+Training Time (days)
+
+322 Chapter 8 Interval Estimation
+For a 95% confidence interval, we use Table 2 of Appendix B and n  1  19 degrees of freedom to obtain t.025  2.093. Expression (8.2) provides the interval estimate of the population mean.
+ 51.5  2.093 6.84 20
+51.5  3.2 The point estimate of the population mean is 51.5 days. The margin of error is 3.2 days and the 95% confidence interval is 51.5  3.2  48.3 days to 51.5  3.2  54.7 days.
+Using a histogram of the sample data to learn about the distribution of a population is not always conclusive, but in many cases it provides the only information available. The histogram, along with judgment on the part of the analyst, can often be used to decide whether expression (8.2) can be used to develop the interval estimate.
+Summary of Interval Estimation Procedures
+We provided two approaches to developing an interval estimate of a population mean. For the  known case,  and the standard normal distribution are used in expression (8.1) to compute the margin of error and to develop the interval estimate. For the  unknown case, the sample standard deviation s and the t distribution are used in expression (8.2) to compute the margin of error and to develop the interval estimate.
+A summary of the interval estimation procedures for the two cases is shown in Figure 8.8. In most applications, a sample size of n  30 is adequate. If the population has a normal or approximately normal distribution, however, smaller sample sizes may be used.
+FIGURE 8.8 SUMMARY OF INTERVAL ESTIMATION PROCEDURES FOR A POPULATION MEAN
+Can the population Yes standard deviation  No
+be assumed known?
+Use the sample standard deviation
+s to estimate 
+
+Use x ± z/2 
+n  Known Case
+
+Use x ± t/2 s
+n  Unknown Case
+
+8.2 Population Mean:  Unknown
+
+323
+
+For the  unknown case a sample size of n  50 is recommended if the population distribution is believed to be highly skewed or has outliers.
+
+NOTES AND COMMENTS
+
+1. When  is known, the margin of error,
+
+szam/2(ples onf)s, izise
+
+fixed and n. When 
+
+is the same for all is unknown, the mar-
+
+tgoinsaomf pelrer.oTr,htis/2v(sariantio),nvoacrcieusrsfrboemcausasme tphlee
+
+sample standard deviation s varies depending
+
+upon the sample selected. A large value for s
+
+provides a larger margin of error, while a small
+
+value for s provides a smaller margin of error.
+
+2. What happens to confidence interval esti-
+
+mates when the population is skewed? Con-
+
+sider a population that is skewed to the right
+
+with large data values stretching the distri-
+
+bution to the right. When such skewness ex-
+
+ists, the sample mean x¯ and the sample
+
+standard deviation s are positively corre-
+
+lated. Larger values of s tend to be associated
+
+with larger values of x¯. Thus, when x¯ is larger
+
+than the population mean, s tends to be larger
+
+than . This skewness causes the margin of
+
+ewrirtohr,tk/2n(oswnn.
+
+), to The
+
+be larger than it would be confidence interval with
+
+the larger margin of error tends to include the
+
+population mean  more often than it would
+
+if the true value of  were used. But when x¯
+
+is smaller than the population mean, the cor-
+
+relation between x¯ and s causes the margin of
+
+error to be small. In this case, the confidence
+
+interval with the smaller margin of error
+
+tends to miss the population mean more than
+
+it would if we knew  and used it. For
+
+this reason, we recommend using larger sam-
+
+ple sizes with highly skewed population
+
+distributions.
+
+SELF test
+
+Exercises
+Methods
+11. For a t distribution with 16 degrees of freedom, find the area, or probability, in each region. a. To the right of 2.120 b. To the left of 1.337 c. To the left of 1.746 d. To the right of 2.583 e. Between 2.120 and 2.120 f. Between 1.746 and 1.746
+12. Find the t value(s) for each of the following cases. a. Upper tail area of .025 with 12 degrees of freedom b. Lower tail area of .05 with 50 degrees of freedom c. Upper tail area of .01 with 30 degrees of freedom d. Where 90% of the area falls between these two t values with 25 degrees of freedom e. Where 95% of the area falls between these two t values with 45 degrees of freedom
+13. The following sample data are from a normal population: 10, 8, 12, 15, 13, 11, 6, 5. a. What is the point estimate of the population mean? b. What is the point estimate of the population standard deviation? c. With 95% confidence, what is the margin of error for the estimation of the population mean? d. What is the 95% confidence interval for the population mean?
+14. A simple random sample with n  54 provided a sample mean of 22.5 and a sample standard deviation of 4.4. a. Develop a 90% confidence interval for the population mean. b. Develop a 95% confidence interval for the population mean.
+
+324 Chapter 8 Interval Estimation
+c. Develop a 99% confidence interval for the population mean. d. What happens to the margin of error and the confidence interval as the confidence level
+is increased?
+
+SELF test
+
+Applications
+15. Sales personnel for Skillings Distributors submit weekly reports listing the customer contacts made during the week. A sample of 65 weekly reports showed a sample mean of 19.5 customer contacts per week. The sample standard deviation was 5.2. Provide 90% and 95% confidence intervals for the population mean number of weekly customer contacts for the sales personnel.
+16. The mean number of hours of flying time for pilots at Continental Airlines is 49 hours per month (The Wall Street Journal, February 25, 2003). Assume that this mean was based on actual flying times for a sample of 100 Continental pilots and that the sample standard deviation was 8.5 hours. a. At 95% confidence, what is the margin of error? b. What is the 95% confidence interval estimate of the population mean flying time for the pilots? c. The mean number of hours of flying time for pilots at United Airlines is 36 hours per month. Use your results from part (b) to discuss differences between the flying times for the pilots at the two airlines. The Wall Street Journal reported United Airlines as having the highest labor cost among all airlines. Does the information in this exercise provide insight as to why United Airlines might expect higher labor costs?
+17. The International Air Transport Association surveys business travelers to develop quality ratings for transatlantic gateway airports. The maximum possible rating is 10. Suppose a simple random sample of 50 business travelers is selected and each traveler is asked to provide a rating for the Miami International Airport. The ratings obtained from the sample of 50 business travelers follow.
+
+WEB file
+Miami
+
+6468776
+
+3 3 8 10 4 8
+
+7875958
+
+438
+
+554
+
+4484562
+
+599
+
+9 9 5 9 7 8 3 10 8 9
+
+848 6
+
+WEB file
+JobSearch
+
+Develop a 95% confidence interval estimate of the population mean rating for Miami.
+18. Older people often have a hard time finding work. AARP reported on the number of weeks it takes a worker aged 55 plus to find a job. The data on number of weeks spent searching for a job contained in the file JobSearch are consistent with the AARP findings (AARP Bulletin, April 2008). a. Provide a point estimate of the population mean number of weeks it takes a worker aged 55 plus to find a job. b. At 95% confidence, what is the margin of error? c. What is the 95% confidence interval estimate of the mean? d. Discuss the degree of skewness found in the sample data. What suggestion would you make for a repeat of this study?
+19. The average cost per night of a hotel room in New York City is $273 (SmartMoney, March 2009). Assume this estimate is based on a sample of 45 hotels and that the sample standard deviation is $65. a. With 95% confidence, what is the margin of error? b. What is the 95% confidence interval estimate of the population mean? c. Two years ago the average cost of a hotel room in New York City was $229. Discuss the change in cost over the two-year period.
+
+8.3 Determining the Sample Size
+
+325
+
+WEB file
+Program
+WEB file
+Alcohol
+WEB file
+TicketSales
+
+20. Is your favorite TV program often interrupted by advertising? CNBC presented statistics on the average number of programming minutes in a half-hour sitcom (CNBC, February 23, 2006). The following data (in minutes) are representative of their findings.
+
+21.06 21.66 23.82 21.52 20.02 22.37 23.36
+
+22.24 21.23 20.30 21.91 22.20 22.19 23.44
+
+20.62 23.86 21.52 23.14 21.20 22.34
+
+Assume the population is approximately normal. Provide a point estimate and a 95% confidence interval for the mean number of programming minutes during a half-hour television sitcom.
+21. Consumption of alcoholic beverages by young women of drinking age has been increasing in the United Kingdom, the United States, and Europe (The Wall Street Journal, February 15, 2006). Data (annual consumption in liters) consistent with the findings reported in The Wall Street Journal article are shown for a sample of 20 European young women.
+
+266 82 199 174 97
+
+170 222 115 130 169
+
+164 102 113 171
+
+0
+
+93 0 93 110 130
+
+Assuming the population is roughly symmetric, construct a 95% confidence interval for the mean annual consumption of alcoholic beverages by European young women.
+22. Disney's Hannah Montana: The Movie opened on Easter weekend in April 2009. Over the three-day weekend, the movie became the number-one box office attraction (The Wall Street Journal, April 13, 2009). The ticket sales revenue in dollars for a sample of 25 theaters is as follows.
+
+20,200 8350
+10,750 13,900 13,185
+
+10,150 7300 6240 4200 9200
+
+13,000 14,000 12,700
+6750 21,400
+
+11,320 9940 7430 6700
+11,380
+
+9700 11,200 13,500
+9330 10,800
+
+a. What is the 95% confidence interval estimate for the mean ticket sales revenue per theater? Interpret this result.
+b. Using the movie ticket price of $7.16 per ticket, what is the estimate of the mean number of customers per theater?
+c. The movie was shown in 3118 theaters. Estimate the total number of customers who saw Hannah Montana: The Movie and the total box office ticket sales for the threeday weekend.
+
+8.3 Determining the Sample Size
+
+If a desired margin of error is selected prior to sampling, the procedures in this section can be used to determine the sample size necessary to satisfy the margin of error requirement.
+
+In providing practical advice in the two preceding sections, we commented on the role of the sample size in providing good approximate confidence intervals when the population is not normally distributed. In this section, we focus on another aspect of the sample size issue. We describe how to choose a sample size large enough to provide a desired margin of error. To understand how this process works, we return to the  known case presented in Section 8.1. Using expression (8.1), the interval estimate is
+
+x¯
+
+
+
+z/2
+
+ n
+
+326 Chapter 8 Interval Estimation
+
+The quantity z/2(n) is the margin of error. Thus, we see that z/2, the population standard deviation , and the sample size n combine to determine the margin of error. Once we select a confidence coefficient 1  , z/2 can be determined. Then, if we have a value for , we can determine the sample size n needed to provide any desired margin of error. Development of the formula used to compute the required sample size n follows.
+Let E  the desired margin of error:
+
+Solving for n, we have
+
+E
+
+
+
+z/2
+
+ n
+
+n  z/2 E
+
+Squaring both sides of this equation, we obtain the following expression for the sample size.
+
+Equation (8.3) can be used to provide a good sample size recommendation. However, judgment on the part of the analyst should be used to determine whether the final sample size should be adjusted upward.
+A planning value for the population standard deviation  must be specified before the sample size can be determined. Three methods of obtaining a planning value for  are discussed here.
+
+SAMPLE SIZE FOR AN INTERVAL ESTIMATE OF A POPULATION MEAN
+
+n
+
+
+
+(z/2)2 2 E2
+
+(8.3)
+
+This sample size provides the desired margin of error at the chosen confidence level. In equation (8.3), E is the margin of error that the user is willing to accept, and the value
+of z/2 follows directly from the confidence level to be used in developing the interval estimate. Although user preference must be considered, 95% confidence is the most frequently chosen value (z.025  1.96).
+Finally, use of equation (8.3) requires a value for the population standard deviation . However, even if  is unknown, we can use equation (8.3) provided we have a preliminary or planning value for . In practice, one of the following procedures can be chosen.
+1. Use the estimate of the population standard deviation computed from data of previous studies as the planning value for .
+2. Use a pilot study to select a preliminary sample. The sample standard deviation from the preliminary sample can be used as the planning value for .
+3. Use judgment or a "best guess" for the value of . For example, we might begin by estimating the largest and smallest data values in the population. The difference between the largest and smallest values provides an estimate of the range for the data. Finally, the range divided by 4 is often suggested as a rough approximation of the standard deviation and thus an acceptable planning value for .
+Let us demonstrate the use of equation (8.3) to determine the sample size by considering the following example. A previous study that investigated the cost of renting automobiles in the United States found a mean cost of approximately $55 per day for renting a midsize automobile. Suppose that the organization that conducted this study would like to conduct a new study in order to estimate the population mean daily rental cost for a midsize automobile in the United States. In designing the new study, the project director specifies that the population mean daily rental cost be estimated with a margin of error of $2 and a 95% level of confidence.
+The project director specified a desired margin of error of E  2, and the 95% level of confidence indicates z.025  1.96. Thus, we only need a planning value for the population standard deviation  in order to compute the required sample size. At this point, an analyst reviewed the sample data from the previous study and found that the sample standard deviation for the daily rental cost was $9.65. Using 9.65 as the planning value for , we obtain
+
+8.3 Determining the Sample Size
+
+327
+
+Equation (8.3) provides the minimum sample size needed to satisfy the desired margin of error requirement. If the computed sample size is not an integer, rounding up to the next integer value will provide a margin of error slightly smaller than required.
+
+n
+
+
+
+(z/2 )2 2 E2
+
+
+
+(1.96)2(9.65)2 22
+
+
+
+89.43
+
+Thus, the sample size for the new study needs to be at least 89.43 midsize automobile rentals in order to satisfy the project director's $2 margin-of-error requirement. In cases where the computed n is not an integer, we round up to the next integer value; hence, the recommended sample size is 90 midsize automobile rentals.
+
+Exercises
+
+SELF test SELF test
+
+Methods
+23. How large a sample should be selected to provide a 95% confidence interval with a margin of error of 10? Assume that the population standard deviation is 40.
+24. The range for a set of data is estimated to be 36. a. What is the planning value for the population standard deviation? b. At 95% confidence, how large a sample would provide a margin of error of 3? c. At 95% confidence, how large a sample would provide a margin of error of 2?
+Applications
+25. Refer to the Scheer Industries example in Section 8.2. Use 6.84 days as a planning value for the population standard deviation. a. Assuming 95% confidence, what sample size would be required to obtain a margin of error of 1.5 days? b. If the precision statement was made with 90% confidence, what sample size would be required to obtain a margin of error of 2 days?
+26. The average cost of a gallon of unleaded gasoline in Greater Cincinnati was reported to be $2.41 (The Cincinnati Enquirer, February 3, 2006). During periods of rapidly changing prices, the newspaper samples service stations and prepares reports on gasoline prices frequently. Assume the standard deviation is $.15 for the price of a gallon of unleaded regular gasoline, and recommend the appropriate sample size for the newspaper to use if they wish to report a margin of error at 95% confidence. a. Suppose the desired margin of error is $.07. b. Suppose the desired margin of error is $.05. c. Suppose the desired margin of error is $.03.
+27. Annual starting salaries for college graduates with degrees in business administration are generally expected to be between $30,000 and $45,000. Assume that a 95% confidence interval estimate of the population mean annual starting salary is desired. What is the planning value for the population standard deviation? How large a sample should be taken if the desired margin of error is a. $500? b. $200? c. $100? d. Would you recommend trying to obtain the $100 margin of error? Explain.
+28. An online survey by ShareBuilder, a retirement plan provider, and Harris Interactive reported that 60% of female business owners are not confident they are saving enough for retirement (SmallBiz, Winter 2006). Suppose we would like to do a follow-up study to determine how much female business owners are saving each year toward retirement and want to use $100 as the desired margin of error for an interval estimate of the population mean. Use $1100 as a planning value for the standard deviation and recommend a sample size for each of the following situations. a. A 90% confidence interval is desired for the mean amount saved. b. A 95% confidence interval is desired for the mean amount saved.
+
+328 Chapter 8 Interval Estimation
+c. A 99% confidence interval is desired for the mean amount saved. d. When the desired margin of error is set, what happens to the sample size as the confi-
+dence level is increased? Would you recommend using a 99% confidence interval in this case? Discuss. 29. The travel-to-work time for residents of the 15 largest cities in the United States is reported in the 2003 Information Please Almanac. Suppose that a preliminary simple random sample of residents of San Francisco is used to develop a planning value of 6.25 minutes for the population standard deviation. a. If we want to estimate the population mean travel-to-work time for San Francisco residents with a margin of error of 2 minutes, what sample size should be used? Assume 95% confidence. b. If we want to estimate the population mean travel-to-work time for San Francisco residents with a margin of error of 1 minute, what sample size should be used? Assume 95% confidence. 30. During the first quarter of 2003, the price/earnings (P/E) ratio for stocks listed on the New York Stock Exchange generally ranged from 5 to 60 (The Wall Street Journal, March 7, 2003). Assume that we want to estimate the population mean P/E ratio for all stocks listed on the exchange. How many stocks should be included in the sample if we want a margin of error of 3? Use 95% confidence.
+8.4 Population Proportion
+In the introduction to this chapter we said that the general form of an interval estimate of a population proportion p is
+p¯  Margin of error
+The sampling distribution of p¯ plays a key role in computing the margin of error for this interval estimate.
+In Chapter 7 we said that the sampling distribution of p¯ can be approximated by a normal distribution whenever np  5 and n(1  p)  5. Figure 8.9 shows the normal approximation
+FIGURE 8.9 NORMAL APPROXIMATION OF THE SAMPLING DISTRIBUTION OF p¯
+
+Sampling distribution of p
+
+p =
+
+p(1 ­ p) n
+
+ /2
+
+p
+
+z/2 p
+
+z/2 p
+
+ /2 p
+
+8.4 Population Proportion
+
+329
+
+of the sampling distribution of p¯. The mean of the sampling distribution of p¯ is the population proportion p, and the standard error of p¯ is
+
+p(1  p)
+
+p¯ 
+
+n
+
+(8.4)
+
+Because the sampling distribution of p¯ is normally distributed, if we choose z/2p¯ as the margin of error in an interval estimate of a population proportion, we know that 100(1  )% of the intervals generated will contain the true population proportion. But p¯ cannot be used directly in the computation of the margin of error because p will not be known; p is what we are trying to estimate. So p¯ is substituted for p and the margin of error for an interval estimate of a population proportion is given by
+
+Margin of error  z/2
+
+p¯ (1  p¯) n
+
+(8.5)
+
+With this margin of error, the general expression for an interval estimate of a population proportion is as follows.
+
+When developing
+confidence intervals for
+proportions, the quantity z/2p¯(1  p¯)n provides the margin of error.
+
+INTERVAL ESTIMATE OF A POPULATION PROPORTION
+
+p¯  z/2
+
+p¯(1  p¯) n
+
+(8.6)
+
+where 1   is the confidence coefficient and z/2 is the z value providing an area of /2 in the upper tail of the standard normal distribution.
+
+WEB file
+TeeTimes
+
+The following example illustrates the computation of the margin of error and interval estimate for a population proportion. A national survey of 900 women golfers was conducted to learn how women golfers view their treatment at golf courses in the United States. The survey found that 396 of the women golfers were satisfied with the availability of tee times. Thus, the point estimate of the proportion of the population of women golfers who are satisfied with the availability of tee times is 396/900  .44. Using expression (8.6) and a 95% confidence level,
+
+p¯  z/2
+
+p¯(1  p¯) n
+
+.44  1.96
+
+.44(1  .44) 900
+
+.44  .0324
+
+Thus, the margin of error is .0324 and the 95% confidence interval estimate of the population proportion is .4076 to .4724. Using percentages, the survey results enable us to state with 95% confidence that between 40.76% and 47.24% of all women golfers are satisfied with the availability of tee times.
+
+330 Chapter 8 Interval Estimation
+
+Determining the Sample Size
+
+Let us consider the question of how large the sample size should be to obtain an estimate of a population proportion at a specified level of precision. The rationale for the sample size determination in developing interval estimates of p is similar to the rationale used in Section 8.3 to determine the sample size for estimating a population mean.
+Previously in this section we said that the margin of error associated with an interval
+estimate of a population proportion is z/2p¯ (1  p¯)n. The margin of error is based on the
+value of z/2, the sample proportion p¯, and the sample size n. Larger sample sizes provide a smaller margin of error and better precision.
+Let E denote the desired margin of error.
+
+E  z/2
+
+p¯(1  p¯) n
+
+Solving this equation for n provides a formula for the sample size that will provide a margin of error of size E.
+
+n
+
+
+
+(z/2 )2p¯(1 E2
+
+
+
+p¯)
+
+Note, however, that we cannot use this formula to compute the sample size that will provide the desired margin of error because p¯ will not be known until after we select the sample. What we need, then, is a planning value for p¯ that can be used to make the computation. Using p* to denote the planning value for p¯, the following formula can be used to compute the sample size that will provide a margin of error of size E.
+
+SAMPLE SIZE FOR AN INTERVAL ESTIMATE OF A POPULATION PROPORTION
+
+n
+
+
+
+(z/2 )2p*(1 E2
+
+
+
+p*)
+
+(8.7)
+
+In practice, the planning value p* can be chosen by one of the following procedures.
+1. Use the sample proportion from a previous sample of the same or similar units. 2. Use a pilot study to select a preliminary sample. The sample proportion from this
+sample can be used as the planning value, p*. 3. Use judgment or a "best guess" for the value of p*. 4. If none of the preceding alternatives apply, use a planning value of p*  .50.
+Let us return to the survey of women golfers and assume that the company is interested in conducting a new survey to estimate the current proportion of the population of women golfers who are satisfied with the availability of tee times. How large should the sample be if the survey director wants to estimate the population proportion with a margin of error of .025 at 95% confidence? With E  .025 and z/2  1.96, we need a planning value p* to answer the sample size question. Using the previous survey result of p¯  .44 as the planning value p*, equation (8.7) shows that
+
+n
+
+
+
+(z/2 )2p*(1 E2
+
+
+
+p*)
+
+
+
+(1.96)2(.44)(1  (.025)2
+
+.44)
+
+
+
+1514.5
+
+8.4 Population Proportion
+
+TABLE 8.5 SOME POSSIBLE VALUES FOR p*(1  p*)
+
+p* p*(1  p*)
+.10 (.10)(.90)  .09 .30 (.30)(.70)  .21 .40 (.40)(.60)  .24 .50 (.50)(.50)  .25 .60 (.60)(.40)  .24 .70 (.70)(.30)  .21 .90 (.90)(.10)  .09
+
+Largest value for p*(1  p*)
+
+331
+
+Thus, the sample size must be at least 1514.5 women golfers to satisfy the margin of error
+requirement. Rounding up to the next integer value indicates that a sample of 1515 women
+golfers is recommended to satisfy the margin of error requirement.
+The fourth alternative suggested for selecting a planning value p* is to use p*  .50.This value of p* is frequently used when no other information is available. To understand why, note that the
+numerator of equation (8.7) shows that the sample size is proportional to the quantity p*(1  p*). A larger value for the quantity p*(1  p*) will result in a larger sample size. Table 8.5 gives some possible values of p*(1  p*). Note that the largest value of p*(1  p*) occurs when p*  .50. Thus, in case of any uncertainty about an appropriate planning value, we know that p*  .50 will provide the largest sample size recommendation. In effect, we play it safe by recommending the
+largest necessary sample size. If the sample proportion turns out to be different from the .50 plan-
+ning value, the margin of error will be smaller than anticipated. Thus, in using p*  .50, we guarantee that the sample size will be sufficient to obtain the desired margin of error.
+In the survey of women golfers example, a planning value of p*  .50 would have provided the sample size
+
+n
+
+
+
+(z/2 )2p*(1 E2
+
+
+
+p*)
+
+
+
+(1.96)2(.50)(1  (.025)2
+
+.50)
+
+
+
+1536.6
+
+Thus, a slightly larger sample size of 1537 women golfers would be recommended.
+
+NOTES AND COMMENTS
+
+The desired margin of error for estimating a population proportion is almost always .10 or less. In national public opinion polls conducted by organizations such as Gallup and Harris, a .03 or .04 margin of error is common. With such margins of error,
+
+equation (8.7) will almost always provide a sample
+size that is large enough to satisfy the requirements
+of np  5 and n(1  p)  5 for using a normal distribution as an approximation for the sampling
+distribution of x¯.
+
+SELF test
+
+Exercises
+Methods
+31. A simple random sample of 400 individuals provides 100 Yes responses. a. What is the point estimate of the proportion of the population that would provide Yes responses? b. What is your estimate of the standard error of the proportion, p¯? c. Compute the 95% confidence interval for the population proportion.
+
+332 Chapter 8 Interval Estimation
+
+32. A simple random sample of 800 elements generates a sample proportion p¯  .70. a. Provide a 90% confidence interval for the population proportion. b. Provide a 95% confidence interval for the population proportion.
+33. In a survey, the planning value for the population proportion is p*  .35. How large a sample should be taken to provide a 95% confidence interval with a margin of error of .05?
+34. At 95% confidence, how large a sample should be taken to obtain a margin of error of .03 for the estimation of a population proportion? Assume that past data are not available for developing a planning value for p*.
+
+SELF test
+WEB file
+JobSatisfaction
+SELF test
+
+Applications
+35. The Consumer Reports National Research Center conducted a telephone survey of 2000 adults to learn about the major economic concerns for the future (Consumer Reports, January 2009). The survey results showed that 1760 of the respondents think the future health of Social Security is a major economic concern. a. What is the point estimate of the population proportion of adults who think the future health of Social Security is a major economic concern. b. At 90% confidence, what is the margin of error? c. Develop a 90% confidence interval for the population proportion of adults who think the future health of Social Security is a major economic concern. d. Develop a 95% confidence interval for this population proportion.
+36. According to statistics reported on CNBC, a surprising number of motor vehicles are not covered by insurance (CNBC, February 23, 2006). Sample results, consistent with the CNBC report, showed 46 of 200 vehicles were not covered by insurance. a. What is the point estimate of the proportion of vehicles not covered by insurance? b. Develop a 95% confidence interval for the population proportion.
+37. Towers Perrin, a New York human resources consulting firm, conducted a survey of 1100 employees at medium-sized and large companies to determine how dissatisfied employees were with their jobs (The Wall Street Journal, January 29, 2003). Representative data are shown in the file JobSatisfaction. A response of Yes indicates the employee strongly disliked the current work experience. a. What is the point estimate of the proportion of the population of employees who strongly dislike their current work experience? b. At 95% confidence, what is the margin of error? c. What is the 95% confidence interval for the proportion of the population of employees who strongly dislike their current work experience? d. Towers Perrin estimates that it costs employers one-third of an hourly employee's annual salary to find a successor and as much as 1.5 times the annual salary to find a successor for a highly compensated employee. What message did this survey send to employers?
+38. According to Thomson Financial, through January 25, 2006, the majority of companies reporting profits had beaten estimates (BusinessWeek, February 6, 2006). A sample of 162 companies showed 104 beat estimates, 29 matched estimates, and 29 fell short. a. What is the point estimate of the proportion that fell short of estimates? b. Determine the margin of error and provide a 95% confidence interval for the proportion that beat estimates. c. How large a sample is needed if the desired margin of error is .05?
+39. The percentage of people not covered by health care insurance in 2003 was 15.6% (Statistical Abstract of the United States, 2006). A congressional committee has been charged with conducting a sample survey to obtain more current information. a. What sample size would you recommend if the committee's goal is to estimate the current proportion of individuals without health care insurance with a margin of error of .03? Use a 95% confidence level. b. Repeat part (a) using a 99% confidence level.
+
+Summary
+
+333
+
+40. For many years businesses have struggled with the rising cost of health care. But recently, the increases have slowed due to less inflation in health care prices and employees paying for a larger portion of health care benefits. A recent Mercer survey showed that 52% of U.S. employers were likely to require higher employee contributions for health care coverage in 2009 (BusinessWeek, February 16, 2009). Suppose the survey was based on a sample of 800 companies. Compute the margin of error and a 95% confidence interval for the proportion of companies likely to require higher employee contributions for health care coverage in 2009.
+41. America's young people are heavy Internet users; 87% of Americans ages 12 to 17 are Internet users (The Cincinnati Enquirer, February 7, 2006). MySpace was voted the most popular website by 9% in a sample survey of Internet users in this age group. Suppose 1400 youths participated in the survey. What is the margin of error, and what is the interval estimate of the population proportion for which MySpace is the most popular website? Use a 95% confidence level.
+42. A poll for the presidential campaign sampled 491 potential voters in June. A primary purpose of the poll was to obtain an estimate of the proportion of potential voters who favored each candidate. Assume a planning value of p*  .50 and a 95% confidence level. a. For p*  .50, what was the planned margin of error for the June poll? b. Closer to the November election, better precision and smaller margins of error are desired. Assume the following margins of error are requested for surveys to be conducted during the presidential campaign. Compute the recommended sample size for each survey.
+
+Survey September October Early November Pre-Election Day
+
+Margin of Error .04 .03 .02 .01
+
+43. A Phoenix Wealth Management/Harris Interactive survey of 1500 individuals with net worth of $1 million or more provided a variety of statistics on wealthy people (BusinessWeek, September 22, 2003). The previous three-year period had been bad for the stock market, which motivated some of the questions asked. a. The survey reported that 53% of the respondents lost 25% or more of their portfolio value over the past three years. Develop a 95% confidence interval for the proportion of wealthy people who lost 25% or more of their portfolio value over the past three years. b. The survey reported that 31% of the respondents feel they have to save more for retirement to make up for what they lost. Develop a 95% confidence interval for the population proportion. c. Five percent of the respondents gave $25,000 or more to charity over the previous year. Develop a 95% confidence interval for the proportion who gave $25,000 or more to charity. d. Compare the margin of error for the interval estimates in parts (a), (b), and (c). How is the margin of error related to p¯? When the same sample is being used to estimate a variety of proportions, which of the proportions should be used to choose the planning value p*? Why do you think p*  .50 is often used in these cases?
+Summary
+In this chapter we presented methods for developing interval estimates of a population mean and a population proportion. A point estimator may or may not provide a good estimate of a population parameter. The use of an interval estimate provides a measure of the precision of an estimate. Both the interval estimate of the population mean and the population proportion are of the form: point estimate  margin of error.
+
+334 Chapter 8 Interval Estimation
+We presented interval estimates for a population mean for two cases. In the  known case, historical data or other information is used to develop an estimate of  prior to taking a sample. Analysis of new sample data then proceeds based on the assumption that  is known. In the  unknown case, the sample data are used to estimate both the population mean and the population standard deviation. The final choice of which interval estimation procedure to use depends upon the analyst's understanding of which method provides the best estimate of .
+In the  known case, the interval estimation procedure is based on the assumed value of  and the use of the standard normal distribution. In the  unknown case, the interval estimation procedure uses the sample standard deviation s and the t distribution. In both cases the quality of the interval estimates obtained depends on the distribution of the population and the sample size. If the population is normally distributed the interval estimates will be exact in both cases, even for small sample sizes. If the population is not normally distributed, the interval estimates obtained will be approximate. Larger sample sizes will provide better approximations, but the more highly skewed the population is, the larger the sample size needs to be to obtain a good approximation. Practical advice about the sample size necessary to obtain good approximations was included in Sections 8.1 and 8.2. In most cases a sample of size 30 or more will provide good approximate confidence intervals.
+The general form of the interval estimate for a population proportion is p¯  margin of error. In practice the sample sizes used for interval estimates of a population proportion are generally large. Thus, the interval estimation procedure is based on the standard normal distribution.
+Often a desired margin of error is specified prior to developing a sampling plan. We showed how to choose a sample size large enough to provide the desired precision.
+Glossary
+Interval estimate An estimate of a population parameter that provides an interval believed to contain the value of the parameter. For the interval estimates in this chapter, it has the form: point estimate  margin of error. Margin of error The  value added to and subtracted from a point estimate in order to develop an interval estimate of a population parameter.  known The case when historical data or other information provides a good value for the population standard deviation prior to taking a sample. The interval estimation procedure uses this known value of  in computing the margin of error. Confidence level The confidence associated with an interval estimate. For example, if an interval estimation procedure provides intervals such that 95% of the intervals formed using the procedure will include the population parameter, the interval estimate is said to be constructed at the 95% confidence level. Confidence coefficient The confidence level expressed as a decimal value. For example, .95 is the confidence coefficient for a 95% confidence level. Confidence interval Another name for an interval estimate.  unknown The more common case when no good basis exists for estimating the population standard deviation prior to taking the sample. The interval estimation procedure uses the sample standard deviation s in computing the margin of error. t distribution A family of probability distributions that can be used to develop an interval estimate of a population mean whenever the population standard deviation  is unknown and is estimated by the sample standard deviation s. Degrees of freedom A parameter of the t distribution. When the t distribution is used in the computation of an interval estimate of a population mean, the appropriate t distribution has n  1 degrees of freedom, where n is the size of the simple random sample.
+
+Supplementary Exercises
+
+Key Formulas
+
+Interval Estimate of a Population Mean:  Known
+
+x¯
+
+
+
+z/2
+
+ n
+
+Interval Estimate of a Population Mean:  Unknown
+
+x¯
+
+
+
+t/2
+
+s n
+
+Sample Size for an Interval Estimate of a Population Mean
+
+n
+
+
+
+(z/2 )2 2 E2
+
+Interval Estimate of a Population Proportion
+
+p¯  z/2
+
+p¯(1  p¯) n
+
+Sample Size for an Interval Estimate of a Population Proportion
+
+n
+
+
+
+(z/2 )2p*(1 E2
+
+
+
+p*)
+
+335
+(8.1) (8.2) (8.3) (8.6) (8.7)
+
+Supplementary Exercises
+44. A sample survey of 54 discount brokers showed that the mean price charged for a trade of 100 shares at $50 per share was $33.77 (AAII Journal, February 2006). The survey is conducted annually. With the historical data available, assume a known population standard deviation of $15. a. Using the sample data, what is the margin of error associated with a 95% confidence interval? b. Develop a 95% confidence interval for the mean price charged by discount brokers for a trade of 100 shares at $50 per share.
+45. A survey conducted by the American Automobile Association showed that a family of four spends an average of $215.60 per day while on vacation. Suppose a sample of 64 families of four vacationing at Niagara Falls resulted in a sample mean of $252.45 per day and a sample standard deviation of $74.50. a. Develop a 95% confidence interval estimate of the mean amount spent per day by a family of four visiting Niagara Falls. b. Based on the confidence interval from part (a), does it appear that the population mean amount spent per day by families visiting Niagara Falls differs from the mean reported by the American Automobile Association? Explain.
+46. The 92 million Americans of age 50 and over control 50 percent of all discretionary income (AARP Bulletin, March 2008). AARP estimated that the average annual expenditure on restaurants and carryout food was $1873 for individuals in this age group. Suppose this estimate is based on a sample of 80 persons and that the sample standard deviation is $550. a. At 95% confidence, what is the margin of error? b. What is the 95% confidence interval for the population mean amount spent on restaurants and carryout food? c. What is your estimate of the total amount spent by Americans of age 50 and over on restaurants and carryout food? d. If the amount spent on restaurants and carryout food is skewed to the right, would you expect the median amount spent to be greater or less than $1873?
+
+336 Chapter 8 Interval Estimation
+47. Many stock market observers say that when the P/E ratio for stocks gets over 20 the market is overvalued. The P/E ratio is the stock price divided by the most recent 12 months of earnings. Suppose you are interested in seeing whether the current market is overvalued and would also like to know what proportion of companies pay dividends. A random sample of 30 companies listed on the New York Stock Exchange (NYSE) is provided (Barron's, January 19, 2004).
+
+WEB file
+NYSEStocks
+
+Company Albertsons BRE Prop CityNtl DelMonte EnrgzHldg Ford Motor Gildan A HudsnUtdBcp IBM JeffPilot KingswayFin Libbey MasoniteIntl Motorola Ntl City
+
+Dividend Yes Yes Yes No No Yes No Yes Yes Yes No Yes No Yes Yes
+
+P/E Ratio 14 18 16 21 20 22 12 13 22 16 6 13 15 68 10
+
+Company NY Times A Omnicare PallCp PubSvcEnt SensientTch SmtProp TJX Cos Thomson USB Hldg US Restr Varian Med Visx Waste Mgt Wiley A Yum Brands
+
+Dividend Yes Yes Yes Yes Yes Yes Yes Yes Yes Yes No No No Yes No
+
+P/E Ratio 25 25 23 11 11 12 21 30 12 26 41 72 23 21 18
+
+WEB file
+Flights
+WEB file
+ActTemps
+
+a. What is a point estimate of the P/E ratio for the population of stocks listed on the New York Stock Exchange? Develop a 95% confidence interval.
+b. Based on your answer to part (a), do you believe that the market is overvalued? c. What is a point estimate of the proportion of companies on the NYSE that pay divi-
+dends? Is the sample size large enough to justify using the normal distribution to construct a confidence interval for this proportion? Why or why not?
+48. US Airways conducted a number of studies that indicated a substantial savings could be obtained by encouraging Dividend Miles frequent flyer customers to redeem miles and schedule award flights online (US Airways Attaché, February 2003). One study collected data on the amount of time required to redeem miles and schedule an award flight over the telephone. A sample showing the time in minutes required for each of 150 award flights scheduled by telephone is contained in the data set Flights. Use Minitab or Excel to help answer the following questions. a. What is the sample mean number of minutes required to schedule an award flight by telephone? b. What is the 95% confidence interval for the population mean time to schedule an award flight by telephone? c. Assume a telephone ticket agent works 7.5 hours per day. How many award flights can one ticket agent be expected to handle a day? d. Discuss why this information supported US Airways' plans to use an online system to reduce costs.
+49. A survey by Accountemps asked a sample of 200 executives to provide data on the number of minutes per day office workers waste trying to locate mislabeled, misfiled, or misplaced items. Data consistent with this survey are contained in the data file ActTemps. a. Use ActTemps to develop a point estimate of the number of minutes per day office workers waste trying to locate mislabeled, misfiled, or misplaced items. b. What is the sample standard deviation? c. What is the 95% confidence interval for the mean number of minutes wasted per day?
+50. Mileage tests are conducted for a particular model of automobile. If a 98% confidence interval with a margin of error of 1 mile per gallon is desired, how many automobiles should be used in the test? Assume that preliminary mileage tests indicate the standard deviation is 2.6 miles per gallon.
+
+Supplementary Exercises
+
+337
+
+51. In developing patient appointment schedules, a medical center wants to estimate the mean time that a staff member spends with each patient. How large a sample should be taken if the desired margin of error is two minutes at a 95% level of confidence? How large a sample should be taken for a 99% level of confidence? Use a planning value for the population standard deviation of eight minutes.
+52. Annual salary plus bonus data for chief executive officers are presented in the BusinessWeek Annual Pay Survey. A preliminary sample showed that the standard deviation is $675 with data provided in thousands of dollars. How many chief executive officers should be in a sample if we want to estimate the population mean annual salary plus bonus with a margin of error of $100,000? (Note: The desired margin of error would be E  100 if the data are in thousands of dollars.) Use 95% confidence.
+53. The National Center for Education Statistics reported that 47% of college students work to pay for tuition and living expenses. Assume that a sample of 450 college students was used in the study. a. Provide a 95% confidence interval for the population proportion of college students who work to pay for tuition and living expenses. b. Provide a 99% confidence interval for the population proportion of college students who work to pay for tuition and living expenses. c. What happens to the margin of error as the confidence is increased from 95% to 99%?
+54. A USA Today/CNN/Gallup survey of 369 working parents found 200 who said they spend too little time with their children because of work commitments. a. What is the point estimate of the proportion of the population of working parents who feel they spend too little time with their children because of work commitments? b. At 95% confidence, what is the margin of error? c. What is the 95% confidence interval estimate of the population proportion of working parents who feel they spend too little time with their children because of work commitments?
+55. Which would be hardest for you to give up: Your computer or your television? In a recent survey of 1677 U.S. Internet users, 74% of the young tech elite (average age of 22) say their computer would be very hard to give up (PC Magazine, February 3, 2004). Only 48% say their television would be very hard to give up. a. Develop a 95% confidence interval for the proportion of the young tech elite that would find it very hard to give up their computer. b. Develop a 99% confidence interval for the proportion of the young tech elite that would find it very hard to give up their television. c. In which case, part (a) or part (b), is the margin of error larger? Explain why.
+56. Cincinnati/Northern Kentucky International Airport had the second highest on-time arrival rate for 2005 among the nation's busiest airports (The Cincinnati Enquirer, February 3, 2006). Assume the findings were based on 455 on-time arrivals out of a sample of 550 flights. a. Develop a point estimate of the on-time arrival rate (proportion of flights arriving on time) for the airport. b. Construct a 95% confidence interval for the on-time arrival rate of the population of all flights at the airport during 2005.
+57. The 2003 Statistical Abstract of the United States reported the percentage of people 18 years of age and older who smoke. Suppose that a study designed to collect new data on smokers and nonsmokers uses a preliminary estimate of the proportion who smoke of .30. a. How large a sample should be taken to estimate the proportion of smokers in the population with a margin of error of .02? Use 95% confidence. b. Assume that the study uses your sample size recommendation in part (a) and finds 520 smokers. What is the point estimate of the proportion of smokers in the population? c. What is the 95% confidence interval for the proportion of smokers in the population?
+
+338 Chapter 8 Interval Estimation
+58. A well-known bank credit card firm wishes to estimate the proportion of credit card holders who carry a nonzero balance at the end of the month and incur an interest charge. Assume that the desired margin of error is .03 at 98% confidence. a. How large a sample should be selected if it is anticipated that roughly 70% of the firm's card holders carry a nonzero balance at the end of the month? b. How large a sample should be selected if no planning value for the proportion could be specified?
+59. In a survey, 200 people were asked to identify their major source of news information; 110 stated that their major source was television news. a. Construct a 95% confidence interval for the proportion of people in the population who consider television their major source of news information. b. How large a sample would be necessary to estimate the population proportion with a margin of error of .05 at 95% confidence?
+60. Although airline schedules and cost are important factors for business travelers when choosing an airline carrier, a USA Today survey found that business travelers list an airline's frequent flyer program as the most important factor. From a sample of n  1993 business travelers who responded to the survey, 618 listed a frequent flyer program as the most important factor. a. What is the point estimate of the proportion of the population of business travelers who believe a frequent flyer program is the most important factor when choosing an airline carrier? b. Develop a 95% confidence interval estimate of the population proportion. c. How large a sample would be required to report the margin of error of .01 at 95% confidence? Would you recommend that USA Today attempt to provide this degree of precision? Why or why not?
+
+Case Problem 1 Young Professional Magazine
+
+WEB file
+Professional
+
+Young Professional magazine was developed for a target audience of recent college graduates who are in their first 10 years in a business/professional career. In its two years of publication, the magazine has been fairly successful. Now the publisher is interested in expanding the magazine's advertising base. Potential advertisers continually ask about the demographics and interests of subscribers to Young Professional. To collect this information, the magazine commissioned a survey to develop a profile of its subscribers. The survey results will be used to help the magazine choose articles of interest and provide advertisers with a profile of subscribers. As a new employee of the magazine, you have been asked to help analyze the survey results.
+Some of the survey questions follow:
+1. What is your age? 2. Are you: Male_________ Female___________ 3. Do you plan to make any real estate purchases in the next two years? Yes______
+No______ 4. What is the approximate total value of financial investments, exclusive of your
+home, owned by you or members of your household? 5. How many stock/bond/mutual fund transactions have you made in the past year? 6. Do you have broadband access to the Internet at home? Yes______ No______ 7. Please indicate your total household income last year. 8. Do you have children? Yes______ No______
+The file entitled Professional contains the responses to these questions. Table 8.6 shows the portion of the file pertaining to the first five survey respondents.
+
+Case Problem 2 Gulf Real Estate Properties
+
+339
+
+TABLE 8.6 PARTIAL SURVEY RESULTS FOR YOUNG PROFESSIONAL MAGAZINE
+
+Real Estate Value of Number of Broadband Household
+
+Age Gender Purchases Investments($) Transactions Access Income($) Children
+
+38 Female
+
+No
+
+12200
+
+4
+
+Yes
+
+75200
+
+Yes
+
+30 Male
+
+No
+
+12400
+
+4
+
+Yes
+
+70300
+
+Yes
+
+41 Female
+
+No
+
+26800
+
+5
+
+Yes
+
+48200
+
+No
+
+28 Female
+
+Yes
+
+19600
+
+6
+
+No
+
+95300
+
+No
+
+31 Female
+
+Yes
+
+15100
+
+5
+
+No
+
+73300
+
+Yes
+
+··· ··· ··· ··· ··· ··· ··· ···
+
+Managerial Report
+Prepare a managerial report summarizing the results of the survey. In addition to statistical summaries, discuss how the magazine might use these results to attract advertisers. You might also comment on how the survey results could be used by the magazine's editors to identify topics that would be of interest to readers. Your report should address the following issues, but do not limit your analysis to just these areas.
+1. Develop appropriate descriptive statistics to summarize the data. 2. Develop 95% confidence intervals for the mean age and household income of
+subscribers. 3. Develop 95% confidence intervals for the proportion of subscribers who have
+broadband access at home and the proportion of subscribers who have children. 4. Would Young Professional be a good advertising outlet for online brokers? Justify
+your conclusion with statistical data. 5. Would this magazine be a good place to advertise for companies selling educational
+software and computer games for young children? 6. Comment on the types of articles you believe would be of interest to readers of
+Young Professional.
+Case Problem 2 Gulf Real Estate Properties
+Gulf Real Estate Properties, Inc., is a real estate firm located in southwest Florida. The company, which advertises itself as "expert in the real estate market," monitors condominium sales by collecting data on location, list price, sale price, and number of days it takes to sell each unit. Each condominium is classified as Gulf View if it is located directly on the Gulf of Mexico or No Gulf View if it is located on the bay or a golf course, near but not on the Gulf. Sample data from the Multiple Listing Service in Naples, Florida, provided recent sales data for 40 Gulf View condominiums and 18 No Gulf View condominiums.* Prices are in thousands of dollars. The data are shown in Table 8.7.
+Managerial Report
+1. Use appropriate descriptive statistics to summarize each of the three variables for the 40 Gulf View condominiums.
+2. Use appropriate descriptive statistics to summarize each of the three variables for the 18 No Gulf View condominiums.
+3. Compare your summary results. Discuss any specific statistical results that would help a real estate agent understand the condominium market.
+*Data based on condominium sales reported in the Naples MLS (Coldwell Banker, June 2000).
+
+340 Chapter 8 Interval Estimation
+
+TABLE 8.7 SALES DATA FOR GULF REAL ESTATE PROPERTIES
+
+WEB file
+GulfProp
+
+Gulf View Condominiums
+
+List Price Sale Price Days to Sell
+
+495.0 379.0 529.0 552.5 334.9 550.0 169.9 210.0 975.0 314.0 315.0 885.0 975.0 469.0 329.0 365.0 332.0 520.0 425.0 675.0 409.0 649.0 319.0 425.0 359.0 469.0 895.0 439.0 435.0 235.0 638.0 629.0 329.0 595.0 339.0 215.0 395.0 449.0 499.0 439.0
+
+475.0 350.0 519.0 534.5 334.9 505.0 165.0 210.0 945.0 314.0 305.0 800.0 975.0 445.0 305.0 330.0 312.0 495.0 405.0 669.0 400.0 649.0 305.0 410.0 340.0 449.0 875.0 430.0 400.0 227.0 618.0 600.0 309.0 555.0 315.0 200.0 375.0 425.0 465.0 428.5
+
+130 71 85 95 119 92 197 56 73 126 88 282 100 56 49 48 88 161 149 142 28 29 140 85 107 72 129 160 206 91 100 97 114 45 150 48 135 53 86 158
+
+No Gulf View Condominiums
+
+List Price Sale Price Days to Sell
+
+217.0 148.0 186.5 239.0 279.0 215.0 279.0 179.9 149.9 235.0 199.8 210.0 226.0 149.9 160.0 322.0 187.5 247.0
+
+217.0 135.5 179.0 230.0 267.5 214.0 259.0 176.5 144.9 230.0 192.0 195.0 212.0 146.5 160.0 292.5 179.0 227.0
+
+182 338 122 150 169
+58 110 130 149 114 120
+61 146 137 281
+63 48 52
+
+4. Develop a 95% confidence interval estimate of the population mean sales price and population mean number of days to sell for Gulf View condominiums. Interpret your results.
+5. Develop a 95% confidence interval estimate of the population mean sales price and population mean number of days to sell for No Gulf View condominiums. Interpret your results.
+6. Assume the branch manager requested estimates of the mean selling price of Gulf View condominiums with a margin of error of $40,000 and the mean selling price
+
+Appendix 8.1 Interval Estimation with Minitab
+
+341
+
+of No Gulf View condominiums with a margin of error of $15,000. Using 95% confidence, how large should the sample sizes be? 7. Gulf Real Estate Properties just signed contracts for two new listings: a Gulf View condominium with a list price of $589,000 and a No Gulf View condominium with a list price of $285,000. What is your estimate of the final selling price and number of days required to sell each of these units?
+
+Case Problem 3 Metropolitan Research, Inc.
+
+WEB file
+Auto
+
+Metropolitan Research, Inc., a consumer research organization, conducts surveys designed to evaluate a wide variety of products and services available to consumers. In one particular study, Metropolitan looked at consumer satisfaction with the performance of automobiles produced by a major Detroit manufacturer. A questionnaire sent to owners of one of the manufacturer's full-sized cars revealed several complaints about early transmission problems. To learn more about the transmission failures, Metropolitan used a sample of actual transmission repairs provided by a transmission repair firm in the Detroit area. The following data show the actual number of miles driven for 50 vehicles at the time of transmission failure.
+
+85,092 39,323 64,342 74,276 74,425 37,831 77,539
+
+32,609 89,641 61,978 66,998 67,202 89,341 88,798
+
+59,465 94,219 67,998 40,001 118,444 73,341
+
+77,437 116,803
+59,817 72,069 53,500 85,288
+
+32,534 92,857 101,769 25,066 79,294 138,114
+
+64,090 63,436 95,774 77,098 64,544 53,402
+
+32,464 65,605 121,352 69,922 86,813 85,586
+
+59,902 85,861 69,568 35,662 116,269 82,256
+
+Managerial Report
+1. Use appropriate descriptive statistics to summarize the transmission failure data. 2. Develop a 95% confidence interval for the mean number of miles driven until trans-
+mission failure for the population of automobiles with transmission failure. Provide a managerial interpretation of the interval estimate. 3. Discuss the implication of your statistical findings in terms of the belief that some owners of the automobiles experienced early transmission failures. 4. How many repair records should be sampled if the research firm wants the population mean number of miles driven until transmission failure to be estimated with a margin of error of 5000 miles? Use 95% confidence. 5. What other information would you like to gather to evaluate the transmission failure problem more fully?
+
+Appendix 8.1 Interval Estimation with Minitab
+
+We describe the use of Minitab in constructing confidence intervals for a population mean and a population proportion.
+
+WEB file
+Lloyd's
+
+Population Mean:  Known
+We illustrate interval estimation using the Lloyd's example in Section 8.1. The amounts spent per shopping trip for the sample of 100 customers are in column C1 of a Minitab worksheet. The population standard deviation   20 is assumed known. The following steps can be used to compute a 95% confidence interval estimate of the population mean.
+
+342 Chapter 8 Interval Estimation
+
+Step 1. Select the Stat menu Step 2. Choose Basic Statistics Step 3. Choose 1-Sample Z Step 4. When the 1-Sample Z dialog box appears:
+Enter C1 in the Samples in columns box Enter 20 in the Standard deviation box Step 5. Click OK
+The Minitab default is a 95% confidence level. In order to specify a different confidence level such as 90%, add the following to step 4.
+Select Options When the 1-Sample Z-Options dialog box appears:
+Enter 90 in the Confidence level box Click OK
+
+WEB file
+NewBalance
+
+Population Mean:  Unknown
+We illustrate interval estimation using the data in Table 8.3 showing the credit card balances for a sample of 70 households. The data are in column C1 of a Minitab worksheet. In this case the population standard deviation  will be estimated by the sample standard deviation s. The following steps can be used to compute a 95% confidence interval estimate of the population mean.
+Step 1. Select the Stat menu Step 2. Choose Basic Statistics Step 3. Choose 1-Sample t Step 4. When the 1-Sample t dialog box appears:
+Enter C1 in the Samples in columns box Step 5. Click OK
+The Minitab default is a 95% confidence level. In order to specify a different confidence level such as 90%, add the following to step 4.
+Select Options When the 1-Sample t-Options dialog box appears:
+Enter 90 in the Confidence level box Click OK
+
+WEB file
+TeeTimes
+
+Population Proportion
+We illustrate interval estimation using the survey data for women golfers presented in Section 8.4. The data are in column C1 of a Minitab worksheet. Individual responses are recorded as Yes if the golfer is satisfied with the availability of tee times and No otherwise. The following steps can be used to compute a 95% confidence interval estimate of the proportion of women golfers who are satisfied with the availability of tee times.
+Step 1. Select the Stat menu Step 2. Choose Basic Statistics Step 3. Choose 1 Proportion Step 4. When the 1 Proportion dialog box appears:
+Enter C1 in the Samples in columns box Step 5. Select Options Step 6. When the 1 Proportion-Options dialog box appears:
+Select Use test and interval based on normal distribution Click OK Step 7. Click OK
+
+Appendix 8.2 Interval Estimation Using Excel
+
+343
+
+The Minitab default is a 95% confidence level. In order to specify a different confidence level such as 90%, enter 90 in the Confidence Level box when the 1 Proportion-Options dialog box appears in step 6.
+Note: Minitab's 1 Proportion routine uses an alphabetical ordering of the responses and selects the second response for the population proportion of interest. In the women golfers example, Minitab used the alphabetical ordering No-Yes and then provided the confidence interval for the proportion of Yes responses. Because Yes was the response of interest, the Minitab output was fine. However, if Minitab's alphabetical ordering does not provide the response of interest, select any cell in the column and use the sequence: Editor  Column  Value Order. It will provide you with the option of entering a user-specified order, but you must list the response of interest second in the define-an-order box.
+
+Appendix 8.2 Interval Estimation Using Excel
+We describe the use of Excel in constructing confidence intervals for a population mean and a population proportion.
+
+WEB file
+Lloyd's
+
+Population Mean:  Known
+We illustrate interval estimation using the Lloyd's example in Section 8.1. The population standard deviation   20 is assumed known. The amounts spent for the sample of 100 customers are in column A of an Excel worksheet. The following steps can be used to compute the margin of error for an estimate of the population mean. We begin by using Excel's Descriptive Statistics Tool described in Chapter 3.
+
+Step 1. Click the Data tab on the Ribbon Step 2. In the Analysis group, click Data Analysis Step 3. Choose Descriptive Statistics from the list of Analysis Tools Step 4. When the Descriptive Statistics dialog box appears:
+Enter A1:A101 in the Input Range box Select Grouped by Columns Select Labels in First Row Select Output Range Enter C1 in the Output Range box Select Summary Statistics Click OK
+
+The summary statistics will appear in columns C and D. Continue by computing the margin of error using Excel's Confidence function as follows:
+
+Step 5. Select cell C16 and enter the label Margin of Error Step 6. Select cell D16 and enter the Excel formula CONFIDENCE(.05,20,100)
+
+The three parameters of the Confidence function are
+
+Alpha  1  confidence coefficient  1  .95  .05 The population standard deviation  20 The sample size  100 (Note: This parameter appears as Count in cell D15.)
+
+The point estimate of the population mean is in cell D3 and the margin of error is in cell D16. The point estimate (82) and the margin of error (3.92) allow the confidence interval for the population mean to be easily computed.
+
+344 Chapter 8 Interval Estimation
+
+Population Mean:  Unknown
+
+WEB file
+NewBalance
+
+We illustrate interval estimation using the data in Table 8.2, which show the credit card balances for a sample of 70 households. The data are in column A of an Excel worksheet. The following steps can be used to compute the point estimate and the margin of error for an interval estimate of a population mean. We will use Excel's Descriptive Statistics Tool described in Chapter 3.
+
+Step 1. Click the Data tab on the Ribbon Step 2. In the Analysis group, click Data Analysis Step 3. Choose Descriptive Statistics from the list of Analysis Tools Step 4. When the Descriptive Statistics dialog box appears:
+Enter A1:A71 in the Input Range box Select Grouped by Columns Select Labels in First Row Select Output Range Enter C1 in the Output Range box Select Summary Statistics Select Confidence Level for Mean
+Enter 95 in the Confidence Level for Mean box Click OK
+
+The summary statistics will appear in columns C and D. The point estimate of the population mean appears in cell D3. The margin of error, labeled "Confidence Level(95.0%)," appears in cell D16. The point estimate ($9312) and the margin of error ($955) allow the confidence interval for the population mean to be easily computed. The output from this Excel procedure is shown in Figure 8.10.
+
+FIGURE 8.10 INTERVAL ESTIMATION OF THE POPULATION MEAN CREDIT CARD BALANCE USING EXCEL
+
+A B C DEF
+
+Note: Rows 18 to 69 are hidden.
+
+1 NewBalance 2 9430 3 7535 4 4078 5 5604 6 5179 7 4416 8 10676 9 1627 10 10112 11 6567 12 13627 13 18719 14 14661 15 12195 16 10544 17 13659 70 9743 71 10324
+
+NewBalance
+
+Mean
+
+9312
+
+Standard Error
+
+478.9281
+
+Median
+
+9466
+
+Mode
+
+13627
+
+Standard Deviation
+
+4007
+
+Sample Variance
+
+16056048
+
+Kurtosis
+
+0.296
+
+Skewness
+
+0.18792
+
+Range
+
+18648
+
+Minimum
+
+615
+
+Maximum
+
+19263
+
+Sum 651840
+
+Count
+
+70
+
+Confidence Level(95.0%) 955.4354
+
+Point Estimate Margin of Error
+
+71
+
+Appendix 8.2 Interval Estimation Using Excel
+
+345
+
+WEB file
+Interval p
+
+Population Proportion
+We illustrate interval estimation using the survey data for women golfers presented in Section 8.4. The data are in column A of an Excel worksheet. Individual responses are recorded as Yes if the golfer is satisfied with the availability of tee times and No otherwise. Excel does not offer a built-in routine to handle the estimation of a population proportion; however, it is relatively easy to develop an Excel template that can be used for this purpose. The template shown in Figure 8.11 provides the 95% confidence interval estimate of the proportion of women golfers who are satisfied with the availability of tee times. Note that the
+
+FIGURE 8.11 EXCEL TEMPLATE FOR INTERVAL ESTIMATION OF A POPULATION PROPORTION
+
+AB
+
+C
+
+DE
+
+1 Response 2 Yes 3 No 4 Yes 5 Yes 6 No 7 No 8 No 9 Yes 10 Yes 11 Yes 12 No 13 No 14 Yes 15 No 16 No 17 Yes 18 No 901 Yes 902
+Note: Rows 19 to 900 are hidden.
+
+Interval Estimate of a Population Proportion
+Sample Size =COUNTA(A2:A901) Response of Interest Yes Count for Response =COUNTIF(A2:A901,D4)
+Sample Proportion =D5/D3
+Confidence Coefficient 0.95 z Value =NORMSINV(0.5+D8/2)
+Standard Error =SQRT(D6*(1-D6)/D3) Margin of Error =D9*D11
+Point Estimate =D6 Lower Limit =D14-D12 Upper Limit =D14+D12
+
+A B C DEFG
+
+1 Response 2 Yes 3 No 4 Yes 5 Yes 6 No 7 No 8 No 9 Yes 10 Yes 11 Yes 12 No 13 No 14 Yes 15 No 16 No 17 Yes 18 No 901 Yes
+
+Interval Estimate of a Population Proportion
+
+Sample Size Response of Interest Count for Response
+Sample Proportion
+
+900 Yes 396 0.4400
+
+Confidence Coefficient 0.95 z Value 1.960
+
+Enter the response of interest
+Enter the confidence coefficient
+
+Standard Error 0.0165 Margin of Error 0.0324
+
+Point Estimate 0.4400 Lower Limit 0.4076 Upper Limit 0.4724
+
+902
+
+346 Chapter 8 Interval Estimation
+background worksheet in Figure 8.11 shows the cell formulas that provide the interval estimation results shown in the foreground worksheet. The following steps are necessary to use the template for this data set.
+Step 1. Enter the data range A2:A901 into the COUNTA cell formula in cell D3 Step 2. Enter Yes as the response of interest in cell D4 Step 3. Enter the data range A2:A901 into the COUNTIF cell formula in cell D5 Step 4. Enter .95 as the confidence coefficient in cell D8
+The template automatically provides the confidence interval in cells D15 and D16. This template can be used to compute the confidence interval for a population propor-
+tion for other applications. For instance, to compute the interval estimate for a new data set, enter the new sample data into column A of the worksheet and then make the changes to the four cells as shown. If the new sample data have already been summarized, the sample data do not have to be entered into the worksheet. In this case, enter the sample size into cell D3 and the sample proportion into cell D6; the worksheet template will then provide the confidence interval for the population proportion. The worksheet in Figure 8.11 is available in the file Interval p on the website that accompanies this book.
+
+Appendix 8.3 Interval Estimation with StatTools
+
+In this appendix we show how StatTools can be used to develop an interval estimate of a population mean for the  unknown case and determine the sample size needed to provide a desired margin of error.
+
+WEB file
+NewBalance
+
+Interval Estimation of Population Mean:  Unknown Case
+In this case the population standard deviation  will be estimated by the sample standard deviation s. We use the credit card balance data in Table 8.3 to illustrate. Begin by using the Data Set Manager to create a StatTools data set for these data using the procedure described in the appendix to Chapter 1. The following steps can be used to compute a 95% confidence interval estimate of the population mean.
+Step 1. Click the StatTools tab on the Ribbon Step 2. In the Analyses group, click Statistical Inference Step 3. Choose the Confidence Interval option Step 4. Choose Mean/Std. Deviation Step 5. When the StatTools--Confidence Interval for Mean/Std. Deviation dialog box
+appears: For Analysis Type choose One-Sample Analysis In the Variables section, select NewBalance In the Confidence Intervals to Calculate section: Select the For the Mean option Select 95% for the Confidence Level Click OK
+Some descriptive statistics and the confidence interval will appear.
+
+Determining the Sample Size
+In Section 8.3 we showed how to determine the sample size needed to provide a desired margin of error. The example used involved a study designed to estimate the population
+
+Appendix 8.3 Interval Estimation with StatTools
+
+347
+
+The half-length of interval is the margin of error.
+
+mean daily rental cost for a midsize automobile in the United States. The project director specified that the population mean daily rental cost be estimated with a margin of error of $2 and a 95% level of confidence. Sample data from a previous study provided a sample standard deviation of $9.65; this value was used as the planning value for the population standard deviation. The following steps can be used to compute the recommended sample size required to provide a 95% confidence interval estimate of the population mean with a margin of error of $2.
+Step 1. Click the StatTools tab on the Ribbon Step 2. In the Analyses group, click Statistical Inference Step 3. Choose the Sample Size Selection option Step 4. When the StatTools--Sample Size Selection dialog box appears:
+In the Parameter to Estimate section, select Mean In the Confidence Interval Specification section:
+Select 95% for the Confidence Level Enter 2 in the Half-Length of Interval box Enter 9.65 in the Estimated Std Dev box Click OK
+The output showing a recommended sample size of 90 will appear.
+

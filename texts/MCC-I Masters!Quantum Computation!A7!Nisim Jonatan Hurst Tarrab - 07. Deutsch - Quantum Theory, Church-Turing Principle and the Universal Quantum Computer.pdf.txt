@@ -1,0 +1,406 @@
+Quantum Theory, the Church-Turing Principle and the Universal Quantum Computer Author(s): D. Deutsch Source: Proceedings of the Royal Society of London. Series A, Mathematical and Physical Sciences, Vol. 400, No. 1818 (Jul. 8, 1985), pp. 97-117 Published by: Royal Society Stable URL: http://www.jstor.org/stable/2397601 Accessed: 09-08-2016 01:57 UTC
+Your use of the JSTOR archive indicates your acceptance of the Terms & Conditions of Use, available at http://about.jstor.org/terms JSTOR is a not-for-profit service that helps scholars, researchers, and students discover, use, and build upon a wide range of content in a trusted digital archive. We use information technology and tools to increase productivity and facilitate new forms of scholarship. For more information about JSTOR, please contact support@jstor.org.
+Royal Society is collaborating with JSTOR to digitize, preserve and extend access to Proceedings of the Royal Society of London. Series A, Mathematical and Physical Sciences
+This content downloaded from 148.241.41.225 on Tue, 09 Aug 2016 01:57:17 UTC All use subject to http://about.jstor.org/terms
+
+Proc. R. Soc. Lond. A 400, 97-117 (1985) Printed in Great Britain
+
+Quantum theory, the Church-Turing principle and the universal quantum computer
+
+BY D. DEIUTSCH Department of Astrophysics, South Parks Road, Oxford OX1 3RQ, U.K.
+
+(Communicated by R. Penrose, F.R.S. - Received 13 July 1984)
+It is argued that underlying the Church-Turing hypothesis there is an implicit physical assertion. Here, this assertion is presented explicitly as a physical principle: 'every finitely realizible physical system can be perfectly simulated by a universal model computing machine operating by finite means'. Classical physics and the universal Turing machine, because the former is continuous and the latter discrete, do not obey the principle, at least in the strong form above. A class of model computing machines that is the quantum generalization of the class of Turing machines is described, and it is shown that quantum theory and the 'universal quantum computer' are compatible with the principle. Computing machines resembling the universal quantum computer could, in principle, be built and would have many remarkable properties not reproducible by any Turing machine. These do not include the computation of non-recursive functions, but they do include 'quantum parallelism', a method by which certain probabilistic tasks can be performed faster by a universal quantum computer than by any classical restriction of it. The intuitive explanation of these properties places an intolerable strain on all interpretations of quantum theory other than Everett's. Some of the numerous connections between the quantum theory of computation and the rest of physics are explored. Quantum complexity theory allows a physically more reasonable definition of the 'complexity' or 'knowledge' in a physical system than does classical complexity theory.
+
+I. COMPUTING MACHINES AND THE CHTJRCH-TURING PRINCIPLE
+The theory of computing machines has been extensively developed during the last few decades. Intuitively, a computing machine is any physical system whose dynamical evolution takes it from one of a set of 'input' states to one of a set of 'output' states. The states are labelled in some canonical way, the machine is prepared in a state with a given input label and then, following some motion, the output state is measured. For a classical deterministic system the measured output label is a definite functionf of the prepared input label; moreover the value of that label can in principle be measured by an outside observer (the 'user') and the machine is said to 'compute' the function f.
+Two classical deterministic computing machines are ' computationally equivalent' under given labellings of their input and output states if they compute the same function under those labellings. But quantum computing machines, and indeed classical stochastic computing machines, do not 'compute functions' in the above
+
+4
+
+[
+
+97
+
+]
+
+Vol.
+
+400.
+
+A
+
+This content downloaded from 148.241.41.225 on Tue, 09 Aug 2016 01:57:17 UTC All use subject to http://about.jstor.org/terms
+
+98 D. Deutsch
+sense: the output state of a stochastic machine is random with only the probability distribution function for the- possible outputs depending on the input state. The output state of a quantum machine, although fully determined by the input state, is not an observable and so the user cannot in general discover its label. Nevertheless, the notion of computational equivalence can be generalized to apply to such machines also.
+Again we define computational equivalence under given labellings, but it is now necessary to specify more precisely what is to be labelled. As far as the input is concerned, labels must be given for each of the possible ways of preparing the machine, which correspond, by definition, to all the possible input states. This is identical with the classical deterministic case. However, there is an asymmetry between input and output because there is an asymmetry between preparation and measurement: whereas a quantum system can be prepared in any desired permitted input state, measurement cannot in general determine its output state; instead one must measure the value of some observable. (Throughout this paper I shall be using the Schr6dinger picture, in which the quantum state is a function of time but observables are constant operators.) Thus what must be labelled is the set of ordered pairs consisting of an output observable and a possible measured value of that observable (in quantum theory, a Hermitian operator and one of its eigenvalues). Such an ordered pair contains, in effect, the specification of a possible experiment that could be made on the output, together with a possible result of that experiment.
+Two computing machines are computationally equivalent under given labellings if in any possible experiment or sequence of experiments in which their inputs were prepared equivalently under the input labellings, and observables corresponding to each other under the output labellings were measured, the measured values of these observables for the two machines would be statistically indistinguishable. That is, the probability distribution functions for the outputs of the two machines would be identical.
+In the sense just described, a given computing machine Xk computes at most one function. However, there ought to be no fundamental difference between altering the input state in which X# is prepared, and altering systematically the constitution of X so that it becomes a different machine ,-/' computing a different function. To formalize such operations, it is often useful to consider machines with two inputs, the preparation of one constituting a 'program' determining which function of the other is to be computed. To each such machine X# there corresponds a set C(Xk) of '.-/-computable functions'. A function f is ./X-computable if Xk can compute f when prepared with some program.
+The set C(X.A') can be enlarged by enlarging the set of changes in the constitution of X that are labelled as possible -X-programs. Given two machines ./ and ,-/' it is possible to construct a composite machine whose set of computable functions contains the union of C(.X,) and C(.,k').
+There is no purely logical reason why one could not go on ad infinitum building more powerful computing machines, nor why there should exist any function that is outside the computable set of every physically possible machine. Yet although logic does not forbid the physical computation of arbitrary functions, it seems that physics does. As is well known, when designing computing machines one rapidly
+This content downloaded from 148.241.41.225 on Tue, 09 Aug 2016 01:57:17 UTC All use subject to http://about.jstor.org/terms
+
+Quantum computers and the Church-Turing principle 99
+reaches a point when adding additional hardware does not alter the machine's set of computable functions (under the idealization that the memory capacity is in effect unlimited); moreover, for functions from the integers Z to themselves the set C(X./) is always contained in C(S), where Y is Turing's universal computing machine (Turing 1936). C(S) itself, also known as the set of recursive functions, is denumerable and therefore infinitely smaller than the set of all functions from Z to Z.
+Church (I936) and Turing (I936) conjectured that these limitations on what can be computed are not imposed by the state-of-the-art in designing computing machines, nor by our ingenuity in constructing models for computation, but are universal. This is called the 'Church-Turing hypothesis'; according to Turing,
+
+Every 'function which would naturally be regarded as computable' can be computed by the universal Turing machine. (1.1)
+
+The conventional, non-physical view of (1.1) interprets it as the quasimathematical conjecture that all possible formalizations of the intuitive mathematical notion of 'algorithm' or 'computation' are equivalent to each other. But we shall see that it can also be regarded as asserting a new physical principle, which I shall call the Church-Turing principle to distinguish it from other implications and connotations of the conjecture (1.1).
+Hypothesis (1.1) and other formulations that exist in the literature (see Hofstadter (I 979) for an interesting discussion of various versions) are very vague by comparison with physical principles such as the laws of thermodynamics or the gravitational equivalence principle. But it will be seen below that my statement of the Church-Turing principle (1.2) is manifestly physical, and unambiguous. I shall show that it has the same epistemological status as other physical principles.
+I propose to reinterpret Turing's 'functions which would naturally be regarded as computable' as the functions which may in principle be computed by a real physical system. For it would surely be hard to regard a function 'naturally' as computable if it could not be computed in Nature, and conversely. To this end I shall define the notion of 'perfect simulation'. A computing machine X4 is capable of perfectly simulating a physical system 9?, under a given labelling of their inputs and outputs, if there exists a program t(Y') for X/4 that renders X computationally equivalent to Y9 under that labelling. In other words, n(9f) converts X# into a 'black box' functionally indistinguishable from M.
+I can now state the physical version of the Church-Turing principle:
+
+'Every finitely realizible physical system can be perfectly simulated by a universal model computing machine operating by finite means'. (1.2)
+
+This formulation is both better defined and more physical than Turing's own way of expressing it (1.1), because it refers exclusively to objective concepts such as
+'measurement', 'preparation' and 'physical system', which are already present
+in measurement theory. It avoids terminology like 'would naturally be regarded', which does not fit well into the existing structure of physics.
+The 'finitely realizible physical systems' referred to in (1.2) must include any
+
+This content downloaded from 148.241.41.225 on Tue, 09 Aug 2016 01:57:17 UTC All use subject to http://about.jstor.org/terms
+
+4-2
+
+100 D. Deutsch
+physical object upon which experimentation is possible. The 'universal computing machine', on the other han-d, need only be an idealized (but theoretically permitted) finitely specifiable model. The labellings implicitly referred to in (1.2) must also be finitely specifiable.
+The reference in (1.1) to a specific universal computing machine (Turing's) has of necessity been replaced in (1.2) by the more general requirement that this machine operate 'by finite means'. 'Finite means' can be defined axiomatically, without restrictive assumptions about the form of physical laws (cf. Gandy I980). It we think of a computing machine as proceeding in a sequence of steps whose duration has a non-zero lower bound, then it operates 'by finite means' if (i) only a finite subsystem (though not always the same one) is in motion during any one step, and (ii) the motion depends only on the state of a finite subsystem, and (iii) the rule that specifies the motion can be given finitely in the mathematical sense (for example as an integer). Turing machines satisfy these conditions, and so does the universal quantum computer , (see ? II).
+The statement of the Church-Turing principle (1.2) is stronger than what is strictly necessitated by (1 .1). Indeed it is so strong that it is not satisfied by Turing's machine in classical physics. Owing to the continuity of classical dynamics, the possible states of a classical system necessarily form a continuum. Yet there are only countably many ways of preparing a finite input for S. Consequently S cannot perfectly simulate any classical dynamical system. (The well studied theory of the 'simulation' of continuous systems by Y concerns itself not with perfect simulation in my sense but with successive discrete approximation.) In ? III, I shall show that it is consistent with our present knowledge of the interactions present in Nature that every real (dissipative) finite physical system can be perfectly simulated by the universal quantum computer S. Thus quantum theory is compatible with the strong form (1.2) of the Church-Turing principle.
+I now return to my argument that (1.2) is an empirical assertion. The usual criterion for the empirical status of a theory is that it be experimentally falsifiable
+(Popper I959), i.e. that there exist potential observations that would contradict
+it. However, since the deeper theories we call 'principles' make reference to experiment only via other theories, the criterion of falsifiability must be applied indirectly in their case. The principle of conservation of energy, for example, is not in itself contradicted by any conceivable observation because it contains no specification of how to measure energy. The third law of thermodynamics whose form
+'No finite process can reduce the entropy or temperature of afinitely realizible physical system to zero' (1.3)
+bears a certain resemblance to that of the Church-Turing principle, is likewise not directly refutable: no temperature measurement of finite accuracy could distinguish absolute zero from an arbitrarily small positive temperature. Similarly, since the number of possible programs for a universal computer is infinite, no experiment could in general verify that none of them can simulate a system that is thought to be a counter-example to (1.2).
+But all this does not place 'principles' outside the realm of empirical science.
+This content downloaded from 148.241.41.225 on Tue, 09 Aug 2016 01:57:17 UTC All use subject to http://about.jstor.org/terms
+
+Quantum computers and the Church-Turing principle 101
+On the contrary, they are essential frameworks within which directly testable theories are formulated. Whether- or not a given physical theory contradicts a principle is first determined by logic alone. Then, if the directly testable theory survives crucial tests but contradicts the principle, that principle is deemed to be refuted, albeit indirectly. If all known experimentally corroborated theories satisfy a restrictive principle, then that principle is corroborated and becomes, on the one hand, a guide in the construction of new theories, and on the other, a means of understanding more deeply the content of existing theories.
+It is often claimed that every 'reasonable 'physical (as opposed to mathematical) model for computation, at least for the deterministic computation of functions from Z to Z, is equivalent to Turing's. But this is not so; there is no a priori reason why physical laws should respect the limitations of the mathematical processes we call 'algorithms' (i.e. the functions C(Y )). Although I shall not in this paper find it necessary to do so, there is nothing paradoxical or inconsistent in postulating physical systems which compute functions not in C(Y). There could be experimentally testable theories to that effect: e.g. consider any recursively enumerable non-recursive set (such as the set of integers representing programs for terminating algorithms on a given Turing machine). In principle, a physical theory might have among its implications that a certain physical device F could compute in a specified time whether or not an arbitrary integer in its input belonged to that set. This theory would be experimentally refuted if a more pedestrian Turing-type computer, programmed to enumerate the set, ever disagreed with F. (Of course the theory would have to make other predictions as well, otherwise it could never be non-trivially corroborated, and its structure would have to be such that its exotic predictions about F could not naturally be severed from its other physical content. All this is logically possible.)
+Nor, conversely, is it obvious a priori that any of the familiar recursive functions is in physical reality computable. The reason why we find it possible to construct, say, electronic calculators, and indeed why we can perform mental arithmetic, cannot be found in mathematics or logic. The reason is that the laws of physics 'happen to 'permit the existence of physical models for the operations of arithmetic suc as addition, subtraction and multiplication. If they did not, these familiar operations would be non-computable functions. We might still know of them and invoke them in mathematical proofs (which would presumably be called 'nonconstructive') but we could not perform them.
+If the dynamics of some physical system did depend on a function not in C(Y ), then that system could in principle be used to compute the function. Chaitin (I977) has shown how the truth values of all 'interesting' non-Turing decidable propositions of a given formal system might be tabulated very efficiently in the first few significant digits of a single physical constant.
+But if they were, it might be argued, we could never know because we could not check the accuracy of the 'table' provided by Nature. This is a fallacy. The reason why we are confident that the machines we call calculators do indeed compute the arithmetic functions they claim to compute is not that we can 'check' their answers, for this is ultimately a futile process of comparing one machine with another: Quis custodiet custodios ipsos? The real reason is that we believe the
+This content downloaded from 148.241.41.225 on Tue, 09 Aug 2016 01:57:17 UTC All use subject to http://about.jstor.org/terms
+
+102 D. Deutsch
+detailed physical theory that was used in their design. That theory, including its assertion that the abstract functions of arithmetic are realized in Nature, is empirical.
+II. QUANTUM COMPUTERS
+Every existing general model of computation is effectively classical. That is, a full specification of its state at any instant is equivalent to the specification of a set of numbers, all of which are in principle measurable. Yet according to quantum theory there exist no physical systems with this property. The fact that classical physics and the classical universal Turing machine do not obey the Church-Turing principle in the strong physical form (1.2) is one motivation for seeking a truly quantum model. The more urgent motivation is, of course, that classical physics is false.
+Benioff (i 982) has constructed a model for computation within quantum kinematics and dynamics, but it is still effectively classical in the above sense. It is constructed so that at the end of each elementary computational step, no characteristically quantum property of the model - interference, non-separability, or indeterminism - can be detected. Its computations can be perfectly simulated by a Turing machine.
+Feynman (I982) went one step closer to a true quantum computer with his 'universal quantum simulator'. This consists of a lattice of spin systems with nearest-neighbour interactions that are freely specifiable. Although it can surely simulate any system with a finite-dimensional state space (I do not understand why Feynman doubts that it can simulate fermion systems), it is not a computing machine in the sense of this article. 'Programming' the simulator consists of endowing it byfiat with the desired dynamical laws, and then placing it in a desired initial state. But the mechanism that allows one to select arbitrary dynamical laws is not modelled. The dynamics of a true 'computer' in my sense must be given once and for all, and programming it must consist entirely of preparing it in a suitable state (or mixed case).
+Albert (i983) has described a quantum mechanical measurement 'automaton' and has remarked that its properties on being set to measure itself have no analogue among classical automata. Albert's automata, though they are not general purpose computing machines, are true quantum computers, members of the general class that I shall study in this section.
+In this section I present a general, fully quantum model for computation. I then describe the universal quantum computer ,, which is capable of perfectly simulating every finite, realizible physical system. It can simulate ideal closed (zero temperature) systems, including all other instances of quantum computers and quantum simulators, with arbitrarily high but not perfect accuracy. In computing strict functions from Z to Z it generates precisely the classical recursive functions C(Y ) (a manifestation of the correspondence principle). Unlike Y, it can simulate any finite classical discrete stochastic process perfectly. Furthermore, as we shall see in ?III, it as many remarkable and potentially useful capabilities that have no classical analogues.
+Like a Turing machine, a model quantum computer . consists of two components,
+This content downloaded from 148.241.41.225 on Tue, 09 Aug 2016 01:57:17 UTC All use subject to http://about.jstor.org/terms
+
+Quantum computers and the Church-Turing principle 103
+a finite processor and an infinite memory, of which only a finite portion is ever used. The computation proceeds in steps of fixed duration T, and during each step only the processor and a finite part of the memory interact, the rest of the memory remaining static.
+The processor consists of M 2-state observables
+{ny} (t 6EM), (2.1 )
+where ZM is the set of integers from 0 to M- 1. The memory consists of an infinite sequence
+{Mr} (i - Z) (2.2)
+of 2-state observables. This corresponds to the infinitely long memory 'tape' in
+a Turing machine. I shall refer to the {ni} collectively as n', and to the {Mi} a
+Corresponding to Turing's 'tape position' is another observable x, which has the whole of Z as its spectrum. The observable x is the 'address' number of the currently scanned tape location. Since the 'tape' is infinitely long, but will be in motion during computations, it must not be rigid or it could not be made to move 'by finite means'. A mechanism that moved the tape according to signals transmitted at finite speed between adjacent segments only would satisfy the 'finite means' requirement and would be sufficient to implement what follows. Having satisfied ourselves that such a mechanism is possible, we shall not need to model it explicitly. Thus the state of 9 is a unit vector in the space X spanned by the simultaneous eigenvectors
+x; n; m>-Ix; no,l n..nM-l; ...M-l,mO,ml ... > (2.3)
+of x, n and mt, labelled by the corresponding eigenvalues x, n and m. I call (2.3) the 'computational basis states'. It is convenient to take the spectrum of our 2-state observables to be Z2' i.e. the set {0, 1}, rather than {-2' + } as is customary in physics. An observable with spectrum {0, 1} has a natural interpretation as a 'one-bit' memory element.
+The dynamics of S9 are summarized by a constant unitary operator U on X. U specifies the evolution of any state I i/r(t)> e Af' (in the Schr6dinger picture at time t) during a single computation step
+Jfr(nT)>=UnIJf(0)> (ne-+), (2.4)
+UtU = Uut= i. (2.5)
+We shall not need to specify the state at times other than non-negative integer multiples of T. The computation begins at t = 0. At this time x and n2 are prepared with the value zero, the state of a finite number of the m' is prepared as the program' and 'input' in the sense of ? I and the rest are set to zero. Thus
+
+3b(O)> E AmIO; O; m>} ,
+m
+m
+
+(2.6)
+
+This content downloaded from 148.241.41.225 on Tue, 09 Aug 2016 01:57:17 UTC All use subject to http://about.jstor.org/terms
+
+104 D. Deutsch
+where only a finite number of the Am are non-zero and Am vanishes whenever an infinite number of the m are non-zero.
+To satisfy the requirement that 9 operate 'by finite means', the matrix elements of U take the following form:
+<x'; n'; m' l U I x; n; m>
+= [8xx+l U + (n', m' I n, mx) + 8xx-1 U - (n', m' I n, mx)] fI my. (2.7) y?x
+The continued product on the right ensures that only one memory bit, the xth, participates in a single computational step. The terms 6xx+ 'ensure that during eac step the tape position x cannot change by more than one unit, forwards or backwards, or both. The functions U ? (n', m' I n, m), which represent a d
+motion depending only on the 'local' observables n' and mrX, are arbitrar
+for the requirement (2.5) that U be unitary. Each choice defines a different quantum computer, [ U +, U - ].
+Turing machines are said to 'halt', signalling the end of the computation, when two consecutive states are identical. A 'valid' program is one that causes the machine to halt after a finite number of steps. However, (2.4) shows that two consecutive states of a quantum computer 9 can never be identical after a non-trivial computation. (This is true of any reversible computer.)
+Moreover, .9 must not be observed before the computation has ended since this would, in general, alter its relative state. Therefore, quantum computers need to signal actively that they have halted. One of the processor's internal bits, say Ao, must be set aside for this purpose. Every valid .9-program sets no to 1 when it terminates but does not interact with no otherwise. The observable no can then be periodically observed from the outside without affecting the operation of J. The analogue of the classical condition for a program to be valid would be that the expectation value of nio must go to one in a finite time. However, it is physically reasonable to allow a wider class of .9-programs. A .9-program is valid if the expectation value of its running time is finite.
+Because of unitarity, the dynamics of .9, as of any closed quantum system, are necessarily reversible. Turing machines, on the other hand, undergo irreversible changes during computations, and indeed it was, until recently, widely held that irreversibility is an essential feature of computation. However, Bennett (I 973) proved that this is not the case by constructing explicitly a reversible classical model computing machine equivalent to (i.e. generating the same computable function as) Y (see also Toffoli 1979). (Benioff 's machines are equivalent to Bennett's but use quantum dynamics.)
+Quantum computers .9[U +, U-] equivalent to any reversible Turing machine may be obtained by taking
+U- (n', m' I n, m) 2 1^A(n, m) & +Y' m)L1 ?C(n, m)], (2.8)
+where A, B and C are functions with ranges (Z2)M, I2 and {- 1, 1} respectively. Turing machines, in other words, are those quantum computers whose dynamics ensure that they remain in a computational basis state at the end of each step,
+This content downloaded from 148.241.41.225 on Tue, 09 Aug 2016 01:57:17 UTC All use subject to http://about.jstor.org/terms
+
+Quantum computers and the Church-Turing prtnciple 105
+
+given that they start in one. To ensure unitarity it is necessary and sufficient that the mapping
+{(n, m)} {(A (n, m), B(n, m), C(n, m))} (2.9)
+be bijective. Since the constitutive functions A, B and C are otherwise arbitrary there must, in particular, exist choices that make 9 equivalent to a universal Turing machine S.
+To describe the universal quantum computer 2 directly in terms of its constitutive transformations U ? would be possible, but unnecessarily tedious. The properties of a are better defined by resorting to a higher level description, leaving the explicit construction of U ? as an exercise for the reader. In the following I repeatedly invoke the 'universal' property of S.
+For every recursive functionf there exists a program tc(f) for Y such that when the image of tc(f) is followed by the image of any integer i in the input of Y, Y eventually halts with it(f) and i themselves followed by the image off(i), with all other bits still (or again) set to zero. That is, for some positive integer n
+Un Io; 0; it(f ), i, O> = I 0; 1, 0; it(f ), i, f(i), O>. (2.10)
+
+Here 0 denotes a sequence of zeros, and the zero eigenvalues of Mi (i < 0) are
+shown explicitly. Y loses no generality if it is required that every program allocate the memory as an infinite sequence of 'slots', each capable of holding an arbitrary integer. (For example, the ath slot might consist of the bits labelled by successive powers of the ath prime.) For each recursive functionf and integers a, b there exists a program it(f, a, b), which computes the function f on the contents of slot a and places the result in slot b, leaving slot a unchanged. If slot b does not initially contain zero, reversibility requires that its old value be not overwritten but combined in some reversible way with the value of the function. Thus, omitting explicit mention of everything unnecessary, we may represent the effect of the
+program X by slotI
+
+In
+
+slot 2 slot 3 slot
+
+3
+
+(2.11)
+
+(f, 2, 3), i,j>
+
+where ) is any associative, commutative operator with the properties
+iG3i =O,j
+iFO = j (2.12) iG0 =i,J
+(the exclusive-or function, for example, would be satisfactory). I denote by it1 iT2 the concatenation of two programs it and 2, which always exists when i1 and R2 are valid programs; E1 TE2 is a program whose effect is that of it followed by 2.
+For any bijective recursive function g there exists a program 4(g, a) whose sole effect is to replace any integer i in slot a by g(i). The proof is immediate, for if
+some slot b initially contains zero,
+4(g,a) = n(g,a,b) i(g-1,b,a) i(I,b,a) -(I,a,b). (2.13)
+
+This content downloaded from 148.241.41.225 on Tue, 09 Aug 2016 01:57:17 UTC All use subject to http://about.jstor.org/terms
+
+106 D. Deutsch
+
+Here I is the 'perfect measurement' function (Deutsch I985)
+1 ic(I, 2^3), ?, j> ->I E(1, 2, 3), i, j G)i> . (2.14)
+The universal quantum computer5S has all the properties of g just described, as summarized in (2.10) to (2.14). But a admits a further class of programs which evolve computational basis states into linear superpositions of each other. All programs for a can be expressed in terms of the ordinary Turing operations and just eight further operations. These are unitary transformations confined to a single two-dimensional Hilbert space X, the state space of a single bit. Such transformations form a four (real) parameter family. Let a be any irrational multiple of it. Then the four transformations
+
+V [ cosa sina V [ cosoc i sino
+-sin x cos L i sin c cos a
+
+(2.15)
+
+and their inverses V4, V5, V6, V7, generate, under composition, a group dense in the group of all unitary transformations on S. It is convenient, though not essential, to add two more generators
+V8=2-1[_ ] and V9 2 4i1] (2.16)
+which corresponds to 900 ' spin rotations'. To ea computational basis elements representing prog upon the least significant bit of the ath slot. Thus if j is zero or one, these basis
+elements evolve according to
+1Cvi, 2), j> <kkIVIi j> I(Vi,2), k>. (2.17) k=O
+Composition of the Vi may be effected by concatenation of the 4(Vi, a). Thus the exist programs that effect upon the state of any one bit a unitary transformation
+arbitrarily close to any desired one. Analogous conclusions hold for the joint state of any finite number L of specified
+bits. This is not a trivial observation since such a state is not necessarily a direct product of states confined to the Hilbert spaces of the individual bits, but is in general a linear superposition of such products. However, I shall now sketch a proof of the existence of a program that effects a unitary transformation on L bits, arbitrarily close to any desired unitary transformation. In what follows, 'accurate' means 'arbitrarily accurate with respect to the inner product norm'. The case L = 1 is trivial. The proof for L bits is by induction.
+First note that the (2L)! possible permutations of the 2L computational basis states of L bits are all invertible recursive functions, and so can be effected by programs for Y, and hence for a.
+Next we show that it is possible for a to generate 2L-dimensional unitary transformations diagonal in the computation basis, arbitrarily close to any
+
+This content downloaded from 148.241.41.225 on Tue, 09 Aug 2016 01:57:17 UTC All use subject to http://about.jstor.org/terms
+
+Quantum computers and the Church-Turing principle 107
+transformation diagonal in that basis. The (L -1)-bit diagonal transformations, which are accurately a-computable by the inductive hypothesis, are generated by certain 2L-dimensional diagonal. unitary matrices whose eigenvalues all have even degeneracy. The permutations of basis states allow a accurately to effect every diagonal unitary transformation with this degeneracy. The closure of this set of degenerate transformations under multiplications is a group of diagonal transformations dense in the group of all 2L-dimensional diagonal unitary transformations.
+Next we show that for each L-bit state I 3!r> there exists a a-program p( (I V>) which accurately evolves I Vr> to the basis state I OL> in which all L bits are zero.
+Write
+I v> = coIO>I vo>+c1 C1>I I fI , (2.18)
+where I 3bo > and I i/r1> are states of the L -1 bits numbered 2 t hypothesis there exist a-programs po and pi which accuratel I ~/i>, respectively, to the (L -1)-fold product I OL-1>. Ther a-program with the following effect. If bit no. 1 is a zero, exe execute p1. This converts (2.18) accurately to
+(co I 0> +ClI 1>) IO0L-1> (2.19)
+Then (2.19) can be evolved accurately to I OL> by a transformation of bit no. 1. Finally, an arbitrary 2L-dimensional transformation U is accurately effected by
+successively transforming each eigenvector I V/r> of U accurately into IOL> (by
+executing the program p'-( I 3/>)), then performing a diagonal unitary transformation which accurately multiplies I OL> by the eigenvalue (a phase factor) corresponding to I i/>, but has arbitrarily little effect on any other computational basis state, and then executing p( I 3b>).
+This establishes the sense in which a is a universal quantum computer. It can
+simulate with arbitrary precision any other quantum computer 4[U +, U-]. For
+although a quantum computer has an infinite-dimensional state space, only a finite-dimensional unitary transformation need be effected at every step to simulate its evolution.
+III. PROPERTIES OF THE UNIVERSAL QUANTUM COMPUTER We have already seen that the universal quantum computer . can perfectly simulate any Turing machine and can simulate with arbitrary precision any quantum computer or simulator. I shall now show how . can simulate various physical systems, real and theoretical, which are beyond the scope of the universal Turing machine S7.
+Random numbers and discrete stochastic systems As is to be expected, there exist programs for a which generate true random numbers. For example, when the program
+(V8, 2) - 7(I, 2, a) (3.1)
+This content downloaded from 148.241.41.225 on Tue, 09 Aug 2016 01:57:17 UTC All use subject to http://about.jstor.org/terms
+
+108 D. Deutsch
+
+halts, slot a contains with probability 2 either a zero or a one. Iterative programs incorporating (3.1) can generate, other probabilities, including any probability that is a recursive real. However, this does not exhaust the abilities of S. So far, all our programs have been, per se, classical, though they may cause the 'output' part of the memory to enter non-computational basis states. We now encounter our first quantum program. The execution of
+
+2-i17t(I,2,a)> (cosOIO>+sinIl 1>) (3.2) slot 1 slot 2
+
+yields in slot a, a bit that is
+(3.2) are valid programs for S2. In particular, valid programs exist with arbitrary irrational probabilities cos2 0 and sin2 0. It follows that every discrete finite stochastic system, whether or not its probability distribution function is Ycomputable, can be perfectly simulated by S,. Even if Y were given access to a
+'hardware random number generator' (which cannot really exist classically) or a
+'random oracle' (Bennett i98I) it could not match this. However, it could get arbitrarily close to doing so. But neither Y nor any classical system whatever, including stochastic ones, can even approximately simulate the next property of S.
+
+zer
+
+Quantum correlations
+The random number generators (3.1) and (3.2) differ slightly from the other programs I have so far considered in that they necessarily produce 'waste' output. The bit in slot a is, strictly speaking, perfectly random only if the contents of slot 2 are hidden from the user and never again participate in computations. The quantum program (3.2) can be used only once to generate a single random bit. If it were re-used the output would contain non-random correlations.
+However, in some applications, such correlations are precisely what is required. The state of slots 2 and a after the execution of (3.1) is the 'non-separable' (d'Espagnat 1976) state
+2-1( 1 O> I 0) + I 1> I 1>). (3.3)
+Consider a pair of programs that swap these slots into an output region of the tape one at a time. That is, if the output is at first blank,
+output
+2-1(1 O> I ) + I > I >) IO> IO>, (3.4)
+execution of the first program halts with
+2-1O>(IO>IO>+ I1> 1>)IO>, (3.5)
+and, execution of the second program halts with
+2-110>IO>(IO>IO>+I1>I1>). (3.6)
+An equivalent program is shown explicitly at the end of ?4. Bell's (I964) theorem tells us that no classical system can reproduce the statistical results of consecutive measurements made on the output slots at times (3.5) and (3.6). (Causing the output to appear in two steps with an opportunity for the user to perform an
+
+This content downloaded from 148.241.41.225 on Tue, 09 Aug 2016 01:57:17 UTC All use subject to http://about.jstor.org/terms
+
+Quantum computers and the Church-Turing principle 109
+experiment after each step is sufficient to satisfy the locality requirement in Bell's theorem.)
+The two bits in (3.3) can also be used as 'keys' for performing 'quantum cryptography' (Bennett et al. 1983).
+Perfect simulation of arbitrary finite physical systems The dynamics of quantum computers, though by construction 'finite', are still unphysical in one important respect: the evolution is strictly unitary. However, the third law of thermodynamics (1.3) implies that no realizible physical system can be prepared in a state uncorrelated with systems outside itself, because its entropy would then be zero. Therefore, every realizible physical system interacts with other systems, in certain states. But the effect of its dynamical coupling to systems outside itself cannot be reduced to zero by a finite process because the temperature of the correlation degrees of freedom would then have been reduced to zero. Therefore there can be no realizible way of placing the system in states on which the components of the time evolution operator which mix internal and external degrees of freedom have no effect. A faithful description of a finitely realizible physical system with an L-dimensional state space X-Y cannot therefore be made via state vectors in X but must use density matrices pab. Indeed, all density matrices are in principle allowed except (thanks to the 'entropy' half of the third law (1.3)) pure cases. The dynamics of such a system are generated not by a unitary operator but by a superscattering matrix $:
+Pab(T) = E $abC dPcd(O). (3.7) c, d
+It is worth stressing that I am not advocating non-unitary dynamics for the universe as a whole, which would be a heresy contrary to quantum theory. Equation (3.7) is, of course, merely the projection into X* of unitary evolution in a higher state space XY x "', where `' represents as much of the rest of the universe as necessary. Roughly speaking (the systems are far from equilibrium) Xf ' plays the role of a 'heat bath'.
+Thus the general superscattering operator has the form
+$abac' dd =f'z,2ga'ea',' ddg'f9P (3.8)
+where U abcd' is a unitary operator on X x X ', that is
+Uab'cd' cd' = a e b' f (3.9)
+c, d'
+which does not decompose into a product of operators on X and J'. (Raising and lowering of indices denotes complex conjugation.) The term pa b' has an approximat interpretation as the initial density matrix of the 'heat bath', which would be strictly true if the system, the heat bath, and the entity preparing the system in
+This content downloaded from 148.241.41.225 on Tue, 09 Aug 2016 01:57:17 UTC All use subject to http://about.jstor.org/terms
+
+110 D. Deutsch
+its initial state were all uncorrelated initially. Let us rewrite (3.8) in the A'-basis in which - is diagonal:
+$ab d = fE Pf ae' f df'
+e~,f
+EPa,= 1, (3.10)
+a,
+where the probabilities Pa' are the eigenvalues of p. The set ; of all superseattering matrices (3.8) or (3.10) lies in a subspace f of X x * x * x X, namely the subspace whose elements satisfy
+E $a c=8bc (3.11)
+a
+Every element of ; satisfies the constraints
+? < z P(1)b$abCdP(2)cd 1 (3.12) a, b, c, d
+for arbitrary density matrices p(l) and p(2). The inequality on the left in (3.12) can be an equality only if the states of X9
+form disjoint subsets with strictly zero probability so that thermal noise can effect a transition between them. This is impossible unless there are superselection rules forbidding such transitions, a possibility that we lose no generality by excluding because only one superselected sector at a time can be realized as a physical system. The inequality on the right becomes an equality precisely in the unitary case
+$$bac -Udcub= Ua ad (3.13)
+which is unphysical because it represents perfectly non-dissipative evolution. Thus the set of physically realizible elements of ; is an open set in f. Moreover, for any $(1) and $(2) that are s-computable the convex linear combination
+P1 $(1) +P2 $(2), (3.14)
+where p1 and P2 are arbitrary probabilities, is also computable, thanks to the random number generator (3.2). By computing unitary transformations as in (3.10), every element of a certain countable dense subset of ; can be computed. But every point in any open region of a finite-dimensional vector space can be represented as a finite convex linear combination of elements of any dense subset of that space. It follows that &A can perfectly simulate any physical system with a finite-dimensional state space. Therefore quantum theory is compatible with the Church-Turing principle (1.2).
+The question whether all finite systems in the physical universe can likewise be simulated by a - i.e. whether (1.2) is satisfied in Nature - must remain open until the state space and dynamics of the universe are understood better. What little is known seems to bear out the principle. If the theory of the thermodynamics of black holes is trustworthy, no system enclosed by a surface with an appropriately defined area A can have more than a finite number (Bekenstein I98I)
+N(A) = exp (Ac3/4hG) (3.15)
+This content downloaded from 148.241.41.225 on Tue, 09 Aug 2016 01:57:17 UTC All use subject to http://about.jstor.org/terms
+
+Quantum computers and the Church-Turing principle 111
+of distinguishable accessible states (h is the Planck reduced constant, G is the gravitational constant and-c is the speed of light). That is, in a suitable basis the system can be perfectly described by using an N(A)-dimensional state space, and hence perfectly simulated by S.
+Parallel processing on a serial computer
+Quantum theory is a theory of parallel interfering universes. There are circumstances under which different computations performed in different universes can be combined by ., giving it a limited capacity for parallel processing. Consider the quantum program N
+N-1 E Ii(f,2,3), i, 0>, (3.16)
+i=l
+which instructs a in each of N universes to computef(i), for i from 1 to N. Linearity and (2.11) imply that after executing (3.16) &A halts in the state
+N
+N-" E t(f,2, 3), i, f(i)>. (3.17)
+i=l
+Although this computation requires exactly the same time, memory space and hardware as (2.11), the state (3.17) contains the results of an arbitrarily large number N of separate computations. Unfortunately, at most one of these results is accessible in each universe. If (3.16) is executed many times, the mean time required to compute all N values f(i), which I shall refer to collectively as f, is at least that required for (2.11) to compute all of them serially. I shall now show that the expectation value of the time to compute any non-trivial N-fold parallelizable function G(f) of all N valuesf via quantum parallelism such as (3.16) cannot be less than the time required to compute it serially via (2.11).
+For simplicity assume that T, the running time of (2.1 1), is independent of i and that the time taken to combine all thef to form G(f ) is negligible compared with T.
+Now suppose that there exists a program C, which for any function f extracts the value of G(f) from (3.17) in a negligible time and with probability 1,/12. That
+is, C has the effect N N`I Ii,f(i)>,SflI0,G(f)>+(I1I,2)i 1>IA(f)>, (3.18) i=l
+where the states I A(f )> contain no information about G(f ). Then the first slot could be measured. If it contained zero, the second slot would contain G(f ). Otherwise the information in (3.17) would have been lost and it would have to be recomputed. Unitarity implies
+N
+N l E d(f(i), g(i)) = | /312 8(G(f ), G(g)) + (1 - 1 /12) <A(f ) I A(g)> (3.19) i=1
+for any functions g(i) and f(i). If G(f ) is not a constant function then for each functionf(i) there exists another
+function g(i) such that G(g) :# G(f ), but g(i) = f(i) for all but one value of i between 1 and N. For this choice
+1-N-1 = (1 - 1312) <A(f ) I A(g)>, (3.20)
+This content downloaded from 148.241.41.225 on Tue, 09 Aug 2016 01:57:17 UTC All use subject to http://about.jstor.org/terms
+
+112 D. Deutsch
+whence it follows that f ,12 <N-1. Thus the mean time to compute G(f ) must be
+at least T/ ,8 12 = NT. This establishes that quantum parallelism cannot be used t
+improve the mean running time of parallelizable algorithms. As an example of quantum parallelism for N = 2, let
+G(f) )f(O) i3f(1), (3.21)
+(see equations (2.12)). Then the state (3.17) following the quantum parallel computation has
+2-2( I 0, f(O)> +I 1, f(l)>) (3.22)
+as a factor. A suitable program 4 to 'decode' this is one that effects a measurement of any non-degenerate observable with eigenstates
+{zero>-2 (I ?, 0> - , 1> + 1, 0> - 1, 1>)~
+Ione>-- (I,0>-I0,1>-I1,0>+I1,1>), (3.23)
+1fail> = (IO,O>+IO, 1>+ 1,0>+1 1, 1>),
+error> =A(I0,0>+IO, 1>- 1,0>-11, 1>).
+Such an observable exists, since the states (3.23) form an orthonormal set. Furthermore, the measurement can be made in a fixed time independent of the execution time of the algorithm computing f. If the outcome of the measurement is 'zero' (i.e. the eigenvalue corresponding to the state I zero>) or 'one' then it can be inferred that f(O) Ef(1) is zero or one respectively. Whatever the form of the function f, there will be a probability 2 that the outcome will be 'fail', in which case nothing can be inferred about the value of f(O) Ef(1). The probability of the outcome 'error' can be made arbitrarily small with a computational effort independent of the nature of f.
+In this example the bound NT for the running time has been attained. However, for N > 2 I have been unable to construct examples where the mean running time is less than (N2 - 2N+ 2)T, and I conjecture that this is the optimal lower bound. Also, although there exist non-trivial examples of quantum parallelizable algorithms for all N, when N > 2 there are none for which the function G(f ) has the set of all 2N possible graphs of f as its domain.
+In practical computing problems, especially in real time applications, one may not be concerned with minimizing specifically the mean running time of a program: often it is required that the minimum or maximum time or some more complicated measure be minimized. In such cases quantum parallelism may come into its own. I shall give two examples.
+(1) Suppose that (3.17) is a program to estimate tomorrow's Stock Exchange movements given today's, and G(f ) specifies the best investment strategy. If T were one day and N = 2, the classical version of this program would take two days to run and would therefore be useless. If the quantum version was executed every day, then on one day in two on average slot 1 would contain the measured value '1', indicating a failure. On such days one would make no investment. But with equal average frequency a zero would appear, indicating that slot 2 contained the correct value of the investment strategy G(f ). G(f ), which incorporates the result
+This content downloaded from 148.241.41.225 on Tue, 09 Aug 2016 01:57:17 UTC All use subject to http://about.jstor.org/terms
+
+Quantum computers and the Church-Turing prtnciple 113
+
+of two classical processor-days of computation, would on such occasions have been performed by one processor in one day.
+One physical way of describing this effect is that when the subtasks of an N-fold parallel task are delegated to N2 - 2N+ 2 universes, at most one of them can acquire the overall result.
+(2) Now consider the problem of the design of parallel information-processing systems which are subject to noise. For example, suppose that it is required, within a fixed time T, to compute a certain N-fold parallelizable function G(f ). NR processors are available, each of which may fail for reasons of thermal noise, etc. with probability p. For simplicity assume that such a hardware error can be reliably detected. The problem is to minimize the overall failure rate q. 'Classically' (i.e. without using quantum parallelism) one minimizes q by means of an R-fold redundancy: R processors are instructed to perform each of the N parallel subtasks. The machine as a whole will therefore fail to compute the result in time only when all R processors assigned to any one subtask fail, and this occurs with probability
+
+qclassical = 1- (1 _pR)N. (3.24) Using quantum parallelism, however, each of the NR available processors may be given all N tasks. Each is subject to two independent causes of failure, (i) the probability p that it will fail for hardware reasons, and (ii) the probability, which as I have indicated will for certain G(f ) be 1- (N- 2N+ 2)-i, that it will end up in a different universe from the answer. It takes only one of the NR processors to succeed, so the failure rate is
+qquantum = [1-(N2-2N + 2)-1 ( 1-p)INR (3.25)
+a number which, for suitable values of p, N and R, can be smaller than (3.24).
+
+Faster computers
+
+One day it will become technologically possible to build quantum computers,
+
+perhaps using flux quanta (Likharev I982; Leggett I985) as the fundamental
+
+components. It is to be expected that such computers could operate at effective
+
+computational speeds in excess of Turing-type machines built with the same
+
+technology. This may seem surprising since I have established that no recursive
+
+function can be computed by 2 on average more rapidly with the help of quantum
+
+programs than without. However, the idealizations in 2 take no account of the
+
+purely technological fact that it is always easier in practice to prepare a very large
+
+number of identical systems in the same state than to prepare each in a different
+
+state. It will therefore be possible to use a far higher degree of redundancy R for
+
+parallel quantum programs than for classical ones running on the same basic
+
+hardware.
+
+Interpretational implications
+
+I have described elsewhere (Deutsch I985; cf. also Albert I983) how it would
+
+be possible to make a crucial experimental test of the Everett ('many-universes')
+
+interpretation of quantum theory by using a quantum computer (thus contradicting
+
+the widely held belief that it is not experimentally distinguishable from other
+
+interpretations). However, the performance of such experiments must await both
+
+This content downloaded from 148.241.41.225 on Tue, 09 Aug 2016 01:57:17 UTC All use subject to http://about.jstor.org/terms
+
+114 D. Deutsch
+the construction of quantum computers and the development of true artificialintelligence programs. In explaining the operation of quantum computers I have, where necessary, assumed Everett's ontology. Of course the explanations could always be 'translated' into the conventional interpretation, but not without entirely losing their explanatory power. Suppose, for example, a quantum computer were programmed as in the Stock Exchange problem described. Each day it is given different data. The Everett interpretation explains well how the computer's behaviour follows from its having delegated subtasks to copies of itself in other universes. On the days when the computer succeeds in performing two processor-days of computation, how would the conventional interpretations explain the presence of the correct answer? Where was it computed?
+IV. FURTHER CONNECTIONS BETWEEN PHYSICS AND COMPUTER
+SCIENCE
+Quantum complexity theory
+Complexity theory has been mainly concerned with constraints upon the computation of functions: which functions can be computed, how fast, and with use of how much memory. With quantum computers, as with classical stochastic computers, one must also ask 'and with what probability?'. We have seen that the minimum computation time for certain tasks can be lower for a than for S. Complexity theory for &A deserves further investigation.
+The less immediately applicable but potentially more important application of complexity theory has been in the attempt to understand the spontaneous growth of complexity in physical systems, for example the evolution of life, and the growth of knowledge in human minds. Bennett (I983) reviewed several different measures of complexity (or 'depth', or 'knowledge') that have been proposed. Most suffer from the fatal disadvantage that they assign a high 'complexity' to a purely random state. Thus they do not distinguish true knowledge from mere information content. Bennett has overcome this problem. His 'logical depth' is roughly the running time of the shortest Y-program that would compute a given state 3f from a blank input. Logical depth is at a minimum for random states. Its intuitive physical justification is that the 'likeliest explanation' why a physical system might be found to be in the state #/ is that 3b was indeed 'computed' from that shortest Y-program. In biological terminology, logical depth measures the amount of evolution that was needed to evolve #Y from the simplest possible precursors.
+At first sight Bennett's construction seems to lose this physical justification when it is extended beyond the strictly deterministic physics of Turing machines. In physical reality most random states are not generated by 'long programs' (i.e. precursors whose complexity is near to their own), but by short programs relying on indeterministic hardware. However, there is a quantum analogue of Bennett's idea which solves this problem. Let us define the Q-logical depth of a quantum state as the running time of the shortest s-program that would generate the state from a blank input (or, perhaps, as Bennett would have it, the harmonic mean of the running times of all such programs). Random numbers can be rapidly generated by short a-programs.
+This content downloaded from 148.241.41.225 on Tue, 09 Aug 2016 01:57:17 UTC All use subject to http://about.jstor.org/terms
+
+Quantum computers and the Church-Turing principle 115
+Notice that the Q-logical depth is not even in principle an observable, because it contains information about all universes at once. But this makes sense physically: the Q-logical depth is a good measure of knowledge in that it gives weight only to complexity that is present in all universes, and can therefore be assumed to have been put there 'deliberately' by a deep process. Observationally complex states that are different in different universes are not truly deep but just random. Since the Q-logical depth is a property of the quantum state (vector), a quantum subsystem need not necessarily have a well defined Q-logical depth (though often it will to a good degree of approximation). This is again to be expected since the knowledge in a system may reside entirely in its correlations with other systems. A spectacular example of this is quantum cryptography.
+Connections between the Church-Turing principle and other parts of physics
+We have seen that quantum theory obeys the strong form (1.2) of the Church-Turing principle only on the assumption that the third law of thermodynamics (1.3) is true. This relation is probably better understood by considering the Church-Turing principle as more fundamental and deriving the third law from it and quantum theory.
+The fact that classical physics does not obey (1.2) tempts one to go further. Some of the features that distinguish quantum theory from classical physics (for example the discreteness of observables?) can evidently be derived from (1.2) and the laws of thermodynamics alone. The new principle has therefore given us at least part of the solution to Wheeler's problem 'Why did quantum theory have to be?' (see, for example, Wheeler I985).
+Various 'arrows of time' that exist in different areas of physics have by now been connected and shown to be different manifestations of the same effect. But, contrary to what is often asserted, the 'psychological' or 'epistemological' arrow of time is an exception. Before Bennett (I973) it could be maintained that computation is intrinsically irreversible, and since psychological processes such as the growth of knowledge are computations, the psychological arrow of time is necessarily aligned with the direction in which entropy increases. This view is now untenable, the alleged connection fallacious.
+One way of reincorporating the psychological arrow of time into physics is to postulate another new principle of Nature which refers directly to the Q-logical depth. It seems reasonable to assert, for example, that the Q-logical depth of the universe is at a minimum initially. More optimistically the new principle might require the Q-logical depth to be non-decreasing. It is perhaps not unreasonable to hope that the second law of thermodynamics might be derivable from a constraint of this sort on the Q-logical depth. This would establish a valid connection between the psychological (or epistemological, or evolutionary) and thermodynamic 'arrows of time'.
+Programming physics
+To view the Church-Turing hypothesis as a physical principle does not merely make computer science a branch of physics. It also makes part of experimental physics into a branch of computer science.
+This content downloaded from 148.241.41.225 on Tue, 09 Aug 2016 01:57:17 UTC All use subject to http://about.jstor.org/terms
+
+116 D. Deutsch
+The existence of a universal quantum computer a implies that there exists a program for each physical process. In particular, & can perform any physical experiment. In some cases (for example measurement of coupling constants or the form of interactions) this is not useful because the result must be known to write the program. But, for example, when testing quantum theory itself, every experiment is genuinely just the running of a a-program. The execution on a of the following ALGOL 68 program is a performance of the Einstein-Podolski-Rosen experiment:
+begin int n = * random; ? random integer from 0 to 7 ? bool x, y; + bools are 2-state memory elements ? x:= y: = false; an irreversible preparation ? V(8, y); see equation (2.15) + x eorab y; ? perfect measurement (2.14) ? if V(n, y) 7 measure y in random direction ? V(n, x) ? and x in the parallel direction ? then print ((" Quantum theory refuted.")) else print (("Quantum theory corroborated.")) fi
+end
+Quantum computers raise interesting problems for the design of programming languages, which I shall not go into here. From what I have said, programs exist that would (in order of increasing difficulty) test the Bell inequality, test the linearity of quantum dynamics, and test the Everett interpretation. I leave it to the reader to write them.
+I wish to thank Dr C. H. Bennett for pointing out to me that the Church-Turing hypothesis has physical significance, C. Penrose and K. Wolf for interesting discussions about quantum computers, and Professor R. Penrose, F.R.S., for reading an earlier draft of the article and suggesting many improvements.
+This work was supported in part by N.S.F. grant no. PHY 8205717.
+REFERENCES
+Albert, D. Z. I983 Phys. Lett. A 98, 249. Bekenstein, J. D. 1973 Phys. Rev. D 7, 2333. Bekenstein, J. D. I981 .Phys. Rev. D 23, 287. Bell, J. S. I964 Physica 1, 195. Benioff, P. A. I982 Int. J. theor. Phys. 21, 177. Bennett, C. H. 1973 IBM Ji Res. Dev. 17, 525. Bennett, C. H. I98I SIAM Ji Comput. 10, 96. Bennett, C. H. I983 On various measures of complexity, especially 'logical depth'. Lecture at
+Aspen. IBM Report. Bennett, C. H., Brassard, G., Breidbart, S. & Wiesner, S. I983 Advances in cryptography. In
+Procedings of Crypto 82. New York: Plenum. Chaitin, G. J. I977 IBM Jl Res. Dev. 21, 350.
+This content downloaded from 148.241.41.225 on Tue, 09 Aug 2016 01:57:17 UTC All use subject to http://about.jstor.org/terms
+
+Quantum computers and the Church-Turing principle 117
+Church, J. 1936 Am. J. Math. 58, 435. Deutsch, D. I985 Int. J. theor. Phys. 24, 1. d'Espagnat, B. 1976 Conceptual foundations of quantum mechanics (second edn). Reading,
+Massachusetts: W. A. Benjamin. Feynman, R. P. I982 Int. J. theor. Phys. 21, 467. Gandy, R. I980 In The Kleene symposium (ed. J. Barwise, H. J. Keisler & K. Kunen), pp.
+123-148. Amsterdam: North Holland. Hofstadter, D. R. I 979 Gidel, Escher, Bach: an eternal golden braid. New York: Random House. Leggett, A. J. I985 In Quantum discussions, proceedings of the Oxford quantum gravity conference
+1984 (ed. R. Penrose & C. Isham). Oxford University Press. Likharev, K. K. I982 Int. J. theor. Phys. 21, 311. Popper, K. R. I959 The logic of scientific discovery. London: Hutchinson. Toffoli, T. J. I979 J. Comput. Syst. Sci. 15, 213. Turing, A. M. I936 Proc. Lond. math. Soc. Ser. 2, 442, 230. Wheeler, J. A. I 985 In NATO Advanced Study Institute Workshop on Frontiers of Nonequilibrium
+Physics 1984. New York: Plenum.
+This content downloaded from 148.241.41.225 on Tue, 09 Aug 2016 01:57:17 UTC All use subject to http://about.jstor.org/terms
+

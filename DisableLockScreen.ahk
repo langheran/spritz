@@ -1,0 +1,2 @@
+﻿; https://autohotkey.com/board/topic/58260-is-there-really-no-way-to-disableremap-winl/
+RegWrite, REG_DWORD, HKEY_CURRENT_USER, Software\Microsoft\Windows\CurrentVersion\Policies\System, DisableLockWorkstation, 1

@@ -1,0 +1,64 @@
+2/14/2018
+
+Actividad 6 ­ Sistemas neuronales
+
+My Institution
+
+Sistemas neuronales
+
+Calendario y Actividades
+
+Módulo 2
+
+Nisim Hurst Tarrab
+
+Courses
+
+5
+
+Community
+
+Actividad 6
+
+Actividad 6
+
+.
+
+Nombre de la actividad:
+Actividad 6
+
+Instrucciones:
+1. Utiliza el programa en Keras dogsvscatsDNN.ipynb para realizar experimentos de clasificación
+usando el conjunto de datos Dogs vs Cats.
+2. El conjunto de experimentos debe comprender el ajuste empírico de los siguientes
+hiperparámentros:
+a. Número de capas ocultas
+b. Número de unidades de las capas ocultas
+c. Factor de aprendizaje
+d. Tamaño del mini-lote
+e. Tamaño del conjunto de datos
+3. Escribe un reporte que describa el efecto de los hiperparámetros en el desempeño de la
+clasificación y el sobreajuste del modelo.
+
+Forma de trabajo:
+Trabajo colaborativo de dos integrantes.
+
+Medio de realización/entrega:
+Envío de tareas
+
+Fecha límite de entrega:
+28 de febrero de 2018, 19:00 horas.
+
+Ponderación:
+Experimentos de clasificación
+Reporte de resultados
+Total
+
+50%
+50%
+100%
+
+https://miscursos.tec.mx/webapps/blackboard/content/listContent.jsp?course_id=_129221_1&content_id=_8992212_1
+
+1/1
+
