@@ -1,0 +1,1 @@
+"C:\Program Files\AutoHotkey\Compiler\Ahk2Exe.exe" /in Spritz.ahk /out Spritz.exe /icon Spritz.ico
