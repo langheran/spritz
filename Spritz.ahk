@@ -1109,6 +1109,7 @@ GoSub, ActivateSelf
 return
 
 #If (WinActive("ahk_id " . currentDocumentId))
+
 g::
 GotoPhraseFromPDF:
 clipboardBkp:=ClipboardAll
