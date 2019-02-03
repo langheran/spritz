@@ -1545,6 +1545,7 @@ if(!NyanCat)
 		wbnoise.Stop
 		while wbnoise.busy
 		{
+			GoSub, PlaySpritzer
 			ToolTip, Stopping Sound
 			sleep 100
 		}
@@ -1555,6 +1556,7 @@ if(!NyanCat)
 		wbnoise.Navigate(MyNoiseUrl)
 		while wbnoise.busy
 		{
+			GoSub, PauseSpritzer
 			ToolTip, Loading Sound
 			sleep 100
 		}
@@ -1566,12 +1568,14 @@ else
 	play_NYAN:=!play_NYAN
 	if(!play_NYAN)
 	{
+		GoSub, PlaySpritzer
 		Wmp.controls.stop()
 		Gui Wmp: Hide
 		GoSub, ActivateSelf
 	}
 	else
 	{
+		GoSub, PauseSpritzer
 		if(!hNYAN)
 		{
 			Gui Wmp: New,  +OwnDialogs hWndhNYAN

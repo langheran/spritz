@@ -252,7 +252,7 @@ chromatic information (u,p) is used. Based on [7], the
 chromatic values of the “car” pixels concentrate compactly
 in the u-p color space. The distribution can be approximated
 by a Gaussian function:
-p(x|vehicle) exp(- x-m x-m ) 1 12    v v 1 t
+p(x|vehicle) exp(- x-m x-m ) 1 12    v v 1 t
 2? v
 v
   6
