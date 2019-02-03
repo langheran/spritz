@@ -9,6 +9,7 @@
 #InstallKeybdHook
 SetWorkingDir %A_ScriptDir%
 
+OnMessage(536, "OnPBMsg") 
 GetCurrentProcessId:=DllCall("GetCurrentProcessId")
 
 ComObjError(false)
@@ -3475,6 +3476,26 @@ AHK_NOTIFYICON(wParam, lParam)
         }
         return 1
     }
+}
+
+OnPBMsg(wParam, lParam, msg, hwnd) {
+	If (wParam = 0) {	;PBT_APMQUERYSUSPEND
+		If (lParam & 1)	;Check action flag
+			MsgBox The computer is trying to suspend, and user interaction is permitted.
+		Else MsgBox The computer is trying to suspend, and no user interaction is allowed.
+		;Return TRUE to grant the request, or BROADCAST_QUERY_DENY to deny it.
+	} 
+	Else{
+		if(wParam = 6 || wParam = 7 || wParam = 18)
+		{
+			GoSub, PlaySpritzer
+		}
+		if(wParam = 4)
+		{
+			GoSub, PauseSpritzer
+		}
+	}
+	Return True
 }
 
 #include, %A_ScriptDir%\AHKhttp.ahk
