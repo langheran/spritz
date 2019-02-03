@@ -1109,6 +1109,10 @@ GoSub, ActivateSelf
 return
 
 #If (WinActive("ahk_id " . currentDocumentId))
+Tab::
+|::
+GoSub, ActivateSelf
+return
 
 g::
 GotoPhraseFromPDF:
@@ -1541,11 +1545,12 @@ if(!NyanCat)
 	ToolTip, % wbnoise.LocationURL
 	if(wbnoise.LocationURL<>"http:///" && wbnoise.LocationURL<>"http://localhost/")
 	{
+		GoSub, PlaySpritzer
+		GoSub, ActivateDocument
 		wbnoise.Navigate("http://localhost")
 		wbnoise.Stop
 		while wbnoise.busy
 		{
-			GoSub, PlaySpritzer
 			ToolTip, Stopping Sound
 			sleep 100
 		}
@@ -1553,10 +1558,10 @@ if(!NyanCat)
 	}
 	else
 	{
+		GoSub, PauseSpritzer
 		wbnoise.Navigate(MyNoiseUrl)
 		while wbnoise.busy
 		{
-			GoSub, PauseSpritzer
 			ToolTip, Loading Sound
 			sleep 100
 		}
@@ -1569,9 +1574,9 @@ else
 	if(!play_NYAN)
 	{
 		GoSub, PlaySpritzer
+		GoSub, ActivateDocument
 		Wmp.controls.stop()
 		Gui Wmp: Hide
-		GoSub, ActivateSelf
 	}
 	else
 	{
