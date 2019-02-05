@@ -1115,6 +1115,14 @@ Tab::
 GoSub, ActivateSelf
 return
 
+!#l::
+GoSub, OpenReadingTextFile
+return
+
+n::
+GoSub, PlayNoiseToggle
+return
+
 g::
 GotoPhraseFromPDF:
 clipboardBkp:=ClipboardAll
@@ -1306,6 +1314,7 @@ return
 return
 
 !#l::
+OpenReadingTextFile:
 textPath:=A_ScriptDir . "/texts/" . currentDocumentName . ".txt"
 if(FileExist(textPath))
     Run, %textPath%
@@ -1370,6 +1379,11 @@ return
 
 $q::
 $Esc::
+if(play_NYAN)
+{
+	GoSub, PlayNoiseToggle
+	return
+}
 if(lockClose)
 {
     ShowTooltipRight("SPRITZER: Closing is locked (unlock with ^x)")
@@ -1535,6 +1549,7 @@ $h::
 	GoSub, ToggleGuiVisibility
 return
 $n::
+PlayNoiseToggle:
 if(!NyanCat)
 {
 	if(!wbnoise)
