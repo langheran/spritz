@@ -1133,6 +1133,30 @@ return
 GoSub, OpenReadingTextFile
 return
 
+^r::
+MsgBox, % 3,, Reload text for "%currentDocumentName%" (all bookmarks will be deleted)?
+	If ErrorLevel
+		return
+	IfMsgBox, Cancel
+		return
+	IfMsgBox, Yes
+	{
+		textPath:=A_ScriptDir . "/texts/" . currentDocumentName . ".txt"
+		FileDelete, %textPath%
+		Loop 10
+		{
+			bookmark_pos_section:="bookmark" . A_Index . "_pos"
+			bookmark_title_section:="bookmark" . A_Index . "_title"
+			bookmark_loop_section:="bookmark" . A_Index . "_loop"
+			IniDelete, Spritz.ini, %file%,%bookmark_pos_section%
+			IniDelete, Spritz.ini, %file%,%bookmark_title_section%
+			IniDelete, Spritz.ini, %file%,%bookmark_loop_section%
+		}
+		GoSub, GotoPreviousText
+		Reload
+	}
+return
+
 n::
 GoSub, PlayNoiseToggle
 return
