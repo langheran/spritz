@@ -1,0 +1,190 @@
+CS 229 FINAL PROJECT, AUTUMN 2010 1
+Parking Spot Detection from Aerial Images
+Mehmet Ozan Kabak (5229284), Ozhan Turgut (5588872)
+Abstract—Finding an available parking spot in big and
+crowded city centers has been an important problem for people
+who use their own cars for transportation. Hence, parking
+spot detection has been an interesting problem that has drawn
+considerable attention. Although parking spot detection using
+ground based camera imagery has been studied extensively, doing
+the same using aerial images is a relatively unexplored problem.
+In this work we present a machine learning based approach for
+the latter.
+I. INTRODUCTION
+AUTOMATIC parking spot detection using digital imagery became an important application area for the last decade
+as digital visual information become easily accessible. Surveying the literature one sees that researchers have analyzed
+the general problem in two particular contexts. In the first one
+digital imagery obtained from ground based cameras are used
+to classify parking spots in a parking lot and/or on a street.
+This particular setting has been studied pretty extensively. In
+particular, [1] and [2] are good examples of such work. In
+the second context, digital aerial imagery is used to classify
+parking spots in a parking lot. Again, [3] and [4] can be given
+as examples. In this work we generalize the second context and
+present a method to classify both parking lot and street parking
+spaces using digital aerial imagery. Outline of the developed
+method is given below.
+Input: Training and test sets of aerial images with labelled
+parking spots.
+Parameters: Minimum segment area
+1: Generate an Luv color space representation of the image.
+2: Segmentate the image using the Luv color space representation.
+3: Extract features.
+4: Use a binary SVM with linear kernel to classify the
+parking spots.
+Output: Prediction results on the test set.
+Image segmentation was done using the publicly available
+mean shift image segmentation implementation EDISON [5].
+For the last step we used the popular LIBLINEAR [6] package
+for the SVM. These steps will be explained in further detail
+in the following sections.
+II. DATA ACQUISITION
+We used the well known software Google Earth [7] to
+obtain the aerial imagery used in this work. The location
+was randomly chosen to be Cambridge, UK. Eye altitude and
+resolution are 433 ft and 1664 × 1091 respectively. Seven
+images have been used to provide data for both training
+and test sets. Parking spots on these images were marked
+Fig. 1. Example image with marked parking spots
+Fig. 2. Example segmented image. Minimum segment area is 200 pixel2.
+manually. Each parking spot is represented by a smaller 60×60
+subimage. In figure 1 we give an example image with the
+marked parking spots.
+III. IMAGE SEGMENTATION
+Image segmentation is an important part of the algorithm
+since many features are extracted from the data obtained
+through image segmentation. Although there are many algorithms for image segmentation (i.e. k-means, statistical
+region merging, mean shift etc.), we found mean shift based
+algorithms suit best for the purpose of this work. Although
+image segmentation algorithms have many tuning parameters,
+default values of all parameters except the minimum segment
+area work fine in our algorithm. Minimum segment area thus
+becomes the only tuning parameter of our algorithm that stems
+from image segmentation. In figure 2 we give an an example
+segmented image.CS 229 FINAL PROJECT, AUTUMN 2010 2
+TABLE I
+FEATURE LIST
+Feature # Explanation
+Feature 1 : mini ||xij - sj||2 where sj is the center of the parking
+spot in question and xij is the mean coordinates of i’th
+segment touching the parking spot in question.
+Feature 2 : Area of the segment found above.
+Feature 3 : |Average grayscale color value of the parking spot -
+Average grayscale color value of the center region of the
+parking spot|
+Feature 4 : Standard deviation of the grayscale color value of the center
+region of the parking spot.
+Feature 5 : Luv color values of the segment with the maximum area
+touching the parking spot in question.
+Feature 6 : || The above color vector - Luv color of the segment found
+in feature 1||2
+Feature 7 : Luv color of the segment including the center of the parking
+spot in question.
+Feature 8 : Area of the maximum area segment touching the parking
+spot in question.
+IV. FEATURE EXTRACTION
+This is arguably the most crucial part of the algorithm. In
+the literature, feature extraction is unfortunately overlooked in
+the context of parking spot detection. Raw pixel information
+and shallow statistics thereof (e.g. histograms) are almost
+exclusively used. This, however, results in poor performance
+in many cases. We used a heterogenous set of features incorporating a wide range of information; including geometrical,
+optical and statistical information. The full list of the features
+are given in table I. In this table, “center region” of a parking
+spot means the L/2 × L/2 sub image having the same center
+with the parking spot image. Here L = 60 is the side length
+of a parking spot image.
+Feature selection
+Our intution led us to think that each feature captures
+different information and thus is necessary. To validate the
+necessity of each individual feature, an exhaustive search for
+the best feature combination was performed. Best 80% holdout cross validation accuracy was achieved with the full set of
+features.
+V. SUPPORT VECTOR MACHINE
+Although we tried many different kernels and solvers, the
+best kernel/solver combination for this problem was found to
+be linear kernel and l2 regularized logistic regression (primal).
+The cost parameter of the SVM and the error tolerance of the
+solver is found to have little effect on the performance of
+the algorithm. Particular values that are found to work well
+are C = 1 and ! = 10-6. Finally, we used the LIBLINEAR
+software as our implementation of choice.
+Fig. 3. Typical result with 80% hold out cross validation. Spots correctly
+marked as “available” are marked in green whereas spots correctly marked as
+“occupied” are marked with red. Spots marked in blue are misclassified.
+Fig. 4. Another typical result with 80% hold out cross validation.
+TABLE II
+CONFUSION MATRIX FOR THE TRAINING SET
+Case Real Available Real Occupied
+Predicted Available 125 10
+Predicted Occupied 10 205
+VI. RESULTS
+We used 80% hold out cross validation to measure the performance parameters of the algorithm. Results for a typical run
+are given in figure 4 and performance metrics are summarized
+in tables II, III and IV.
+Sensitivity analysis on “Minimum Segment Area” parameter
+Being the only non machine learning parameter of the algorithm, minimum segment area warrants a sensitivity analysis.
+As seen in figure 5, the algorithm is robust with respect to
+changes in the parameter. The plot also shows that the chosen
+value of 200 pixel2 is indeed a good choice for a reasonable
+balance between precision, recall and specificity.
+VII. DISCUSSION AND FUTURE WORK
+First of all, we actually wanted to plot the precision-recall
+curve of our detector as well. However, LIBLINEAR softwareCS 229 FINAL PROJECT, AUTUMN 2010 3
+Fig. 5. Sensitivity analysis on the parameter “Minimum Segment Area”
+TABLE III
+CONFUSION MATRIX FOR THE TEST SET
+Case Real Available Real Occupied
+Predicted Available 30 2
+Predicted Occupied 4 52
+TABLE IV
+PERFORMANCE METRICS FOR THE TEST SET
+Metric Percentage (%)
+Training Accuracy 94.29
+Test Accuracy 93.18
+Test Recall 88.24
+Test Precision 93.75
+Test Specificity 96.30
+does not give us the freedom to apply a bias for certain solvers
+(probably due to a bug). Unfortunately, the solver that works
+well in our problem happens to be one of these “problematic”
+solvers.
+Tables showing the performance metrics indicate that the
+algorithm works pretty well compared to similar work in the
+literature. Thus, future work should probably be concentrated
+on expanding the functionality of the detector instead of trying
+to squeeze a little more performance out of it. One of the main
+possible future additions could be using a three class SVM to
+automatically classify non-parking regions in an image. This
+would eliminate the need for a human operator to mark parking
+spots in test data. This would make the algorithm much more
+useful in real life applications. One way to achieve this would
+be extracting road information from the images and using the
+distance to road edges as a new feature.
+VIII. CONCLUSION
+In this work we presented a new algorithm to generalize
+automatic parking spot detection to street parking in addition
+to parking lots. The main stages of the algorithm are image
+segmentation, feature extraction and classification using an
+SVM with linear kernel; feature extraction being the most
+critical step. Results show that the algorithm works pretty
+well compared to similar work in the literature. While working
+on the project, we also realized an important possible future
+extension that could lead to a new and practical technology
+which could make lives of drivers much easier.
+ACKNOWLEDGMENT
+The authors would like to thank all class TA’s as well as
+Professor Andrew Ng for their valuable guidance and support.
+We would also like to thank SLAC for letting us print a
+poster to present this work and Professor Ada Poon’s lab for
+providing us with computational resources.
+REFERENCES
+[1] Qi Wu,Yi Zhang, Parking Lots Space Detection.
+[2] Nicholas True, Vacant Parking Space Detection in Static Images.
+[3] Xiaoguang Wang and Allen R. Hanson, Parking Lot Analysis & Visualization from Aerial Images.
+[4] Young-Woo Seo, Chris Urmson, Utilizing Prior Information to Enhance
+Self-Supervised Aerial Image Analysis for Extracting Parking Lot Structures, (2009), The 2009 IEEE/RSJ Internation Conference on Intelligent
+Robots and Systems.
+[5] http://www.wisdom.weizmann.ac.il/ bagon/matlab.html/
+[6] http://www.csie.ntu.edu.tw/ cjlin/liblinear/
+[7] http://earth.google.com/

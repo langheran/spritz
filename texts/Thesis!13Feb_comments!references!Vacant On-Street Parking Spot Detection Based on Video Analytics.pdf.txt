@@ -1,0 +1,216 @@
+Towards Smart Traffic Management Systems: Vacant On-Street Parking Spot Detection Based on Video Analytics
+
+Xavier Sevillano, Elena Ma`rmol GTM - Grup de Recerca en Tecnologies Me`dia
+La Salle - Universitat Ramon Llull Quatre Camins 30 - 08022 Barcelona, Spain
+Email: {xavis,emarmol}@salleurl.edu
+
+Virginia Fernandez-Arguedas School of Electronic Engineering and Computer Science
+Queen Mary, University of London London E1 4NS, UK
+Email: virginia.fernandez@eecs.qmul.ac.uk
+
+Abstract--Smart Cities rely on the use of ICTs for a more efficient and intelligent use of resources, whilst improving citizens' quality of life and reducing the environmental footprint. As far as the livability of cities is concerned, traffic is one of the most frequent and complex factors directly affecting citizens. Particularly, drivers in search of a vacant parking spot are a non-negligible source of atmospheric and acoustic pollution. Although some cities have installed sensor-based vacant parking spot detectors in some neighbourhoods, the cost of this approach makes it unfeasible at large scale. As an approach to implement a sustainable solution to the vacant parking spot detection problem in urban environments, this work advocates fusing the information from small-scale sensor-based detectors with that obtained from exploiting the widely-deployed video surveillance camera networks. In particular, this paper focuses on how video analytics can be exploited as a prior step towards Smart City solutions based on data fusion. Through a set of experiments carefully planned to replicate a real-world scenario, the vacant parking spot detection success rate of the proposed system is evaluated through a critical comparison of local and global visual features (either alone or fused at feature level) and different classifier systems applied to the task. Furthermore, the system is tested under setup scenarios of different complexities, and experimental results show that while local features are best when training with small amounts of highly accurate on-site data, they are outperformed by their global counterparts when training with more samples from an external vehicle database.
+I. INTRODUCTION
+As society's concern to make cities more sustainable, accessible, livable and greener grows in scale, researchers explore new approaches exploiting the synergies between societal challenges and Information and Communication Technologies (ICTs), to propose innovative solutions for day-to-day problems.
+A key challenge to push forward urban environments towards Smart Cities is transportation. Every day citizens use public and/or private means of transportation to perform their usual activities. The resources invested in this daily task, categorised into personal resources (e.g. time or energy), material resources (e.g. acoustic or atmospheric pollution and
+Now with the European Commission - Joint Research Centre (JRC), Via E. Fermi, 21027 Ispra (VA), Italy. Email: virginia.fernandezarguedas@jrc.ec.europa.eu
+
+fuel consumption) and economical resources, are a matter of concern for every citizen and have a direct impact on their quality of life and on the livability and sustainability of the city. Thus, numerous approaches have been proposed to address smart transportation.
+Amongst the most common daily traffic activities, the search for a vacant parking spot constitutes a non-negligible source of atmospheric and acoustic pollution, as well as a source of stress and a waste of time for the driver. Therefore, the development of systems capable of providing real-time information about the availability of on-street parking spots at an urban scale would be of great help to increase the livability and sustainability of cities.
+Typically, existing approaches to detect vacant parking spots imply the deployment of application-focused sensors, such as electromagnetic parking sensors, ultrasonic reverse parking sensors, infrared sensors, pneumatic road tubes or passive infrared sensors, amongst others. However, the cost of deploying this type of sensor networks constrains its practical applicability, restricting its implementation to geographically limited areas within the city (e.g. San Francisco in the USA, and Santander in Spain are examples of cities with sensorized neighbourhoods). Moreover, the deployment of such sensor networks breaks with the idea of Smart Cities, which envisages the reuse of already existing cities' capabilities to tackle new or recursive challenges, reducing the investment in self-centered solutions whilst improving the cities' services.
+In our view, to tackle the vacant parking spot detection problem at an urban scale it is necessary to fuse the data captured by different types of networks. In contrast to the limited coverage of parking sensor networks, the proliferation of CCTV cameras in urban environments makes them a source of valuable information for automatic traffic activity monitoring at large scale. In fact, some researchers have proposed the use of the already deployed CCTV cameras to automatically obtain information about the traffic in an attempt to promote smart transportation. The management of this information is proposed to be used for numerous applications such as smart payment systems based on license plate registration [18], or congestion points information systems [21], [22].
+For this reason, we advocate that by fusing the data gathered by small-scale sensor networks and widespread CCTV
+
+camera networks it would be possible to create integrated smart traffic management systems capable of providing realtime information to the users about the location of available vacant parking spots, thus helping reduce the car-loitering in the search of parking space and so reducing the traffic density and air pollution in urban nuclei.
+Whereas parking sensor networks provide, in general terms, highly accurate information about the status of parking spots ­and thus, requires little processing­, the automatic analysis of CCTV video footage constitutes a challenge due to the natural variability of the scene caused by factors as diverse as the settings of the cameras (e.g. changes in height and angle), shadows, occlusions, or changes in illumination. This is the reason why this work is focused on the development of a vacant parking spot detection system based on the use of video analytics, rather than in the networks data fusion process itself.
+Our proposal is posed as a pattern recognition system that builds upon the foundation of well-known high-performance classifiers and features robust to scene variability, either individually or fused at feature level. Moreover, the proposed system follows a "plug and play" design, offering scalability and modularity.
+We have put special emphasis on testing the proposed system performance through a set of experiments carefully planned to replicate a real-world scenario. In this sense, due to the scarcity of available video material for the vacant parking spot detection application, we did our own video recording, which was carefully prepared to collect some external factors affecting the scene. Moreover, we also evaluated the system in terms of the complexity of its setup ­training it with on-site footage or with images from an external database­, highlighting the pros and cons of each approach.
+There are two main contributions in this work: first, the idea behind this paper is to offer a baseline system that serves as a reference to future works in the context of on-street parking spot detection. For this reason, we offer a critical comparison of multiple features (alone or fused at feature level) and classifiers under several experimental conditions. And second, this paper presents a novel strategy for training on-street vacant parking spots detection systems based on external vehicle images databases, which constitutes a challenge in terms of recognition whilst simplifying the setup of such systems in practice.
+The remainder of the paper is organised as follows. Section II reviews recent work on video based vacant parking spot detection. The architecture of the proposed system is presented and described in section III. Next, section IV presents the evaluation of the system under three experimental conditions, and the conclusions of this work are discussed in section V.
+II. RELATED WORK
+Smart transportation systems and more specifically parking lots detection systems have acquired great importance in recent years due to the in-growing societal concern of living in more ecological, sustainable and livable environments.
+The initial attempts to manage vacant parking lots were based on external sensors which needed to be deployed and
+
+maintained, and so increased the price of the application, making it unfeasible in large scale. Recently, the great development of ICTs is offering new possibilities to substitute the traditional sensor-based approaches. Such opportunities rely on video analytics of the already deployed video surveillance systems, reusing existing sensor-networks while reducing the system infrastructure cost.
+In recent years, several approaches have been presented detecting vacant parking lots based on video or image analysis. In [8], Huang and Wang proposed a categorization of the existing methods into car-driven and space-driven. Car-driven methods are based on car detection algorithms and the vacant parking lot detection estimates the distances between detected cars. However, these methods present a major challenge, perspective distortion, which affects the cars detection performance and the scene knowledge estimation. Space-driven methods, on the other hand, focus on detecting the available parking spaces in a scene, either comparing the surveillance videos with a empty background model, detecting the lines, or assuming homogeneous appearance in regulated parking lots.
+In 2006, Wu and Zhang proposed a 4-step approach, including (i) parking region detection, (ii) feature extraction based on Gaussian ground colour model, (iii) multi-class SVM training and (iv) Markov Random Field conflict classification correction system between contiguous parking spaces [19]. An extension of this approach was presented in [20].
+True proposed a vision-based approach based on four steps, presenting a detailed explanation of the first three steps [17]. First, a human-labeled parking space region extraction. Second, colour histogram classification. And third, vehicle feature detection consisting on the detection of interest points using Harris corner detection.
+Fabian presented a method that considered occlusions while evaluating the vacancy of parking regions [6]. His approach was based on the extraction of regions of interest in a 3D model of the parking lot. In [3], a multi-camera outdoors parking lot detection method was presented. Authors proposed to model the colour changes of the parking ground to determine the vacancy of a parking region. Moreover, authors dealt with perspective effects proposing two geometrical models to represent a parking region/space (ellipses and grids).
+A hierarchical Bayesian framework for vacant parking lot detection was presented in [7], [8]. The proposed bottom-up approach was divided into three layers: (i) image observation, (ii) image content labelling and (iii) 3D scene modelling. The proposed approach dealt with several visual challenges such as luminance variations, shadow effect, perspective distortions and inter-occlusion among vehicles.
+In [14], assuming prior-knowledge indicating where the parking spaces/regions are, authors proposed a method based on the region covariance matrices. The distance metric between an occupied space and an empty space was then compared and threshold returning a binary decision. Authors presented region of covariance approach for different lighting conditions, e.g. day and night.
+More recently, a car-driven approach was proposed by Choeychuen [4], where a background subtraction algorithm with adaptive background model was proposed to detect the
+
+External DB
+
+Annotation
+
+Annotation
+
+Feature extraction
+/fusion
+
+Training phase Test phase
+Feature extraction
+/fusion
+
+TRAINING DATA
+Classifier
+TEST DATA
+
+Occupied / vacant
+
+Fig. 1. Block diagram of the proposed vacant parking spot detection system.
+
+existing cars. Once the cars were detected, a feature extraction module computed the masked-area and edge orientation histogram density (EOH), followed by a feature combination module. The approach ended with a decision-making module which thresholded the multi-feature pattern.
+Generally, the proposed approaches analysed parking lots either indoors or with certain space limitations. In contrast, in [9], [10] the authors proposed a method later applied in Tokyo underground parking lot in early October 2009. Their method consisted on the use of a FCM classifier based on a semi-hard clustering and a hyperparameter tuning by particle swarm optimization.
+Finally, a review on smart car park systems can be found in [11].
+III. SYSTEM DESCRIPTION
+The proposed vacant parking spot detection system is posed as a binary pattern recognition problem (refer to figure 1). Thus, from a functional perspective, it can be described as a two-phase process: a training phase, in which the system learns the appearance of occupied and vacant parking spots, and a test phase in which the system predicts the status of the parking spots in the site under analysis. From an operational perspective, the training phase is equivalent to the setup process of the system in a new parking site, whereas the test phase corresponds to the exploitation of the system. Throughout this section, the constituting modules of our system are described, including implementation details.
+A. Training data collection
+For the effective detection of the status of a parking spot, it is necessary that the system learns the appearance of vacant and occupied spots beforehand. To that end, a training process based on video frames containing occupied and vacant parking slots must be conducted. We refer to the number of collected training video frames containing these two types of parking slots as Fotcrcain and Fvtaracin, respectively. Our system contemplates two alternative sources of training data (i.e. it contemplates two different setup procedures).
+The first alternative consists on gathering video footage from the parking site during the system setup. The advantage of this approach is that the system is trained with very similar
+
+data to that the data it will have to recognize during the system exploitation stage. On the flip side, if the traffic activity in the parking site under analysis is low, gathering a significant amount of training data can be difficult, implying little training data (i.e. small Fotcrcain), or alternatively, prolonging the system setup process to collect enough samples.
+The second alternative consists on using an external database of vehicle images to train the system. The visual characteristics of this database should be chosen according to the parking mode of the monitored site and to the perspective of the parking site captured by the system cameras. For instance, if the system is analyzing a parallel parking site ­i.e. streetside parking­ with cameras located on the sidewalks, the external database should contain vehicle side views.
+Given the large amount of publicly available vehicle images databases (e.g. [1], [16]), this approach has the advantage of simplifying the collection of many vehicle instances ­i.e. it is very easy to reach high values of Fotcrcain with little effort­, although it is not likely that the training images exactly match the visual perspective of the system cameras. Nevertheless, training the system with cars images captured from a slightly different height and angle will provide the system with a larger robustness to future changes in cameras settings. That is, the use of a standard vehicle database provides large perspective availability enabling the expansion of the proposed system to more scenarios with diverse parking positions.
+In conclusion, the two training data collection strategies supported by the proposed system constitute a trade-off between the quantity and quality of the training data.
+B. Parking spot annotation
+During the system setup, the manual annotation of the training data is performed to guide the subsequent visual feature extraction process. The type of annotation depends on the training data source.
+If the system is trained with an external vehicle image database, the region occupied by the vehicle in each image should be indicated. The process consists in presenting the user with each image in the collection so that he/she delimits each vehicle with a mere couple of mouse clicks (i.e. it generally is a quick and non-fatiguing operation). It must be noticed that this must be done once for a given database.
+In contrast, if the system is trained with on-site video footage, the limits of each parking spot within the parking site under analysis must be set. This quick and simple operation should be conducted on a single frame of the parking site. This annotation step must be complemented with a labelling process to indicate the status of each parking spot in the training data set.
+C. Visual features extraction and fusion
+As mentioned earlier, the proposed system is designed as a modular vision recognition pipeline. Therefore, the next step consists in extracting visual features from the image regions delimited during the annotation step.
+As in any recognition system, the visual features fed to the classifier system determine its performance to a large
+
+extent. As one of the main aims of this work is conducting a critical evaluation of different visual features, we have chosen a diverse set of features that capture different scene parameters.
+A key consideration concerning visual features refers to their level of processing. In this sense, we distinguish between global and local features. The former are visual descriptors of the whole annotated region, whereas the latter provide a visual description of certain parts of the image. That is, global features provide a holistic perspective, whereas local features detect salient points within the annotated region and provide descriptors of their immediate neighbourhood. Following the line of thought of this work, we have employed both types of features so as to provide the reader with a good perspective of the available alternatives.
+As regards global features, we have selected descriptors capable of parameterizing diverse visual aspects. Focusing on the problem at hand, it seems logical that the presence or absence of a vehicle in a parking spot will affect certain aspects of its visual appearance, such as its texture or the presence of gradients (due to the different vehicle elements such as license plates, windows, headlights ...).
+For this reason, in this work we have applied two wellknown global visual features that capture gradient orientations and texture, namely:
+- Histograms of Oriented Gradients (HOG) are a count of the occurrences of gradient orientations in the image computed over a dense uniform grid, thus providing a description of the image in terms of the directions in which it presents larger variations. This type of features have been successfully applied to the vehicle detection task from aerial images [12]. In this work, we have employed 9-bin HOG descriptors [5].
+- Gabor histogram. Gabor filters with suitable frequencies and orientations are appropriate for texture representation, which makes them a suitable option for describing the annotated regions in terms of this visual aspect. In this work, we have employed 8-bin Gabor histograms obtained from the application Gabor filters with 8 different orientations and wavelength, bandwidth and aspect ratio values set to 8, 1 and 0.5, respectively.
+Moreover, we are interested in analyzing the the separate and joint descriptive power of these global visual features. For this reason, our visual feature extraction module can optionally fuse the extracted descriptors at feature level.
+In this case, feature level fusion is conducted by the concatenation of the 9-dimensional HOG and 8-dimensional Gabor descriptors into a single feature vector after individual normalisation.
+The second type of extracted visual features are local descriptors. As mentioned earlier, local features first detect salient points (typically corners) within the annotated region and provide descriptors of their surrounding area. In this work, we have employed the FAST corner detector [15] to detect salient points and the Speeded Up Robust Features (SURF) descriptor. Taking into account the natural variability of parking spot scenes, we included SURF within the study
+
+for its robustness to partial occlusions (for instance, caused by passersby), moderate rotations (due to tilts in the camera), and illumination changes. It uses an integer approximation to the determinant of Hessian blob detector to build a local feature detector partially inspired in SIFT [13] and several times faster [2]. For the features, it uses the sum of the Haar wavelet response around the point of interest, yielding the standard 64-element SURF feature vectors. So as to reduce the number of SURF descriptors per image, we have applied a M -stage dimensionality reduction process based on k-means clustering with a reduction factor of 50% per stage (with M = 2 and M = 1 for the training and test data, respectively).
+D. Classification
+The module in charge of determining whether a parking spot is occupied or vacant is the supervised classifier. For the sake of experimental diversity, we have tested our system with classifiers based on fairly diverse learning approaches.
+Firstly, we have employed a well-known instance-based learning algorithm: k-nearest neighbours (kNN). With kNN, the status of a given parking spot will be determined by the status of those spots in the training database that are most visually similar (using Euclidean distance for measuring visual similarity in our case). Despite its conceptual simplicity and lazy learning approach, our choice is motivated by the fact that kNN is capable of attaining good performance in several diverse recognition problems.
+And secondly, we have applied arguably one of the top performing classifier systems in the literature, Support Vector Machines (SVM). With SVM, the recognition system learns to separate the vacant and occupied classes, thus being able to determine the status of a newly seen parking spot.
+Last but not least, it is important to notice that the performance of any classification algorithm heavily depends on the tuning of its internal parameters. For this reason, we have experimentally tested our system varying the number of neighbours in kNN (ranging from k = 1 to k = 80) and the kernel type in SVM (linear, quadratic, polynomial or radial basis function (RBF)).
+IV. EXPERIMENTS
+This section describes the experimental procedures followed to validate the proposed vacant parking spot detection system, starting by a description of the video data employed. So as to test the performance of our system under different scenarios, we have conducted three experiments. In the first two experiments, on-site video footage captured during the system setup process is employed for training the classifier. In the third experiment, the system is trained with an external car image database.
+A. Video data description
+One of the problems for testing vacant parking spot detection systems is the scarcity of publicly available video material for the proposed application. For this reason, we did our own video recording, which was carefully prepared to collect external factors.
+
+s1 s2 s3 s4 s5
+Fig. 2. The five manually delimited parking spots (s1 to s5) on the target parking site.
+Fig. 3. Six randomly picked images of the Cars 1999 (Rear) 2 collection.
+The video sequence employed to validate our vacant parking spot detection system is a 42 minutes long sequence, with resolution 1920 × 1080 pixels. It was recorded in downtown Barcelona by a stationary camera at the end of the afternoon. Thus, changes in illumination occur in the video, which allows testing our proposal under progressively darkening conditions.
+The video consists of a scene containing a parking site in the center of the image with moving cars around it. The parked cars are filmed from the back. The manual annotation of this parking site yields five parking spots ­referred to as s1 to s5­, as depicted in Figure 2.
+As far as traffic activity is concerned, cars park and unpark in spots s1 and s3, whereas the other three spots remain statically vacant during all the video sequence1.
+B. External database description One of the three experiments conducted involves training
+the classifier with an external database of cars images. Given the characteristics of the parking site under analysis, we have employed an image collection of car views from the rear called Cars 1999 (Rear) 22. Figure 3 shows a few samples of the images contained in the collection.
+From this collection, we have taken a random sample of Fotcrcain = 50 images to create our external training database. As this collection lacks any type of annotation, it has been
+1A time-lapse version of the video sequence is available at http://youtu.be/YnR 0x4I3Ow.
+2Available online at http://www.vision.caltech.edu/html-files/archive.html (last accessed in March 2014)
+
+manually annotated for local and global feature extraction, such process took less than 5 minutes of labour.
+Last but not least, it is important to notice that the height and angle of the car views is fairly different from the ones of the stationary camera in our recording (see figures 2 and 3 for a comparison). Therefore, using this external database for training constitutes a challenge for the generalization ability of the proposed system, although it greatly simplifies the system setup as it avoids the need for collecting on-site vehicle footage.
+C. Experiment 1: Intra-spot detection
+The goal of this first experiment is to recognize whether a parking spot is vacant or not using visual information from that very same spot captured during the system setup process. Thus, this is the most challenging scenario as regards the quantity of training data.
+As parking spot s1 is the one with greatest traffic activity, it will be employed as the target of this experiment. To train the classifier, we have taken Fotcrcain = Fvtaracin = 40 frames of s1. For testing purposes, we have taken Fotcecst = Fvtaesct = 40 of the same spot s1, avoiding overlap between the training and test sets (i.e. the car(s) appearing in the Fotcrcain training frames are different from those appearing in the Fotcecst test frames). This frame selection process is randomized, and it has been replicated for cross-validation.
+Figure 4 presents the recognition accuracies (in %) obtained using the kNN (see figure 4(a)) and the SVM classifiers (see figure 4(b)). Notice that we present per-class (i.e. vacant and occupied) recognition accuracies separately, so that the reader can evaluate the ability of the system to detect one parking spot status or the other.
+Regardless of the employed classifier, it can be observed that GABOR features (either alone or combined with HOG) find great problems in detecting when the spot is occupied, as accuracies below 50% are often obtained (notice that in a binary classification problem as this is, that would be the performance of a baseline random classifier). We believe that this is due to the fact that in this experiment we only have one car to extract features from.
+Under this challenging scenario, global features perform worse than their local counterpart. However, with proper tuning of the classifiers parameters, HOG features manage to obtain fairly good accuracies with kNN (occupied and vacant accuracies of 86% and 100% respectively when k = 60) and also with SVM (occupied and vacant accuracies of 75% and 99% respectively with RBF kernel).
+In contrast, the SURF local feature manages to obtain a visual description that allows nearly perfect recognition of both occupied and vacant slots when coupled with the kNN classifier, performing quite consistently (accuracies over 90%) regardless of the value of k. As regards the SVM experiments, notice that the best results are obtained using the RBF kernel, yielding accuracies over 96% for both classes.
+Notice how the system generally succeeds when detecting the vacant status regardless of the feature and classifier employed, as this requires a much less rich visual appearance description.
+
+Accuracy (%) Accuracy (%)
+
+100 80 60 40 20 0 1 5 10 15 20 30 40 50 60 70 80 k
+(a) Accuracy with kNN
+
+GAB Occ GAB Vac HOG Occ HOG Vac GAB+HOG Occ GAB+HOG Vac SURF Occ SURF Vac
+
+100 80 60 40 20 0 Occ Vac Occ Vac Occ Vac Occ Vac GAB HOG GAB+HOG SURF
+(b) Accuracy with SVM
+
+linear quadratic polynomial rbf
+
+Fig. 4. Recognition accuracy (in%) obtained with the kNN and SVM classifiers and GAB, HOG, GAB+HOG and SURF visual features in experiment 1.
+
+D. Experiment 2: Inter-spot detection
+The second experiment aims at determining whether a parking spot is vacant or not using visual information from neighbouring spots in the same parking site. This approach allows training the classifier with more varied data. As only spots s1 and s3 are occupied by cars at some point in time, frames from these two spots will be used for training the classifier. When footage from s1 is used for training, footage from s3 is used for testing. As for the vacant spot training data, footage from all spots (except for the one that is being tested) are used. As in experiment 1, both the training and test sets comprise Fotcrcain = Fvtaracin = Fotcecst = Fvtaesct = 40 frames. Also, the frame selection process is random and replicated for cross-validation.
+The recognition accuracies of occupied and vacant spots for the various feature-classifier combinations are presented in figure 5.
+Notice how, when more on-site training data is available, HOG and GABOR global features improve their performance significantly at detecting occupied spots. For instance, HOG performs close to perfect when coupled with the SVM classifier using linear and polynomial kernels, or GABOR with kNN (k = 40), attaining occupied spot detection accuracies over 95% (see figures 5(b) and 5(a), respectively). Again, the ability to detect vacant spots is very high for both global features and classifiers. As for the performance of the GAB+HOG featurelevel fused descriptors, we observe that their performance often locates somewhere halfway between GABOR and HOG. This suggests that, in this scenario, the early fusion of texture and gradients histograms descriptors does not provide more descriptive power than its individual components.
+In contrast, when compared to the experiment reported in section IV-C, SURF suffers a decrease in its recognition accuracy of occupied spots. When coupled with the kNN classifier, recognition accuracies of occupied spots below 75% are obtained, although this accuracy is over 90% when recognising vacant spots. When SURF features are fed to the tested variants of SVM classifier, the highest accuracies are obtained using the RBF kernel (78% and 66% for occupied and vacant spots, respectively, although they are notably lower than those obtained in the intra-spot detection experiment of section IV-C, which were over 96% for both classes).
+
+E. Experiment 3: Detection using external training data
+The goal of the third experiment is to evaluate whether the status of a parking spot can be determined by using visual information obtained from the external training database described in section IV-B. Therefore, the amount and variability of cars images used for training is the highest of all three experiments in this scenario. On one hand, the visual features extracted from the Fotcrcain = 50 images subset of the Cars 1999 (Rear) 2 collection are used as occupied spot training data. On the other hand, the vacant spot training data is obtained from Fvtaracin = 50 random frames of spots s1 to s5. Finally, the recognition system is tested with Fotcecst = Fvtaesct = 120 randomly chosen frames of occupied and vacant spots, following a cross-validation scheme.
+The results presented in figure 6 reinforce the trend noticed in the inter-spot detection experiment of section IV-D, to the point that HOG features manage to detect occupied and vacant spots with high accuracy (always over 70%, and close to 100% in most cases) regardless of the classification scheme employed. Notice, however, that the accuracy at detecting vacant spots with HOG and kNN starts decreasing when k goes beyond 50, as only Fvtaracin = 50 random frames are used for training (see figure 6(a)). Curiously enough, this performance decrease is not observed at the time of detecting occupied spots despite the same number of frames is used for training the occupied spot model.
+As regards the GABOR features alone, we observe that their ability to detect occupied spots when coupled with kNN suffers a decrease when the number of neighbours k increases, a trend that was also observed in experiment 2 (section IV-D). In contrast, this feature performs reasonably well (with occupied detection accuracies over 70%) when combined with the SVM classifier, achieving its top accuracy when the polynomial kernel is used, as shown in figure 6(b) .
+Last but not least, it is important to notice that in this third and challenging experiment, the early fusion of GABOR and HOG features yields higher recognition accuracies than its individual components, regardless of the classifier system they are coupled with. In particular, nearly perfect performance is obtained when the GAB+HOG visual descriptors are used in combination with any variant of the SVM classifier (see figure 6(b)).
+The greater variability of training data also benefits the performance of local features, especially when SURF is combined with kNN. In this case, accuracies over 90% for both classes
+
+Accuracy (%) Accuracy (%)
+
+100 80 60 40 20 0 1 5 10 15 20 30 40 50 60 70 80 k
+(a) Accuracy with kNN
+
+GAB Occ GAB Vac HOG Occ HOG Vac GAB+HOG Occ GAB+HOG Vac SURF Occ SURF Vac
+
+100 80 60 40 20 0 Occ Vac Occ Vac Occ Vac Occ Vac GAB HOG GAB+HOG SURF
+(b) Accuracy with SVM
+
+linear quadratic polynomial rbf
+
+Fig. 5. Recognition accuracy (in%) obtained with the kNN and SVM classifiers and GAB, HOG, GAB+HOG and SURF visual features in experiment 2.
+
+are consistently obtained for most of the evaluated tested configurations of the classifier (it suffers a slight decrease when k is increased). On the other hand, when coupled with SVM, the highest accuracies are obtained ­as in the two previous experiments­ when the RBF kernel is employed. In this case, recognition accuracies of 85% and 76% are obtained for the occupied and vacant classes, respectively.
+V. CONCLUSIONS
+In this paper, we have advocated for the implementation of vacant parking spot detection systems at urban scale through the fusion of the data captured by small-scale sensor networks and the analysis of video footage from widespread CCTV networks as a key step towards smart urban transportation management.
+In particular, we have focused on exploring the validity of the part concerning the application of video analytics to determine parking spot status by designing a vision recognition system that serves as a baseline system and a reference to future works in the context of on-street parking spot detection. After putting our proposal to the test under experimental scenarios of different complexities, the critical evaluation of different combinations of visual features (either alone or fused at feature level) and classifiers has produced several interesting results. The most remarkable of them is the complementary behaviour of local and global features. Whilst the former offer their best performance when training with little but high quality data (i.e. intra-spot detection), the latter yield higher recognition accuracies when an external database of cars images is used for training the classifier. Thus, depending on the specific procedure used for system setup, the use of one type of features is recommended over another.
+However, if we had to recommend one specific system configuration for any given setup scenario, we believe that HOG features coupled with the kNN classifier yields a good compromise between accuracy and adaptability to different contexts. Indeed, if the classifier parameters are appropriately tuned, this system configuration allows recognizing occupied and vacant spots with accuracies higher than 85% regardless of the training scheme. The remaining feature+classifier combinations outstand in certain experimental scenarios, whereas they show poor performance in others.
+On the other hand, we would like to highlight that the novel strategy for training on-street vacant parking spots detection systems based on external vehicle images databases endows
+
+our system with great flexibility and ease of deployment. Despite being, in theory, the less favourable scenario for occupied spot recognition, the experiments have revealed that it is possible to obtain accurate performance with no need for gathering on-site vehicle footage, which greatly simplifies the deployment of this video analytics system.
+Our future work plan is oriented towards the following main directions. Firstly, given the scarcity of video material for testing on-street vacant parking spot detection systems, we plan making our video sequence (together with its annotations) publicly available in a short period of time. Secondly, the compilation and design of external databases that contain different car views, so that the most appropriate subset of the database can be used for training purposes for the system setup on a particular parking site. Thirdly, we plan on going beyond binary classification, to not only detect whether a parking spot is occupied or vacant, but to also recognize which type of vehicle is parked, which can open a promising research line for smarter parking management systems. Fourthly, we envision fusing the data extracted from the video with its time dynamics, which can be of help to deal with complex events such as accidental occlusions. And finally, we will investigate the fusion of data coming from parking sensors and CCTV networks in real Smart City scenarios for deploying real-time vacant parking spot availability information systems.
+REFERENCES
+[1] S. Agarwal, A. Awan, and D. Roth, "UIUC Image Database for Car Detection," http://cogcomp.cs.illinois.edu/Data/Car/, 2004.
+[2] H. Bay, T. Tuytelaars, and L. Van Gool, "SURF: Speeded up robust features," in Proc. ECCV, 2006, pp. 404­417.
+[3] L.C. Chen, J.W. Hsieh, W.R. Lai, C.X. Wu, and S.Y. Chen, "Visionbased vehicle surveillance and parking lot management using multiple cameras," in Proc. IIH-MSP, 2010, pp. 631­634.
+[4] K. Choeychuen, "Available car parking space detection from webcam by using adaptive mixing features," in Proc. JCSSE. IEEE, 2012, pp. 12­16.
+[5] N. Dalal and B. Triggs, "Histograms of Oriented Gradients for Human Detection," in Proc. CVPR, 2005, pp. 886­893.
+[6] T. Fabian, "An algorithm for parking lot occupation detection," in Proc. CISIM, 2008, pp. 165­170.
+[7] C.C. Huang, S.J. Wang, Y.J. Chang, and T. Chen, "A bayesian hierarchical detection framework for parking space detection," in Proc. ICASSP. IEEE, 2008, pp. 2097­2100.
+[8] C.C. Huang and S.J. Wang, "A hierarchical bayesian generation framework for vacant parking space detection," IEEE Trans. Circuits Syst. Video Technol., vol. 20, no. 12, pp. 1770­1785, 2010.
+
+Accuracy (%) Accuracy (%)
+
+100 80 60 40 20 0 1 5 10 15 20 30 40 50 60 70 80 k
+(a) Accuracy with kNN
+
+GAB Occ GAB Vac HOG Occ HOG Vac GAB+HOG Occ GAB+HOG Vac SURF Occ SURF Vac
+
+100 80 60 40 20 0 Occ Vac Occ Vac Occ Vac Occ Vac GAB HOG GAB+HOG SURF
+(b) Accuracy with SVM
+
+linear quadratic polynomial rbf
+
+Fig. 6. Recognition accuracy (in%) obtained with the kNN and SVM classifiers and GAB, HOG, GAB+HOG and SURF visual features in experiment 3.
+
+[9] H. Ichihashi, A. Notsu, K. Honda, T. Katada, and M. Fujiyoshi, "Vacant parking space detector for outdoor parking lot by using surveillance camera and fcm classifier," in Proc. FUZZ. IEEE, 2009, pp. 127­134.
+[10] H. Ichihashi, T. Katada, M. Fujiyoshi, A. Notsu, and K. Honda, "Improvement in the performance of camera based vehicle detector for parking lot," in Proc. FUZZ. IEEE, 2010, pp. 1­7.
+[11] M. Idris, Y. Leng, E.M. Tamil, N.M. Noor, and Z. Razak, "Car park system: A review of smart parking system and its technology," Information Technology Journal, vol. 8, no. 2, pp. 101­113, 2009.
+[12] P. Liang, H. Ling, E. Blasch, G. Seetharaman, D. Shen and G. Chen "Vehicle Detection in Wide Area Aerial Surveillance using Temporal Context," in Proc. Fusion, 2013.
+[13] D.G. Lowe, "Object recognition from local scale-invariant features," in Proc. ICCV, 1999, vol. 2, pp. 1150­1157.
+[14] A. Macdonell and J. Lobo, "Visual sensor for smart parking," Boston University, 2011.
+[15] E. Rosten, R. Porter, and T. Drummond, "Faster and better: A machine learning approach to corner detection," IEEE Trans. Pattern Anal. Mach. Intell., vol. 32, pp. 105­119, 2010.
+[16] H. Schneiderman and T. Kanade, "Testing Images for Car Detection," http://vasc.ri.cmu.edu/idb/html/car/, 2000.
+[17] N. True, "Vacant parking space detection in static images," University of California, San Diego, 2007.
+[18] Y. Wen, Y. Lu, J. Yan, Z. Zhou, K.M. von Deneen, and P. Shi, "An algorithm for license plate recognition applied to intelligent transportation system," IEEE Trans. Intell. Transp. Syst., vol. 12, no. 3, pp. 830­845, 2011.
+[19] Q. Wu and Y. Zhang, "Parking lots space detection," Machine Learning, Fall, 2006.
+[20] Q. Wu, C. Huang, S. Wang, W. Chiu, and T. Chen, "Robust parking space detection considering inter-space correlation," in Proc. ICME. IEEE, 2007, pp. 659­662.
+[21] Y. Yao, K. Wang, and G. Xiong, "Embedded technology and algorithm for video-based vehicle queue length detection," in Proc. SOLI. IEEE, 2013, pp. 45­50.
+[22] X. Zhang, S. Hu, J. Xie, and S. Zheng "A Novel Traffic Congestion Detection System with Feature Fusion based Track Initiation Technique," in Proc. Fusion, 2013.
+

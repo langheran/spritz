@@ -177,10 +177,24 @@ GoSub, ChangeClickThrough
 GoSub, ChangeDisplaySentence
 GoSub, InitializeRecentCommands
 Menu, Tray, Add, &Suspend Keys, TogglePauseKeys
+Menu, Tray, Add, &Reload, SaveAndReload
 Menu, Tray, Add
 Menu, Tray, Add, &Exit, ExitApplication
 GoSub, ActivateDocument
 GoSub, GotoPreviousWord
+return
+
+SaveAndReload:
+if(wbnoise)
+	wbnoise.Quit
+SetTimer, AutoAdvanceSentence, Off
+SetTimer, PauseOnEnd, off
+SetTimer, DisplaySentence, off
+Gosub, SaveCurrentSettings
+DllCall("CloseHandle", "uint", hCon)
+DllCall("FreeConsole")
+Process, Close, %cPid%
+Reload
 return
 
 TogglePauseKeys:
@@ -1252,7 +1266,7 @@ Send, ^v
 Clipboard:=clipboardBkp
 return
 
-$#s::
+$+#s::
 if(GrabText)
 	GrabText:=0
 else
@@ -2788,7 +2802,7 @@ SetGuiVisibility(GuiVisible)
 ;	GoSub, HideGui
 ;return
 
-#s::
++#s::
 SearchingPDF:=0
 WmpB.controls.pause()
 if(GuiHidden)

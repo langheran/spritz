@@ -1,0 +1,254 @@
+Integrating Ground and Aerial Views for Urban Site Modeling
+
+Sung Chun Lee*, Soon Ki Jung**, and Ram. Nevatia"
+
+*Institute for Robotics and Intelligent Systems, University of Southern California
+Los Angeles, California 90089, USA
+{sungchunlnevatia}@usc.edu
+
+**Department of Computer Engineering, Kyungpook National University Daegu, Korea
+skjung@knu.ac.kr
+
+Abstract
+3 0 models of urban sites with good geometry and facade textures are neededfor many planning and visualization applications. Approximate wireframe can be derived from aerial images but detailed textures must be obtained from ground level images. Integrating such views with the 30 models is dificult as only small parts of buildings may be visible in a single view. We describe a method that uses two or three vanishing points, not necessarily from orthogonal sets of parallel lines, and a small number of point correspondences to estimate the intrinsic and extrinsic parameters of the ground level cameras. Experimental results from some buildings are presented.
+1 Introduction
+Modeling the 3D geometry and the texture of the buildings in urban sites is becoming important for a number of planning and visualization tasks. Aerial images have been the standard source for acquiring the needed data and considerable progress has been made in automatic and semi-automatic systems for recovering the 3D geometry[ 1, 21. However, the textures of building facades obtained from aerial views are of low-resolution. Such textures are important for ground level simulations. We propose to augment the models constructed from aerial images with images acquired from the ground. To do this, we need to calculate the global position and orientation and the internal parameters of the camera taking the ground view images.
+In an urban area, the buildings are close to each other and the streets may be relatively narrow, thus only a small part of a building may be visible in any single image; Figure I(a> depicts an example. It is difficult to get enough point correspondences between the 3D model and an image to estimate the external camera parameters in
+
+such cases. Some research has been done for 3D architectural reconstruction by using 3D to 2D line correspondences [3, 41, but these methods require laborious user interactions. Stamos and Allen [SI fit high precision range data from ground views to building facade images using camera calibration obtained from three orthogonal vanishing points. This approach has been applied to only one or two buildings at a time.
+Automatically obtainable image features, such as vanishing points have been used to compute the external and some internal parameters of the camera 16, 7, 81. These methods require vanishing points from orthogonal families of lines but building's facades are not always orthogonal as shown in the example of Figure 1 (b) though it is not easy to tell if this is the case from the ground image.
+
+(a) A ground view image
+
+(b) An aerial view image
+
+Figure 1. Ground and aerial image of D.C site.
+
+Coorg and Teller [9] construct a large set of 3D building models by using spherical mosaics produced from accurately calibrated ground view cameras with a CPS device. They form a spherical mosaic by stitching ground view images to construct building facades. Their method can be applied to model a relatively large site area, but it is limited to simple shape buildings and does not capture the roof structure.
+
+1051-465V02 $17.00 Q 2002 IEEE
+
+107
+
+In this paper, we present a method for integrating aerial and ground view images for complex buildings in an urban area. We assume that the approximate 3D wireframe models of buildings have been constructed from the aerial image analysis method [2]. Aerial views provide not only the global (world) position and 3D geometry of buildings in a site, but also give the roof information such as texture and multiple layer structures as shown in Figure 2.
+Figure 2. 3D wireframe building models.
+Our goal is to augment the building models with ground view images. For this, we need to recover the intrinsic and extrinsic parameters of the cameras so that the correct facade textures can be applied to the building walls. This step is also needed to satisfy our longer term of goal, which is the modeling of 3D structure of the facades (e.g. windows, doors, and entry ways).
+Our approach consists of recovering the intrinsic parameters and the rotation camera by using two or three vanishing points from sets of parallel lines but they need not come from orthogonal sets of lines as long as the angles between them are available. We then recover the position of the ground view cameras from two 3D to 2D point correspondences provided by the user. We describe our method and show some results in the following sections.
+2 Pose Estimation
+Vanishing points from orthogonal sets of parallel lines have been shown to be useful for estimating camera parameters in previous work [6, 7, 81. However, it is difficult to directly use these methods for our application as in an urban site, due to a limited field of view, often only one facade can be seen so only two vanishing points may be visible and these may not necessarily come from orthogonal lines.
+
+2.1 Inferencing of Orthogonal Vanishing Points
+
+In the case that only one side of a building is visible,
+
+two orthogonal vanishing points can be found from the
+
+sides, which usually are perpendicular. A third orthogonal
+
+vanishing point can then be recovered if we are given the
+
+principal point (or assume it to be in the center of the
+
+image) by using the geometry shown in Figure 3 [ll]. We
+
+assume the principal, Po to be the center of image, which
+
+is the orthocenter of the triangle formed from three
+
+t 1!\orthogonal vanishing points, then new lines I,,, and ln2can
+be drawn as depicted in Figure 3.
+Vr, VI:Known Vanishing Points Po: Princiual Poinr
+11, la: Lines through Po and VI. VI respecrively
+
+I,,,, ln2:pLeinrpeesnthdmiculgahr tVo,1a,nd V2
+
+~
+
+and 1.. respectively V3: Recovered vanishingpoinr
+
+$0-
+- . - - -v3
+
+!2
+
+- v,
+
+I",
+
+Figure 3. A geometry of vanishing points.
+
+The intersection of l,,, and lo, is the recovered orthogonal vanishing point. If the unknown vanishing point is not perpendicular to one of the known vanishing points, it is obtained by the method explained below.
+
+C ' Camera Cenrer
+A 0,
+A known angle from 3 0 modrl
+F :Focal Length
+
+-
+V,:Vanishing Poinr
+/
+V,: Inferred orthogonal vanishingpoint
+Figure 4. Inferringa non-orthogonalvanishing point.
+In case of non-rectangular rooftop buildings, the observed vanishing points from two different facades in the directions of say x and y, are not necessarily orthogonal. However, as we know the angle between the two facades from the aerial view, we can adjust the nonorthogonal vanishing points to estimate orthogonal ones if the position of camera center is known, as shown in Figure 4.
+In Figure 4, a newly inferred orthogonal. vanishing point V,, is on the horizon line, which is the line connecting x and y directional vanishing points, V I and V, in the image. Since we do not know the position of the camera, CO,yet, we derive a search method for inferring new
+
+108
+
+orthogonal vanishing point without knowing the position of the camera.
+V
+Figure 5. Search for a new orthogonal vanishing point.
+Imagine rotating the unknown camera center, COto the image plane about the axis of the horizon line V,V,. The rotated point, say C, should be on the line L,, which passes through the vertical vanishing point, V-?and i s perpendicular to the horizon line as shown in Figure 5. The angles V,CoV, and V,C,V2 are equal and are given from the 3D model as depicted in Figure 4 and 5. We conduct a binary search for the unknown point C, through the line L j so that the angle V,CrV2 equals the known value. Once the location of C, is found, the new orthogonal vanishing point V,, can be located from the facts that V,, is on the horizon line and the angle V,CrV,, is 90'.
+Figure 6 shows a temporary result of recovering three orthogonal vanishing points from a set of non-orthogonal image lines. Note that 0, is the orthocenter of the triangle formed by non-orthogonal vanishing points and incorrectly shows the principal point to be outside the image. The newly inferred orthocenter, 0 2 is located near the center of the image.
+Figure 6. A result of inferring non-orthogonal vanishing points.
+
+2.2 Estimation of Camera Rotation
+
+From the three orthogonal vanishing points (measured or inferred), we can recover the camera orientation and its focal length and principal points as described before. Since the three vanishing points are the image projection of the points at infinity of the 3D model coordinate vectors, the following equation can be derived [7]:
+
+px I;],v v VJ = p [ I , 1,.
+
+(1)
+
+where I,=(l,O,O,O)? 1,3=(01,,0,0)? I,=(O,O,I,O)~ and V,
+V,. Viare 3 x 1 scaled vectors of vanishing points, and P is a projection matrix. Cipolla et al. [7] derive the following
+equation to get the external rotation matrix, R:
+
+[ 3h , ( u ,- U g ) / f h 2 ( U * - U g ) / f h j ( u , - U g ) /
+
+R = Xl(v1-
+
+h2(v2- vg)/f h j ( v , - vg)/f 3
+
+1 2 h,
+
+(2)
+
+where A/, A2, and A3 are scaling factors, (uo, vo) is the
+principal point,fis the focal length, and (i4,, vl), (u2, vz),
+(u3, v3) are x, y, and T. directional vanishing points respectively under no skew and known aspect ratio assumptions.
+As the model and world coordinate origins are the
+same, Cipolla et al. [7] arbitrarily choose 21, Az,and 23
+to be positive values. However, with multiple buildings,
+
+the model and the world coordinate origins cannot be the same, which means that the matrix R is not a world-tocamera rotation matrix, but a model-to-camera rotation matrix. Therefore, ambiguity in the signs of 2 , 2, and needs to be resolved.
+Each column of the rotation matrix, R in Equation ( 2 ) represents a unit vector of the selected vanishing points in the camera coordinate system. Thus, each Ai indicates the
+T. coordinate of that unit vector in the camera coordinate
+system. If we know which model points are visible, we can
+infer the sign of Ai. Two such correspondences are also required to infer camera position as described later in Section 2.3.
+If the user selects a point U ifor a 3D correspondence
+(see Figure 7), it implies that a 2D correspondence of the
+point Uiis visible in `Image Plane i'. In case of the `Image Plane 1 ', the 3D vector corresponding to X , directional vanishing point goes towards the negative Z,, direction in
+the camera coordinate system, which implies a negative
+sign for A,.Signs of A2and A3are determined in the same
+way by referring to Y,,, and Z,,, vanishing points. Similarly,
+
+109
+
+the other selected points indicate other image planes and
+the corresponding signs for 2;as shown in Figure 7.
+
+6Origin ((rite citiiier~ciiordinnre
+0 OriRin rfttie niodel coordinarr
+0 User se/ectrdpoint
+Figure 7. Decidingthe signs of 2.
+Once the model-to-camera rotation matrix R is recovered, the external rotation matrix, R,,.e is derived by the following equation:
+
+R,vc = 4 7 1 , Rwn1 '
+
+(3)
+
+where R, is the rotation matrix R in Equation (2) and R,vn, is an orientation of the 3D building model, which can be computed from aerial model.
+
+2.3 Estimation of Camera Position
+
+Given the external rotation matrix and a 3D to 2D point correspondence, the 3D position of the camera must
+be on the 3D line which intersects the 3D point in the model and has a directional vector from the center of projection to the corresponding 2D point. With two correspondences, the exact position of the camera can be obtained by intersecting two lines as depicted in Figure 8.
+
+3 Implementation and Experimental Results
+In order to compute the rotation and translation of the ground view camera, two 3D to 2D point correspondences, which are given by the user, are required as described Section 2.
+In this paper, for simple structure buildings with one or two facades, we apply a similar to that method of [ 121. The user indicates one or two point correspondences between the image and the model points, we divide the image into two partitions by drawing a vertical line from one of these points. From each image partition, we automatically extract two major oriented line groups which are the vertical and horizontal directions. The horizontal lines are further clustered in two groups corresponding to the x and y directions. We then compute three directional vanishing points from the intersections of each line group. For complex structure buildings, the user gives the three or two major line groups of the building to compute the vanishing points.
+We have tested our method with some buildings in Washington D.C. We acquired the ground view images from the Internet and constructed 3D building models by using an interactive building modeling system [ 2 ] . Results shown below are these buildings.
+3.1 Pose Estimation Results
+
+Figure 8. The world position of camera.
+
+(a) Anaeriai view
+
+(b) A ground view
+
+Figure9. Aerial and ground views of a 3D building model in D.C.
+
+As shown in Figure 9, when the user gives two 3D to 2D correspondences (white points) from aerial and ground view images, the image is partitioned into two regions by user's two clicks (center line). The overlaid wireframe (white lines) shows the estimated pose of the 3D building model, and the principal point of the ground view camera marked as a black point, which is the orthocenter point of the triangle formed by three vanishing points in Figure 9(b).
+
+110
+
+3.2 Resolving Small Field of View
+Because of small field of view of ground images, caused by narrow streets and dense building clusters in an urban site, there may be no available 2D points or line correspondences as shown in Figure 10(b) and (c). In these images, there is only one visible comer point of 3D building model (white point); we need one more point to compute the 3D position of the camera as explained in Section 2.3.
+If a ground view image is already calibrated like Figure 10(a) and has overlapping area with other uncalibrated ground images, we can get a 3D point from the calibrated ground view image. The arrows indicate the links between the new 3D to 2D point correspondences in Figure 10.The 3D position of the user clicked point on the calibrated ground image is computed from the closest intersection point to the camera between the camera ray and the building facades.
+
+obtained from a set of line groups as the directions of the arrows in Figure 11 by user's inputs. Adjusted orthogonal vanishing points are inferred as shown in Figure 6. Some hidden lines of 3D wireframe models are seen because hidden line removal algorithm is applied not to a group of building components, but to each building component in our current displaying system. The structure of the front gate is not modeled since it is not visible from the aerial view.
+
+3.3 Facade Rectification Results
+
+Once the pose of the building models is estimated, we can rectify the facade of the building for the purpose of obtaining the correct facade texture. The rectification process is done by a plane homography:
+
+H = P,, P,, ,
+
+(4)
+
+where P , is the affine transformation from the rectified
+plane to the world facade plane and P,, is the projection matrix of ground view camera, which is computed as in Section 2. Figure 12 shows facade rectification results for
+ground view images from Figure lO(a) - (c), respectively.
+
+(a) (b)
+
+(c)
+
+igure 10. Resolving small field of view problem.
+
+Figure 11 shows the result for one non-rectangular rooftop building of buildings in Figure 2.
+
+(a) (b)
+
+(c)
+
+igure 12. Results for rectificationsof facades
+
+rom the building in Figure 10.
+
+Figure 11.3D model of a non-rectangular
+rooftop building.
+Two 2D point correspondences from the user are white points. Non-orthogonal vanishing points are
+
+3.4 Integration Results
+Finally, we show the integrated results of the ground view images and the aerial view images in Figure 13. A textured VRML model is generated from an aerial view, then we integrate four ground view images of a building as shown in Figure 13(b). Figure 13(a) shows a rendered view from a chosen view point. The computed position and principal axes of four ground view cameras for one building are displayed on the bottom of the Figure 13(a). While other buildings have no or low-resolution textures
+
+111
+
+from the aerial view, this building has high-resolution textures from the ground views.
+(a) A selected rendered view from a VRML viewer
+(b) Four ground view images Figure 13. VRML rendering of D.C. site.
+4 Conclusion and Discussion
+We have presented a method for integrating aerial and ground view images to obtain high resolution facade textures for 3D architectural models. Our method requires fewer correspondences than previous methods and hence is applicable to images from a denser environment. Besides texturing facades, our method should be helpful in constructing more detailed geometric models of the facades.
+
+Acknowledgements
+This research was supported in part by U.S. Army
+STRICOM under contract N61339-02-C-0053.
+References
+[l] S. Noronha and R. Nevatia, Detection and modeling of buildings from multiple aerial images, IEEE Transactions on Pattern Analysis and Machine Intelligence, 23(5):501-518, 2001.
+[2] S. C. Lee, A. Huertas, and R. Nevatia, Modeling 3-D complex buildings with user assistance, In Proceedings of IEEE Workshop on Applications of Computer Vision, 170-177, 2000.
+[3] P. E. Debevec, C. J. Taylor and J. Malik, Modeling and rendering architecture from photographs: A hybrid geometry- and image-based approach, In Proceedings of SIGGRAPH, 11-20, 1996.
+[4] S. Christy and R. Horaud, Iterative pose computation from line correspondences, Computer Vision and Image Understanding, 73(1): 137-144, 1999.
+[5] I. Stamos and P. K. Allen, Automatic registration of 2-D with 3-D imagery in urban environments, In Proceedings of IEEE International Conference on Computer Vision, 2:731-736, 2001.
+[6] D. Liebowitz, A. Criminisi and A. Zisserman, Creating architectural models from images, In Proceedings of EuroGraphics, 18:39-50, 1999.
+171 R. Cipolla, T. Drummond and D.P. Robertson, Camera calibration from vanishing points in images of architectural scenes, In Proceedings of British Machine Vision Conference, 2:382-391, 1999.
+[8] B. Caprile and V. Torre, Using vanishing points for camera calibration, International Journal of Computer Vision, 127-140, 1990.
+[9] S. Coorg and S. Teller, Extracting textured vertical facades from controlled close-range imagery, In Proceedings of IEEE Conference on Computer Vision and Pattern Recognition, 625-632, 1999.
+[101J. A. Shufelt, Performance evaluation and analysis of vanishing point detection techniques, IEEE Transactions on Pattern Analysis and Machine Intelligence, 2 1(3):282-288, 1999.
+[111 E. Guillou, D. Meneveaux, E. Maisel, and K.Boua-
+touch, Using vanishing points for camera calibration and coarse 3D reconstruction from a single image, The Visual Computer; 16:396-410, 2000. [121D. Liebowitz and A. Zisserman, Metric rectification
+for perspective images of planes, In Proceedings of
+IEEE Conference on Computer Vision and Pattern Recognition, 482-488, 1998.
+
+112
+

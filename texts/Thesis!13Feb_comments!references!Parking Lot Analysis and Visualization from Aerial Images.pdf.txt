@@ -1,0 +1,434 @@
+Parking Lot Analysis and Visualization from Aerial Images 
+Xiaoguang Wang and Allen R. Hanson
+Department of Computer Science
+University of Massachusetts, Amherst, MA. 01003-4610
+Email: fxwang, hansong@cs.umass.edu
+Abstract
+We propose an elevation-based approach to parking
+lot structure analysis from aerial imagery. In contrast
+to image-based methods, the new approach treats parked
+vehicles as 3-D microstructures and attempts to locate
+them in the elevation domain. The STME (Surface Texture and Microstructure Extraction) system is applied to
+the elevation map to extract the 3-D microstructures. A
+hybrid application of this system to both intensity and elevation maps results in a complete extraction of individual vehicles. Based on a comparison of texture exploitation techniques, a WCC (weighted combination criterion) algorithm is presented to generate a clean parking lot ground surface, which facilitates visualization and
+simulation of parking lot activities with a high degree of
+visual realism.
+1 Introduction
+Parking lots are an important ob ject class in many
+military and civilian applications. Goals of parking lot
+surveillance include counting the number of parked motor vehicles, monitoring the changes of the parked vehicles over the time, identifying the location, the size,
+or even the type of each vehicle, simulating/visualizing
+the vehicle activities in the parking lot, and providing a
+context for monitoring human activity [5, 7].
+The most notable success in parking lot analysis from
+aerial imagery is reported by Chellappa et al. [1]. In
+their work, a frequency domain computation is employed to detect the vehicle congurations that exhibit
+a periodic behavior, and a series of image processing
+algorithms are carried out to identify individual vehicles from optical intensity images. A problem with this
+approach is that it only uses information from a single image and is restricted to intensity domain analysis.
+Examining the parking lot in the Lockheed/Martin site
+(Fig. 1), we can see that the vehicle appearances are very
+dierent in brightness, texture, reectance, etc. Shadows are not a reliable cue, either, since they change over
+time. Because of these inherent variations, an algorithm
+which uses only a single image can become complicated.
+In this paper, we resort to the elevation domain [14]
+to detect vehicles. In a parking lot, all vehicles have the
+common property that they are higher than the ground.
+Thus, if height information is available (Section 2), we
+are able to abandon the intensity appearance of vehicles
+This work was funded by the RADIUS pro ject under
+ARPA/Army TEC contract DACA76-92-C-0041, NSF grant
+CDA-8922572, and ARO DURIP grant DAAG55-97-1-0026.
+completely when locating the vehicles. This strategy
+is particularly useful when analyzing aerial imagery because multiple images are usually available and elevation
+information can be obtained fairly easily.
+The problem with elevation data is that it is an unstructured approximation of the surface height relative
+to a reference plane. For the many goals of parking
+lot analysis, structured geometric information must be
+extracted. While much work has been done on extracting man-made structures in urban sites from aerial images [2, 3, 6, 8, 9], these algorithms are more focused on
+large-scale structures such as buildings than on small objects (which occupy fewer pixels and possess less structural cues). We have proposed a system for extracting
+microstructures [11, 12] that are attached to the surfaces of large-scale structures in a regular pattern. An
+important property of this system is the simplicity of its
+microstructure extraction algorithm due to the powerful
+constraints provided by the large-scale structure models.
+The deciency of the system is that it only works on 2-D
+microstructures (e.g. windows).
+In this paper we treat the motor vehicles in parking
+lots as 3-D microstructures. A simple extraction algorithm is applied to the elevation domain to extract the
+vehicles as cuboids (Section 3). The entire structure
+of the parking lot is then recovered by a hybrid use of
+the same extraction algorithm in both the elevation and
+the intensity domains. Once the parking lot structure
+is recovered, we are able to visualize and simulate vehicle activities using visually realistic image textures. An
+algorithm for obtaining such textures from the image
+domain is presented in Section 4.
+2 The Elevation Domain
+To extract the height features of ob jects on the
+ground, a stereo terrain reconstruction algorithm [10]
+is employed. Input to this algorithm is an image pair of
+the same region with known camera parameters. The
+algorithm utilizes the epipolar geometry to compute an
+elevation map, which approximates the relative height
+above a reference plane at each pixel.
+Fig. 1 shows the elevation map generated from a pair
+of Lockheed/Martin images. Fig. 3(a1) and (b1) shows
+an orthographic version of the intensity and elevation
+maps. We can see that all the \bumpy" areas in the
+elevation map correspond quite well with the vehicles,
+while the ground areas appear to be at and smooth. In
+this sense, we have recovered an important feature|the
+dierence in height|that distinguishes the vehicles from
+the ground. Clearly, in order to obtain correct elevationFigure 1: Generating the elevation map from a pair of Lockheed/Martin aerial images
+data, it is required that the image pair share the same
+vehicle conguration.
+3 3-D Microstructure Extraction
+3.1 The STME system
+The elevation map reveals important information
+about the vehicles in a parking lot; however, extracting the individual vehicles from the unstructured elevation data poses an interesting problem. Fig. 3(c)
+shows a failed attempt to extract the vehicles by using a global thresholding algorithm applied to the raw
+elevation map. That the vehicles are higher than the
+ground is true only locally; in a global view, due to the
+natural incline of the ground or due to errors in the elevation estimates, global thresholding would clearly produce unacceptable results. Furthermore, when two (or
+more) vehicles are parked close to one another and the
+view angle does not allow the ground plane between the
+cars to be seen in both images, the elevation data for the
+two vehicles can be merged into one region (four cars in
+lower center of Fig. 3(a1), for example).
+These problems have been solved successfully by the
+Surface Texture and Microstructure Extraction (STME)
+system. In this system, microstructures are distinguished from large-scale structures (LSS). An LSS is
+a structure, such as a building, that shows sucient
+structural cues (corners, edges, etc.) in aerial images
+for its unambiguous recognition. Microstructures are
+small structures (windows, roof vents, etc.) sized near
+the limit of resolution in the images. Because of the
+deciency of supporting data in the images, these small
+structures cannot be extracted using the structural cues
+that many LSS extraction systems (e.g. [2, 3, 6, 8, 9])
+rely on. The STME system was originally designed for
+symbolic extraction of 2-D surface microstructures [11,
+12]. Its design philosophy is based on the fact that many
+man-made microstructures appear in rectilinear, repetitive patterns attached to regular, planar surfaces (e.g.
+building roofs and walls). With these constraints, symbolic extraction of the microstructures can be done in a
+very ecient way from noisy images, even if the small
+ob jects lack sucient supporting pixels. Fig. 2 shows
+an application of the STME system to a window extraction problem in an extremely noisy environment. The
+presence of a window is at best a local intensity \dip"
+with a couple of supporting pixels. Fig. 2(b) shows the
+result of window extraction: windows are approximated
+at local intensity dips as rectangles that form a rectilinear lattice globally. Missing windows were lled in
+using the knowledge that the window lattice is regular
+(Fig. 2(c)).
+(a) (b) (c)
+Figure 2: Window extraction using the STME system
+(a) wall image in the facet coordinate
+(b) extraction of local intensity dips
+(c) lling in the missing windows
+3.2 Vehicle extraction
+Although vehicles in parking lots signicantly dier
+from windows on building, they share the same basic
+characteristics of man-made structures: a repetitive rectilinear alignment of objects. Once the parking lot surface is mapped to the elevation domain, vehicles resemble windows: vehicles appear as \bumps" in an elevation map while windows are \dips" in an intensity map.
+Applying the STME system to the elevation domain enables the system to deal with 3-D microstructures.
+Fig. 3(b2) shows the extraction of the dips from the
+reversed version of the elevation map in (b1). The rectangles that signify possible vehicles are generated by an
+oriented region growing (ORG) algorithm. The algorithm starts at a local minimum on the reversed elevation map and grows the region from a small rectangle
+to a large one. The region is forced to grow as a rectangle, and only along two orthogonal directions. In each
+direction, the elevations on the frontier of the region are
+averaged, and the changes of the averaged elevation are
+inspected as the frontier is grown outward. The frontier ceases to grow at the position where the averaged
+elevation on the frontier reaches its maximal rst order
+derivative. The rectangle thus obtained is taken as a
+hypothesis of a vehicle in the parking lot. A detailed
+implementation of the ORG algorithm, as well as other
+issues in the STME system, can be found in [12].
+3.3 Individual vehicle identication
+All the bumpy areas (dips in the reversed elevation
+map) have been extracted successfully in Fig. 3(b2).
+However, not all the rectangles are correct hypothesesof individual vehicles. Typically, a rectangle (e.g. the
+large rectangles in the middle columns) may cover more
+than one vehicles that are parked adjacently due to the
+inuence of elevation noise.
+This problem is again solved by the STME system.
+The general idea is to utilize the fact that normally a
+vehicle can occupy no more than one parking spot. If
+we can determine the position and the width of each
+spot, then we can reason how many cars there are in
+the rectangles. Recall that the STME system is capable of extracting microstructures in repetitive rectilinear
+patterns. The parking spot markers (white lines on the
+ground that separate the spots) can be considered as
+such a 2-D microstructure pattern: they are small, but
+aligned regularly and repetitively. For the STME system
+that searches for intensity dips, the reversed intensity
+image serves as the input image from which the white
+markers are extracted (Fig. 3(a2)). Among the 77 markers in the parking lot, 58 of them are correctly identied
+as long, narrow rectangular boxes. Due to the existence
+of image noise and occlusions caused by parked vehicles,
+some markers are missing and some false alarms occur
+(see Table 1).
+Table 1: Statistics of the marker extraction
+actual extracted
+markers boxes
+total 77 59
+correctly identied 58 58
+false neg. (missing markers) 19
+false pos. (incorrect boxes) 1
+To x these errors, in the current system we make
+the assumption that parking spots are approximately of
+the same size and are consecutively aligned. We dene
+a parking spot hypothesis by two extracted neighboring
+markers, and the width of the spot hypothesis is calculated by the distance between the two centerlines of
+the two boxes delineating the parking spot. A clustering
+algorithm is run to cluster the spot hypotheses according to their widths, resulting in the ve classes shown
+in Table 2. Because most markers have been extracted
+correctly, the largest class correctly reects the ma jority
+of the parking spots and the average width of this class
+best reects the actual spot width in this parking lot.
+For hypotheses in any of the other classes, they either
+represent unusual parking spots (with a width considerably dierent from the average) or lane markers are
+missing or incorrectly identied. We use a merge/split
+scheme to deal with these spot hypotheses. A large spot
+hypothesis is split into m spots where m minimizes
+r(m) = w
+m
+ wa ; (1)
+in which w is the width of the spot hypothesis and wa is
+the actual spot width. For example, a spot hypothesis
+of width 50.0 (in Class 3) would be split into 3 spots,
+each with width 16.7. Similarly, the spot hypotheses in
+Class 4 and 5 are split into 4 and 6 spots, respectively.
+The two spot hypotheses of average width 9.0 (in Class
+1) are merged into one spot of width 18.0.
+Fig. 3(a3) shows the nal parking spots after splitting and merging incorrect spot hypotheses. A total of
+73 spots have been obtained. It can be seen that the
+Table 2: Using width to cluster the spot hypotheses
+total number of average width
+spot hypotheses (pixels)
+Class 1 2 9.0
+Class 2 49 17.2
+Class 3 1 50.0
+Class 4 2 69.5
+Class 5 2 102.5
+spots correctly reect the 2-D structure of the parking
+lot; in particular, individual cars fall correctly into separate spots although some lane markers are absent due
+to occlusions.
+Once the 2-D structure of the parking lot is known,
+separation of the connected vehicles becomes a simple
+reasoning process. Rectangular areas in Fig. 3(b2) that
+cover more than one parking spot are segmented into
+separate vehicles. Of the 12 parked vehicles in the parking lot, 9 rectangular areas are extracted by the bump
+extraction algorithm from the elevation map, including
+3 areas that contain more than one vehicle. With the
+information of the parking spots, the separation algorithm reorganizes these 3 areas, separating them into
+small areas in accordance with the spots. The 12 vehicles are nally identied in (b3). A visualization of
+the parking lot with a bounding box for each vehicle is
+shown in Fig. 3(e). The height of each bounding box is
+the average of elevation within the box.
+In summary, we provide a hybrid method for extracting the repetitive rectilinear structures in the parking
+lot using the same rectangle extraction algorithm: 2-D
+parking spot structures from the intensity map and 3-D
+vehicle structures from the elevation map. The combination of the results enables us to nd the individual
+vehicle placement in the parking lot.
+4 Parking Lot Activity Simulation
+4.1 Visualization with real textures
+Simulation of parking lot activities includes placing
+new vehicles into the parking lot, activating their movement and visualizing their activities. In order to achieve
+visual realism in these functions, textures from real images are necessary components of the visualization subsystem. Coorg and Teller [4] proposed a technique based
+on median statistics to extract real textures of ob ject
+surfaces from multiple images. The median texture algorithm works best in the circumstances that a large
+number of images are available. Since occlusions are
+not modeled in this technique, the removal of occlusions
+is not reliable when only a small number of images are
+provided. We proposed another architecture, called Orthographic Facet Image Library (OFIL) [11, 13]. The
+OFIL makes use of multiple images to extract a combined texture map that is the composite of the \best"
+components of all images. In the process, the system
+handles occlusions (including self-occlusions) caused by
+modeled ob jects (such as modeled vehicles) in the scene.
+This technique, however, still requires that every piece of
+the texture must have been seen from at least one view in
+the multiple images. The OFIL system cannot be used
+in the case of images in Fig. 1, because the two images
+were acquired simultaneously, and hence the parking lot
+textures occluded by the vehicles are not available.(e)
+(f)
+(a1) (d)
+(a2) (b2)
+(b1)
+(a3) (b3)
+(c)
+Figure 3: Parking lot analysis, visualization, and simulation
+(a1,a2,a3) extracting ground structures by detecting spot markers as 2-D microstructures in the intensity image
+(b1,b2,b3) extracting vehicles as 3-D microstructures from the elevation map with the assistance of (a3)
+(c) a failed attempt to extract the vehicles by globally thresholding the elevation map
+(d) elimination of vehicles and generation of an empty parking lot ground surface using WCC
+(e) visualization of the original conguration of the parking lot with individual vehicles extracted
+(f ) parking lot activity simulation using the cleaned ground surface and randomly placed, texture-mapped vehiclesOur goal is to provide a clean image of an empty parking lot to facilitate visualization and simulation tasks.
+The method is once again based on the fact that the
+parking spots present a repetitive pattern in the facet
+coordinate. It is also reasonable to assume that a parking spot has a similar intensity texture to its neighboring
+spots. Therefore, after extracting the parked vehicles
+we can replace the textures of the spots occupied by
+the vehicles by textures drawn from neighboring empty
+spots. In practice, a parked vehicle, together with its
+shadow, often corrupts its adjacent spots as well. Hence,
+the spots needing a texture replacement actually include
+both the occupied spots and their direct neighbors.
+4.2 Texture replacement criteria
+Given a spot S, which is a subimage containing the
+parking spot whose texture needs to be replaced, how
+to appropriately choose an uncorrupted, empty spot texture to replace S is an issue that determines the quality
+of the resulting visual realism. Let QS denote the set
+of all the qualied spots to replace S, i.e. the set of the
+spots that are neither occupied by a vehicle nor adjacent
+to an occupied spot. (For the experiments presented in
+this paper, QS is restricted to the qualied spots that
+are in the same column as S.) The problem is formulated as how to nd a spot texture, f(S), to replace S
+using the information of QS.
+The simplest way is to use a least distance criterion
+(LDC), i.e. to replace S by the texture of the closest
+qualied spot. That is, f(S) = QS, in which QS 2 QS
+and
+dist(QS; S) = minfdist(Q; S) j Q 2 QSg; (2)
+where dist(Q; S) is the distance between two spots.
+Fig. 4(b) shows an application of LDC to a portion of
+the Lockheed/Martin parking lot, shown in (a). For example, all the parking spots on the lower part of the
+left column are corrupted spots, and are replaced by the
+fth spot counting from the top. The advantage of LDC
+is that it retains intensity similarity, because neighboring spots tend to have similar intensities. However, the
+spot chosen by LDC might not have a good image quality. Using the example of the left column in Fig. 4(b),
+since the fth spot was corrupted by a piece of a shadow
+of a pole, this corruption is inherited by all the spots replaced and becomes an unrealistic artifact.
+Because the texture inside a parking spot usually has
+a homogeneous intensity distribution, the intensity variance in the texture is a good measure to judge the quality of a spot. This leads to the least intensity variance
+criterion (LVC), that is, f(S) = QS, in which QS 2 QS
+and
+var(QS) = minfvar(Q) j Q 2 QSg; (3)
+where var(Q) is the intensity variance of the texture
+Q. Fig. 4(c) shows an application of LVC. While LVC
+provides much cleaner textures than LDC, it sometimes
+causes unsatisfactory results in that the selected texture
+QS might be so distant from S that their intensities
+dier signicantly. On the right column in Fig. 4(c),
+the spots being replaced look very unrealistic for this
+reason. (In this example, the replacing texture QS is
+taken from a spot beyond Fig. 4(a); it is a spot on the
+top part of Fig. 3(a1).)
+We propose a weighted combination criterion (WCC)
+to take into account the factors of both the spot distance and the intensity variance. The texture f(S) that
+replaces S is a weighted linear combination of all the
+qualied textures in QS:
+f(S) = X
+Q2QS
+GQQ; (4)
+in which
+GQ = G
+[dist(Q; S)] [var(Q)] (5)
+is a weight dened heuristically, and G is a constant satisfying PGQ = 1 for all Q 2 QS. The value of GQ is
+aected by both dist(Q; S) and var(Q). According to
+WCC, the weight of a qualied spot Q tends to be high
+when it is geographically close to S and when it has a
+low intensity variance. In this way, f(S) takes advantage
+of both neighboring spots and high quality spots. The
+experimental result (Fig. 4(d)) shows that WCC makes
+satisfactory replacements of corrupted parking spots. In
+(5) and are constants that can be determined empirically to balance the eects of dist(Q; S) and var(Q).
+In the experiment, they have been set to = 1:0 and
+= 4:0. The entirely cleaned parking lot ground surface
+is shown in Fig. 3(d).
+Having obtained a clean, empty parking lot, we can
+easily conduct visualization and simulation of parking
+lot activities. Fig. 3(f ) is one such scene in which the
+user places the vehicles randomly onto the parking lot.
+The textures of the cuboid vehicles are taken from the
+real image using the OFIL system. It is now possible
+to view the parking lot from any user selected position
+since the occlusions of the original vehicles have been
+removed.
+5 Discussion
+In this paper we have proposed some new approaches
+to parking lot analysis from aerial images: (1) the elevation domain provides features that distinguish the vehicles from the ground; (2) parked vehicles are treated
+as microstructures rather than modeled as large-scale
+structures; (3) textures of corrupted parking spots are
+repaired by using their repetitive appearance. A stereo
+algorithm is employed, bringing parking lot analysis into
+the elevation domain. An STME system is designed to
+extract a wide variety of microstructures, from 2-D window patterns and parking spot markers to 3-D motor
+vehicles. A hybrid application of the system to the elevation map and to the intensity map results in a complete extraction of individual vehicles. Finally, a new
+texture exploitation technique is proposed to generate
+a clean image of the parking lot without the vehicles.
+A combination of all the subsystems provides an ability
+to simulate/visualize parking lot activities with a high
+quality of visual realism.
+The current system works most reliably on sparse
+parking lots for the following reasons. First, the stereo
+algorithm is good at detecting isolated vehicles. Due to
+the existence of noise and perspective distortion in the
+original image pair, adjacent cars may lead to a connected bump in the elevation map, which increases the(a) (b) (c) (d)
+Figure 4: Repairing the textures of corrupted parking spots
+(a) a portion of the orthographic intensity image of the parking lot
+(b)(c)(d) repairing the occluded spots using criteria of LDC, LVC, and WCC, respectively
+possibility of mistakes in the vehicle extraction process.
+Second, the presence of more vehicles means a possibility
+of more occlusions on the ground and fewer visible parking spot markers. Generally, the extraction result is unreliable if too many spot markers are missing. Third, if
+the parking lot is nearly full then recovery of the ground
+texture is problematic.
+This limitation can be reduced if the current system
+is combined with Chellappa et al.'s system [1]. While
+the elevation based approach ignores features of vehicles
+in the intensity domain, Chellappa et al.'s system relies
+on these features. For example, they use shadow as a cue
+to separate individual cars. In fact, their system would
+perform better in the case of densely parked area, for
+these intensity features are more signicant in these areas. Therefore, a combination of the two systems would
+potentially improve the performance over either system
+in many situations.
+Acknowledgments
+We would like to thank Professor Edward Riseman
+for his discussions and comments, and Howard Schultz
+for providing the Lockheed/Martin elevation data.
+References
+[1] R. Chellappa, X. Zhang, P. Burlina, C. Lin, Q. Zheng,
+L. Davis, and A. Rosenfeld, \An Integrated System
+for Site Model Supported Monitoring of Transportation Activities in Aerial Images," RADIUS: Image Understanding for Imagery Intel ligence, O. Firschein and
+T. Strat (Ed.), pp. 285-317, 1996.
+[2] R. Collins, C. Jaynes, Y. Cheng, X. Wang, F. Stolle,
+H. Schultz, A. Hanson, and E. Riseman, \The UMass
+Ascender System for 3D Site Model Construction,"
+in RADIUS: Image Understanding for Imagery Intelligence, Oscar Firschein (Ed.), pp. 209-222, 1996.
+[3] R. Collins, C. Jaynes, Y. Cheng, X. Wang, F. Stolle,
+A. Hanson, and E. Riseman, \The ASCENDER System: Automated Site Modeling from Multiple Aerial
+Images," to appear in Special Issues of Computer Vision
+and Image Understanding (CVIU) on Building Detection and Reconstruction from Aerial Images, R. Nevatia, A. Gruen (Guest Ed.), 1998.
+[4] S. Coorg and S. Teller, \Automatic Extraction of Textured Vertical Facades from Pose Imagery," MIT LCS
+TR-729, MIT Laboratory for Computer Science, January, 1998.
+[5] L. Davis, R. Chellappa, Y. Yacoob, and Q. Zheng, \Visual Surveillance and Monitoring of Human and Vehicular Activity," Image Understanding Workshop, New
+Orleans, LA, pp. 19-23, 1997.
+[6] Fua, P., \Model-Based Optimization: an Approach to
+Fast Accurate and Consistent Site Modeling from Imagery," in RADIUS: Image Understanding for Imagery
+Intel ligence, O. Firschein and T. Strat (Ed.), pp. 129-
+152, 1996.
+[7] T. Kanade, R. Collins, A. Lipton, P. Anandan,
+P. Burt, and L. Wixson, \Cooperative Multi-Sensor
+Video Surveillance," Image Understanding Workshop,
+New Orleans, LA, pp. 3-10, 1997.
+[8] S. Noronha and R. Nevatia, \Detection and Description of Buildings from Multiple Aerial Images," IEEE
+Computer Society Conference on Computer Vision and
+Pattern Recognition, Puerto Rico, pp. 588-594, June
+1997.
+[9] V. Ramesh, R. Haralick, A. Bedekar, X. Liu,
+D. Nadadur, K. Thornton, and X. Zhang, \Computer Vision Performance Characterization," in RADIUS: Image Understanding for Imagery Intel ligence,
+O. Firschein and T. Strat (Ed.), pp. 241-282, 1996.
+[10] H. Schultz, \Terrain reconstruction from widely separated images," Integrating Photogrammetric Techniques
+with Scene Analysis and Machine Vision II, SPIE Proceedings Vol. 2486, Orlando, FL, pp. 113-123, 1995.
+[11] X. Wang and A. Hanson, \Extracting Surface Textures and Microstructures from Multiple Aerial Images," IEEE Computer Society Conference on Computer Vision and Pattern Recognition, pp. 301-306,
+Puerto Rico, June 1997.
+[12] X. Wang, A. Hanson, R. Collins, and J. Dehart, \Surface Microstructure Extraction from Multiple Aerial
+Images," in Integrating Photogrammetric Techniques
+with Scene Analysis and Machine Vision III, SPIE Proceedings Vol. 3072, Orlando, FL, 1997.
+[13] X. Wang, J. Lim, R. Collins, and A. Hanson, \Automated Texture Extraction from Multiple Images to
+Support Site Model Renement and Visualization,"
+The Fourth Int. Conf. in Central Europe on Computer
+Graphics and Visualization 96, pp. 399-408, Plzen,
+Czech Republic, 1996.
+[14] X. Wang and A. Hanson, \Elevation-Based Parking
+Lot Analysis, Visualization, and Simulation," Technical Report #98-001, Dept. of Computer Science, Univ.
+of Massachusetts at Amherst, January 1998.

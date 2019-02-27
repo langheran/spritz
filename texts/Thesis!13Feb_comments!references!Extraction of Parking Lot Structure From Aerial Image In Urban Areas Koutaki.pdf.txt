@@ -1,0 +1,237 @@
+International Journal of Innovative Computing, Information and Control Volume 12, Number 2, April 2016
+
+ICIC International c 2016 ISSN 1349-4198
+pp. 371­383
+
+EXTRACTION OF PARKING LOT STRUCTURE FROM AERIAL IMAGE IN URBAN AREAS
+
+Gou Koutaki1, Takamochi Minamoto2 and Keiichi Uchimura2
+1Priority of Organization for Innovation and Excellence 2Graduate School of Science and Technology Kumamoto University 2-39-1, Kurokami, Kumamoto 860-8555, Japan koutaki@cs.kumamoto-u.ac.jp
+Received September 2015; revised January 2016
+
+Abstract. Many applications of Intelligent Transport Systems (ITS) in recent years have been used and the digital maps containing detailed information have been required. However, in the current technology, the digital maps including many geometric objects such as roads, buildings, road markings, parking lots, are generated manually and it requires much cost. Thus, to reduce the cost of generation of maps, this study aims to achieve automatic extraction of parking lot area from aerial images. Our contributions as follows: (1) we define a detailed geometric structure and appearance model of parking lot, and (2) we propose a method of parking lots extraction using both of parking space and vechile detection. In an experiment using actual images, over half the number of vehicles were accurately detected, showing that successful detection is also possible in parking space extraction. We have shown that, despite the complexity of the images, a large number of parking lot areas can be extracted. Keywords: Parking lot, Aerial image, Car detection
+1. Introduction. With the growth in various services that use Intelligent Transport Systems (ITS) technology, digital maps have become increasingly important. These digital maps require positional accuracy, freshness (short updating cycles), and additional information. With regard to positional accuracy and freshness, there are studies on the extraction of buildings and roads from aerial images [1, 2, 16] and on the identification of objects to be updated by overlaying maps and aerial images and detecting differences [4]. There are many researches of automatic detection of additional information of digital map such as road signs or road markings other than geometric data concerning roads or buildings. For instance, there are studies on the extraction of road markings from aerial images [5], road sign extraction using on-vehicle cameras [7], or detection of landmarks such as convenience stores using omnidirectional cameras [8].
+Surface object extraction from aerial images has long been studied, and various techniques such as region segmentation of geometric features and extraction of roads or buildings have been developed. As aerial images are suffering from buildings and their shadows, the automatic surface object's recognition technique has been limited to rural and suburban area; however, in recent years, 3D information (DSM) with high levels of spatial resolution acquired with laser scanners has become available [15], and the study of road recognition in urban areas is also making progress [9].
+As an alternative way, there have been many attempts at surface object recognition from on-vehicle camera images. For instance, road sign recognition has long existed [7]. Onvehicle cameras have a high resolution, enabling surface object recognition in the lateral direction, which cannot be captured in aerial images. On the other hand, recognition
+
+371
+
+372 G. KOUTAKI, T. MINAMOTO AND K. UCHIMURA
+is only possible of places where the vehicle has been driven and its operating costs are high. There is also a study on the surface object recognition for the extraction of these geometric features and additional information using the generalized object recognition [10], however, it is not sufficient performance levels. It requires the design of a specialized algorithm and image feature vector.
+Furthermore, in addition to surface objects such as buldings and roads, the additional information required by advanced ITS/GIS services includes telegraph poles, streetlights, manholes, side strips, median strips, and bikeways, etc. Especially, the provision of those additional information such as traffic lights, pedestrian zones, wall and parking lot is an important task for automatic driving vehicle system. Currently automatic extraction and semi-automatic extraction of the additional information have been achieved. However, the generation costs are extremely high.
+Thus, in this study we aim to extract the parking lot automatically that is one of the important objects.
+In related work, S. Young et al. extracted parking lot areas using simple images processing to recoginize parking space based on white lines [11]. In the case of the study, parking lot was detected by simple binarization and morphological filtering because each parking space had a thick white lines. [14] detected the lines of the parking space using low-level edge filtering. However, actual parking space has variable appearances such as thick lines, yellow lines and missing lines by degradation over time. Furthermore, there are many vehicles on the parking space. They and their shadows cause a missing of detection of the lines of parking space.
+In order to solve the problem, in this paper we propose the following:
+· We define and use a detailed geometric structure and appearance model of parking lot;
+· We propose a method of parking lots extraction using both of parking space and vechile detection.
+The proposed method performs geometric and appearance modeling of parking lots, using that for the automatic extraction of parking structures. Parking spaces are extracted on the basis of white or yellow lines. In general, the road surface deteriorates substantially over time and the road appearance changes significantly due to shadows and blurring of the white lines. We use some appearance models of parking space for shadow casting and missing lines. Furthermore, since vehicles are often parked in the parking spaces, vehicle recognition results can be made use of successfully. After extracting parking spaces by using this information, the aforementioned parking lot geometric model is used to link parking spaces and group them into lines of consecutive parking spaces. In the experiment, parking lot areas are extracted using actual high-resolution aerial images, showing that a large number of parking lot areas can be accurately extracted with the proposed system.
+The remainder of this paper is organized as follows. Section 2 defines structure model of parking lot. In Section 3, the proposed system and image processing methods are described in detail. Section 4 shows the results of parking lot extraction for some actual aerial images. Concluding remarks and direction for future research are provided in Section 5.
+2. Structure of Parking Lot. In this section, we define the geometric structure of the parking lot used in this study and the ideal model of its appearance.
+2.1. Geometric model of parking lot. Figure 1 shows the geometric structure of the parking lot used in this study. It has the following features.
+
+EXTRACTION OF PARKING LOT STRUCTURE
+
+373
+
+(A): One parking space has a width of wp and height of hp. That is, its size in the parking lot is fixed.
+(B): Parking columns consist of two or more laterally connected parking spaces. (C): Parking rows consist of one or two parking columns. That is, if there are three
+or more rows of parking spaces, vehicles caught in the middle row lose their ability to move, and it is therefore the nature of parking lots to have a maximum of two parking rows. (D): The maximum distance between parking columns is D. Let hp < D < 2hp. That is, the path for vehicles to drive in and out shall be at most two vehicles wide. (E): The vertical and horizontal directions of a parking space form a right angle (90[deg]). (F): Parking area Rp is defined as the minimum rectangular area containing all parking columns and parking rows.
+Parking lot paths are defined as complementary areas to the parking column and parking row areas.
+
+2.2. Appearance model of parking lot. The appearance of a parking space is ideally illustrated as in Figure 2. That is, a parking space is taken to be an area of width wp and
+
+Parking Space (vertical) Parking Space (horizontal)
+hp wp
+
+Parking Rows
+
+Parking Columns
+D D
+
+Rp
+Parking Area
+
+Figure 1. Geometric structure of parking area
+Yellow or White Line
+
+(a) Full square
+
+(b) Half open (c) Double open
+
+Figure 2. Appearance model of parking lot
+
+374 G. KOUTAKI, T. MINAMOTO AND K. UCHIMURA
+height hp framed by yellow or white lines. As shown in Figure 2, a frame can be a full square (a), half open (b), or open on both sides ("double open") (c).
+The above is the ideal definition, but in fact, lines are sometimes blurred or there are vehicles or shadows of vehicles parked in front or behind parking spaces. The following section outlines how changes to the appearance caused by these factors are dealt with.
+3. Proposed System.
+3.1. Flowchart of system. Figure 3 shows the overall flowchart for the proposed parking area extraction system. First, RGB aerial images and DSM data are overlaid, and images are created where building areas have been removed (images with buildings removed). Second, vehicle or parking space candidates are extracted from the images with the buildings removed. In this step, vehicle and parking space candidates are also often detected in places outside parking areas, for instance, vehicles on local streets or white lines on roads. These misdetections are removed using the aforementioned relative positions of the vehicle and parking space candidates. That is, parking spaces are grouped on the basis of the geometric parking lot model outlined in Subsection 2.1.
+
+Input Image
+
+DSM
+
+3.2 Preprocessing
+
+Building Removed Image
+
+3.3 Car Detection
+Cars
+
+3.4 Parking Space Detection
+Parking Space
+
+3.5 Grouping
+Parking Structure
+Figure 3. Flowchart of the proposed system
+3.2. Preprocessing. In pre-processing, building areas are removed. Using elevation data, building areas can be simply eliminated. For elevation data, a Digital Surface Model (DSM) is used. DSM data are high-resolution and high-precision range data extracted using a laser scanner. However, DSM data are based on height above sea level and do not indicate surface elevation. Therefore, it is difficult to extract buildings through simple threshold processing of DSM height data.
+Therefore, in this study, we use Digital Elevation Model (DEM) data, which are surface elevation data. By subtracting DEM height from DSM height, elevation data can be obtained for buildings alone. As DEM has a low spatial resolution compared with DSM, pixel scales for DEM, DSM, and RGB aerial images are matched using pixel interpolation processing. Figure 4 shows the results of removing building areas from complex urban RGB aerial images. Figure 4(a) shows the DEM data, and Figure 4(b) shows the DSM
+
+EXTRACTION OF PARKING LOT STRUCTURE
+
+375
+
+Figure 4. Removal of building region
+(a) Positive samples
+(b) Negative samples
+Figure 5. Training samples for car detection data for the same location. The white areas in Figure 4(c) indicate the results of the building area elimination. It is found that building areas alone have been successfully removed. 3.3. Detection of vehicles. Vehicles are often parked in parking spaces. In other words, if vehicles can be detected, the area can be considered as a parking space candidate. This subsection outlines the vehicle detection method. All vehicles photographed from the air have a similar appearance. Since the aerial images used in this study are of a fixed scale, all vehicle views are also virtually of the same size. Detection is therefore performed using a Haar-like detector and AdaBoost used in face recognition [12, 13].
+That is, supervised learning is performed and a feature detector valid for vehicle detection is built, with classification being performed through AdaBoost. Building a Haar-like
+
+376 G. KOUTAKI, T. MINAMOTO AND K. UCHIMURA
+
+(a) Detection
+
+(b) Final results
+
+Figure 6. Overlapped resolution
+
+Figure 7. Template model of parking space
+detector requires numerous positive and negative samples. Figure 5(a) shows an example of positive samples, and Figure 5(b) an example of negative samples. Haar-like detection of vehicles leads to numerous detections in similar locations as shown in Figure 6(a), but multiple detections are avoided by linking results found close to each other (Figure 6(b)).
+3.4. Parking space detection. We outline the detection method for parking space candidates. As parking spaces are of an even simpler form than vehicles, they are detected using template matching. In practical terms, we use templates as shown in Figures 7(a), 7(b), and 7(c), based on the appearance model outlined in Subsection 2.2, that is, a model of a white-lined or yellow-lined frame.
+However, as shown in Figure 8, in the real environment, parking space lines sometimes disappear due to factors such as (a) shadows of the parking lot's boundary fencing, (b) blurring of parking space lines due to deterioration over time, and (c) vehicles or vehicle shadows.
+To achieve parking space detection that is resistant to this noise, template models as shown in Figures 7(d) and 7(e) were added. The template in Figure 7(d) is used to deal with the loss of data due to blurred parking space lines or wall or fencing shadows, and the template in Figure 7(e) is for dealing with the loss of parking lines due to vehicle shadows.
+3.5. Grouping. Parking columns and parking rows are estimated on the basis of the numerous vehicle and parking space candidates extracted in Subsections 3.3 and 3.4. They are grouped according to the following procedures.
+
+EXTRACTION OF PARKING LOT STRUCTURE
+
+377
+
+ (a) Shadow on parking space
+
+(b) Erase of parking line
+
+(c) Shadow of vehicle
+Figure 8. Missing parking lines
+(1): Select the parking spaces to be processed. Group adjoining parking spaces. Adjoining in this context shall be where the distance between the centers of the parking spaces is wp + margin or under (Figure 9(a)).
+(2): Group parking spaces that are one parking space apart (Figure 9(b)). Furthermore, group the parking space in between as a new parking space (Figure 9(c)).
+(3): Repeat (1) and (2) until there are no more updates.
+Moreover, additional processing is performed to extract undetected parking spaces. First, create image analysis regions of a width of 5wp on the left and right edges of the detected parking columns (Figure 9(d)). Within these regions, detect edges from differences in the luminance gradient in the images' x direction.
+Subsequently, generate a graph for the integrated number of the aforementioned edge locations in the y direction (Figure 9(e)). As the integrated edge value can be taken to have a peak in the parking spaces, and, the integrated edge value in the aforementioned graph is the peak, add locations over a certain threshold as new parking space candidates.
+After making the addition, repeat steps (1) and (2). Repeat until there are no more updates in this series of processing actions. Next, group the parking columns in a vertical direction according to the following rules.
+(A): Detect back-to-back parking columns. At times, a maximum of two parking columns are linked. Parking columns that are separated by hp + margin are in a vertical direction. Then, search for back-to-back parking spaces within this group (Figure 9(f)).
+(B): Detect parking columns separated by a path. Parking columns are separated by 2hp + margin in the vertical direction.
+Link parking columns and form parking rows through these processes. Lastly, rotate the images by 90[deg], repeat the processing in the same way, and extract the final parking lot areas.
+4. Results. An extraction experiment using actual images was carried out to verify the validity of the proposed technique. Four images of Sapporo City Center were used (Urban1Urban4). Each image is a 2000 × 2000 pixel, 8-bit RGB image depicting 0.4km in each direction. The spatial resolution is 20 cm/pixel, with geometric correction applied
+
+378 G. KOUTAKI, T. MINAMOTO AND K. UCHIMURA
+Figure 9. Grouping rules through simple ortho-rectification. DSM images with a spatial resolution of 1m of the same area were also used. wp = 14 and hp = 32 are used.
+The following subsections outline, respectively, vehicle extraction results, parking space candidate extraction results, grouping results for parking columns and parking rows, and the ultimate parking structure extraction results. 4.1. Vehicle detection. Vehicles were detected using a Haar-like detector and AdaBoost. As positive samples, 2520 images cut to a size of 14 × 32 pixels were used, and 4800 images cut down to the same size were used as negative samples. Figure 10 shows the detection results. Figure 10(a) shows the results for a sparsely occupied parking lot, and Figure 10(b) for a parking lot that is densely occupied and has a large building shadow projected onto it.
+It was found that detection was difficult for vehicles with low luminance values due to the shadow, as well as for black cars even when exposed to the sun. Table 1 shows the vehicle detection rates. These detection results include all vehicles outside of parking lots. Correct detections were visually confirmed. The results show that approximately 67% of vehicles were detected. 4.2. Parking space detection. We outline parking space detection results using parking space template matching. For the template, a 15 × 28 pixel image as shown in Figure 7
+
+EXTRACTION OF PARKING LOT STRUCTURE
+
+379
+
+Figure 10. Car detection
+
+Table 1. Results of car detection
+
+#correct #all car detection [%]
+
+Urban1 272 Urban2 193
+
+387 296
+
+70.3 65.2
+
+Urban3 349 Urban4 351
+
+531 528
+
+65.7 66.5
+
+Total 1165 1742
+
+66.9
+
+(a) No shadow
+
+(b) Shadow on parking space
+Figure 11. Parking space detection
+was used. Normalized cross-correlation (NCC) was used for matching. Figure 11 shows a detection result example. Figure 11(a) shows a comparatively simple case without any shadows on the parking spaces, whereas Figure 11(b) represents a complex case with vehicle and wall shadows and blurred parking lines. It was found that notwithstanding the existence of vehicle shadows, parking spaces were detected with a comparatively good result through the use of multiple templates. Table 2 lists the extraction rates. The results show that approximately 30% of the parking spaces were detected. Note that the "all space" category includes all cases where a vehicle exists.
+
+380 G. KOUTAKI, T. MINAMOTO AND K. UCHIMURA
+Table 2. Results of parking space detection
+
+#correct #all space detection [%]
+
+Urban1 Urban2 Urban3
+
+44 24 77
+
+184 90 157
+
+23.9 26.7 48.7
+
+Urban4 17
+
+104
+
+16.3
+
+Total 162
+
+536
+
+30.2
+
+Figure 12. Parking area detection
+4.3. Parking region detection. Figure 12 shows an example of results for estimating parking columns and parking rows from the detected vehicles and parking spaces, and for extracting a parking space detection lot area that encompasses both parking columns and rows.
+The white boxes in Figure 12(a) indicate parking spaces that have been added due to the edge integration as outlined in Subsection 3.5. In Figure 12(b), the parking lot area
+
+EXTRACTION OF PARKING LOT STRUCTURE
+
+381
+
+Figure 13. Other results of parking area
+estimated after grouping is indicated with a dotted box. Figure 12(b) combines the results obtained upon rotating the image by 90[deg] after having acquired the results in Figure 12(a), and it is found that parking spaces can be accurately detected in the horizontal direction.
+Figure 13 shows other extraction results. Black boxes show the extraction results of parking space and dotted area shows the extracted parking space. Figure 13(a) shows a sparsely occupied parking lot that is well exposed to the sun, for which parking spaces were successfully extracted and the parking lot area could also be estimated. Figure 13(b) shows a small parking lot backing onto a building, which was also successfully extracted. The parking lot in Figure 13(c) had a large shadow from a building projected onto it. Recognition accuracy was low for parking spaces and vehicles located in the shade, but as the parking column in the vertical direction on the left side was extracted, the parking lot area was successfully extracted. Figure 13(d) shows a case where a parking lot adjoins a road.
+Many vehicles were extracted, but as the pedestrian crossing in the top right corner was mistakenly recognized as a parking space, over-detection of the parking lot area took place. Figure 14 shows the overall extraction results for parking lot areas in white box
+
+382 G. KOUTAKI, T. MINAMOTO AND K. UCHIMURA
+Figure 14. Overall parking area detection for images Urban1Urban4. Despite the complex urban environment and the existence of many obstacles such as shadows, it was found that a large number of parking lot areas could be extracted. 22 parking areas were detected and 21 parking areas could be extracted correctly (correctness is 95%). 5. Conclusion. We proposed a system for the automatic extraction of urban parking lot structures from aerial images. First, geometric and appearance models for parking lots were defined. Second, after extracting vehicles and parking spaces through pattern matching, grouping was applied to the relative positions following the rules of the geometric model for parking lots.
+An experiment with actual images found that over half of the number of vehicles was accurately detected and that parking spaces were also successfully detected. Despite the complexity of the images, a large number of parking lot areas could be extracted.
+
+EXTRACTION OF PARKING LOT STRUCTURE
+
+383
+
+Issues for the future are shadow-resistant vehicle detection and an improved detection rate of parking spaces. Furthermore, apart from rectangular parking lot areas, we aim to estimate a wider variety of parking lot areas.
+
+REFERENCES
+[1] G. Koutaki, Z. Hu and K. Uchimura, Road network extraction using intersection model from color ortho aerial imagery, IEICE Trans. Fundamentals of Electronics, Communications and Computer Sciences, vol.J88-A, no.2, pp.164-174, 2005.
+[2] R. Nevatia, C. Lin and A. Huertas, A system for building detection from aerial images, Proc. of Automatic Extraction of Man-Made Objects from Aerial and Space Images, pp.77-86, 1997.
+[3] G. Koutaki, Z. Hu and K. Uchimura, Refinning positions of road map using network active shape models, Journal of Information Processing Society of Japan, vol.47, no.12, pp.3079-3089, 2006.
+[4] D. Klang, Automatic detection: Of changes in road databases using satellite imagery, Proc. of International Archives of Photogrammetry and Remote Sensing, vol.32, pp.293-298, 1998.
+[5] Y. Ishino and H. Saji, Extraction of road markings from aerial images, IEICE Technical Report, vol.106, pp.1-6, 2006.
+[6] K. Uchimura, S. Wakiyama and M. Fujino, Extraction of circular traffic sign using limited color indication, IEICE Trans. Information and Systems, vol.J83-D-II, no.2, pp.855-858, 2000.
+[7] K. Uchimura, H. Kimura and S. Wakiyama, Extraction and recognition of circular road signs using road scene color images, IEICE Trans. Fundamentals of Electronics, Communications and Computer Sciences, vol.J81-A, no.4, pp.546-553, 1998.
+[8] I. Naoyuki, Recognition of billboard advertisements, Proc. IEEE Pacific-Rim Symposium on Image and Video Technology, pp.463-473, 2006.
+[9] T. Uemura, K. Uchimura and G. Koutaki, Road extraction in urban areas using boundary code segmentation for DSM and aerial RGB images, IIEEJ, vol.40, no.1, pp.74-85, 2011.
+[10] M. Sasaki, A proposal for scene recognition method suitable for MPEG video, IIEEJ, vol.38, no.6, pp.890-899, 2009.
+[11] S. Young, C. Urmson, D. Wettergreen and L. Jin, Building lane-graphs for autonomous parking, International Conference on Intelligent Robots and Systems, pp.6052-6057, 2010.
+[12] P. Viola and M. Jones, Rapid object detection using a boosted cascade of simple features, Proc. of IEEE Computer Society Conference on Computer Vision and Pattern Recognition, vol.1, pp.511-518, 2001.
+[13] R. Lienhart and J. Maydt, An extended set of Haar-like features for rapid object detection, Proc. of International Conference on Image Processing, vol.1, pp.900-903, 2002.
+[14] S. Young, R. Nathan and C. Urmson, Self-supervised aerial image analysis for extracting parking lot structure, Proc. of International Joint Conference on Artificial Intelligence, 2009.
+[15] D. Herumurti, K. Uchimura, G. Koutaki and T. Uemura, Urban road extraction based-on morphological operations and radon transform on DSM data, ITE Trans. Media Technology and Applications, vol.2, no.3, pp.277-286, 2014.
+[16] M. Sghaier, I. Coulibaly and R. Lepage, A novel approach toward rapid road mapping based on beamlet transform, Proc. of IEEE Geoscience and Remote Sensing Symposium, pp.2351-2354, 2014.
+
