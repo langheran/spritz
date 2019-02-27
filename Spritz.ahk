@@ -1266,7 +1266,7 @@ Send, ^v
 Clipboard:=clipboardBkp
 return
 
-$+#s::
+$#s::
 if(GrabText)
 	GrabText:=0
 else
@@ -2802,7 +2802,7 @@ SetGuiVisibility(GuiVisible)
 ;	GoSub, HideGui
 ;return
 
-+#s::
++^!#s::
 SearchingPDF:=0
 WmpB.controls.pause()
 if(GuiHidden)
