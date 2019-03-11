@@ -1,0 +1,424 @@
+Chapter 3
+Nisim Hurst Sunday 2 December 2018
+Contents
+1 Methodology
+3
+1.1 General Workflow . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 6
+1.1.1 Satellite image gathering . . . . . . . . . . . . . . . . . . . . . 11
+1.1.2 Cropping and selecting useful training parking spot areas . . 13
+1.1.3 Neural network training . . . . . . . . . . . . . . . . . . . . . 14
+1.1.4 Surveillance camera photos . . . . . . . . . . . . . . . . . . . 17
+1.1.5 Homography calculation . . . . . . . . . . . . . . . . . . . . . 20
+1.2 Image Segmentation Metrics . . . . . . . . . . . . . . . . . . . . . . . 25
+1.3 Neural Network Architecture . . . . . . . . . . . . . . . . . . . . . . 28
+1.3.1 Block 1 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 29
+1 1.3.2 Block 2 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 30 1.3.3 Block 3 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 32 1.3.4 Block 4 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 33 1.3.5 Block 5 through 8 . . . . . . . . . . . . . . . . . . . . . . . . . 35 1.3.6 Block 9 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 36 1.3.7 Block 10 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 37 1.3.8 Block 11 through 16 . . . . . . . . . . . . . . . . . . . . . . . 39 1.3.9 Block 17 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 40 1.3.10 Neural Network Training . . . . . . . . . . . . . . . . . . . . 42
+1.3.10.1 Training description . . . . . . . . . . . . . . . . . . 43 1.3.10.1.1 Set sizes . . . . . . . . . . . . . . . . . . . . 43 1.3.10.1.2 Hyperparameters . . . . . . . . . . . . . . 46 1.3.10.1.3 Hardware . . . . . . . . . . . . . . . . . . . 50 1.3.10.1.4 Overall time . . . . . . . . . . . . . . . . . 51 1.3.10.1.5 Training vs Testing architecture . . . . . . 52
+1.3.10.2 Data augmentation techniques . . . . . . . . . . . . 53 References . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 56 1 Methodology Surveillance cameras provide tons of information that could be used to either take a one-time critical decision, track a daily process, or simply gather data for further analysis. However, even though we consider a single person to be capable of detecting and registering these events, given the huge amount of attributes an image could have -not to tell a complex scene over time- the task becomes virtually impossible or just excruciating for a sustained follow up. Computers can help us through.
+Living beings have a way of giving context to their perceptions. That is, they build a kind of dynamic bayesian network out of their percepts and through inference they can accurately take advantage of the redundancies of their environment, not only to detect, but also to filter out trivial events and entities. Computer algorithms can also take advantage of environmental probabilities. There is virtually no limit of priors we could provide an algorithm to improve its accuracy.
+One of these environmental probabilities is the one arising from visual spacial locality as registered from a first-person-view, either from a biological eye or a camera. That is, the fuzzy expectation function in terms of the action or behavior desired by using neighboring features. Further accuracy could be achieved by zeroing out the low probabilities, a way of regularizing complexity and reducing dimensionality. Thus, if we could accurately classify a particular area in which the other detected features are taking place, accuracy of the subsequent algorithm would be favored.
+Given its installation ease and output interpretability, the first-person-view camera is the most used type of camera. Segmenting pixel areas of a first-person-view camera image is hardly a trivial task, though. Occlusions and shadows are one of the most demanding obstacles. Moreover, if our segmentation is based on appearance features of the ground we have two options: 1. train with a huge set of images that capture all the different variants of the pattern we want to exploit or; 2. engineer the features by perspective (projective) transform1 the images to reduce data dimensionality and thus train with less examples.
+A third approach is to solve a simpler version of the problem and then translate the results into our original problem. Thus, the effort in developing the algorithm is being inverted in translating the results to the original problem rather than trying to tackle the problem upfront. In computer vision, the same problem present itself naturally in the form of different perspectives of the same physical scene. So, given the intuition that orthogonal images captures the most important singular values
+1In contrast to affine transform that works with three points, projective transform takes four points. of the ground's plane, we could use a birds-eye perspective. Nowadays, this type of cameras are far more common than they were in the past. Services like Google Maps, MapBox, MapQuest Open, and OpenStreetMap made satellite images available to the public without cost under certain restrictions. These satellite images are indeed birds-eye perspectives. Each one is a sample that reflect the most important ground features that characterize a parking lot. Then we can use images and we can build a dataset for recognizing and segmenting the parking spaces form satellite images. Furthermore, the aforementioned services often have community members/collaborators that make high quality metadata form available to the public for the same areas. Finally, with the right correspondence points, these birds-eye segmentations can be extrapolated to the camera view with much more quality than the one we would get from segmenting the image directly. Thus, the following chapter describes the approach for segmenting the image of a camera in more detail. 1.1 General Workflow Our problem consist of segmenting the parking spot areas of a surveillance camera image. Lets summarize the challenges our problem faces:
+· In a fully-occupied parking lot the parking spots demarcation can not be seen from the surveillance camera perspective.
+· There are other obstacles that hide from sight the parking spot demarcation, other cars and the traffic lane.
+· Parking spot demarcation is usually the best feature to recognize the parking space given the low field of view of a surveillance camera. However, this demarcation is usually at ground level (with the exception of road signs mounted on poles), distant from the camera, and prone to have many obstacles on top. (a) input
+(b) aerial segmentation
+(c) segmentation+homography
+(d) final result
+Figure 1: Segmenting the parking blocks despite several frequent vehicle occlusions.
+In Figure 1, we can see a landscape cluttered by parked cars. Recall that the parking spot demarcation is the most prominent feature that humans and in particular our neural network uses. The parking spot demarcation is barely visible depending on how centered the car was parked and nearby parked cars. However, our model does a pretty nice job segmenting those parking blocks. Regardless the number of parked cars our model detects them successfully given that it uses the overall structure of the parking block seen from the space that is usually only partially seen from the surveillance camera perspective. Also notice that even though there are some trees casting a shadow over the parking block on the bottom of (b) the neural network is able to circumvent this problem given the parallel lines that are visible to a greater or lesser extent.
+Our solution proposal consist of using the segmentation of a public satellite image and combine it with the surveillance camera view to generate an extremely accurate segmentation, regardless of any temporal or small obstacles interfering with the surveillance camera's view.
+There are two main components of the solution that need to be explained. One is the one-time setup and the other is how to use the model. Lets focus on what our proposal does for a moment and then we can dive into the details of how the model was trained.
+Our proposal (a)
+(d)
+Pre-trained Segmentation
+Model (b) (c)
+Figure 2: Usage of our method after the training was done Figure 2 shows the inputs and outputs of our proposed model. Suppose you are an automated module that requires to segment a parking lot to detect areas were transiting should be avoided for security reasons, such as parking spots. First (a), you download from Google Maps or any other map service a satellite image of the parking lot.2 Then (b), you take a picture of the current view of a surveillance camera of the parking lot. The model also needs the training file that it is actually used to segment the satellite image and was generated only once,3 hinted by the (c) component.4 By providing these three inputs our proposed module you can get as output a mask (d) that identifies which areas can be safely assumed to be parking spots with confidence between 60% and 90%5.
+We can now explain the inner workings of the method usage.
+2Code is provided in Appendix B section for this purpose. 3And it is provided as a result of this thesis. 4The homography between the two images is needed, so the camera intrinsic parameters are assumed to be known. Also the camera setup parameters are assumed to be known. In this thesis we use correspondence points for their calculation. 5Bayesian correction of the odds must be applied to get the real probability of detecting a parking spot in a general image. (a) (b)
+Parking Spot Not parking spot
+(c)
+(f)
+(d)
+(e)
+Figure 3: Solution workflow. (a) Take photo on a satellite, (b) Crop to parking area and scale, (c) CNN residual network segments the image, (d) Photo of the surveillance camera, (e) Calculate the homography between the two images, (f) Final result of the camera image segmented.
+Figure 3 shows the sequential process that we are proposing. It begins with satellite image gathering on (a). Then, the images are cropped down and restricted to only include interesting parking lot zones on (b). These cropped sections are then used to train a neural network for automatically segmenting any unseen outdoor parking area on (c). In parallel, images from a camera pole perspective are being taken on (d). These images are the images we strive to segment and that will give us the added value by providing the area priors to any other motion or classification algorithm. For that purpose we first need to find the homography on (e). Finally, (f) depicts the process in which we apply the homography to the outcome of the segmentation network and provide a fully segmented landscape superposed over the original camera image of (d).
+A good understanding of each step is essential to ensure the performance on the overall chain and the proposed method. It is also essential to easily propose O(1) improvements for a greater accuracy using feature design or any other method that seeks to reduce Bayesian noise. That said, lets dedicate a section explaining the inner workings of each step in the following subsections.
+1.1.1 Satellite image gathering
+The images we are interested in follow a very clear and characterizable pattern of features:
+· They show outdoor parking lots. · At clear orthogonal daylight. · With relatively low humidity. · Demarcated using international standards or the ones corresponding to that
+country for public parkings. Page 11 · Meant to harbor vehicles no larger than full-sized cars (no more than 5,350 mm of length).
+The following features are not so strong as the prevously mentioned, however their inclusion does not disqualify the parking lot:
+· Piled up cars over a series of parallel parking spots demarcation. · Partially covering trees above the parking spots. · Unordinary fences around the parking spots or the sidewalks.
+Now, there are some specific features that should be definetly avoided for being included in the training set given the premise that even a human being can not recognize a parking lot in that situation without further context and moreover, they would surely harm overall accuracy:
+· Indoor parking spaces. · Not demarcated wild-terrain parking spaces. · Out-of-standard car sizes. · Parking spaces under bridges.
+More details about how these images were gathered and selected can be found on appendix A. 1.1.2 Cropping and selecting useful training parking spot areas
+It is almost impossible to find a completely homogeneous parking structure that only include parking spots and traffic lanes. Most of them circumvent a building or have pedestrian sidewalks in between. Thus, we have crop each image to avoid introducing noise to the segmentation algorithm.
+Cropping is made by taking the following considerations in mind:
+· The resulting image must have the same zoom as the images in the training set, regardless of its width and height.
+· The parking space preferably must be on the center of the image. · Edge structures that do not correspond to parking spots and traffict lanes
+can be safely excluded.
+On Google Maps, the proper zoom can be calibrated to a specific meters per pixel ratio using the following formula6:
+metersP erP x = 156543.03392 
+cos(latLng.lat() 2zoom
+180)
+6taken from [1]
+(1) Equation 1 shows the formula for calculating the meters per pixel ratio. latLng.lat() is the object that contains the latitude as float for the specified location.
+1.1.3 Neural network training
+Neural networks are mainly used when the algorithm is expected to run fast even though training might take a while. This is exactly the case of parking blocks, they rarely vary from country to country and once the net has been trained it can quickly segment parking lot surveillance cameras worldwide.
+Also, ANNs in general can learn compact feature representations and if they are properly designed, they can even occupy less memory than other methods of comparable accuracy. We have already seen the convenience of having a convolutional neural network to automatically extract the features we need without the need to define them for it explicitly.Well, what are those features? We really do not know.7 However, there is some intuition stemming from the standard working of convolutional neural networks.
+In general, we want the neural network to learn the canonical form of a parking lot
+7The net can actually cheat by learning features from the envirionment instead of the foreground. block, made several side-by-side individual parking spots. So, lets for a moment consider the neural network a black box. First, the network receives a series of images with a series of variable-sized parking blocks for training. There is no lower bound on the number of parking blocks per image. When the neural network reaches the stop condition in its training routine, we can feed it with unseen samples. Then, the network mark pixel-by-pixel, the areas which reach the threshold on the softmax layer to be considered a parking block. A human would use features like the spatial overall structure of the parking lot, traffic lanes angular momentum and other local appearance features like sidewalks. But it is reasonable the neural network behaves just like a human and pick the same features for this specific task? The answer is no and we will see why in just a moment.
+Convolutional filters have a property that they are equivariant to translation, i.e. they are good for detecting textures regardless of its position on the image. Also the pooling units makes it equivariant to rotations. Similarly, they have been used for local contrast normalization, i.e. normalize the contrast of pixels inside the filters' window. In conclusion, they are great for detecting a texture surface or a contour [2].
+In contrast, human vision is based on fovean focus, 3D geometric interpretation, moods and thoughts. However, the inferotemporal cortex is similar to the last layer of a convolutional neural network and learns Gabor-like functions [3]. These functions are specially useful on detecting edges. A more details analysis of the differences between mamalean vision and convolutional neural networks can be found on Deep Learning MIT by Goodfellow [3].
+Our case involve large areas of similarly texturized parking blocks, where each painted line forms a standard angle that repeats through the whole parking space. This edge angle even repeats itself quite frequently in parking lots per country. Even though our method is probably ignoring line momentum.
+Additionally, we have the advantage that the parking lot demarcation is always projected on a 2D plane with maximum eigenvalues orthogonal to the satellite view. So, the 3D interpretation a human does is not required in our case.
+Fovean focus allow the human eye to serially make sense of an image from smaller windows with a tradeoff of a small period of time [4]. This method is far more efficient than a traditional convolutional neural network we used regarding the image resolution that needs to be processed for segmentation. We tested the network using a I7 Intel Core with 32GB of RAM and 11GB GPU. Images more than 4,000,000 squared pixels were just to big for the GPU and triggered a CUDAMalloc (memory allocation) error.
+In Section 1.3, more thorough detail regarding the implemented used is provided. The results section provided both time and accuracy analysis for the performances of the network.
+1.1.4 Surveillance camera photos
+The projection center of a surveillance camera view in a the Instituto Tecnologico y de Estudios Superiores de Monterrey (ITESM) parking lot surveillance system is usually above the ground between 1.5 and 3 meters high. At lesser heights more occlusions naturally arise from the parking lot stationary of temporal bodies, e.g. at ground level a dog passing by could be a serious obstacle to the cameras' view [5]. Thus, the camera poles are usually positioned in places without visual obstacles to some extend. However, there are obstacles that are impossible to avoid, e.g. cars in transit and pedestrians walking.
+Also the homography calculation becomes more sensitive to points near the vanishing point of the perspective view and can become degenerate8 or ill-conditioned9
+8Points become approximately collinear and the matrix rank becomes 1 [6]. 9Small changes in the correspondence points produce big changes in the homography [7]. (prone to rounding errors and approximately singular).
+At this stage, parking lot scene pictures were taken at a lesser altitude than 1.5 meters. In fact, they were just taken by a person on ground. We tested the model on 70 of such images. More details about the results further on in the Results chapter. More details about the database description on the Appendix B. Given that the model was efficient at so low altitude, it extends naturally to higher camera altitudes, obviously no more than the satellite.
+Segmenting parking blocks and spots in this view pose the following challenges:
+· The bulk of the pictures were taken at a very low altitude, namely the height of a person between 1 and 1.6 meters. Sometimes landscape objects served a platform to simulate a wider range of camera heights. For example, a car roof is about 1.5 meters.10 On the other hand, surveillance camera poles have about 3 and 1.5 meters.11 Thus, if the camera is at 10 meters from the cars. Figure 4 depicts this situation. The most important feature for humans and machines alike for recognizing parking spots is cut in half, i.e. the parking spot demarcation.
+· There are often pedestrians or cars passing by that would require the parking
+10For example, 1.482 meters of Volkswagen Jetta 2011. 11Taking the Tecnológico de Monterrey as sole reference. lot to be empty before segmenting the parking spots or other more complex background substraction mechanism. · The view is highly sensity to fog or any other adversarial weather conditions. · Many areas are too far from the camara to provide quality features that would serve to segment that area.
+(a) area occluded by a single car: (b) visible parking spot demarca22% tion with occluding cars: 1.38%
+(c) visible parking spot demarcation without cars: 3.81%
+(d) complete image
+Figure 4: The green area occluded by a car occupies 22% of the image, making impossible to see the parking spot line behind. In this image, the overall parking spot lines are occluded up to 63.7%. 1.1.5 Homography calculation Recall that the homography is a projective mapping from the satellite image to
+the camera image. Satellite image homogeneous coordinates are two dimensional
+and given by:
+q = xy1
+Meanwhile, the camera image also has a third depth dimension Z :
+Q = XYZ1 A perspective transform is an special kind of planar homography. The homography can be decomposed into 3 rotation angle and a 3 component translation vector (one for each coordinate). The final formula for translating a point of the surveillance camera to the satellite is given by: q = s M W Q Where, M is the camera intrinsic matrix given by:
+M = f00x
+0 fy 0
+cc1xy 
+fx = horizontal focal length fy = vertical focal length cx and cy = center of projection point
+And W is the combination of a rotation matrix R and a translation vector t under
+homogeneous coordinates.
+W = R t
+Finally s is a scale factor for the size.
+There are several ways in which we can trivially calculate the corresponding homography between two planes. One way is to assume the camera pole is orthogonal to a flat plane being the surface of the parking lot. Figure 5 shows this assumption more explicitly.
+z parking lot side view
+bullet camera
+y
+pole
+f ov field of view 
+hc
+(x0, y0) satellite origin
+x
+ground demarcation over a parking block
+(a) Satellite coordinates origin, angle vector , , field of view and camera height
+(x0, y0) camera origin parking lot satellite view
+y
+x
+(b) The same scene as above viewed from a satellite perspective, the origin is the same
+Figure 5: (a) shows the camera images with the full homogeneous coordinates, (b) shows the satellite image which can be though as a projection on earth's ground plane. We can use the camera angle to calculate the rotation matrix. The three components of the translation vector can be similarly calculated from the pole height and the x and y coordinates of the camera on the satellite image. Then, using the difference between both cameras' zoom we can derive the overall scale factor s . Lens distortion is not a problem because most of the cameras have built-in correction, so matrix M can be approximated into the identity matrix in case the fabricant does not provide them.
+A second way is to approximate the homography using a minimum set of four correspondence points. We already assume the camera intrinsic matrix to be negligible. So, a single satellite camera view to a single parking spot will suffice to calculate the camera extrinsic parameters. Those parameters are composed of six unknows: 3 for rotation and 3 for translation. A parking spot shape has usually a parallelogram area, although can vary in color and size. However, a parallelogram area is particularly easy to detect given that there are many straight lines than can be found using low level transformations such as Hough's [8]. We could even use template matching on a gray-scaled version of the image over a finite set of common parking spots templates to find the shape that is prevalent on our parking lot (although we should stick to the assumption that most of them are perfectly parallel to the ground plane and that they all follow international size standards). Furthermore, once you know the default parking spot shape and its angle towards the traffic lane on the xy plane, you could estimate a parking block of any size. This xy angle can be trivially found by extrapolating a line between the center of mass of two or more neighboring parking spots.
+In case the initial assumption that the camera intrinsic matrix is negligible12 , we can use an extra observation to calculate it. The parking lot demarcation could be used as a chess board for a modified camera calibration method. The mapping of a single parking spot into a quadrilateral can be described by four (x, y) points on the external border of the demarcation. Thus, each camera view provides 8 equations at the cost of 6 new extrinsic unknows. There are four parameters of the camera intrinsic matrix. Solving requires:
+2N K 6K+4
+Where N is the number of corners in the detected parking spots and K is the number of views from the same camera model. By having at least 3 cameras in our parking lot pointing at the same parking spot we will be able to produce the camera intrinsic matrix.
+Finally, we can provide more than four correspondence points with the intention
+12It can be approximated to the identity matrix. to reduce the reprojection error in conjunction with robust fitting methods such as RANSAC or LMeDS [9]. Our dataset of 62 camera images provides between 5 and 8 correspondence points.
+1.2 Image Segmentation Metrics
+Overall accuracy metric considers the model's capability of not including some areas in the predicted class, i.e. the negative cell on the contingency table. Conversely, recall, precision and the F-Measure are considered to be biased in this sense. So, the authors of PKLot [10] and DLib [11] use this kind of metric:
+Acc
+=
+Tp P
++ +
+Tn N
+=
+Tp
++
+Tp Tn
++ +
+Tn Fp
++
+Fn
+=
+Right Right + W rong
+(2)
+This metric is usual in cases we would like to classify individual instances without considering their spacial locality. Yet, the case of pixel segmentation deserves a special consideration. Each pixel is an instance we want to classify. However, most of the features come from the neighboring features. A foreground detected near the ground truth has a lot more informational value than a background detected near the ground truth. So, the distinction between foreground and background becomes relevant.
+One of the Pascal VOC [12] challenges consist on detecting many classes and marking them by using bounding boxes. Then, the background coincidences play no important role in how to position and scale the bounding boxes over detections. However, the overlapping between the true box and the predicted box is a good indicator of how well the prediction is performing [12]:
+I oU
+=
+Tp
++
+Tp Fp +
+Fn
+=
+area area
+(3)
+For these matters, the intersection over union formula measures the overlapping pixels between the ground truth polygon and the prediction polygon, regardless of the similarity between the areas outside of the polygons. That is, the true negatives are not taken into account. The idea is to reward overlapping foregrounds, instead of backgrounds.
+A more strict overlapping accuracy bound can be calculated by considering the contribution of each pixel weighted by the ratio of the class' average size to the size of the ground truth instance. This metric is called, instance-level intersection over union. However, in our case each instance is a cluster of parking spots, so the average size and shape becomes irrelevant to the accuracy.
+Now, that we have established which metric we will be using we have to apply it over all the instances. For the IoU calculation over all the instances, there are two approaches:
+1. Calculate the IoU instance by instance [13] and then use the mean between them. This is called a Monte Carlo approximation of the IoU performance over an unknown parking lot joint distribution where the features of each parking lot are continuous random variables such as width, height, area, momentum, angle to the road, color, etc13.
+2. Add up all the True Positives (TP) and divide them by the sum of all TP, False Positives (FP) and False Negatives (FN). This approach ignores the specific instance level differences and considers each parking block individually.
+The latter approach has the advantage that you are almost certain to avoid division by zero error. However, this approach is biased towards big images which have more probability to have better performance due to the surplus of structural information they contain. Thus, here we will use the former approach, i.e. calculate
+13A reasonable assumption is that inside a parking lot, the underlying parking blocks have similar distribution of these features relative to other parking lots and even relative to other countries. the intersection over union for each image one by one and then average the result per instance.
+Nevertheless, given that the only parking spots we are considering are the ones right adjacent to the road, they are usually aligned in a row, so the width tends to be constant over the angle they meet the road. This angles tends to vary little between country to country but in a single parking lot they are constant. In the next section we will see that also we are applying affine transform to the outputs of each layer so they probably preform well on those cases. Future work would be to use variable importance [14] to see if this feature produces a statistical differences in the accuracy.
+1.3 Neural Network Architecture
+Due to the recursive nature of the architecture, first we proceed to show its constituent blocks and then we take the time to show how this blocks operate under the feed flow of the network14. Each of these blocks learn a finite set of parameters:
+14Residual neural networks first introduced this concept in [15]. 1.3.1 Block 1 The first block is just the input and a single convolutional layer with affine normalization, and an activation function. Then there is a max pooling layer to reduce dimensionality.
+OrderDescription
+Configuration
+1 Input 2 Convolutional num_filters=64
+nr=7 nc=7 stride_y=2 stride_x=2 padding_y=0 padding_x=0 3 Affine normalization 4 ReLU OrderDescription 5 Max Pooling
+Configuration
+nr=3 nc=3 stride_y=2 stride_x=2 padding_y=0 padding_x=0 1.3.2 Block 2 The repeats itself 3 times and does a convolutional filter with a . OrderDescription 1 Convolutional
+2 Affine normalization
+3 ReLU 4 Convolutional
+Configuration num_filters=64 nr=3 nc=3 stride_y=1 stride_x=1 padding_y=1 padding_x=1
+num_filters=64 nr=3 nc=3 stride_y=1 stride_x=1 padding_y=1 padding_x=1 OrderDescription
+5 Affine normalization
+6 ReLU
+Configuration
+1.3.3 Block 3
+OrderDescription 1 Convolutional
+2 Affine normalization
+3 ReLU
+Configuration
+num_filters=128 nr=3 nc=3 stride_y=1 stride_x=1 padding_y=1 padding_x=1 OrderDescription 4 Convolutional
+5 Affine normalization
+6 ReLU
+Configuration
+num_filters=128 nr=3 nc=3 stride_y=1 stride_x=1 padding_y=1 padding_x=1
+1.3.4 Block 4 OrderDescription 1 Convolutional
+2 Affine normalization
+3 ReLU 4 Convolutional
+Configuration num_filters=128 nr=3 nc=3 stride_y=2 stride_x=2 padding_y=0 padding_x=0
+num_filters=128 nr=3 nc=3 stride_y=1 stride_x=1 padding_y=1 padding_x=1 OrderDescription
+Configuration
+5 Affine normalization
+6 Average Pooling nr=2 nc=2 stride_y=2 stride_x=2 padding_y=0 padding_x=0
+7 ReLU 8 Block 3 10 Block 3 1.3.5 Block 5 through 8
+· Block 5 is identical to Block 3 but increasing the number of filters (channels) to 256.
+· Block 6 is identical to Block 4 but increasing the number of filters to 256. · Block 7 is identical to Block 5 but increasing the number of filters to 512. · Block 8 is identical to Block 6 but increasing the number of filters to 512.
+1.3.6 Block 9
+OrderDescription 1 Convolutional
+2 Affine normalization
+3 ReLU
+Configuration
+num_filters=512 nr=3 nc=3 stride_y=1 stride_x=1 padding_y=1 padding_x=1 OrderDescription 4 Convolutional
+5 Affine normalization
+6 ReLU
+Configuration
+num_filters=512 nr=3 nc=3 stride_y=1 stride_x=1 padding_y=1 padding_x=1
+1.3.7 Block 10 OrderDescription 1 Convolutional
+2 Affine 3 ReLU 4 Convolutional
+5 Affine normalization
+Configuration num_filters=512 nr=3 nc=3 stride_y=2 stride_x=2 padding_y=0 padding_x=0
+num_filters=512 nr=3 nc=3 stride_y=1 stride_x=1 padding_y=1 padding_x=1 OrderDescription 6 Convolutional
+7 ReLU 8 Block 9 10 Block 9
+Configuration
+num_filters=512 nr=2 nc=2 stride_y=2 stride_x=2 padding_y=0 padding_x=0 1.3.8 Block 11 through 16
+· Block 11 is identical to Block 9 but reducing the number of filters to 256. · Block 12 is identical to Block 10 but reducing the number of filters to 256. · Block 13 is identical to Block 11 but reducing the number of filters to 128. · Block 14 is identical to Block 12 but reducing the number of filters to 128. · Block 15 is identical to Block 13 but reducing the number of filters to 64. · Block 16 is identical to Block 14 but reducing the number of filters to 64.
+1.3.9 Block 17
+OrderDescription
+Configuration
+1 Convolutional
+num_filters=21
+nr=7
+nc=7
+stride_y=2
+stride_x=2
+padding_y=0
+padding_x=0
+2 Loss Multiclass Log
+Per Pixel Block 1 Block 2
++
+Block 4 @128
++ 2xConv+1Pool + Block 3 + Block 3
+Block 6 @256
++ 2xConv+1Pool + Block 5 + Block 5
+Block 8 @512
++ 2xConv+1Pool + Block 7 + Block 7
+Block 2
++
+Block 2
+Block 10 @512
++ 2xConv + Block 9 + Block 9
+Block 12 @256
++ 2xConv + Block 11 + Block 11
+Block 14 @128
++ 2xConv + Block 13 + Block 13
+Loss Multiclass Log Per Pixel
+Convolutional num_filters=21, nr=7, nc=7, stride_y=2, stride_x=2, padding_y=0, padding_x=0
+Block 16 @64
++ 2xConv + Block 15 + Block 15
+Figure 6: Current Neural network architecture, each block has residual feed to over come the extensive net's depth. We can also see the perceptive field first increasing and then decreasing at the style of VGG-16. The network first does residual downsampling, and then residual upsampling. The number of layers (parameters to learn) was fixed arbitrarily based on the architecture proposed by [11]. In turn, this architecture is a variation of the U-Net architecture [16] with skip connections added. The most important characteristic is that it includes two symmetrical paths: one contracting and the other expansive. The objective of each is to first increase the what and reduce the where and then do the inverse in the second path. The net parameters were set arbitrarily while trying to cover a 64 to 512 range in potencies of 2. By these means, we have 8 levels with 27 layers . Of those 27 layers, only 5 are convolutional, either by doing down-sampling or up-sampling. Finally, recall that the hyperparameters to adjust the hidden parameters were set by following recommendations mentioned in the literature on Table 8.
+1.3.10 Neural Network Training
+Having talk about the architecture in place, this section tackles the following questions:
+1. Training description: 1. Set sizes 2. Overall time 3. Parameters 4. Hardware 2. Data augmentation techniques 1.3.10.1 Training description
+1.3.10.1.1 Set sizes
+The net was trained from images of Aerial Parking Lot Dataset (APKLOT)World15 by first cropping the bounding boxes of each parking block. Those images where provided to the net in the following order:
+· Training: 300 images · Validation: 100 images · Testing: 100 images
+The images are not of predefined dimensions, the dlib library does bilinear interpolation (scaling) to 227x227 pixels chips. Also, the pooling layers adapt the input to the required size for the next layer. Figure 7 shows the main statistics
+15More details on Appendix B related to input size and number of areas marked (sparsity). From (a) we see that, given that we are resizing the images, then there is a resolution loss of about 66% percent in average. Also, note that (b) shows the skewedness between true positives vs true negatives. Thus, we must find a metric that is invulnerable to this problem, other than overall accuracy. For more details about the dataset please refer to Appendix B.
+1750 1750000
+1500 1500000
+1250 1250000
+1000
+Q3 = 964.50
+1000000
+Q3 = 888.50
+Q3 = 831543.00
+750000
+750
+Mean = 703.41
+Mean = 746.80
+Mean = 638571.31
+Median = 591.00
+Median = 633.00
+500000
+500
+Q1 = 412.50
+Q1 = 410.00
+Median = 350776.00
+250
+250000
+Q1 = 176877.00
+MQ3ea=n 2=061461804.6275.74 QM1ed=ia4n3=74985.55803.50
+0
+width height total_area area
+(a) input dimensions in pixels
+(b) mask coverage in pixels
+Figure 7: Size and sparsity statistics of the input images.
+The network was trained using backpropagation of the multiclass logistic regression Page 44 loss (i.e. negative log-likelihood loss NLL), also called categorical cross entropy. This metric is the average loss over a mini-batch, and also over each element of the matrix output. The output vector from the final linear layer of densely connected neurons (the affine transform previous to the softmax layer) is given by:
+z = W h + b
+Here h is the hidden units' feature vector and b a bias of that final linear layer. The network must produce a number of outputs that is equal to the number of labels when using this type of loss. Thus, the softmax layer is used in tandem with the cross entropy loss. The softmax layer exponentiates and normalizes z to produce the desired y^ point estimator over a Multinoulli distribution. Here is the definition of the softmax layer:
+y^i
+=
+sof tmax(z)i
+=
+exp(zi) j exp(zj)
+Finally, the categorical cross entropy is defined by: L
+=
+1 N
+N i=1
+I(y^i
+==
+yi)
+(-ln(y^i))
+Where I is the indicator function. This functions filters in the cases when the predicted class is equal to the ground truth, those are the cases for which we want to minimize the loss.
+Also, for optimizing convergence, the stochastic gradient descent SGD algorithm was used with several values for weight decay although momentum was left constant to 0.9, following the suggestion of [17]. The stopping conditions are a minimum learning rate and a maximum number of iterations without progress. Each of these hyperparameters and others are explained below.
+1.3.10.1.2 Hyperparameters
+Artificial neural networks are parametric models that learn the parameters weights through the back propagation algorithm. These parameters are mainly determined by the hidden layer number and the hidden units number in each of them. The matrix that represent the connection edges of the densly connected layers stores those weights. In convolutional neural networks though, each of the filters also learns a set of shared parameters. Thus, the size of the convolutional filter and pooling layers is directly proportional to the number of parameters learned.
+We have already take notice of these parameters through the architecture review in the previous section. Table 8 explain other hyperparameters that manage the way the neural network works:
+Table 8: Hyperparameters table
+Hyperparameter Value hidden_layers_num 220
+Explanation
+When ANNs first started to develop, the one layer perceptron was unable to represent complex non-linearities in the data. However, when the backpropagation algorithm was proposed, more layers were able to be added to better represent these complex relationships. Hyperparameter Value
+Explanation
+hidden_units_num it depends on the layers' type and More hidden units over those
+parameters
+hidden layers allows the net
+to represent more complex
+relationships between the
+inputs of the previous layer.
+A word of caveat however,
+when more units are added to
+a layer the number of weigths
+of those units to the previous
+layer growth exponentially.
+learning_rate
+0.1-0.01 (minimum from
+A smaller learning rate
+0.00001-0.000001)
+produces more stable hops in
+the gradient on the seek of
+optimal weight parameters.
+Too small learning rate bogs
+down the convergence speed,
+though. Hyperparameter Value
+batch_size
+{16,30,32}
+sample_size
+300 initial instances and 30300 instances by augmentation
+Explanation
+Using the full instance always gives better accuracy than using a randomly partitioned batch size. However, this also makes the model to evaluate the full gradient on each epoch and it makes the model too expensive to train. Using minibatches can ameliorate this problem, although the exact size cannot be taken for granted to be the largest because we are dealing with an stochastic way of partitioning the data. Thus, this parameter is usually carefully tuned up empirically. More data is always the best way of reducing the variance without increasing the bias. Table 9: Other hyperparameters and their initial values
+Parameter
+Value Why this value was used?
+initial learning rate
+0.1- [18], [19]
+0.01
+momentum
+0.9 [17]
+weight decay
+0.0001 [17]
+learning rate shrink factor 0.1 [18]
+iterations without progress 5000 minimum batch size is 16 on a 30300
+threshold
+training set so 30300/16=1893.75, we
+doubled that number and rounded it to
+5000
+test iterations without
+500 [19]
+progress threshold
+batch normalization window 1000 a large enough window for the maximum
+convolutional layer of 512
+1.3.10.1.3 Hardware The main requirement is to have a relatively powerful Graphics Processing Unit (or GPU ) that has above 11GB of memory. This capacity allows a maximum mini-batch size of 31 instances using CUDA in the dlib library. The following table enumerates all the other characteristics of the environment that was used for testing:
+Table 10: Main hardware characteristics of the training environment.
+Characteristic
+Value
+GPU Device
+NVIDIA GeForce GTX 1080 Ti
+Core Clock
+139Mhz
+Memory Clock
+405 MHz
+Memory Size
+11264 MBytes (11GB)
+Memory Type
+GDDR5X
+CPU Name
+Intel Core i7 3770K
+Core Speed
+1608.22MHz
+Core Number
+4
+CMake instructions SSE, SSE2, AVX
+RAM memory
+32 GB (roughly 19GB in practice)
+1.3.10.1.4 Overall time When the experiments started with an initial learning rate of 0.1 the net took around 3 days to train each. However, if the net started with a lower intial learning rate the net took no more than a day to train, roughly 15 hours. We further explain this results on Chapter 4.
+1.3.10.1.5 Training vs Testing architecture
+The testing network replaced batch normalization with fixed affine transforms. Batch normalization is a method for adaptive that allows updating the layers of deeper networks. It reduces the problem of coordinating updates across many layers by removing the effect of just changing the standard deviation and mean of each individual unit in the gradient over a minibatch. The new normalized minibatch of activations is given by the following formula:
+H
+=
+H- 
+µ
+where µ is the vector with means of each unit and is a similar vector with the standard deviations. From these minibatch activations we derive a final matrix W with the weights for each neuron. Given that we have already learned the required affine transformation during training, normalization is not needed here [20]. By affine transformation we mean just a simple multiplication of the learned weights times the input vector of the form
+z = W x + b
+thus, there is no normalization on the testing stage (usage). We make the network faster by removing the batch normalization before using the network for slow pixel-by-pixel segmentations.
+1.3.10.2 Data augmentation techniques
+Recall that a convolutional neuronal network exploits the space structure of an image. Data augmentation techinques allow us to augment the dataset by applying simple visual transformations conditioned to the point in which a human would be capable of distinguish the area or object in the image. This is an important distinction to make because we do not want the neural network to learn the kind of transformations we are introducing. Instead, we want that these transformations reduce the generalization error by artificially providing more samples with common expected noises like Gaussian noise [21]. For example, we can artificially cast several shadows on many edges of the image to make it invariant to being adjacent of a building instead of using histogram equalization. However, if we cast a shadow with strange colors (e.g. a purple shadow), it is possible that the net does not recognize well test images with more natural noises. We should also cast it taking care of the angle because that would affect the way the net learns parallel edges. In particular the data augmentation that was done consisted in the following actions:
+· Randomly crop by a value between 0 and 50 pixels · Horizontally flip 50% of the images · Vertically flip 50% of the images · Rotate images by a value between -45 and 45 degrees 60 50 40 30 20 10
+0 -10 -20 -30 -40 -50 -60
+-60-50-40-30-20-100 102030405060
+(a) original image
+60 50 40 30 20 10
+0 -10 -20 -30 -40 -50 -60
+-60-50-40-30-20-100 102030405060
+(b) 45° rotation
+60 50 40 30 20 10
+0 -10 -20 -30 -40 -50 -60
+-60-50-40-30-20-100 102030405060
+(c) vertical flip
+60 50 40 30 20 10
+0 -10 -20 -30 -40 -50 -60
+-60-50-40-30-20-100 102030405060
+(d) horizontal flip
+60 50 40 30 20 10
+0 -10 -20 -30 -40 -50 -60
+-60-50-40-30-20-100 102030405060
+(e) crop by 35 pixels
+60 50 40 30 20 10
+0 -10 -20 -30 -40 -50 -60
+-60-50-40-30-20-100 102030405060
+(f) -45° rotation
+Figure 8: Augmenting the dataset with rotation, fliping and cropping of the parking lots (marked in cyan)
+The dlib library internally also does data augmentation by itself. First it crops the image randomly, then it scales the image to 227x227 (the maximum between the two dimensions), finally it does an horizontal flip with 50% probability. However, dlib by default does not rotate the images because most of the recognition and segmentation problems use an stationary camera where the top of the image corresponds to the top of the real world and gravity corresponds. Our problem is a little bit different. Recall that here we are using the satellite image. Given that we are seeing the image from the sky then we can found a parking lot at any angle with respect to the camera image. In the same vein, vertical flip is also excluded from the default transformations of dlib.

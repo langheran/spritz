@@ -560,10 +560,32 @@ else
 {
 	RunWait, pdftotext.exe -enc Latin1 "%file%" "%textPath%"
 	FileRead, originalText, *P0 %textPath%
+	FileDelete, %textPath%
+	originalText:=CleanOriginalText(originalText)
+	FileAppend, %originalText%, %textPath%
+	FileRead, originalText, *P0 %textPath%
 }
 originalText:=RegExReplace(LTrim(RTrim(originalText)), Chr(0x0C), "")
 say:=originalText
 return
+
+CleanOriginalText(originalText)
+{
+	originalText:=RegExReplace(LTrim(RTrim(originalText)), Chr(0x0C), "")
+	originalText:=RegexReplace(originalText, "`ams)(*ANYCRLF)\r","`n")
+	Loop 5
+		originalText:=RegexReplace(originalText, "`ams)(*ANYCRLF)\n\n","`n")
+	originalText:=RegexReplace(originalText, "`ams)(*ANYCRLF)[\n]+Table Of Contents[\n]+"," ")
+	originalText:=RegexReplace(originalText, "`ams)(*ANYCRLF)Table Of Contents[\n]+"," ")
+	originalText:=RegexReplace(originalText, "`ams)(*ANYCRLF)[\n]+Table Of Contents"," ")
+	originalText:=RegexReplace(originalText, "`ams)(*ANYCRLF)[\n]+Page [\d]+[\n]+"," ")
+	originalText:=RegexReplace(originalText, "`ams)(*ANYCRLF)Page [\d]+[\n]+"," ")
+	originalText:=RegexReplace(originalText, "`ams)(*ANYCRLF)[\n]+Page [\d]+"," ")
+	originalText:=RegexReplace(originalText, "`ams)(*ANYCRLF)[\n]+References.*[\n\r]*.*")
+	Loop 5
+		originalText:=RegexReplace(originalText, "`ams)(*ANYCRLF)  "," ")
+	return originalText
+}
 
 ActivateSelf:
 DetectHiddenWindows On
@@ -1355,7 +1377,7 @@ return
 OpenReadingTextFile:
 textPath:=A_ScriptDir . "/texts/" . currentDocumentName . ".txt"
 if(FileExist(textPath))
-    Run, %textPath%
+    Run, "C:\Program Files (x86)\Microsoft VS Code\Code.exe" "%textPath%"
 return
 
 HideAndPause:
