@@ -1,1 +1,0 @@
-pyMPI is a fully functional Python interpreter that just happens to include a large subset of MPI functions. pyMPI has extensive support for running parallel Python scripts and has been tested on a number of clusters and other scientific machines.

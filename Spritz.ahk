@@ -714,7 +714,7 @@ if(sentenceEnd<>"")
 			IniWrite, %v%, Spritz.ini, recents,%k%
 		}
 	}
-	if(originalText<>"")
+	if(originalText<>"" && !avoidRegenerateText)
 	{
 		GoSub, SaveCurrentWord
 	}
@@ -1156,6 +1156,10 @@ GoSub, OpenReadingTextFile
 return
 
 ^r::
+Reload
+return
+
+^!r::
 MsgBox, % 3,, Reload text for "%currentDocumentName%" (all bookmarks will be deleted)?
 	If ErrorLevel
 		return
@@ -1163,8 +1167,10 @@ MsgBox, % 3,, Reload text for "%currentDocumentName%" (all bookmarks will be del
 		return
 	IfMsgBox, Yes
 	{
-		textPath:=A_ScriptDir . "/texts/" . currentDocumentName . ".txt"
-		FileDelete, %textPath%
+		avoidRegenerateText:=1
+		MsgBox, % 4,, Regenerate text?
+		IfMsgBox,Yes
+			avoidRegenerateText:=0
 		Loop 10
 		{
 			bookmark_pos_section:="bookmark" . A_Index . "_pos"
@@ -1174,7 +1180,12 @@ MsgBox, % 3,, Reload text for "%currentDocumentName%" (all bookmarks will be del
 			IniDelete, Spritz.ini, %file%,%bookmark_title_section%
 			IniDelete, Spritz.ini, %file%,%bookmark_loop_section%
 		}
-		GoSub, GotoPreviousText
+		if(!avoidRegenerateText)
+		{
+			textPath:=A_ScriptDir . "/texts/" . currentDocumentName . ".txt"
+			FileDelete, %textPath%
+			GoSub, GotoPreviousText
+		}
 		Reload
 	}
 return
@@ -1265,6 +1276,11 @@ return
 
 Space::
 GoSub, TogglePause
+return
+
+F11::
+Send, ^2
+Send, {F11}
 return
 
 !Left::

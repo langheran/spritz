@@ -1,7 +1,0 @@
----------------------------
-Keep non existing file
----------------------------
-The file "C:\Users\langh\Utilities\Autohotkey\Spritz\texts\Thesis!MCCi-Thesis!chapter03!chapter03.pdf.txt" doesn't exist anymore.Keep this file in editor?
----------------------------
-Yes   No   
----------------------------
