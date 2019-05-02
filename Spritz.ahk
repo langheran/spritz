@@ -636,7 +636,7 @@ Run, compilar_spritzer.exe
 Reload
 return
 
-#IfWinActive, Spritz.ahk
+#IfWinActive, Spritz.ahk ;test
 ~^s::
 SetTitleMatchMode 2
 GoSub, ReloadSpritzer
