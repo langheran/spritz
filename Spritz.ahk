@@ -40,7 +40,7 @@ Loop, %0%  ; For each parameter:
 GrabText:=0
 if(args="")
 {
-	GoSub, GetSelectedText
+	;GoSub, GetSelectedText
 }
 else
 {
@@ -302,7 +302,7 @@ if(file<>""){
 	{
 		recentCommands.InsertAt(1, file)
 	}
-	if(recentCommands.Length()>70)
+	while(recentCommands.Length()>31)
 		recentCommands.Pop()
 }
 Menu, Tray, Icon , %A_WorkingDir%/Spritz.ico, , 1 
@@ -2864,7 +2864,8 @@ SetGuiVisibility(GuiVisible)
 ;	GoSub, HideGui
 ;return
 
-+^!#s::
+;+^!#s::
+GrabTextSub:
 SearchingPDF:=0
 WmpB.controls.pause()
 if(GuiHidden)
