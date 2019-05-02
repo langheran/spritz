@@ -640,7 +640,7 @@ return
 ~^s::
 SetTitleMatchMode 2
 Sleep, 1000
-GoSub, ReloadSpritzer ;test
+GoSub, ReloadSpritzer
 return
 #IfWinActive
 
