@@ -639,7 +639,7 @@ return
 #IfWinActive, Spritz.ahk
 ~^s::
 SetTitleMatchMode 2
-Sleep, 100
+Sleep, 1000
 GoSub, ReloadSpritzer ;test
 return
 #IfWinActive
