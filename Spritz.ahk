@@ -637,13 +637,10 @@ Reload
 return
 
 #IfWinActive, Spritz.ahk
-#InputLevel 1
-^s::
-Send, ^s
+~^s::
 SetTitleMatchMode 2
 GoSub, ReloadSpritzer
 return
-#InputLevel 0
 #IfWinActive
 
 !#q::
